@@ -19,3 +19,4 @@
 #echo 'src-git messense https://github.com/messense/aliyundrive-webdav' >>feeds.conf.default
 #echo 'src-git ddns-go https://github.com/sirpdboy/luci-app-ddns-go' >>feeds.conf.default
 echo 'src-git alist https://github.com/sbwml/luci-app-alist' >>feeds.conf.default
+echo 'src-git kenzo https://github.com/kenzok8/openwrt-packages' >>feeds.conf.default
