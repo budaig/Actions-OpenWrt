@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 ###############改名字##############
-name: Redmi-AX6000-hanwckf
+name: Redmi-AX6000-hanwckf_bdg
 
 on:
   repository_dispatch:
@@ -33,7 +33,7 @@ env:
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
   ###############改名字##############
-  OPENWRT_NAME: hanwckf
+  OPENWRT_NAME: hanwckf_bdg
 
 jobs:
   build:
