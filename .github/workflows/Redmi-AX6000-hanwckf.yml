@@ -37,7 +37,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     
     steps:
     - name: 检查项目分支
@@ -49,7 +49,7 @@ jobs:
       run: |
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
-        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-2204)
+        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-latest)
         #add libfuse
         sudo -E apt-get -qq install libfuse-dev
         sudo -E apt-get -qq autoremove --purge
@@ -105,13 +105,6 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        # Add alist
-        rm -rf feeds/packages/lang/golang
-        git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
-        rm -rf packages/alist
-        git clone https://github.com/sbwml/luci-app-alist package/alist
-        make menuconfig # choose LUCI -> Applications -> luci-app-alist
-        make package/alist/luci-app-alist/compile V=s # build luci-app-alist
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
