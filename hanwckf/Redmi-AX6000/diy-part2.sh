@@ -17,7 +17,7 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
 rm -rf packages/alist
 git clone https://github.com/sbwml/luci-app-alist package/alist
-make menuconfig # choose LUCI -> Applications -> luci-app-alist
+# make menuconfig # choose LUCI -> Applications -> luci-app-alist
 make package/alist/luci-app-alist/compile V=s # build luci-app-alist
 # Add ddns-go
 # git clone https://github.com/sirpdboy/luci-app-ddns-go.git package/ddns-go
