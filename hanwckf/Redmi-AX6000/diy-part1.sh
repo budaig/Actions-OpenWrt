@@ -23,3 +23,5 @@ echo 'src-git opentopd https://github.com/sirpdboy/sirpdboy-package' >>feeds.con
 # echo 'src-git sbwml https://github.com/sbwml/luci-app-alist' >>feeds.conf.default
 # alist smartdns
 echo 'src-git kenzo https://github.com/kenzok8/openwrt-packages' >>feeds.conf.default
+# alist smartdns ddns-go
+# echo 'src-git shidahuilang https://github.com/shidahuilang/openwrt-package' >>feeds.conf.default
