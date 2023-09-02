@@ -43,6 +43,7 @@ jobs:
     steps:
     - name: 检查项目分支
       uses: actions/checkout@main
+      # uses: actions/checkout@master
 
     - name: 初始化编译环境
       env:
