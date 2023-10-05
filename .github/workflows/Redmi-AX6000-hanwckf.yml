@@ -42,15 +42,17 @@ jobs:
     
     steps:
     - name: 检查项目分支
-      uses: actions/checkout@v3
-      # uses: actions/checkout@main
+      # uses: actions/checkout@v3
+      uses: actions/checkout@main
 
     - name: 初始化编译环境
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
-        sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
+        # sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
+        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-2004)
+        # sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync
         # add libfuse
         sudo -E apt-get -qq install libfuse-dev
         sudo -E apt-get -qq autoremove --purge
@@ -134,7 +136,8 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
       
     - name: 上传固件到github
-      uses: actions/upload-artifact@v3
+      # uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
