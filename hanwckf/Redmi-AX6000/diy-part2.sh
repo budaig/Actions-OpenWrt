@@ -21,10 +21,12 @@ git clone https://github.com/sbwml/luci-app-alist feeds/packages/net/alist
 # Add ddns-go
 # git clone https://github.com/sirpdboy/luci-app-ddns-go.git package/ddns-go
 ##-----------------Add OpenClash dev core------------------
-# curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
-# tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
-# chmod +x /tmp/clash >/dev/null 2>&1
-# mkdir -p feeds/luci/applications/luci-app-openclash/root/etc/openclash/core
-# mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash >/dev/null 2>&1
-# rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
+curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
+tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
+chmod +x /tmp/clash >/dev/null 2>&1
+mkdir -p feeds/luci/applications/luci-app-openclash/root/etc/openclash/core
+mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash >/dev/null 2>&1
+rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
 ##---------------------------------------------------------
+# Enable Cache
+echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
