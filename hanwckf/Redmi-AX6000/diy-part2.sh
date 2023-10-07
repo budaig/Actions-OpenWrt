@@ -13,23 +13,14 @@
 # Modify default IP
 sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
 # update golang
-# rm -rf feeds/packages/lang/golang
-# git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
-# # Add ddns-go
-# rm -rf feeds/packages/net/ddns-go
-# git clone https://github.com/sirpdboy/luci-app-ddns-go package/ddns-go
-# # Add alist
-# rm -rf feeds/packages/net/alist
-# git clone https://github.com/sbwml/luci-app-alist package/alist
-# update golang
 rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
 # Add ddns-go
 rm -rf feeds/packages/net/ddns-go
-git clone https://github.com/kiddin9/openwrt-packages/luci-app-ddns-go package/ddns-go
+git clone https://github.com/sirpdboy/luci-app-ddns-go package/ddns-go
 # Add alist
 rm -rf feeds/packages/net/alist
-git clone https://github.com/kiddin9/openwrt-packages/luci-app-alist package/alist
+git clone https://github.com/sbwml/luci-app-alist package/alist
 
 ##-----------------Add OpenClash dev core------------------
 # curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
