@@ -17,10 +17,10 @@
 # echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 # echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 # echo 'src-git messense https://github.com/messense/aliyundrive-webdav' >>feeds.conf.default
-# ddns-go
-echo 'src-git ddns-go https://github.com/sirpdboy/luci-app-ddns-go' >>feeds.conf.default
-# alist
-echo 'src-git alist https://github.com/sbwml/luci-app-alist' >>feeds.conf.default
+# # ddns-go
+# echo 'src-git ddns-go https://github.com/sirpdboy/luci-app-ddns-go' >>feeds.conf.default
+# # alist
+# echo 'src-git alist https://github.com/sbwml/luci-app-alist' >>feeds.conf.default
 # alist smartdns
 # echo 'src-git kenzo https://github.com/kenzok8/openwrt-packages' >>feeds.conf.default
 # alist smartdns ddns-go
