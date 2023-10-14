@@ -14,12 +14,13 @@
 #sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 
 # Add a feed source
+sed -i '$a src-git openwrt_kiddin9 https://github.com/kiddin9/openwrt-packages' feeds.conf.default
 # echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 # echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 # echo 'src-git messense https://github.com/messense/aliyundrive-webdav' >>feeds.conf.default
 # # ddns-go
 # echo 'src-git ddns-go https://github.com/sirpdboy/luci-app-ddns-go' >>feeds.conf.default
-echo 'src-git opentopd https://github.com/sirpdboy/sirpdboy-package' >>feeds.conf.default
+# echo 'src-git opentopd https://github.com/sirpdboy/sirpdboy-package' >>feeds.conf.default
 # # alist
 # echo 'src-git alist https://github.com/sbwml/luci-app-alist' >>feeds.conf.default
 # alist smartdns

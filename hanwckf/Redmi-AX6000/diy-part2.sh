@@ -19,8 +19,8 @@ git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/l
 # rm -rf feeds/packages/net/ddns-go
 # git clone https://github.com/sirpdboy/luci-app-ddns-go package/ddns-go   #or feeds/packages/net/ddns-go
 # Add alist
-rm -rf feeds/packages/net/alist
-git clone https://github.com/sbwml/luci-app-alist feeds/packages/net/alist
+# rm -rf feeds/packages/net/alist
+# git clone https://github.com/sbwml/luci-app-alist feeds/packages/net/alist
 
 ##-----------------Add OpenClash dev core------------------
 # curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
