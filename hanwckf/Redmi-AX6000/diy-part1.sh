@@ -19,6 +19,7 @@
 # echo 'src-git messense https://github.com/messense/aliyundrive-webdav' >>feeds.conf.default
 # # ddns-go
 # echo 'src-git ddns-go https://github.com/sirpdboy/luci-app-ddns-go' >>feeds.conf.default
+echo 'src-git opentopd https://github.com/sirpdboy/sirpdboy-package' >>feeds.conf.default
 # # alist
 # echo 'src-git alist https://github.com/sbwml/luci-app-alist' >>feeds.conf.default
 # alist smartdns
