@@ -12,6 +12,7 @@
 
 # Modify default IP
 sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
+
 # update golang
 rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
@@ -25,16 +26,6 @@ rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
 git clone https://github.com/sbwml/luci-app-alist feeds/packages/net/alist
 # cp -fR feeds/packages/net/alist/luci-app-alist feeds/luci/applications/luci-app-alist
-# Add iperf3server
-# cd package
-# mkdir kiddin9
-# cd kiddin9
-# git init
-# git remote add -f origin https://github.com/kiddin9/openwrt-packages.git
-# git config core.sparsecheckout true
-# echo "luci-app-iperf3-server" >> .git/info/sparse-checkout
-# git pull origin master
-# cd openwrt
 
 ##-----------------Add OpenClash dev core------------------
 # curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz

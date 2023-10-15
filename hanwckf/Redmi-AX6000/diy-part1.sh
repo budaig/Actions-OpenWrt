@@ -27,13 +27,3 @@
 # alist smartdns ddns-go iperf3
 # echo 'src-git openwrt_kiddin9 https://github.com/kiddin9/openwrt-packages' >>feeds.conf.default
 # echo 'src-git shidahuilang https://github.com/shidahuilang/openwrt-package' >>feeds.conf.default
-# Add iperf3server
-cd openwrt
-mkdir kiddin9
-cd kiddin9
-git init
-git remote add -f origin https://github.com/kiddin9/openwrt-packages.git
-git config core.sparsecheckout true
-echo "luci-app-iperf3-server" >> .git/info/sparse-checkout
-git pull origin master
-cd openwrt
