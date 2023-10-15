@@ -20,11 +20,10 @@
 # echo 'src-git messense https://github.com/messense/aliyundrive-webdav' >>feeds.conf.default
 # # ddns-go
 # echo 'src-git ddns-go https://github.com/sirpdboy/luci-app-ddns-go' >>feeds.conf.default
-# echo 'src-git opentopd https://github.com/sirpdboy/sirpdboy-package' >>feeds.conf.default
 # # alist
 # echo 'src-git alist https://github.com/sbwml/luci-app-alist' >>feeds.conf.default
 # alist smartdns
 # echo 'src-git kenzo https://github.com/kenzok8/openwrt-packages' >>feeds.conf.default
-# alist smartdns ddns-go
+# alist smartdns ddns-go iperf3
 # echo 'src-git openwrt_kiddin9 https://github.com/kiddin9/openwrt-packages' >>feeds.conf.default
 # echo 'src-git shidahuilang https://github.com/shidahuilang/openwrt-package' >>feeds.conf.default

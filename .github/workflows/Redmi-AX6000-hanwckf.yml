@@ -101,9 +101,6 @@ jobs:
       id: package
       run: |
         cd openwrt
-        # Add alist
-        # rm -rf feeds/packages/net/alist
-        # git clone https://github.com/sbwml/luci-app-alist package/alist
         make defconfig
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
