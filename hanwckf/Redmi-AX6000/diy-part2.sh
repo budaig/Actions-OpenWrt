@@ -34,13 +34,13 @@ git clone https://github.com/sbwml/luci-app-alist feeds/packages/net/alist
 # add netspeedtest
 # rm -rf feeds/packages/net/netspeedtest
 # rm -rf feeds/luci/applications/luci-app-netspeedtest
-git clone https://github.com/sirpdboy/netspeedtest.git package/netspeedtest
+# git clone https://github.com/sirpdboy/netspeedtest.git package/netspeedtest
 # add iperf3
-rm -rf feeds/packages/net/iperf
-rm -rf feeds/packages/net/iperf3
+# rm -rf feeds/packages/net/iperf
+# rm -rf feeds/packages/net/iperf3
 # rm -rf feeds/luci/applications/luci-app-iperf3
-git init package/iperf3
-cd package/iperf3
+git init package/luciiperf
+cd package/luciiperf
 git remote add origin https://github.com/kiddin9/openwrt-packages.git
 git config core.sparsecheckout true
 echo "luci-app-iperf" >> .git/info/sparse-checkout
