@@ -18,8 +18,8 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 # update 20.x to 21.x
 # # replace ddns-go
-rm -rf feeds/packages/net/ddns-go
-rm -rf feeds/luci/applications/luci-app-ddns-go
+# rm -rf feeds/packages/net/ddns-go
+# rm -rf feeds/luci/applications/luci-app-ddns-go
 # git clone https://github.com/sirpdboy/luci-app-ddns-go feeds/packages/net/ddns-go   #or package/ddns-go
 # cp -fR feeds/packages/net/ddns-go/luci-app-ddns-go feeds/luci/applications/luci-app-ddns-go
 # use lucky over ddns-go
@@ -29,7 +29,7 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
 # replace alist
 rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
-git clone https://github.com/sbwml/luci-app-alist package/alist
+git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # cp -fR feeds/packages/net/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 # add netspeedtest
 # rm -rf feeds/packages/net/netspeedtest
