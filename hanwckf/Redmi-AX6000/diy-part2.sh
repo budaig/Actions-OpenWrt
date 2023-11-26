@@ -10,7 +10,19 @@
 # Description: OpenWrt DIY script part 2 (After Update feeds)
 #
 
+# Modify kernel
+# include/kernel-5.4
+# LINUX_VERSION-5.4 = .255
+# LINUX_KERNEL_HASH-5.4.255 = 34d5ed902f47d90f27b9d5d6b8db0d3fa660834111f9452e166d920968a4a061
+# LINUX_VERSION-5.4 = .252
+# LINUX_KERNEL_HASH-5.4.252 = 3a78587523940374a7319089b63357c7dc412b90f5879d512265e59173588267
+# LINUX_VERSION-5.4 = .225
+# LINUX_KERNEL_HASH-5.4.225 = 59f596f6714317955cf481590babcf015aff2bc1900bd8e8dc8f7af73bc560aa
+sed -i 's/LINUX_VERSION-5.4 = .255/LINUX_VERSION-5.4 = .225/g' include/kernel-5.4
+sed -i 's/LINUX_KERNEL_HASH-5.4.255 = 34d5ed902f47d90f27b9d5d6b8db0d3fa660834111f9452e166d920968a4a061/LINUX_KERNEL_HASH-5.4.225 = 59f596f6714317955cf481590babcf015aff2bc1900bd8e8dc8f7af73bc560aa/g' include/kernel-5.4
+
 # Modify default IP
+# package/base-files/files/bin/config_generate
 sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
 
 # update golang
