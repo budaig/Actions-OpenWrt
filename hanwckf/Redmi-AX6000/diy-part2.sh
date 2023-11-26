@@ -29,7 +29,7 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
 # replace alist
 rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
-git clone https://github.com/sbwml/luci-app-alist.git package/alist
+git clone https://github.com/sbwml/luci-app-alist.git feeds/packages/net/alist
 # cp -fR feeds/packages/net/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 # add netspeedtest
 # rm -rf feeds/packages/net/netspeedtest
