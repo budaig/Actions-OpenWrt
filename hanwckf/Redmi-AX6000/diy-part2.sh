@@ -10,16 +10,10 @@
 # Description: OpenWrt DIY script part 2 (After Update feeds)
 #
 
-# Modify kernel
-# include/kernel-5.4
-# LINUX_VERSION-5.4 = .255
-# LINUX_KERNEL_HASH-5.4.255 = 34d5ed902f47d90f27b9d5d6b8db0d3fa660834111f9452e166d920968a4a061
-# LINUX_VERSION-5.4 = .252
-# LINUX_KERNEL_HASH-5.4.252 = 3a78587523940374a7319089b63357c7dc412b90f5879d512265e59173588267
-# LINUX_VERSION-5.4 = .225
-# LINUX_KERNEL_HASH-5.4.225 = 59f596f6714317955cf481590babcf015aff2bc1900bd8e8dc8f7af73bc560aa
-# # sed -i 's/LINUX_VERSION-5.4 = .255/LINUX_VERSION-5.4 = .225/g' include/kernel-5.4
-# # sed -i 's/LINUX_KERNEL_HASH-5.4.255 = 34d5ed902f47d90f27b9d5d6b8db0d3fa660834111f9452e166d920968a4a061/LINUX_KERNEL_HASH-5.4.225 = 59f596f6714317955cf481590babcf015aff2bc1900bd8e8dc8f7af73bc560aa/g' include/kernel-5.4
+#TIME y "更换内核"
+#sed -i 's/KERNEL_PATCHVER:=5.4/KERNEL_PATCHVER:=4.19/g' ./target/linux/mediatek/Makefile
+#sed -i 's/KERNEL_TESTING_PATCHVER:=5.4/KERNEL_TESTING_PATCHVER:=4.19/g' ./target/linux/mediatek/Makefile
+#TIME y "更换内核结束"
 
 # Modify default IP
 # package/base-files/files/bin/config_generate
@@ -46,7 +40,7 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # add netspeedtest
 # rm -rf feeds/packages/net/netspeedtest
 # rm -rf feeds/luci/applications/luci-app-netspeedtest
-git clone https://github.com/sirpdboy/netspeedtest.git package/netspeedtest
+# git clone https://github.com/sirpdboy/netspeedtest.git package/netspeedtest
 # add iperf3
 # rm -rf feeds/packages/net/iperf
 # rm -rf feeds/packages/net/iperf3
