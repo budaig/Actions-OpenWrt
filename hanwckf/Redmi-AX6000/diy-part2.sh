@@ -24,7 +24,7 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 # update 20.x to 21.x
 
-# # replace ddns-go
+# replace ddns-go
 # rm -rf feeds/packages/net/ddns-go
 # rm -rf feeds/luci/applications/luci-app-ddns-go
 # git clone https://github.com/sirpdboy/luci-app-ddns-go feeds/packages/net/ddns-go   #or package/ddns-go
@@ -64,21 +64,23 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # cd ..
 # cd ..
 
-#replace a theme
+# replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
 # git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 
-# # replace openclash
-# rm -rf feeds/packages/net/luci-app-openclash
-# rm -rf feeds/luci/applications/luci-app-openclash
-# mkdir package/luci-app-openclash
-# cd package/luci-app-openclash
-# git init
-# git remote add -f origin https://github.com/vernesong/OpenClash.git
-# git config core.sparsecheckout true
-# echo "luci-app-openclash" >> .git/info/sparse-checkout
-# git pull --depth 1 origin master
-# git branch --set-upstream-to=origin/master master
+# update openclash
+# # rm -rf feeds/packages/net/luci-app-openclash
+rm -rf feeds/luci/applications/luci-app-openclash
+mkdir package/luci-app-openclash
+cd package/luci-app-openclash
+git init
+git remote add -f origin https://github.com/vernesong/OpenClash.git
+git config core.sparsecheckout true
+echo "luci-app-openclash" >> .git/info/sparse-checkout
+git pull --depth 1 origin master
+git branch --set-upstream-to=origin/master master
+git pull
+cd ../..
 # # 编译 po2lmo (如果有po2lmo可跳过)
 # # pushd luci-app-openclash/tools/po2lmo
 # # # make && sudo make install
