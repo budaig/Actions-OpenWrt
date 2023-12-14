@@ -20,8 +20,8 @@
 sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
 
 # update golang
-rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
+# # # rm -rf feeds/packages/lang/golang
+# # # git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 # update 20.x to 21.x
 
 # replace ddns-go
@@ -74,12 +74,13 @@ rm -rf feeds/luci/applications/luci-app-openclash
 mkdir package/luci-app-openclash
 git init package/openclash
 cd package/openclash
-git config --global init.defaultBranch main
+git config --global init.defaultBranch master
+git branch -m master
 git remote add -f origin https://github.com/kiddin9/openwrt-packages.git
 git config core.sparsecheckout true
 echo "luci-app-openclash" >> .git/info/sparse-checkout
-git pull --depth 1 origin main
-git branch --set-upstream-to=origin/main main
+git pull --depth 1 origin master
+git branch --set-upstream-to=origin/master master
 cd ../..
 # # 编译 po2lmo (如果有po2lmo可跳过)
 # # pushd luci-app-openclash/tools/po2lmo
