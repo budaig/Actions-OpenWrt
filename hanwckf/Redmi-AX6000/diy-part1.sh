@@ -21,7 +21,7 @@
 # echo 'src-git ddns-go https://github.com/sirpdboy/luci-app-ddns-go' >>feeds.conf.default
 ## alist
 # echo 'src-git alist https://github.com/sbwml/luci-app-alist' >>feeds.conf.default
-## alist smartdns
+## alist smartdns lucky openclash
 # echo 'src-git kenzo https://github.com/kenzok8/openwrt-packages' >>feeds.conf.default
 ## alist smartdns ddns-go
 # echo 'src-git shidahuilang https://github.com/shidahuilang/openwrt-package' >>feeds.conf.default
