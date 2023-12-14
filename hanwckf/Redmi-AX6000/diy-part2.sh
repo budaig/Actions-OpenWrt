@@ -68,20 +68,20 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # rm -rf ./feeds/luci/themes/luci-theme-argon
 # git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 
-# replace openclash
-rm -rf feeds/packages/net/luci-app-openclash
-rm -rf feeds/luci/applications/luci-app-openclash
-mkdir package/luci-app-openclash
-cd package/luci-app-openclash
-git init
-git remote add -f origin https://github.com/vernesong/OpenClash.git
-git config core.sparsecheckout true
-echo "luci-app-openclash" >> .git/info/sparse-checkout
-git pull --depth 1 origin master
-git branch --set-upstream-to=origin/master master
-# 编译 po2lmo (如果有po2lmo可跳过)
-# pushd luci-app-openclash/tools/po2lmo
-# # make && sudo make install
+# # replace openclash
+# rm -rf feeds/packages/net/luci-app-openclash
+# rm -rf feeds/luci/applications/luci-app-openclash
+# mkdir package/luci-app-openclash
+# cd package/luci-app-openclash
+# git init
+# git remote add -f origin https://github.com/vernesong/OpenClash.git
+# git config core.sparsecheckout true
+# echo "luci-app-openclash" >> .git/info/sparse-checkout
+# git pull --depth 1 origin master
+# git branch --set-upstream-to=origin/master master
+# # 编译 po2lmo (如果有po2lmo可跳过)
+# # pushd luci-app-openclash/tools/po2lmo
+# # # make && sudo make install
 # popd
 
 ##-----------------Add OpenClash dev core------------------
