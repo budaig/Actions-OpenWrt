@@ -71,21 +71,22 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # update openclash
 # # rm -rf feeds/packages/net/luci-app-openclash
 rm -rf feeds/luci/applications/luci-app-openclash
-mkdir package/luci-app-openclash
-git init package/openclash
-cd package/openclash
-git config --global init.defaultBranch master
-git branch -m master
-git remote add -f origin https://github.com/kiddin9/openwrt-packages.git
-git config core.sparsecheckout true
-echo "luci-app-openclash" >> .git/info/sparse-checkout
-git pull --depth 1 origin master
-git branch --set-upstream-to=origin/master master
-cd ../..
+git clone --depth 1 -b master https://github.com/vernesong/OpenClash package/openclash/op && mv -n package/openclash/op/luci-app-openclash package/openclash; rm -rf package/openclash/op
+# # mkdir package/luci-app-openclash
+# # git init package/openclash
+# # cd package/openclash
+# # git config --global init.defaultBranch master
+# # git branch -m master
+# # git remote add -f origin https://github.com/kiddin9/openwrt-packages.git
+# # git config core.sparsecheckout true
+# # echo "luci-app-openclash" >> .git/info/sparse-checkout
+# # git pull --depth 1 origin master
+# # git branch --set-upstream-to=origin/master master
+# # cd ../..
 # # 编译 po2lmo (如果有po2lmo可跳过)
 # # pushd luci-app-openclash/tools/po2lmo
 # # # make && sudo make install
-# popd
+# # popd
 
 ##-----------------Add OpenClash dev core------------------
 curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
