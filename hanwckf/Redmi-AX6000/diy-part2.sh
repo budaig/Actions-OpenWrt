@@ -59,9 +59,8 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 
 # update openclash
-
 rm -rf feeds/luci/applications/luci-app-openclash
-
+mv OpenClash/luci-app-openclash feeds/luci/applications/luci-app-openclash
 # rm -rf feeds/luci/applications/luci-app-openclash
 # git clone -b v0.45.157-beta --depth=1 https://github.com/vernesong/OpenClash package/OpenClash && mv -n package/OpenClash/luci-app-openclash feeds/luci/applications/luci-app-openclash; rm -rf package/OpenClash
 # git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
