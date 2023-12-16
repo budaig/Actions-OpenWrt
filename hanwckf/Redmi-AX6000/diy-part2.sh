@@ -72,6 +72,7 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 rm -rf feeds/luci/applications/luci-app-openclash
 git clone -b v0.45.157-beta --depth=1 https://github.com/vernesong/OpenClash package/OpenClash && mv -n package/OpenClash/luci-app-openclash feeds/luci/applications/luci-app-openclash; rm -rf package/OpenClash
 git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+git branch --set-upstream-to=origin/master master
 # git clone --depth 1 -b master https://github.com/vernesong/OpenClash package/openclash/op && mv -n package/openclash/op/luci-app-openclash package/openclash; rm -rf package/openclash/op
 
 # ##-----------------Add OpenClash dev core------------------
@@ -113,7 +114,7 @@ cat > package/base-files/files/etc/banner << EOF
  |       |.-----.-----.-----.|  |  |  |.----.|  |_
  |   -   ||  _  |  -__|     ||  |  |  ||   _||   _|
  |_______||   __|_____|__|__||________||__|  |____|
-          |__| W I R E L E S S   F R E E D O M
+          |__| W I R E L E S S   B U D A I
  -----------------------------------------------------
  %D %V, %C
  -----------------------------------------------------
