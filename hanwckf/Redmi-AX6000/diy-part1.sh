@@ -27,6 +27,3 @@
 # echo 'src-git shidahuilang https://github.com/shidahuilang/openwrt-package' >>feeds.conf.default
 ## alist aria2 smartdns ddns-go lucky iperf3 v2raya zerotier openclash
 # sed -i '$a src-git openwrt_kiddin9 https://github.com/kiddin9/openwrt-packages' feeds.conf.default
-
-# update openclash
-git clone -b v0.45.157-beta --depth=1 https://github.com/vernesong/openclash.git package/OpenClash
