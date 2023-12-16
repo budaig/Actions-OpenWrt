@@ -20,8 +20,8 @@
 sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
 
 # update golang 20.x to 21.x
-rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
+# rm -rf feeds/packages/lang/golang
+# git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 
 # replace ddns-go
 # rm -rf feeds/packages/net/ddns-go
@@ -60,8 +60,8 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 
 # update openclash
 # # rm -rf feeds/packages/net/luci-app-openclash
-# rm -rf feeds/luci/applications/luci-app-openclash
-# git clone -b v0.45.157-beta --depth=1 https://github.com/vernesong/OpenClash package/OpenClash && mv -n package/OpenClash/luci-app-openclash feeds/luci/applications/luci-app-openclash; rm -rf package/OpenClash
+rm -rf feeds/luci/applications/luci-app-openclash
+git clone -b v0.45.157-beta --depth=1 https://github.com/vernesong/OpenClash package/OpenClash && mv -n package/OpenClash/luci-app-openclash feeds/luci/applications/luci-app-openclash; rm -rf package/OpenClash
 # git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 # git branch --set-upstream-to=origin/master master
 # git clone --depth 1 -b master https://github.com/vernesong/OpenClash package/openclash/op && mv -n package/openclash/op/luci-app-openclash package/openclash; rm -rf package/openclash/op
@@ -109,14 +109,3 @@ cat > package/base-files/files/etc/banner << EOF
  %D %V, %C
  -----------------------------------------------------
 EOF
-
-#下载安装包
- # make[2] -C feeds/packages/net/alist/alist download
- # make[2] -C feeds/packages/net/alist/luci-app-alist download
- # make[2] -C feeds/packages/net/ddns-go/ddns-go download
- # make[2] -C feeds/packages/net/ddns-go/luci-app-ddns-go download
- #编译固件
- # make[3] -C feeds/packages/net/alist/alist compile
- # make[3] -C feeds/packages/net/ddns-go/ddns-go compile
- # make[3] -C feeds/packages/net/ddns-go/luci-app-ddns-go compile
- # make[3] -C feeds/packages/net/alist/luci-app-alist compile
