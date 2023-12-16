@@ -53,15 +53,6 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # rm -rf feeds/packages/net/iperf
 # rm -rf feeds/packages/net/iperf3
 # rm -rf feeds/luci/applications/luci-app-iperf3
-# git init package/luciiperf
-# cd package/luciiperf
-# git remote add origin https://github.com/kiddin9/openwrt-packages.git
-# git config core.sparsecheckout true
-# echo "luci-app-iperf" >> .git/info/sparse-checkout
-# echo "luci-app-iperf3-server" >> .git/info/sparse-checkout
-# git pull origin master
-# cd ..
-# cd ..
 
 # replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
@@ -69,8 +60,8 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 
 # update openclash
 # # rm -rf feeds/packages/net/luci-app-openclash
-rm -rf feeds/luci/applications/luci-app-openclash
-git clone -b v0.45.157-beta --depth=1 https://github.com/vernesong/OpenClash package/OpenClash && mv -n package/OpenClash/luci-app-openclash feeds/luci/applications/luci-app-openclash; rm -rf package/OpenClash
+# rm -rf feeds/luci/applications/luci-app-openclash
+# git clone -b v0.45.157-beta --depth=1 https://github.com/vernesong/OpenClash package/OpenClash && mv -n package/OpenClash/luci-app-openclash feeds/luci/applications/luci-app-openclash; rm -rf package/OpenClash
 # git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 # git branch --set-upstream-to=origin/master master
 # git clone --depth 1 -b master https://github.com/vernesong/OpenClash package/openclash/op && mv -n package/openclash/op/luci-app-openclash package/openclash; rm -rf package/openclash/op
@@ -104,7 +95,6 @@ mv /tmp/GeoIP.dat feeds/luci/applications/luci-app-openclash/root/etc/openclash/
 curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/GeoSite.dat
 mv /tmp/GeoSite.dat feeds/luci/applications/luci-app-openclash/root/etc/openclash/GeoSite.dat >/dev/null 2>&1
 # ##---------------------------------------------------------
-
 
 # Enable Cache
 # echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
