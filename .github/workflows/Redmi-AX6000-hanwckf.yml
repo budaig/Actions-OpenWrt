@@ -37,8 +37,8 @@ env:
 
 jobs:
   build:
-    # runs-on: ubuntu-2204
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-2204
+    # runs-on: ubuntu-latest
     
     steps:
     - name: 检查项目分支
@@ -56,9 +56,9 @@ jobs:
         #install lib32gcc1
         # sudo -E apt-get -qq installlibc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5
         # add libfuse
-        sudo -E apt-get -qq install libfuse-dev
-        sudo -E apt-get -qq autoremove --purge
-        sudo -E apt-get -qq clean
+        # sudo -E apt-get -qq install libfuse-dev
+        # sudo -E apt-get -qq autoremove --purge
+        # sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
