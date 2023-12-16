@@ -60,7 +60,7 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 
 # update openclash
 rm -rf feeds/luci/applications/luci-app-openclash
-mv OpenClash/luci-app-openclash feeds/luci/applications/luci-app-openclash
+mv package/OpenClash/luci-app-openclash package/luci-app-openclash
 # rm -rf feeds/luci/applications/luci-app-openclash
 # git clone -b v0.45.157-beta --depth=1 https://github.com/vernesong/OpenClash package/OpenClash && mv -n package/OpenClash/luci-app-openclash feeds/luci/applications/luci-app-openclash; rm -rf package/OpenClash
 # git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"

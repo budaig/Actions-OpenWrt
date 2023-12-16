@@ -29,4 +29,4 @@
 # sed -i '$a src-git openwrt_kiddin9 https://github.com/kiddin9/openwrt-packages' feeds.conf.default
 
 # update openclash
-git clone -b v0.45.157-beta --depth=1 https://github.com/vernesong/openclash.git OpenClash
+git clone -b v0.45.157-beta --depth=1 https://github.com/vernesong/openclash.git package/OpenClash
