@@ -27,3 +27,4 @@
 # echo 'src-git shidahuilang https://github.com/shidahuilang/openwrt-package' >>feeds.conf.default
 ## alist aria2 smartdns ddns-go lucky iperf3 v2raya zerotier openclash
 # sed -i '$a src-git openwrt_kiddin9 https://github.com/kiddin9/openwrt-packages' feeds.conf.default
+# src/gz openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/aarch64_cortex-a53/kiddin9

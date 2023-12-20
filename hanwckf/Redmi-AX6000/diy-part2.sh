@@ -75,21 +75,27 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # chmod +x /tmp/clash >/dev/null 2>&1
 # mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash_tun >/dev/null 2>&1
 
-# ##------------- meta core ---------------------------------
-curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/meta/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
-tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
-chmod +x /tmp/clash >/dev/null 2>&1
-mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash_meta >/dev/null 2>&1
-rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
+# # ##------------- meta core ---------------------------------
+# curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/meta/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
+# tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
+# chmod +x /tmp/clash >/dev/null 2>&1
+# mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash_meta >/dev/null 2>&1
+# rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
 
-# ##-------------- GeoIP 数据库 -----------------------------
-curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -o /tmp/GeoIP.dat
-mv /tmp/GeoIP.dat feeds/luci/applications/luci-app-openclash/root/etc/openclash/GeoIP.dat >/dev/null 2>&1
+# # ##-------------- GeoIP 数据库 -----------------------------
+# curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -o /tmp/GeoIP.dat
+# mv /tmp/GeoIP.dat feeds/luci/applications/luci-app-openclash/root/etc/openclash/GeoIP.dat >/dev/null 2>&1
 
-# ##-------------- GeoSite 数据库 ---------------------------
-curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/GeoSite.dat
-mv /tmp/GeoSite.dat feeds/luci/applications/luci-app-openclash/root/etc/openclash/GeoSite.dat >/dev/null 2>&1
-# ##---------------------------------------------------------
+# # ##-------------- GeoSite 数据库 ---------------------------
+# curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/GeoSite.dat
+# mv /tmp/GeoSite.dat feeds/luci/applications/luci-app-openclash/root/etc/openclash/GeoSite.dat >/dev/null 2>&1
+# # ##---------------------------------------------------------
+
+# update v2raya
+rm -rf feeds/packages/net/v2raya
+rm -rf feeds/luci/applications/luci-app-v2raya
+git clone -b --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/luci-app-v2raya package/luci-app-v2raya && mv -n package/kiddin9/v2raya package/v2raya; rm -rf package/kiddin9
+
 
 # Enable Cache
 # echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
