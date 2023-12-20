@@ -20,8 +20,8 @@
 sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
 
 # update golang 20.x to 21.x
-rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
+# rm -rf feeds/packages/lang/golang
+# git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 
 # replace ddns-go
 # rm -rf feeds/packages/net/ddns-go
@@ -31,13 +31,13 @@ git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/l
 
 # use lucky over ddns-go
 # rm -rf feeds/packages/net/lucky
-# rm -rf feeds/luci/applications/luci-app-lucky
+rm -rf feeds/luci/applications/luci-app-lucky
 git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
 
 # replace alist
-rm -rf feeds/packages/net/alist
-rm -rf feeds/luci/applications/luci-app-alist
-git clone https://github.com/sbwml/luci-app-alist.git package/alist
+# rm -rf feeds/packages/net/alist
+# rm -rf feeds/luci/applications/luci-app-alist
+# git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # cp -fR feeds/packages/net/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 
 # add chatgpt-web
@@ -55,16 +55,20 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 
 # update openclash
-# rm -rf feeds/luci/applications/luci-app-openclash
-# git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/luci-app-openclash feeds/luci/applications/luci-app-openclash
+rm -rf feeds/luci/applications/luci-app-openclash
+rm -rf feeds/packages/net/alist
+rm -rf feeds/luci/applications/luci-app-alist
+rm -rf feeds/packages/net/aria2
+rm -rf feeds/luci/applications/luci-app-aria2
+git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/luci-app-openclash package/luci-app-openclash&& mv -n package/kiddin9/alist package/alist && mv -n package/kiddin9/aria2 package/aria2; rm -rf package/kiddin9
 # git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 # git branch --set-upstream-to=origin/master master
 # git clone --depth 1 -b master https://github.com/vernesong/OpenClash package/openclash/op && mv -n package/openclash/op/luci-app-openclash package/openclash; rm -rf package/openclash/op
 
 # update v2raya
-rm -rf feeds/packages/net/v2raya
-rm -rf feeds/luci/applications/luci-app-v2raya
-git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/luci-app-v2raya package/luci-app-v2raya && mv -n package/kiddin9/v2raya package/v2raya; rm -rf package/kiddin9
+# rm -rf feeds/packages/net/v2raya
+# rm -rf feeds/luci/applications/luci-app-v2raya
+# git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/luci-app-v2raya package/luci-app-v2raya && mv -n package/kiddin9/v2raya package/v2raya; rm -rf package/kiddin9   okay 4 op 22.03
 
 # ##-----------------Add OpenClash dev core------------------
 # curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
