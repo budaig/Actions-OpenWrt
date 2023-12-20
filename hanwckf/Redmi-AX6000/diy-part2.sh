@@ -56,10 +56,15 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 
 # update openclash
 # rm -rf feeds/luci/applications/luci-app-openclash
-# git clone -b v0.45.157-beta --depth=1 https://github.com/vernesong/OpenClash package/OpenClash && mv -n package/OpenClash/luci-app-openclash feeds/luci/applications/luci-app-openclash; rm -rf package/OpenClash
+# git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/luci-app-openclash feeds/luci/applications/luci-app-openclash
 # git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 # git branch --set-upstream-to=origin/master master
 # git clone --depth 1 -b master https://github.com/vernesong/OpenClash package/openclash/op && mv -n package/openclash/op/luci-app-openclash package/openclash; rm -rf package/openclash/op
+
+# update v2raya
+rm -rf feeds/packages/net/v2raya
+rm -rf feeds/luci/applications/luci-app-v2raya
+git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/luci-app-v2raya package/luci-app-v2raya && mv -n package/kiddin9/v2raya package/v2raya; rm -rf package/kiddin9
 
 # ##-----------------Add OpenClash dev core------------------
 # curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
@@ -90,12 +95,6 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/GeoSite.dat
 # mv /tmp/GeoSite.dat feeds/luci/applications/luci-app-openclash/root/etc/openclash/GeoSite.dat >/dev/null 2>&1
 # # ##---------------------------------------------------------
-
-# update v2raya
-rm -rf feeds/packages/net/v2raya
-rm -rf feeds/luci/applications/luci-app-v2raya
-git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/luci-app-v2raya package/luci-app-v2raya && mv -n package/kiddin9/v2raya package/v2raya; rm -rf package/kiddin9
-
 
 # Enable Cache
 # echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
