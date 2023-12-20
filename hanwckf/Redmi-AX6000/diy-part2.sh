@@ -94,7 +94,7 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # update v2raya
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
-git clone -b --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/luci-app-v2raya package/luci-app-v2raya && mv -n package/kiddin9/v2raya package/v2raya; rm -rf package/kiddin9
+git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/luci-app-v2raya package/luci-app-v2raya && mv -n package/kiddin9/v2raya package/v2raya; rm -rf package/kiddin9
 
 
 # Enable Cache
