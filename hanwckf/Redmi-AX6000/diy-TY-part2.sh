@@ -25,9 +25,11 @@ rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
 git clone https://github.com/sbwml/luci-app-alist.git package/alist
 
+rm -rf feeds/luci/applications/luci-app-openclash
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
-svn export https://github.com/kiddin9/openwrt-packages/tree/master/luci-app-v2raya package/luci-app-v2raya
+git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/aria2 package/aria2 && mv -n package/kiddin9/luci-app-aria2 package/luci-app-aria2 && mv -n package/kiddin9/v2raya package/v2raya && mv -n package/kiddin9/luci-app-v2raya package/luci-app-v2raya; rm -rf package/kiddin9
+svn export -r v0.45.157 https://github.com/vernesong/OpenClash package/openclash/op && mv -n package/openclash/op/luci-app-openclash package/openclash; rm -rf package/openclash/op
 
 #replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
