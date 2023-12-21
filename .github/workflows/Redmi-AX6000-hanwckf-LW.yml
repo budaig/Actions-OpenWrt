@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: hanwckf_LW
+name: Redmi-AX6000-hanwckf_LW
 
 on:
   repository_dispatch:
@@ -36,16 +36,16 @@ env:
   REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x
   REPO_BRANCH: openwrt-21.02
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: LW.config
-  DIY_P1_SH: diy-LW-part1.sh
-  DIY_P2_SH: diy-LW-part2.sh
+  CONFIG_FILE: hanwckf/Redmi-AX6000/LW.config
+  DIY_P1_SH: hanwckf/Redmi-AX6000/diy-LW-part1.sh
+  DIY_P2_SH: hanwckf/Redmi-AX6000/diy-LW-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
   UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
-  LANIP: 192.168.8.1
+  # LANIP: 192.168.8.1
 
 jobs:
   build_firmware:
@@ -88,9 +88,9 @@ jobs:
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
     
-    - name: Set Lan IP
-      if: ${{ github.event.inputs.ip != null }}
-      run: export LANIP=${{ github.event.inputs.ip }}
+    # - name: Set Lan IP
+      # if: ${{ github.event.inputs.ip != null }}
+      # run: export LANIP=${{ github.event.inputs.ip }}
 
     - name: Load custom configuration
       run: |
