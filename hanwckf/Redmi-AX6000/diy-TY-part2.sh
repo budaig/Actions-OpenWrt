@@ -23,19 +23,14 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
 # replace alist
 rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
-# git clone https://github.com/sbwml/luci-app-alist.git package/alist
+git clone https://github.com/sbwml/luci-app-alist.git package/alist
+
 svn export https://github.com/kenzok8/small/branches/master/v2raya package/csv2raya
-# # sed -i 's/PKG_VERSION:=2.2.4.3/PKG_VERSION:=2.2.4.6/g' package/v2raya/makefile
-sed -i 's/DEPENDS:=$(GO_ARCH_DEPENDS) \
-    +ca-bundle \
-    +kmod-nft-tproxy \
-    +xray-core/DEPENDS:=$(GO_ARCH_DEPENDS) \
-    +ca-bundle \
-    +iptables-mod-conntrack-extra \
-    +iptables-mod-extra \
-    +iptables-mod-filter \
-    +iptables-mod-tproxy \
-    +kmod-ipt-nat6 \/g' package/csv2raya/makefile
+rm -r package/csv2raya/Makefile
+cp -fR feeds/packages/net/v2raya/Makefile package/csv2raya/Makefile
+rm -rf feeds/packages/net/v2raya
+rm -rf feeds/luci/applications/luci-app-v2raya
+sed -i 's/PKG_VERSION:=2.1.0/PKG_VERSION:=2.2.4.6/g' package/csv2raya/Makefile
 # git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/aria2 package/aria2 && mv -n package/kiddin9/luci-app-aria2 package/luci-app-aria2 && mv -n package/kiddin9/alist package/alist && mv -n package/kiddin9/luci-app-alist package/luci-app-alist; rm -rf package/kiddin9
 
 # sed -i 's/PKG_VERSION:=2.1.0/PKG_VERSION:=2.2.4.6/g' feeds/packages/net/v2raya/Makefile
@@ -51,8 +46,8 @@ sed -i 's/DEPENDS:=$(GO_ARCH_DEPENDS) \
 # git clone https://github.com/v2rayA/v2raya-openwrt package/csv2raya
 # sed -i 's/PKG_VERSION:=2.2.4.1/PKG_VERSION:=2.2.4.6/g' package/csv2raya/v2raya/Makefile
 
-rm -rf feeds/luci/applications/luci-app-openclash
-svn export https://github.com/vernesong/OpenClash/branches/master/luci-app-openclash package/csopenclash
+# rm -rf feeds/luci/applications/luci-app-openclash
+# svn export https://github.com/vernesong/OpenClash/branches/master/luci-app-openclash package/csopenclash
 # /op && mv -n package/csopenclash/op/luci-app-openclash package/csopenclash; rm -rf package/csopenclash/op
 
 #replace a theme
