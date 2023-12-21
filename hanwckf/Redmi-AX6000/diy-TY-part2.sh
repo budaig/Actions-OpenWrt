@@ -27,7 +27,7 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
-svn export https://github.com/kiddin9/openwrt-packages/luci-app-v2raya package/luci-app-v2raya
+svn export https://github.com/kiddin9/openwrt-packages/tree/master/luci-app-v2raya package/luci-app-v2raya
 
 #replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
