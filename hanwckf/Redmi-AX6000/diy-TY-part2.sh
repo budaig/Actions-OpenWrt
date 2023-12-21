@@ -38,8 +38,8 @@ rm -rf feeds/luci/applications/luci-app-v2raya
 git clone https://github.com/v2rayA/v2raya-openwrt package/csv2raya
 sed -i 's/PKG_VERSION:=2.2.4.1/PKG_VERSION:=2.2.4.6/g' package/csv2raya/v2raya/Makefile
 
-rm -rf feeds/luci/applications/luci-app-openclash
-svn export -r v0.45.157-beta https://github.com/vernesong/OpenClash package/csopenclash/op && mv -n package/csopenclash/op/luci-app-openclash package/csopenclash; rm -rf package/csopenclash/op
+# rm -rf feeds/luci/applications/luci-app-openclash
+# svn export -r v0.45.157-beta https://github.com/vernesong/OpenClash package/csopenclash/op && mv -n package/csopenclash/op/luci-app-openclash package/csopenclash; rm -rf package/csopenclash/op
 
 #replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
