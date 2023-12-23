@@ -23,6 +23,8 @@
 # echo 'src-git alist https://github.com/sbwml/luci-app-alist' >>feeds.conf.default
 ## alist smartdns lucky openclash
 # echo 'src-git kenzo https://github.com/kenzok8/openwrt-packages' >>feeds.conf.default
+## passwall v2raya
+# sed -i '$a src-git kenzosmall https://github.com/kenzok8/small' feeds.conf.default
 ## alist smartdns ddns-go
 # echo 'src-git shidahuilang https://github.com/shidahuilang/openwrt-package' >>feeds.conf.default
 ## alist aria2 smartdns ddns-go lucky iperf3 v2raya zerotier openclash
