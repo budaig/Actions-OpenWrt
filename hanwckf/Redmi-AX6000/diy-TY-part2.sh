@@ -29,9 +29,8 @@ git clone https://github.com/sbwml/luci-app-alist.git package/custom/alist
 # git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 # # sed -i 's/PKG_VERSION:=2.2.4.1/PKG_VERSION:=2.2.4.6/g' package/custom/v2raya/Makefile
 
-rm -rf feeds/luci/applications/luci-app-openclash
 pushd feeds/luci/applications
-git clone --depth 1 -b master https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
+rm -rf luci-app-openclash && git clone --depth 1 -b dev https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
 popd
 
 #replace a theme
