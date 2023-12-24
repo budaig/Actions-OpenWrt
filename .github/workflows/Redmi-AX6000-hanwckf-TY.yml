@@ -37,9 +37,9 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    # runs-on: ubuntu-20.04
     # runs-on: ubuntu-22.04
-    # runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     
     steps:
     - name: 检查项目分支
@@ -79,15 +79,11 @@ jobs:
       run: |
         cd openwrt
         ./scripts/feeds update -a
-        rm -rf feeds/packages/net/alist
-        rm -rf feeds/luci/applications/luci-app-alist
-        rm -rf feeds/packages/net/v2raya
-        rm -rf feeds/luci/applications/luci-app-v2raya
 
     - name: 安装 feeds
       run: |
         cd openwrt && ./scripts/feeds install -a
-      
+
     - name: 加载config & DIY_P2_SH
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config

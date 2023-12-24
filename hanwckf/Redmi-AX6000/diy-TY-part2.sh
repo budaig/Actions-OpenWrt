@@ -14,7 +14,14 @@
 # package/base-files/files/bin/config_generate
 sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
 
+rm -rf feeds/packages/lang/golang
+rm -rf feeds/packages/net/alist
+rm -rf feeds/luci/applications/luci-app-alist
+rm -rf feeds/packages/net/v2raya
+rm -rf feeds/luci/applications/luci-app-v2raya
+
 # update golang
+git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 
 # use lucky over ddns-go
 # rm -rf feeds/packages/net/lucky
