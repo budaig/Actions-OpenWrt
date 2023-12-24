@@ -30,8 +30,10 @@ git clone https://github.com/sbwml/luci-app-alist.git package/custom/alist
 # # sed -i 's/PKG_VERSION:=2.2.4.1/PKG_VERSION:=2.2.4.6/g' package/custom/v2raya/Makefile
 
 pushd feeds/luci/applications
-rm -rf luci-app-openclash && git clone --depth 1 -b dev https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
+rm -rf luci-app-openclash
+git clone --depth 1 -b master https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
 popd
+cd ..
 
 #replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
