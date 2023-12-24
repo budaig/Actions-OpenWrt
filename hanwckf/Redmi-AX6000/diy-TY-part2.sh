@@ -19,11 +19,11 @@ sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generat
 # use lucky over ddns-go
 # rm -rf feeds/packages/net/lucky
 # rm -rf feeds/luci/applications/luci-app-lucky
-git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
+# git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
 # replace alist
-rm -rf feeds/packages/net/alist
-rm -rf feeds/luci/applications/luci-app-alist
-git clone https://github.com/sbwml/luci-app-alist.git package/alist
+# rm -rf feeds/packages/net/alist
+# rm -rf feeds/luci/applications/luci-app-alist
+# git clone https://github.com/sbwml/luci-app-alist.git package/alist
 
 # svn export https://github.com/kenzok8/small/branches/master/v2raya package/csv2raya
 # rm -r package/csv2raya/Makefile
@@ -35,8 +35,8 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 
 # sed -i 's/PKG_VERSION:=2.1.0/PKG_VERSION:=2.2.4.6/g' feeds/packages/net/v2raya/Makefile
 # OR
-rm -rf feeds/packages/net/v2raya
-rm -rf feeds/luci/applications/luci-app-v2raya
+# rm -rf feeds/packages/net/v2raya
+# rm -rf feeds/luci/applications/luci-app-v2raya
 # # git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/aria2 package/aria2 && mv -n package/kiddin9/luci-app-aria2 package/luci-app-aria2 && mv -n package/kiddin9/v2raya package/v2raya && mv -n package/kiddin9/luci-app-v2raya package/luci-app-v2raya; rm -rf package/kiddin9
 # # sed -i 's/PKG_VERSION:=2.2.4.3/PKG_VERSION:=2.2.4.6/g' package/v2raya/makefile
 # # sed -i 's/DEPENDS:=$(GO_ARCH_DEPENDS) \
