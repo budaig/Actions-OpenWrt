@@ -18,9 +18,6 @@ sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generat
 rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 
-# use lucky over ddns-go
-# rm -rf feeds/packages/net/lucky
-# rm -rf feeds/luci/applications/luci-app-lucky
 git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
 # replace alist
 rm -rf feeds/packages/net/alist
@@ -32,35 +29,10 @@ rm -rf feeds/luci/applications/luci-app-v2raya
 git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 # sed -i 's/PKG_VERSION:=2.2.4.1/PKG_VERSION:=2.2.4.6/g' package/custom/v2raya/Makefile
 
-# svn export https://github.com/kenzok8/small/branches/master/v2raya package/csv2raya
-# rm -r package/csv2raya/Makefile
-# cp -fR feeds/packages/net/v2raya/Makefile package/csv2raya/Makefile
-# rm -rf feeds/packages/net/v2raya
-# rm -rf feeds/luci/applications/luci-app-v2raya
-# sed -i 's/PKG_VERSION:=2.1.0/PKG_VERSION:=2.2.4.6/g' package/csv2raya/Makefile
-# git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/aria2 package/aria2 && mv -n package/kiddin9/luci-app-aria2 package/luci-app-aria2 && mv -n package/kiddin9/alist package/alist && mv -n package/kiddin9/luci-app-alist package/luci-app-alist; rm -rf package/kiddin9
-
-# sed -i 's/PKG_VERSION:=2.1.0/PKG_VERSION:=2.2.4.6/g' feeds/packages/net/v2raya/Makefile
-# OR
-# rm -rf feeds/packages/net/v2raya
-# rm -rf feeds/luci/applications/luci-app-v2raya
-# # git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/aria2 package/aria2 && mv -n package/kiddin9/luci-app-aria2 package/luci-app-aria2 && mv -n package/kiddin9/v2raya package/v2raya && mv -n package/kiddin9/luci-app-v2raya package/luci-app-v2raya; rm -rf package/kiddin9
-# # sed -i 's/PKG_VERSION:=2.2.4.3/PKG_VERSION:=2.2.4.6/g' package/v2raya/makefile
-# # sed -i 's/DEPENDS:=$(GO_ARCH_DEPENDS) \
-    # # +ca-bundle \
-    # # +kmod-nft-tproxy \
-    # # +xray-core/DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle/g' package/v2raya/makefile
-
-# git clone https://github.com/coolsnowwolf/packages -b master tmp/packages
-
-# rm -rf feeds/luci/applications/luci-app-openclash
-# git clone --depth 1 -b dev https://github.com/vernesong/OpenClash package/custom/openclash
+rm -rf feeds/luci/applications/luci-app-openclash
 pushd feeds/luci/applications
-rm -rf luci-app-openclash && git clone --depth 1 -b dev https://github.com/vernesong/OpenClash OpenClash
-# rm -rf luci-app-openclash && svn co https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash
+git clone --depth 1 -b master https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
 popd
-# svn export https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash package/custom/openclash
-# /op && mv -n package/csopenclash/op/luci-app-openclash package/csopenclash; rm -rf package/csopenclash/op
 
 #replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
