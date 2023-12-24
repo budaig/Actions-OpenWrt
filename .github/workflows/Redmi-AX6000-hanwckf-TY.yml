@@ -86,7 +86,7 @@ jobs:
 
     - name: 安装 feeds
       run: |
-        ./scripts/feeds install -a
+        cd openwrt && ./scripts/feeds install -a
       
     - name: 加载config & DIY_P2_SH
       run: |
