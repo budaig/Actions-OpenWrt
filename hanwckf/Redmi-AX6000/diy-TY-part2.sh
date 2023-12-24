@@ -53,9 +53,12 @@ git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 
 # git clone https://github.com/coolsnowwolf/packages -b master tmp/packages
 
-rm -rf feeds/luci/applications/luci-app-openclash
+# rm -rf feeds/luci/applications/luci-app-openclash
 # git clone --depth 1 -b dev https://github.com/vernesong/OpenClash package/custom/openclash
-svn export https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash package/custom/openclash
+pushd feeds/luci/applications
+rm -rf luci-app-openclash && svn co https://github.com/vernesong/OpenClash/branches/master/luci-app-openclash
+popd
+# svn export https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash package/custom/openclash
 # /op && mv -n package/csopenclash/op/luci-app-openclash package/csopenclash; rm -rf package/csopenclash/op
 
 #replace a theme
