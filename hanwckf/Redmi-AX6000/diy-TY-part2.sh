@@ -56,7 +56,7 @@ git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 # rm -rf feeds/luci/applications/luci-app-openclash
 # git clone --depth 1 -b dev https://github.com/vernesong/OpenClash package/custom/openclash
 pushd feeds/luci/applications
-rm -rf luci-app-openclash && svn co https://github.com/vernesong/OpenClash/branches/master/luci-app-openclash
+rm -rf luci-app-openclash && svn co https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash
 popd
 # svn export https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash package/custom/openclash
 # /op && mv -n package/csopenclash/op/luci-app-openclash package/csopenclash; rm -rf package/csopenclash/op
@@ -72,6 +72,14 @@ popd
 # mkdir -p feeds/luci/applications/luci-app-openclash/root/etc/openclash/core
 # mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash >/dev/null 2>&1
 # rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
+
+# ##------------- meta core ---------------------------------
+curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/meta/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
+tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
+chmod +x /tmp/clash >/dev/null 2>&1
+mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash_meta >/dev/null 2>&1
+rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
+
 ##---------------------------------------------------------
 
 cat > package/base-files/files/etc/banner << EOF
