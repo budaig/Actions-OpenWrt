@@ -60,7 +60,7 @@ rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
 rm -rf feeds/packages/net/aria2
 rm -rf feeds/luci/applications/luci-app-aria2
-svn export https://github.com/kiddin9/openwrt-packages/luci-app-v2raya package/luci-app-v2raya
+# svn export https://github.com/kiddin9/openwrt-packages/luci-app-v2raya package/luci-app-v2raya
 git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/aria2 package/aria2 && mv -n package/kiddin9/luci-app-aria2 package/luci-app-aria2 && mv -n package/kiddin9/alist package/alist && mv -n package/kiddin9/luci-app-alist package/luci-app-alist; rm -rf package/kiddin9
 # git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 # git branch --set-upstream-to=origin/master master
