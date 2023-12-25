@@ -69,15 +69,6 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # rm -rf luci-app-openclash
 # git clone --depth 1 -b master https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
 # popd
-# rm -rf feeds/luci/applications/luci-app-openclash
-# rm -rf feeds/packages/net/alist
-# rm -rf feeds/luci/applications/luci-app-alist
-# rm -rf feeds/packages/net/aria2
-# rm -rf feeds/luci/applications/luci-app-aria2
-# svn export https://github.com/kiddin9/openwrt-packages/luci-app-v2raya package/luci-app-v2raya
-# git clone -b master --depth=1 https://github.com/kiddin9/openwrt-packages package/kiddin9 && mv -n package/kiddin9/aria2 package/aria2 && mv -n package/kiddin9/luci-app-aria2 package/luci-app-aria2 && mv -n package/kiddin9/alist package/alist && mv -n package/kiddin9/luci-app-alist package/luci-app-alist; rm -rf package/kiddin9
-# git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-# git branch --set-upstream-to=origin/master master
 # git clone --depth 1 -b master https://github.com/vernesong/OpenClash package/openclash/op && mv -n package/openclash/op/luci-app-openclash package/openclash; rm -rf package/openclash/op
 
 # ##-----------------Add OpenClash dev core------------------
