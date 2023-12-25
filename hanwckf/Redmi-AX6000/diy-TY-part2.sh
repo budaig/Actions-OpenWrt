@@ -28,7 +28,7 @@ EOF
 # update golang
 rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
-
+# add lucky
 git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
 # replace alist
 rm -rf feeds/packages/net/alist
@@ -40,11 +40,16 @@ git clone https://github.com/sbwml/luci-app-alist.git package/custom/alist
 # git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 # # sed -i 's/PKG_VERSION:=2.2.4.1/PKG_VERSION:=2.2.4.6/g' package/custom/v2raya/Makefile
 
+# pushd feeds/luci/applications
+# rm -rf luci-app-openclash
+# git clone --depth 1 -b master https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
+# popd
+
 #replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
 # git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 
-##-----------------Add OpenClash dev core------------------
+# ##-----------------Add OpenClash dev core------------------
 # curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
 # tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
 # chmod +x /tmp/clash >/dev/null 2>&1
@@ -53,17 +58,10 @@ git clone https://github.com/sbwml/luci-app-alist.git package/custom/alist
 # rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
 
 # ##------------- meta core ---------------------------------
-curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/meta/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
-tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
-chmod +x /tmp/clash >/dev/null 2>&1
-mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash_meta >/dev/null 2>&1
-rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
+# curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/meta/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
+# tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
+# chmod +x /tmp/clash >/dev/null 2>&1
+# mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash_meta >/dev/null 2>&1
+# rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
 
 ##---------------------------------------------------------
-
-
-pushd feeds/luci/applications
-rm -rf luci-app-openclash
-git clone --depth 1 -b master https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
-popd
-cd ..
