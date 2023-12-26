@@ -31,8 +31,14 @@ cat > package/base-files/files/etc/banner << EOF
 EOF
 
 # update golang 20.x to 21.x
-rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
+# rm -rf feeds/packages/lang/golang
+# git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
+
+# replace alist
+rm -rf feeds/packages/net/alist
+rm -rf feeds/luci/applications/luci-app-alist
+git clone https://github.com/sbwml/luci-app-alist.git package/alist
+# cp -fR feeds/packages/net/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 
 # replace ddns-go
 # rm -rf feeds/packages/net/ddns-go
@@ -43,12 +49,6 @@ git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/l
 # rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
-
-# replace alist
-rm -rf feeds/packages/net/alist
-rm -rf feeds/luci/applications/luci-app-alist
-git clone https://github.com/sbwml/luci-app-alist.git package/alist
-# cp -fR feeds/packages/net/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 
 # add chatgpt-web
 # rm -rf feeds/packages/net/luci-app-chatgpt-web
@@ -69,7 +69,7 @@ git clone https://github.com/sbwml/luci-app-alist.git package/alist
 # rm -rf luci-app-openclash
 # git clone --depth 1 -b master https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
 # popd
-rm -rf feeds/luci/applications/luci-app-openclash && svn co https://github.com/vernesong/OpenClash/branches/master/luci-app-openclash package/openclash
+rm -rf feeds/luci/applications/luci-app-openclash && svn co https://github.com/vernesong/OpenClash/trunk/master/luci-app-openclash package/openclash
 
 # ##-----------------Add OpenClash dev core------------------
 curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
