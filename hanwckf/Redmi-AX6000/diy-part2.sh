@@ -69,7 +69,10 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
 # rm -rf luci-app-openclash
 # git clone --depth 1 -b master https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
 # popd
-rm -rf feeds/luci/applications/luci-app-openclash && svn co https://github.com/vernesong/OpenClash/trunk/master/luci-app-openclash package/openclash
+rm -rf feeds/luci/applications/luci-app-openclash
+svn co https://github.com/vernesong/OpenClash/trunk/dev/luci-app-openclash package/openclash1
+svn co https://github.com/vernesong/OpenClash/branch/dev/luci-app-openclash package/openclash2
+svn co https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash package/openclash3
 
 # ##-----------------Add OpenClash dev core------------------
 curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
