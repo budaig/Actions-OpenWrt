@@ -65,12 +65,13 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
 # git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 
 # update openclash
-# pushd feeds/luci/applications
-# rm -rf luci-app-openclash
-# git clone --depth 1 -b master https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
-# popd
 rm -rf feeds/luci/applications/luci-app-openclash
-# svn co https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash package/openclash
+# pushd package
+# svn co https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash openclash
+# popd
+pushd package
+git clone --depth 1 -b dev https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
+popd
 
 # ##-----------------Add OpenClash dev core------------------
 curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/dev/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
