@@ -69,13 +69,11 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
 # rm -rf luci-app-openclash
 # git clone --depth 1 -b master https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
 # popd
-rm -rf feeds/luci/applications/luci-app-openclash
-svn co https://github.com/vernesong/OpenClash/trunk/dev/luci-app-openclash package/openclash1
-svn co https://github.com/vernesong/OpenClash/branch/dev/luci-app-openclash package/openclash2
-svn co https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash package/openclash3
+rm -rf feeds/luci/applications/luci-app-openclash && svn co r9808 https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash package/openclash
+svn co r9808 https://github.com/vernesong/OpenClash/tree/dev/luci-app-openclash package/openclash1
 
 # ##-----------------Add OpenClash dev core------------------
-curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
+curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/dev/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
 tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
 chmod +x /tmp/clash >/dev/null 2>&1
 mkdir -p feeds/luci/applications/luci-app-openclash/root/etc/openclash/core
