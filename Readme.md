@@ -49,3 +49,5 @@ git clone https://github.com/x-wrt/x-wrt
 ### 感谢名单（向他们学习才有这个项目）
 - [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)
 [Read the details in my blog (in Chinese) | 中文教程](https://p3terx.com/archives/build-openwrt-with-github-actions.html)
+
+- [lgs2007m]https://github.com/lgs2007m/Actions-OpenWrt
