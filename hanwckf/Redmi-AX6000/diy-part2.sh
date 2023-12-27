@@ -55,31 +55,30 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
 # git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/chatgpt-web
 
-# add netspeedtest
-# rm -rf feeds/packages/net/netspeedtest
-# rm -rf feeds/luci/applications/luci-app-netspeedtest
-# git clone https://github.com/sirpdboy/netspeedtest.git package/netspeedtest
+rm -rf feeds/packages/net/v2raya
+rm -rf feeds/luci/applications/luci-app-v2raya
+git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 
 # replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
 # git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 
 # update openclash
-rm -rf feeds/luci/applications/luci-app-openclash
+# rm -rf feeds/luci/applications/luci-app-openclash
+# # pushd package
+# # svn co https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash openclash
+# # popd
 # pushd package
-# svn co https://github.com/vernesong/OpenClash/branches/dev/luci-app-openclash openclash
+# git clone --depth 1 -b dev https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
 # popd
-pushd package
-git clone --depth 1 -b dev https://github.com/vernesong/OpenClash openclash && mv -n openclash/luci-app-openclash luci-app-openclash; rm -rf openclash
-popd
 
 # ##-----------------Add OpenClash dev core------------------
-curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/dev/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
-tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
-chmod +x /tmp/clash >/dev/null 2>&1
-mkdir -p feeds/luci/applications/luci-app-openclash/root/etc/openclash/core
-mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash >/dev/null 2>&1
-rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
+# curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/dev/dev/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
+# tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
+# chmod +x /tmp/clash >/dev/null 2>&1
+# mkdir -p feeds/luci/applications/luci-app-openclash/root/etc/openclash/core
+# mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash >/dev/null 2>&1
+# rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
 
 # ##------------- tun core --------------------------------
 # curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/premium/clash-linux-arm64-2023.08.17-13-gdcc8d87.gz -o /tmp/clash.gz
@@ -95,12 +94,12 @@ rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
 # rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
 
 # ##-------------- GeoIP 数据库 -----------------------------
-curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -o /tmp/GeoIP.dat
-mv /tmp/GeoIP.dat feeds/luci/applications/luci-app-openclash/root/etc/openclash/GeoIP.dat >/dev/null 2>&1
+# curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -o /tmp/GeoIP.dat
+# mv /tmp/GeoIP.dat feeds/luci/applications/luci-app-openclash/root/etc/openclash/GeoIP.dat >/dev/null 2>&1
 
 # ##-------------- GeoSite 数据库 ---------------------------
-curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/GeoSite.dat
-mv /tmp/GeoSite.dat feeds/luci/applications/luci-app-openclash/root/etc/openclash/GeoSite.dat >/dev/null 2>&1
+# curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/GeoSite.dat
+# mv /tmp/GeoSite.dat feeds/luci/applications/luci-app-openclash/root/etc/openclash/GeoSite.dat >/dev/null 2>&1
 # ##---------------------------------------------------------
 
 # Enable Cache
