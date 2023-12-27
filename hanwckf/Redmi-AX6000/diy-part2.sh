@@ -30,9 +30,45 @@ cat > package/base-files/files/etc/banner << EOF
  -----------------------------------------------------
 EOF
 
+del_data="
+./feeds/luci/applications/luci-app-passwall
+./feeds/packages/net/brook
+./feeds/packages/net/dns2socks
+./feeds/packages/net/microsocks
+./feeds/packages/net/pdnsd-alt
+./feeds/packages/net/v2ray-geodata
+./feeds/packages/net/naiveproxy
+./feeds/packages/net/shadowsocks-rust
+./feeds/packages/net/shadowsocksr-libev
+./feeds/packages/net/simple-obfs
+./feeds/packages/net/sing-box
+./feeds/packages/net/tcping
+./feeds/packages/net/trojan
+./feeds/packages/net/trojan-go
+./feeds/packages/net/trojan-plus
+./feeds/packages/net/v2ray-core
+./feeds/packages/net/v2ray-plugin
+./feeds/packages/net/xray-plugin
+./feeds/packages/net/chinadns-ng
+./feeds/packages/net/dns2tcp
+./feeds/packages/net/tcping
+./feeds/packages/net/tuic-client
+./feeds/packages/devel/gn
+./feeds/packages/net/ipt2socks
+./feeds/packages/net/xray-core
+./feeds/packages/lang/golang
+"
+
+for cmd in $del_data;
+do
+ rm -rf $cmd
+ echo "Deleted $cmd"
+done
+
+
 # update golang 20.x to 21.x
 # rm -rf feeds/packages/lang/golang
-# git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 
 # replace alist
 rm -rf feeds/packages/net/alist
@@ -87,11 +123,11 @@ git clone https://github.com/v2rayA/v2raya-openwrt package/v2raya
 # mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash_tun >/dev/null 2>&1
 
 # ##------------- meta core ---------------------------------
-# curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/meta/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
-# tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
-# chmod +x /tmp/clash >/dev/null 2>&1
-# mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash_meta >/dev/null 2>&1
-# rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
+curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/vernesong/OpenClash/core/master/meta/clash-linux-arm64.tar.gz -o /tmp/clash.tar.gz
+tar zxvf /tmp/clash.tar.gz -C /tmp >/dev/null 2>&1
+chmod +x /tmp/clash >/dev/null 2>&1
+mv /tmp/clash feeds/luci/applications/luci-app-openclash/root/etc/openclash/core/clash_meta >/dev/null 2>&1
+rm -rf /tmp/clash.tar.gz >/dev/null 2>&1
 
 # ##-------------- GeoIP 数据库 -----------------------------
 # curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -o /tmp/GeoIP.dat
