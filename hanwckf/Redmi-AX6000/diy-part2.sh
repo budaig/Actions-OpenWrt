@@ -73,27 +73,22 @@ git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/l
 # replace alist
 rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
-git clone https://github.com/sbwml/luci-app-alist.git package/alist
+git clone https://github.com/sbwml/luci-app-alist.git package/custom/alist
 # cp -fR feeds/packages/net/alist/luci-app-alist feeds/luci/applications/luci-app-alist
-
-# replace ddns-go
-# rm -rf feeds/packages/net/ddns-go
-# rm -rf feeds/luci/applications/luci-app-ddns-go
-# git clone https://github.com/sirpdboy/luci-app-ddns-go feeds/packages/net/ddns-go   #or package/ddns-go
 
 # use lucky over ddns-go
 # rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
-git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
+git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
 
 # add chatgpt-web
 # rm -rf feeds/packages/net/luci-app-chatgpt-web
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
-# git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/chatgpt-web
+# git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/custom/chatgpt-web
 
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
-git clone https://github.com/v2rayA/v2raya-openwrt package/v2raya
+git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 
 # replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
