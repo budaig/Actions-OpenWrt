@@ -57,7 +57,7 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/lucky
 
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
-git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
+git clone https://github.com/v2rayA/v2raya-openwrt package/v2raya
 
 # replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
