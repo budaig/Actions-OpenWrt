@@ -45,7 +45,6 @@ jobs:
       # # target: [x86_64,n1]
       # target: [arm64]
 
-    steps
     steps:
     - name: 检查项目分支
       uses: actions/checkout@v3
