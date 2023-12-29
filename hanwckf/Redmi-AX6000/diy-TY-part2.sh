@@ -50,6 +50,8 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
 # git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/custom/chatgpt-web
 
+rm -rf ./feeds/packages/net/xray-core
+rm -rf ./feeds/packages/net/v2ray-core
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
 git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
