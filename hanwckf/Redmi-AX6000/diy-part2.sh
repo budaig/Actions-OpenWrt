@@ -83,6 +83,15 @@ rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
 git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 
+# ##-------------- GeoIP 数据库 -----------------------------
+curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -o /tmp/geoip.dat
+mv /tmp/geoip.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/geoip.dat >/dev/null 2>&1
+
+# ##-------------- GeoSite 数据库 ---------------------------
+curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
+mv /tmp/geosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/geosite.dat >/dev/null 2>&1
+# ##---------------------------------------------------------
+
 # replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
 # git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
