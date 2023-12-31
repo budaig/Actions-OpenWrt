@@ -26,12 +26,19 @@ cat > package/base-files/files/etc/banner << EOF
 EOF
 
 del_data="
+./feeds/luci/luci-app-brook-server
+./feeds/luci/luci-app-microsocks
+./feeds/luci/luci-app-mwan3helper
+./feeds/luci/luci-app-naiveproxy
+./feeds/luci/luci-app-ssr-libev-server
+./feeds/luci/luci-app-ssr-plus
+./feeds/luci/luci-app-trojan-server
+./feeds/luci/luci-app-vssr
 ./feeds/luci/applications/luci-app-passwall
 ./feeds/packages/net/brook
 ./feeds/packages/net/dns2socks
 ./feeds/packages/net/microsocks
 ./feeds/packages/net/pdnsd-alt
-./feeds/packages/net/v2ray-geodata
 ./feeds/packages/net/naiveproxy
 ./feeds/packages/net/shadowsocks-rust
 ./feeds/packages/net/shadowsocksr-libev
@@ -41,15 +48,16 @@ del_data="
 ./feeds/packages/net/trojan
 ./feeds/packages/net/trojan-go
 ./feeds/packages/net/trojan-plus
-./feeds/packages/net/v2ray-core
-./feeds/packages/net/v2ray-plugin
-./feeds/packages/net/xray-plugin
 ./feeds/packages/net/chinadns-ng
 ./feeds/packages/net/dns2tcp
 ./feeds/packages/net/tcping
 ./feeds/packages/net/tuic-client
 ./feeds/packages/devel/gn
 ./feeds/packages/net/ipt2socks
+./feeds/packages/net/v2ray-geodata
+./feeds/packages/net/v2ray-core
+./feeds/packages/net/v2ray-plugin
+./feeds/packages/net/xray-plugin
 ./feeds/packages/net/xray-core
 ./feeds/packages/lang/golang
 "
@@ -83,15 +91,7 @@ rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
 git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 
-# ##-------------- GeoIP 数据库 -----------------------------
-# curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -o /tmp/geoip.dat
-# mv /tmp/geoip.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/geoip.dat >/dev/null 2>&1
-
-# # ##-------------- GeoSite 数据库 ---------------------------
-# curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
-# mv /tmp/geosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/geosite.dat >/dev/null 2>&1
-
-# # ##-------------- GeoSite 数据库 ---------------------------
+# ##-------------- GeoSite数据库 ---------------------------
 curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
 mkdir package/custom/v2raya/luci-app-v2raya/root/usr/share/xray
 mv /tmp/geosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
