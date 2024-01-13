@@ -68,10 +68,9 @@ curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/release
 mkdir package/custom/v2raya/luci-app-v2raya/root/usr/share/xray
 mv /tmp/geosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
 # ##-------------- BGeoSite-geosite数据库 ---------------------------
-curl -sL -m 30 --retry 2 https://github.com/vrichv/better-geosite/releases/latest/download/geosite.dat -o /tmp/bgeosite.dat
-rm package/custom/v2raya/luci-app-v2raya/root/usr/share/v2ray/geosite.dat
-mv /tmp/bgeosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/v2ray/geosite.dat >/dev/null 2>&1# ##---------------------------------------------------------
-
+# curl -sL -m 30 --retry 2 https://github.com/vrichv/better-geosite/releases/latest/download/geosite.dat -o /tmp/bgeosite.dat
+# rm package/custom/v2raya/luci-app-v2raya/root/usr/share/v2ray/geosite.dat
+# mv /tmp/bgeosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/v2ray/geosite.dat >/dev/null 2>&1# ##---------------------------------------------------------
 
 # rm -rf feeds/packages/net/smartdns
 # rm -rf feeds/luci/applications/luci-app-smartdns
@@ -88,7 +87,6 @@ mv /tmp/bgeosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/v2ray/
 # replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
 # git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
-
 # replace theme bg
 curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/bg1.jpg -o /tmp/bg1.jpg 
 rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
