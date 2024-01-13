@@ -64,7 +64,8 @@ rm -rf feeds/luci/applications/luci-app-v2raya
 git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 
 # ##-------------- GeoSite数据库 ---------------------------
-curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
+# curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
+curl -sL -m 30 --retry 2 https://github.com/vrichv/better-geosite/releases/latest/download/geosite.dat -o /tmp/geosite.dat
 mkdir package/custom/v2raya/luci-app-v2raya/root/usr/share/xray
 mv /tmp/geosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
 # ##---------------------------------------------------------
