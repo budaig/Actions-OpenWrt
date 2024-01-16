@@ -70,7 +70,8 @@ mv /tmp/geosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/Lo
 # ##-------------- BGeoSite-geosite数据库 ---------------------------
 # curl -sL -m 30 --retry 2 https://github.com/vrichv/better-geosite/releases/latest/download/geosite.dat -o /tmp/bgeosite.dat
 # rm package/custom/v2raya/luci-app-v2raya/root/usr/share/v2ray/geosite.dat
-# mv /tmp/bgeosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/v2ray/geosite.dat >/dev/null 2>&1# ##---------------------------------------------------------
+# mv /tmp/bgeosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/v2ray/geosite.dat >/dev/null 2>&1
+# ##---------------------------------------------------------
 
 # rm -rf feeds/packages/net/smartdns
 # rm -rf feeds/luci/applications/luci-app-smartdns
