@@ -15,6 +15,12 @@
 #sed -i 's/KERNEL_TESTING_PATCHVER:=5.4/KERNEL_TESTING_PATCHVER:=4.19/g' ./target/linux/mediatek/Makefile
 #TIME y "更换内核结束"
 
+grep '^CONFIG_TARGET.*DEVICE.*DEVICE.*=y' .config | sed -r 's/.*DEVICE.*DEVICE.*_(.*)=y/\1/' > DEVICE_NAME
+echo DEVICE_NAME
+
+grep '^CONFIG_TARGET.*DEVICE.*DEVICE.*=y' .config | sed -r 's/.*TARGET_DEVICE.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
+echo TARGET_NAME
+
 # Modify default IP
 # package/base-files/files/bin/config_generate
 sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
