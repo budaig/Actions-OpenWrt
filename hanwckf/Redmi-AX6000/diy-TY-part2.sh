@@ -15,10 +15,11 @@
 #sed -i 's/KERNEL_TESTING_PATCHVER:=5.4/KERNEL_TESTING_PATCHVER:=4.19/g' ./target/linux/mediatek/Makefile
 #TIME y "更换内核结束"
 
-grep '^CONFIG_TARGET.*DEVICE.*DEVICE.*=y' .config | sed -r 's/.*DEVICE.*DEVICE.*_(.*)=y/\1/' > DEVICE_NAME
+# CONFIG_TARGET_DEVICE_mediatek_mt7986_DEVICE_xiaomi_redmi-router-ax6000=y
+grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
 cat DEVICE_NAME
 
-grep '^CONFIG_TARGET.*DEVICE.*DEVICE.*=y' .config | sed -r 's/.*TARGET_DEVICE.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
+grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*TARGET_DEVICE.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
 cat TARGET_NAME
 
 sleep 5 &
