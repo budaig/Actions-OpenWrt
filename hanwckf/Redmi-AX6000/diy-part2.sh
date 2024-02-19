@@ -93,10 +93,13 @@ mv /tmp/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/
 # echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
 
 # CONFIG_TARGET_mediatek_mt7986_DEVICE_xiaomi_redmi-router-ax6000=y
-grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-cat DEVICE_NAME
+# grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+# cat DEVICE_NAME
+# xiaomi_redmi-router-ax6000
+# ROOTFS
 
-grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
-cat TARGET_NAME
-
-sleep 5 &
+# grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
+# cat TARGET_NAME
+# mt7986
+# CONFIG_TARGET_PER_DEVICE_ROOTFS=y
+# sleep 5 &
