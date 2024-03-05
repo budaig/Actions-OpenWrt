@@ -52,8 +52,8 @@ git clone https://github.com/sbwml/luci-app-alist.git package/custom/alist
 # use lucky over ddns-go
 # rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
-git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
-# git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
+# git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
+git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
 
 # add chatgpt-web
 # rm -rf feeds/packages/net/luci-app-chatgpt-web
