@@ -53,6 +53,7 @@ git clone https://github.com/sbwml/luci-app-alist.git package/custom/alist
 # rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
+# git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
 
 # add chatgpt-web
 # rm -rf feeds/packages/net/luci-app-chatgpt-web
@@ -62,6 +63,12 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
 git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
+
+rm -rf package/custom/v2raya/v2ray-core
+
+# rm -rf package/custom/v2raya/xray-core
+# git clone https://github.com/yichya/luci-app-xray package/custom/v2raya/xray-core
+# mv package/custom/v2raya/xray-core
 
 # ##-------------- GeoSite-GFWlist4v2ra数据库 ---------------------------
 curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
