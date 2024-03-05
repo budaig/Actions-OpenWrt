@@ -47,7 +47,7 @@ jobs:
 
     steps:
     - name: 检查项目分支
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       # uses: actions/checkout@main
 
     - name: 初始化编译环境
@@ -136,7 +136,7 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传固件到github
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       # uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
