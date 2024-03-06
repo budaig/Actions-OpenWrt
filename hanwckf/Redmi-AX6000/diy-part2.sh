@@ -57,7 +57,7 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
 
 # replace lucky 2.7.2 to 2.7.4
 sed -i 's/=2.7.2/=2.7.4/g' package/custom/lucky/lucky/Makefile
-sed -i 's/lucky%releases%download%v/lucky-files%raw%main%/g' package/custom/lucky/lucky/Makefile
+sed -i 's/lucky!releases!download!v/lucky-files!raw!main!/g' package/custom/lucky/lucky/Makefile
 
 # add chatgpt-web
 # rm -rf feeds/packages/net/luci-app-chatgpt-web
