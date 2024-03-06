@@ -52,8 +52,12 @@ git clone https://github.com/sbwml/luci-app-alist.git package/custom/alist
 # use lucky over ddns-go
 # rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
-# git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
-git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
+git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
+# git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
+
+# replace lucky 2.7.2 to 2.7.4
+sed -i 's/PKG_VERSION:=2.7.2/PKG_VERSION:=2.7.4/g' package/custom/lucky/luci-app-lucky/lucky/Makefile
+sed -i 's/https://github.com/gdy666/lucky/releases/download/v$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz/https://github.com/gdy666/lucky-files/raw/main/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz/g' package/custom/lucky/luci-app-lucky/lucky/Makefile
 
 # add chatgpt-web
 # rm -rf feeds/packages/net/luci-app-chatgpt-web
