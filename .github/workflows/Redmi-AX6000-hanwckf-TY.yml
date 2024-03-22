@@ -159,8 +159,8 @@ jobs:
         touch release.txt
         echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
         echo "The default IP address is 192.168.XXX.1" >> release.txt
-        echo "📥 固件下载
         [ ${UPLOAD_GOFILE} = true && ${{ steps.gofile.outputs.url }} ] && echo "🔗 [GoFile](${{ steps.gofile.outputs.url }})" >> release.txt
+        echo "📥 固件下载" >> release.txt
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 发布至release
@@ -180,11 +180,11 @@ jobs:
         # retain_days: 0
         # keep_minimum_runs: 5
 
-    - name: Remove old Releases
-      uses: dev-drprasad/delete-older-releases@master
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      with:
-        keep_latest: 5
-        delete_tags: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Remove old Releases
+      # uses: dev-drprasad/delete-older-releases@master
+      # if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      # with:
+        # keep_latest: 5
+        # delete_tags: true
+      # env:
+        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
