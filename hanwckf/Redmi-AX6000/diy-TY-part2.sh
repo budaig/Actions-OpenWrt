@@ -33,8 +33,23 @@ cat > package/base-files/files/etc/banner << EOF
  -----------------------------------------------------
 EOF
 
-# update golang
-rm -rf feeds/packages/lang/golang
+del_data="
+feeds/packages/net/v2ray-geodata
+feeds/packages/net/v2ray-core
+feeds/packages/net/v2ray-plugin
+feeds/packages/net/xray-plugin
+feeds/packages/net/xray-core
+feeds/packages/lang/golang
+"
+
+for cmd in $del_data;
+do
+ rm -rf $cmd
+ echo "Deleted $cmd"
+done
+
+# update golang 20.x to 21.x
+# rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 
 # replace alist
@@ -47,25 +62,49 @@ git clone https://github.com/sbwml/luci-app-alist.git package/custom/alist
 # rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
+# git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
+
+# replace lucky 2.7.2 to 2.7.4
+sed -i 's/=2.7.2/=2.7.4/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/custom/lucky/lucky/Makefile
+# cat package/custom/lucky/lucky/Makefile
 
 # add chatgpt-web
 # rm -rf feeds/packages/net/luci-app-chatgpt-web
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
-# git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/custom/chatgpt-web
+git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/custom/chatgpt-web
 
-rm -rf ./feeds/packages/net/v2ray-plugin
-rm -rf ./feeds/packages/net/xray-plugin
-rm -rf ./feeds/packages/net/v2ray-geodata
-rm -rf ./feeds/packages/net/xray-core
-rm -rf ./feeds/packages/net/v2ray-core
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
 git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 # # sed -i 's/PKG_VERSION:=2.2.4.1/PKG_VERSION:=2.2.4.6/g' package/custom/v2raya/Makefile
 
+rm -rf package/custom/v2raya/v2ray-core
+
+# ##-------------- GeoSite-GFWlist4v2ra数据库 ---------------------------
+curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
+mkdir package/custom/v2raya/luci-app-v2raya/root/usr/share/xray
+mv /tmp/geosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
+# ##---------------------------------------------------------
+
+rm -rf feeds/packages/net/smartdns
+rm -rf feeds/luci/applications/luci-app-smartdns
+git clone https://github.com/pymumu/openwrt-smartdns package/custom/smartdns
+git clone https://github.com/pymumu/luci-app-smartdns -b master package/custom/luci-app-smartdns
+SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
+SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
+sed -i '/PKG_MIRROR_HASH:=/d' package/custom/smartdns/Makefile
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/smartdns/Makefile
+sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/custom/smartdns/Makefile
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/luci-app-smartdns/Makefile
+sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/custom/luci-app-smartdns/Makefile
+
 # replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
 # git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
+# replace theme bg
+rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
+curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/bg1.jpg -o /tmp/bg1.jpg 
+mv /tmp/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
 
 # pushd feeds/luci/applications
 # rm -rf luci-app-openclash
