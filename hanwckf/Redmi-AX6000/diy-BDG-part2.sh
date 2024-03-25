@@ -82,10 +82,10 @@ rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
 git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 # customize v2raya ver
-v2aver=2.2.5.1
-v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
-v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/custom/v2raya/v2ray/Makefile
+# v2aver=2.2.5.1
+# v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
+# v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/custom/v2raya/v2raya/Makefile
 
 rm -rf package/custom/v2raya/v2ray-core
 # rm -rf package/custom/v2raya/xray-core
