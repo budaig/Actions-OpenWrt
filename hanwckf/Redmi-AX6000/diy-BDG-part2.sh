@@ -14,6 +14,9 @@
 # package/base-files/files/bin/config_generate
 sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
 
+# Modify hostname
+#sed -i 's/OpenWrt/budairt/g' package/base-files/files/bin/config_generate
+
 cat > package/base-files/files/etc/banner << EOF
   _______                     ________        __
  |       |.-----.-----.-----.|  |  |  |.----.|  |_
@@ -56,13 +59,13 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
 # git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
 
 # replace lucky 2.7.2 to 2.7.4
-# sed -i 's/=2.7.2/=2.7.4/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/custom/lucky/lucky/Makefile
+sed -i 's/=2.7.2/=2.7.4/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/custom/lucky/lucky/Makefile
 # cat package/custom/lucky/lucky/Makefile
 
 # add chatgpt-web
 # rm -rf feeds/packages/net/luci-app-chatgpt-web
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
-# git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/custom/chatgpt-web
+git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/custom/chatgpt-web
 
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
@@ -74,9 +77,17 @@ rm -rf package/custom/v2raya/v2ray-core
 # git clone https://github.com/yichya/luci-app-xray package/custom/v2raya/xray-core
 # mv package/custom/v2raya/xray-core
 
+# 更新xraycore为最新(删除PKG_HASH)
+# sed -i 's/=1.8.8/=1.8.9/g;13d' package/custom/v2raya/xray-core/Makefile
+# 更新xraycore为最新(修改PKG_HASH)
+xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v1.8.9 | shasum -a 256))
+sed -i 's/=1.8.8/=1.8.9/g;s/PKG_HASH:=.*/PKG_HASH:='"$xrsha256"'/g' package/custom/v2raya/xray-core/Makefile
+
 # ##-------------- GeoSite-GFWlist4v2ra数据库 ---------------------------
 curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
 mkdir package/custom/v2raya/luci-app-v2raya/root/usr/share/xray
+rm package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
+sleep 3 
 mv /tmp/geosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
 # ##---------------------------------------------------------
 
@@ -113,4 +124,5 @@ mv /tmp/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/
 # cat TARGET_NAME
 # mt7986
 # CONFIG_TARGET_PER_DEVICE_ROOTFS=y
+
 # sleep 5 &
