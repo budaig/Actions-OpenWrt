@@ -47,50 +47,74 @@ done
 # rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 
+# ##-------------- alist ---------------------------
 # replace alist
 rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
 git clone https://github.com/sbwml/luci-app-alist.git package/custom/alist
+# customize alist ver
+alver=3.32.0
+alwebver=3.33.0
+alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
+alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/custom/alist/Makefile
+# ##---------------------------------------------------------
 
+# ##-------------- lucky ---------------------------
 # use lucky over ddns-go
 # rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
 # git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
-
-# replace lucky 2.7.2 to 2.7.4
-sed -i 's/=2.7.2/=2.7.4/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/custom/lucky/lucky/Makefile
+# customize lucky ver
+lkver=2.5.1
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/custom/lucky/lucky/Makefile
 # cat package/custom/lucky/lucky/Makefile
+# ##---------------------------------------------------------
 
 # add chatgpt-web
 # rm -rf feeds/packages/net/luci-app-chatgpt-web
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/custom/chatgpt-web
 
+# ##-------------- v2raya ---------------------------
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
 git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
+# customize v2raya ver
+v2aver=2.2.5.1
+v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
+v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/custom/v2raya/v2ray/Makefile
 
 rm -rf package/custom/v2raya/v2ray-core
-
 # rm -rf package/custom/v2raya/xray-core
 # git clone https://github.com/yichya/luci-app-xray package/custom/v2raya/xray-core
 # mv package/custom/v2raya/xray-core
 
-# 更新xraycore为最新(删除PKG_HASH)
+# customize xraycore ver(删除PKG_HASH)
 # sed -i 's/=1.8.8/=1.8.9/g;13d' package/custom/v2raya/xray-core/Makefile
-# 更新xraycore为最新(修改PKG_HASH)
-xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v1.8.9 | shasum -a 256))
-sed -i 's/=1.8.8/=1.8.9/g;s/PKG_HASH:=.*/PKG_HASH:='"$xrsha256"'/g' package/custom/v2raya/xray-core/Makefile
+# customize xraycore ver(修改PKG_HASH)
+xrver=1.8.9
+xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/custom/v2raya/xray-core/Makefile
 
-# ##-------------- GeoSite-GFWlist4v2ra数据库 ---------------------------
+# 更新v2ra geoip geosite 数据库
+ipver=202402290038
+ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/download/$ipver/geoip.dat | shasum -a 256))
+sed -i '15 s/.*/GEOIP_VER:='"$ipver"'/g;21 s/.*/  HASH:='"$ipsha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+sitever=20240324094850
+sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/download/$sitever/dlc.dat | shasum -a 256))
+sed -i '24 s/.*/GEOSITE_VER:='"$sitever"'/g;30 s/.*/  HASH:='"$sitesha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+
+# GeoSite-GFWlist4v2ra数据库 
 curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
 mkdir package/custom/v2raya/luci-app-v2raya/root/usr/share/xray
-rm package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
-sleep 3 
+# rm package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
 mv /tmp/geosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
 # ##---------------------------------------------------------
 
+# ##-------------- smartdns ---------------------------
 rm -rf feeds/packages/net/smartdns
 rm -rf feeds/luci/applications/luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns package/custom/smartdns
@@ -102,6 +126,7 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/smart
 sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/custom/smartdns/Makefile
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/luci-app-smartdns/Makefile
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/custom/luci-app-smartdns/Makefile
+# ##---------------------------------------------------------
 
 # replace a theme
 # rm -rf ./feeds/luci/themes/luci-theme-argon
