@@ -49,15 +49,16 @@ do
 done
 
 # ## update golang 20.x to 22.x
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 
 # ## -------------- alist ---------------------------
 # replace alist
 rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
 git clone https://github.com/sbwml/luci-app-alist.git package/custom/alist
-sleep 1
+
 ## customize alist ver
+# sleep 1
 # alver=3.32.0
 # alwebver=3.32.0
 # alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
@@ -77,8 +78,8 @@ sleep 1
 rm -rf feeds/luci/applications/luci-app-lucky
 git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
 # git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
-sleep 1
 ## customize lucky ver
+sleep 1
 lkver=2.5.1
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/custom/lucky/lucky/Makefile
 # cat package/custom/lucky/lucky/Makefile
@@ -93,8 +94,9 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/custom/chatgp
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
 git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
-sleep 1
+
 ## customize v2raya ver
+# sleep 1
 # v2aver=2.2.5.1
 # v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
@@ -117,7 +119,7 @@ xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver |
 sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/custom/v2raya/xray-core/Makefile
 
 ## 更新v2ra geoip geosite 数据库
-ipver=202402290038
+ipver=202403280038
 ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/download/$ipver/geoip.dat | shasum -a 256))
 sed -i '15 s/.*/GEOIP_VER:='"$ipver"'/g;21 s/.*/  HASH:='"$ipsha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
 sitever=20240324094850
