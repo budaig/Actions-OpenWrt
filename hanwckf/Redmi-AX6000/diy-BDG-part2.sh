@@ -49,7 +49,7 @@ do
 done
 
 # ## update golang 20.x to 22.x
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+# git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
 # ## -------------- alist ---------------------------
 # replace alist
@@ -100,7 +100,7 @@ sleep 1
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/custom/v2raya/v2raya/Makefile
 
-rm -rf package/custom/v2raya/v2ray-core
+# rm -rf package/custom/v2raya/v2ray-core
 
 ## use yichya/luci-app-xray
 # rm -rf package/custom/v2raya/xray-core
