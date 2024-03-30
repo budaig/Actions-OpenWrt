@@ -120,15 +120,18 @@ xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver |
 sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/custom/v2raya/xray-core/Makefile
 
 ## 更新v2ra geoip geosite 数据库
-datetime=$(date +"%Y%m%d%H%M%S")
-# echo $datetime
-ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/latest/download/geoip.dat | shasum -a 256))
-# https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
-sed -i '15 s/.*/GEOIP_VER:='"$datetime"'/g;21 s/.*/  HASH:='"$ipsha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
-sitesha256=($(curl -sL https://github.com/vrichv/better-geosite/releases/latest/download/geosite.dat | shasum -a 256))
+# datetime1=$(date +"%Y%m%d%H%M")
+# # echo $datetime
+# ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/latest/download/geoip.dat | shasum -a 256))
+# sed -i '15 s/.*/GEOIP_VER:='"$datetime1"'/g;21 s/.*/  HASH:='"$ipsha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+# # https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
+# # s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g
+# datetime2=$(date +"%Y%m%d%H%M%S")
+# sitesha256=($(curl -sL https://github.com/vrichv/better-geosite/releases/latest/download/geosite.dat | shasum -a 256))
+# sed -i '24 s/.*/GEOSITE_VER:='"$datetime2"'/g;30 s/.*/  HASH:='"$sitesha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
 # https://github.com/Loyalsoldier/domain-list-custom/releases/latest/download/geosite.dat
 # https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat
-sed -i '24 s/.*/GEOSITE_VER:='"$datetime"'/g;30 s/.*/  HASH:='"$sitesha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+# s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g
 
 # ipver=202403280038
 # ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/download/$ipver/geoip.dat | shasum -a 256))
@@ -136,6 +139,14 @@ sed -i '24 s/.*/GEOSITE_VER:='"$datetime"'/g;30 s/.*/  HASH:='"$sitesha256"'/g' 
 # sitever=20240324094850
 # # sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/download/$sitever/dlc.dat | shasum -a 256))
 # sed -i '24 s/.*/GEOSITE_VER:='"$sitever"'/g;30 s/.*/  HASH:='"$sitesha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+
+ipver=latest
+ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/$ipver/download/geoip.dat | shasum -a 256))
+sed -i '15 s/.*/GEOIP_VER:='"$ipver"'/g;s/download\/$(GEOIP_VER)/$(GEOIP_VER)\/download/g;21 s/.*/  HASH:='"$ipsha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+sitever=latest
+sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/$sitever/download/dlc.dat | shasum -a 256))
+sed -i '24 s/.*/GEOSITE_VER:='"$sitever"'/g;s/download\/$(GEOSITE_VER)/$(GEOSITE_VER)\/download/g;30 s/.*/  HASH:='"$sitesha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+
 
 ## GeoSite-GFWlist4v2ra数据库 
 curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
