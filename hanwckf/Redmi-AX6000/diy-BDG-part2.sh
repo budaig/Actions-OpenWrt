@@ -103,7 +103,7 @@ git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/custom/v2raya/v2raya/Makefile
 
-# rm -rf package/custom/v2raya/v2ray-core
+rm -rf package/custom/v2raya/v2ray-core
 
 ## use yichya/luci-app-xray
 # rm -rf package/custom/v2raya/xray-core
@@ -121,7 +121,7 @@ sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' pack
 
 ## 更新v2ra geoip geosite 数据库
 datetime=$(date +"%Y%m%d%H%M%S")
-echo $datetime
+# echo $datetime
 ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/latest/download/geoip.dat | shasum -a 256))
 # https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
 sed -i '15 s/.*/GEOIP_VER:='"$datetime"'/g;21 s/.*/  HASH:='"$ipsha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
