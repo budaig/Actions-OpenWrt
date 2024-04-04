@@ -11,7 +11,7 @@
 #
 
 ###############改名字##############
-name: Redmi-AX6000-hanwckf_bdg
+name: Redmi-AX6000-immortalwrt_bdg
 
 on:
   repository_dispatch:
@@ -25,29 +25,45 @@ on:
 #    - cron: 0 16 * * *
 
 env:
-  REPO_URL: https://github.com/hanwckf/immortalwrt-mt798x
-  REPO_BRANCH: openwrt-21.02
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
+  REPO_BRANCH: openwrt-23.05
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: hanwckf/Redmi-AX6000/BDG.config
-  DIY_P1_SH: hanwckf/Redmi-AX6000/diy-BDG-part1.sh
-  DIY_P2_SH: hanwckf/Redmi-AX6000/diy-BDG-part2.sh
+  CONFIG_FILE: immortalwrt/Redmi-AX6000/BDG.config
+  DIY_P1_SH: immortalwrt/Redmi-AX6000/diy-BDG-part1.sh
+  DIY_P2_SH: immortalwrt/Redmi-AX6000/diy-BDG-part2.sh
   SSH_ACTIONS: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
   ###############改名字##############
-  OPENWRT_NAME: hanwckf_bdg
+  OPENWRT_NAME: immortalwrt_bdg
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
-    # runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04
+    # runs-on: ubuntu-20.04
     # runs-on: ubuntu-latest
 
     steps:
+    - name: Maximize build space
+      uses: easimon/maximize-build-space@master
+      with:
+        root-reserve-mb: 2048
+        swap-size-mb: 2048
+        temp-reserve-mb: 2048
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+        remove-codeql: 'true'
+        remove-docker-images: 'true'
+
     - name: 检查项目分支
       uses: actions/checkout@v4
       # uses: actions/checkout@main
+
+    - name: Check space usage
+      if: (!cancelled())
+      run: df -hT
 
     - name: 初始化编译环境
       env:
@@ -109,7 +125,7 @@ jobs:
       run: |
         cd openwrt
         make defconfig
-        make download -j$(nproc)
+        make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
