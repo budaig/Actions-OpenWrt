@@ -15,14 +15,21 @@ name: Redmi-AX6000-immortalwrt_bdg
 
 on:
   repository_dispatch:
+  schedule:
+    - cron: 30 22 * * *
   workflow_dispatch:
     inputs:
       ssh:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
-#  schedule:
-#    - cron: 0 16 * * *
+        
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  issues: write
+  
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
@@ -40,26 +47,26 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
-    # runs-on: ubuntu-20.04
+    runs-on: ubuntu-20.04
+    # runs-on: ubuntu-22.04
     # runs-on: ubuntu-latest
 
-    steps:
-    - name: Maximize build space
-      uses: easimon/maximize-build-space@master
-      with:
-        root-reserve-mb: 2048
-        swap-size-mb: 2048
-        temp-reserve-mb: 2048
-        remove-dotnet: 'true'
-        remove-android: 'true'
-        remove-haskell: 'true'
-        remove-codeql: 'true'
-        remove-docker-images: 'true'
+    # steps:
+    # - name: Maximize build space
+      # uses: easimon/maximize-build-space@master
+      # with:
+        # root-reserve-mb: 2048
+        # swap-size-mb: 2048
+        # temp-reserve-mb: 2048
+        # remove-dotnet: 'true'
+        # remove-android: 'true'
+        # remove-haskell: 'true'
+        # remove-codeql: 'true'
+        # remove-docker-images: 'true'
 
     - name: 检查项目分支
-      uses: actions/checkout@v4
-      # uses: actions/checkout@main
+      # uses: actions/checkout@v4
+      uses: actions/checkout@main
 
     - name: Check space usage
       if: (!cancelled())
@@ -69,7 +76,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL /etc/mysql /etc/php
         sudo rm -rf "/usr/local/share/boost"
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
         sudo docker image prune --all --force
@@ -159,8 +166,8 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传固件到github
-      uses: actions/upload-artifact@v4
-      # uses: actions/upload-artifact@main
+      # uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}

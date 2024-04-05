@@ -81,8 +81,9 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
 ## customize lucky ver
 # https://github.com/gdy666/lucky-files
 sleep 1
-lkver=2.5.1
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/custom/lucky/lucky/Makefile
+lkver=2.5.3
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g' package/custom/lucky/lucky/Makefile
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/custom/lucky/lucky/Makefile
 # cat package/custom/lucky/lucky/Makefile
 # ## ---------------------------------------------------------
 
