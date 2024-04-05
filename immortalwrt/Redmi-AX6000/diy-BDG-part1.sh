@@ -30,17 +30,3 @@
 ## alist aria2 smartdns ddns-go lucky iperf3 v2raya zerotier openclash
 # sed -i '$a src-git openwrt_kiddin9 https://github.com/kiddin9/openwrt-packages' feeds.conf.default
 # src/gz openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/aarch64_cortex-a53/kiddin9
-
-
-# CONFIG_TARGET_DEVICE_mediatek_mt7986_DEVICE_xiaomi_redmi-router-ax6000=y
-grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-cat DEVICE_NAME
-# xiaomi_redmi-router-ax6000
-# ROOTFS
-
-grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
-cat TARGET_NAME
-# mt7986
-# CONFIG_TARGET_PER_DEVICE_ROOTFS=y
-
-sleep 5
