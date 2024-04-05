@@ -49,15 +49,11 @@ jobs:
       # uses: actions/checkout@v4
       uses: actions/checkout@main
 
-    - name: Check space usage
-      if: (!cancelled())
-      run: df -hT
-
     - name: 初始化编译环境
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL /etc/mysql /etc/php
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
         sudo rm -rf "/usr/local/share/boost"
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
         sudo docker image prune --all --force
@@ -183,11 +179,11 @@ jobs:
         # retain_days: 0
         # keep_minimum_runs: 8
 
-    - name: Remove old Releases
-      uses: dev-drprasad/delete-older-releases@master
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      with:
-        keep_latest: 6
-        delete_tags: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Remove old Releases
+      # uses: dev-drprasad/delete-older-releases@master
+      # if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      # with:
+        # keep_latest: 6
+        # delete_tags: true
+      # env:
+        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
