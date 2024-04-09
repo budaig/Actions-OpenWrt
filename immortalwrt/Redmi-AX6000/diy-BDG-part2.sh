@@ -114,10 +114,10 @@ rm -rf package/custom/v2raya/v2ray-core
 # customize xraycore ver(删除PKG_HASH)
 # sed -i 's/=1.8.8/=1.8.9/g;13d' package/custom/v2raya/xray-core/Makefile
 # customize xraycore ver(修改PKG_HASH)
-sleep 1
-xrver=1.8.10
-xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
-sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/custom/v2raya/xray-core/Makefile
+# sleep 1
+# xrver=1.8.10
+# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+# sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/custom/v2raya/xray-core/Makefile
 
 ## 更新v2ra geoip geosite 数据库
 
