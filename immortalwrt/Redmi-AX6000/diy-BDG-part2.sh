@@ -43,7 +43,7 @@ feeds/packages/net/v2ray-geodata
 feeds/packages/net/v2ray-core
 feeds/packages/net/v2ray-plugin
 feeds/packages/net/xray-plugin
-feeds/packages/net/xray-core
+# feeds/packages/net/xray-core
 feeds/packages/lang/golang
 "
 
@@ -97,9 +97,9 @@ sleep 1
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/custom/chatgpt-web
 
 # ## -------------- v2raya ---------------------------
-rm -rf feeds/packages/net/v2raya
-rm -rf feeds/luci/applications/luci-app-v2raya
-git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
+# rm -rf feeds/packages/net/v2raya
+# rm -rf feeds/luci/applications/luci-app-v2raya
+# git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 
 ## customize v2raya ver
 # sleep 1
@@ -108,7 +108,7 @@ git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/custom/v2raya/v2raya/Makefile
 
-rm -rf package/custom/v2raya/v2ray-core
+# rm -rf package/custom/v2raya/v2ray-core
 
 ## use yichya/luci-app-xray
 # rm -rf package/custom/v2raya/xray-core
@@ -126,14 +126,14 @@ rm -rf package/custom/v2raya/v2ray-core
 
 ## 更新v2ra geoip geosite 数据库
 
-datetime1=$(date +"%Y%m%d%H%M")
-ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/latest/download/geoip.dat | shasum -a 256))
-sed -i '15 s/.*/GEOIP_VER:='"$datetime1"'/g;18 s/.*/  URL:=https:\/\/github.com\/v2fly\/geoip\/releases\/latest\/download\//g;21 s/.*/  HASH:='"$ipsha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+# datetime1=$(date +"%Y%m%d%H%M")
+# ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/latest/download/geoip.dat | shasum -a 256))
+# sed -i '15 s/.*/GEOIP_VER:='"$datetime1"'/g;18 s/.*/  URL:=https:\/\/github.com\/v2fly\/geoip\/releases\/latest\/download\//g;21 s/.*/  HASH:='"$ipsha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
 # # https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
 
-datetime2=$(date +"%Y%m%d%H%M%S")
-sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat | shasum -a 256))
-sed -i '24 s/.*/GEOSITE_VER:='"$datetime2"'/g;27 s/.*/  URL:=https:\/\/github.com\/v2fly\/domain-list-community\/releases\/latest\/download\//g;30 s/.*/  HASH:='"$sitesha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+# datetime2=$(date +"%Y%m%d%H%M%S")
+# sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat | shasum -a 256))
+# sed -i '24 s/.*/GEOSITE_VER:='"$datetime2"'/g;27 s/.*/  URL:=https:\/\/github.com\/v2fly\/domain-list-community\/releases\/latest\/download\//g;30 s/.*/  HASH:='"$sitesha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
 # https://github.com/Loyalsoldier/domain-list-custom/releases/latest/download/geosite.dat
 # https://github.com/vrichv/better-geosite/releases/latest/download/geosite.dat
 # 若要使用上面两个的 需要替换URL_FILE:=dlc.dat为geosite.dat
