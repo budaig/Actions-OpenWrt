@@ -30,3 +30,11 @@
 ## alist aria2 smartdns ddns-go lucky iperf3 v2raya zerotier openclash
 # sed -i '$a src-git openwrt_kiddin9 https://github.com/kiddin9/openwrt-packages' feeds.conf.default
 # src/gz openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/aarch64_cortex-a53/kiddin9
+
+# pushd feeds/packages/net/luci-app-xray/tools/po2lmo
+# make && sudo make install
+# popd
+pushd feeds/packages/net/xray-core/tools/po2lmo
+make && sudo make install
+popd
+sleep 3

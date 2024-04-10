@@ -33,6 +33,14 @@ cat > package/base-files/files/etc/banner << EOF
  -----------------------------------------------------
 EOF
 
+# pushd feeds/packages/net/luci-app-xray/tools/po2lmo
+# make && sudo make install
+# popd
+# pushd feeds/packages/net/xray-core/tools/po2lmo
+# make && sudo make install
+# popd
+# sleep 3
+
 del_data="
 feeds/packages/net/v2ray-geodata
 feeds/packages/net/v2ray-core
