@@ -154,11 +154,11 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/custom/chatgp
 
 
 ## GeoSite-GFWlist4v2ra数据库 
-curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
-sleep 1
-mkdir package/custom/v2raya/luci-app-v2raya/root/usr/share/xray
-# rm package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
-mv /tmp/geosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
+# curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
+# sleep 1
+# mkdir package/custom/v2raya/luci-app-v2raya/root/usr/share/xray
+# # rm package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
+# mv /tmp/geosite.dat package/custom/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
 # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------

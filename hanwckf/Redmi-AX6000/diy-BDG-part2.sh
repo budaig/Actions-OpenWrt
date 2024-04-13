@@ -80,9 +80,9 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
 # git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
 ## customize lucky ver
 # https://github.com/gdy666/lucky-files
-sleep 1
-lkver=2.5.3
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g' package/custom/lucky/lucky/Makefile
+# sleep 1
+# lkver=2.5.1 
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g' package/custom/lucky/lucky/Makefile
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/custom/lucky/lucky/Makefile
 # cat package/custom/lucky/lucky/Makefile
 # ## ---------------------------------------------------------
@@ -147,7 +147,6 @@ sed -i '24 s/.*/GEOSITE_VER:='"$datetime2"'/g;27 s/.*/  URL:=https:\/\/github.co
 # sitever=latest
 # sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/$sitever/download/dlc.dat | shasum -a 256))
 # sed -i '24 s/.*/GEOSITE_VER:='"$sitever"'/g;s/download\/$(GEOSITE_VER)/$(GEOSITE_VER)\/download/g;30 s/.*/  HASH:='"$sitesha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
-
 
 ## GeoSite-GFWlist4v2ra数据库 
 curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
