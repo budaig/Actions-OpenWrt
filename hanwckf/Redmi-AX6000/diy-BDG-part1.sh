@@ -10,6 +10,10 @@
 # Description: OpenWrt DIY script part 1 (Before Update feeds)
 #
 
+# sed -i '1 s/.*/src-git-full package https\:\/\/mirrors.cernet.edu.cn\/immortalwrt\/package\;openwrt-21.02/g' feeds.conf.default
+# sed -i '2 s/.*/src-git-full luci https\:\/\/mirrors.cernet.edu.cn\/immortalwrt\/luci\;openwrt-21.02/g' feeds.conf.default
+# sed -i '3 s/.*/src-git-full routing https\:\/\/mirrors.cernet.edu.cn\/immortalwrt\/routing\;openwrt-21.02/g' feeds.conf.default
+# sed -i '4 s/.*/src-git-full telephony https\:\/\/mirrors.cernet.edu.cn\/immortalwrt\/telephony\;openwrt-21.02/g' feeds.conf.default
 # Uncomment a feed source
 #sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 
