@@ -49,7 +49,7 @@ do
 done
 
 # ## update golang 20.x to 22.x
-git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
 # ## -------------- alist ---------------------------
 # replace alist
@@ -173,8 +173,10 @@ sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/custom/luci
 # add anti-ad data
 curl -sL -m 30 --retry 2 https://anti-ad.net/anti-ad-for-smartdns.conf -o /tmp/reject.conf
 sleep 1
-mkdir package/custom/smartdns/root/etc/smartdns/domain-set
-mv /tmp/reject.conf package/custom/smartdns/root/etc/smartdns/domain-set/reject.conf >/dev/null 2>&1
+mkdir package/custom/smartdns/root
+mkdir package/custom/smartdns/root/etc
+mkdir package/custom/smartdns/root/etc/smartdns
+mv /tmp/reject.conf package/custom/smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
 # ## ---------------------------------------------------------
 
 # ## replace a theme
