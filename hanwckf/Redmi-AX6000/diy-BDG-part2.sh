@@ -118,7 +118,7 @@ rm -rf package/custom/v2raya/v2ray-core
 # sed -i 's/=1.8.8/=1.8.9/g;13d' package/custom/v2raya/xray-core/Makefile
 # customize xraycore ver(修改PKG_HASH)
 sleep 1
-xrver=1.8.10
+xrver=1.8.11
 xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/custom/v2raya/xray-core/Makefile
 
@@ -170,6 +170,11 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/smart
 sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/custom/smartdns/Makefile
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/luci-app-smartdns/Makefile
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/custom/luci-app-smartdns/Makefile
+# add anti-ad data
+curl -sL -m 30 --retry 2 https://anti-ad.net/anti-ad-for-smartdns.conf -o /tmp/reject.conf
+sleep 1
+mkdir package/custom/smartdns/root/etc/smartdns/domain-set
+mv /tmp/reject.conf package/custom/smartdns/root/etc/smartdns/domain-set/reject.conf >/dev/null 2>&1
 # ## ---------------------------------------------------------
 
 # ## replace a theme
