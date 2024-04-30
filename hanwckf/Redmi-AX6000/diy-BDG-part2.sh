@@ -175,15 +175,23 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/luci-
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/custom/luci-app-smartdns/Makefile
 ## add anti-ad data
 # sed -i '/PKG_MIRROR_HASH:=/d' package/custom/smartdns/Makefile 上面Makefile中已将此行删除所以修改后的makefile中下列要增加的行由原48改47-原63变62
-sed -i '47a\/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
-# sed -i '62i\	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/reject.conf $(1)/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
+# sed -i '47a\/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
+# sed -i '61i\	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/reject.conf $(1)/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
 # cat package/custom/smartdns/Makefile
 # sleep 8
-mkdir -p package/custom/smartdns/root/etc/smartdns
+# mkdir -p package/custom/smartdns/root/etc/smartdns
 # ls -dR package/custom/smartdns/root/etc/smartdns
+# sleep 1
+# curl -sL -m 30 --retry 2 https://anti-ad.net/anti-ad-for-smartdns.conf -o /tmp/reject.conf
+# mv /tmp/reject.conf package/custom/smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
+# ls -l package/custom/smartdns/root/etc/smartdns
+
+mkdir -p package/custom/luci-app-smartdns/root/etc/smartdns
+ls -dR package/custom/luci-app-smartdns/root/etc/smartdns
 sleep 1
 curl -sL -m 30 --retry 2 https://anti-ad.net/anti-ad-for-smartdns.conf -o /tmp/reject.conf
-mv /tmp/reject.conf package/custom/smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
+mv /tmp/reject.conf package/custom/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
+ls -l package/custom/luci-app-smartdns/root/etc/smartdns
 # ## ---------------------------------------------------------
 
 # ## replace a theme
