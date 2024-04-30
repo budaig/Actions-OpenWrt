@@ -173,13 +173,14 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/smart
 sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/custom/smartdns/Makefile
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/luci-app-smartdns/Makefile
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/custom/luci-app-smartdns/Makefile
-# add anti-ad data
-sed -i '48a\/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
-sed -i '63i\	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/reject.conf $(1)/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
-sleep 1
+## add anti-ad data
+# sed -i '48a\/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
+# sed -i '63i\	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/reject.conf $(1)/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
 mkdir package/custom/smartdns/root
 mkdir package/custom/smartdns/root/etc
 mkdir package/custom/smartdns/root/etc/smartdns
+ls -R package/custom/smartdns
+sleep 8
 curl -sL -m 30 --retry 2 https://anti-ad.net/anti-ad-for-smartdns.conf -o /tmp/reject.conf
 mv /tmp/reject.conf package/custom/smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
 # ## ---------------------------------------------------------
