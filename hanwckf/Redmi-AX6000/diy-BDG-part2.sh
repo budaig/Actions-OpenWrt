@@ -171,13 +171,13 @@ SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/c
 sed -i '/PKG_MIRROR_HASH:=/d' package/custom/smartdns/Makefile
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/smartdns/Makefile
 sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/custom/smartdns/Makefile
-sed -i '48a\/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
-sed -i '63i\	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/reject.conf $(1)/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
-cat package/custom/smartdns/Makefile
-sleep 8
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/luci-app-smartdns/Makefile
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/custom/luci-app-smartdns/Makefile
 ## add anti-ad data
+sed -i '47a\/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
+sed -i '63i\	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/reject.conf $(1)/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
+cat package/custom/smartdns/Makefile
+sleep 8
 mkdir -p package/custom/smartdns/root/etc/smartdns
 ls -dR package/custom/smartdns/root/etc/smartdns
 sleep 8
