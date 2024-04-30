@@ -176,9 +176,7 @@ sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/custom/luci
 ## add anti-ad data
 sed -i '48a\/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
 sed -i '63i\	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/reject.conf $(1)/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
-mkdir package/custom/smartdns/root
-mkdir package/custom/smartdns/root/etc
-mkdir package/custom/smartdns/root/etc/smartdns
+mkdir -p package/custom/smartdns/root/etc/smartdns
 ls -dR package/custom/smartdns/
 sleep 8
 curl -sL -m 30 --retry 2 https://anti-ad.net/anti-ad-for-smartdns.conf -o /tmp/reject.conf
