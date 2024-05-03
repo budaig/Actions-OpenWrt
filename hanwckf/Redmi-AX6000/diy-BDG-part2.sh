@@ -43,6 +43,7 @@ feeds/packages/net/v2ray-plugin
 feeds/packages/net/xray-plugin
 feeds/packages/net/xray-core
 feeds/packages/lang/golang
+# feeds/packages/net/adguardhome
 "
 
 for cmd in $del_data;
@@ -53,6 +54,12 @@ done
 
 # ## update golang 20.x to 22.x
 git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
+
+# ## -------------- adguardhome ---------------------------
+rm -rf feeds/packages/net/adguardhome
+rm -rf feeds/luci/applications/luci-app-adguardhome
+git clone https://github.com/xiaoxiao29/luci-app-adguardhome package/custom/adguardhome
+# ## ---------------------------------------------------------
 
 # ## -------------- alist ---------------------------
 # replace alist
@@ -149,8 +156,8 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/luci-
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/custom/luci-app-smartdns/Makefile
 
 ## add anti-ad data
-mkdir -p package/custom/luci-app-smartdns/root/etc/smartdns
-ls -dR package/custom/luci-app-smartdns/root/etc/smartdns
+mkdir -p package/custom/luci-app-smartdns/root/etc/smartdns/domain-set
+# ls -dR package/custom/luci-app-smartdns/root/etc/smartdns
 sleep 1
 urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
 curl -sL -m 30 --retry 2 "$urlreject" -o /tmp/reject.conf
@@ -158,7 +165,7 @@ mv /tmp/reject.conf package/custom/luci-app-smartdns/root/etc/smartdns/reject.co
 ## add githubhosts
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/custom/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
-ls -l package/custom/luci-app-smartdns/root/etc/smartdns
+# ls -l package/custom/luci-app-smartdns/root/etc/smartdns
 # ## ---------------------------------------------------------
 
 # ## replace a theme
