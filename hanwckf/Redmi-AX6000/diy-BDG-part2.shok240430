@@ -111,6 +111,15 @@ git clone https://github.com/v2rayA/v2raya-openwrt package/custom/v2raya
 
 rm -rf package/custom/v2raya/v2ray-core
 
+## use yichya/luci-app-xray
+# rm -rf package/custom/v2raya/xray-core
+# git clone https://github.com/yichya/luci-app-xray package/custom/v2raya/xray-core
+# mv package/custom/v2raya/xray-core
+
+## use v2raya-openwrt/xray-core
+# customize xraycore ver(删除PKG_HASH)
+# sed -i 's/=1.8.8/=1.8.9/g;13d' package/custom/v2raya/xray-core/Makefile
+# customize xraycore ver(修改PKG_HASH)
 sleep 1
 xrver=1.8.11
 xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
@@ -126,6 +135,23 @@ sed -i '15 s/.*/GEOIP_VER:='"$datetime1"'/g;18 s/.*/  URL:=https:\/\/github.com\
 datetime2=$(date +"%Y%m%d%H%M%S")
 sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat | shasum -a 256))
 sed -i '24 s/.*/GEOSITE_VER:='"$datetime2"'/g;27 s/.*/  URL:=https:\/\/github.com\/v2fly\/domain-list-community\/releases\/latest\/download\//g;30 s/.*/  HASH:='"$sitesha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+# https://github.com/Loyalsoldier/domain-list-custom/releases/latest/download/geosite.dat
+# https://github.com/vrichv/better-geosite/releases/latest/download/geosite.dat
+# 若要使用上面两个的 需要替换URL_FILE:=dlc.dat为geosite.dat
+
+# ipver=202403280038
+# ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/download/$ipver/geoip.dat | shasum -a 256))
+# sed -i '15 s/.*/GEOIP_VER:='"$ipver"'/g;21 s/.*/  HASH:='"$ipsha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+# sitever=20240324094850
+# # sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/download/$sitever/dlc.dat | shasum -a 256))
+# sed -i '24 s/.*/GEOSITE_VER:='"$sitever"'/g;30 s/.*/  HASH:='"$sitesha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+
+# ipver=latest
+# ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/$ipver/download/geoip.dat | shasum -a 256))
+# sed -i '15 s/.*/GEOIP_VER:='"$ipver"'/g;s/download\/$(GEOIP_VER)/$(GEOIP_VER)\/download/g;21 s/.*/  HASH:='"$ipsha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
+# sitever=latest
+# sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/$sitever/download/dlc.dat | shasum -a 256))
+# sed -i '24 s/.*/GEOSITE_VER:='"$sitever"'/g;s/download\/$(GEOSITE_VER)/$(GEOSITE_VER)\/download/g;30 s/.*/  HASH:='"$sitesha256"'/g' package/custom/v2raya/v2fly-geodata/Makefile
 
 ## GeoSite-GFWlist4v2ra数据库 
 curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
@@ -147,17 +173,24 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/smart
 sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/custom/smartdns/Makefile
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/luci-app-smartdns/Makefile
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/custom/luci-app-smartdns/Makefile
-
 ## add anti-ad data
+# sed -i '/PKG_MIRROR_HASH:=/d' package/custom/smartdns/Makefile 上面Makefile中已将此行删除所以修改后的makefile中下列要增加的行由原48改47-原63变62
+# sed -i '47a\/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
+# sed -i '61i\	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/reject.conf $(1)/etc/smartdns/reject.conf' package/custom/smartdns/Makefile
+# cat package/custom/smartdns/Makefile
+# sleep 8
+# mkdir -p package/custom/smartdns/root/etc/smartdns
+# ls -dR package/custom/smartdns/root/etc/smartdns
+# sleep 1
+# curl -sL -m 30 --retry 2 https://anti-ad.net/anti-ad-for-smartdns.conf -o /tmp/reject.conf
+# mv /tmp/reject.conf package/custom/smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
+# ls -l package/custom/smartdns/root/etc/smartdns
+
 mkdir -p package/custom/luci-app-smartdns/root/etc/smartdns
 ls -dR package/custom/luci-app-smartdns/root/etc/smartdns
 sleep 1
-urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
-curl -sL -m 30 --retry 2 "$urlreject" -o /tmp/reject.conf
+curl -sL -m 30 --retry 2 https://anti-ad.net/anti-ad-for-smartdns.conf -o /tmp/reject.conf
 mv /tmp/reject.conf package/custom/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
-## add githubhosts
-urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
-curl -sL -m 30 --retry 2 "$urlgthosts" -o package/custom/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
 ls -l package/custom/luci-app-smartdns/root/etc/smartdns
 # ## ---------------------------------------------------------
 
@@ -171,3 +204,16 @@ mv /tmp/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/
 
 # ## Enable Cache
 # echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
+
+# CONFIG_TARGET_DEVICE_mediatek_mt7986_DEVICE_xiaomi_redmi-router-ax6000=y
+# grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+# cat DEVICE_NAME
+# xiaomi_redmi-router-ax6000
+# ROOTFS
+
+# grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
+# cat TARGET_NAME
+# mt7986
+# CONFIG_TARGET_PER_DEVICE_ROOTFS=y
+
+# sleep 5
