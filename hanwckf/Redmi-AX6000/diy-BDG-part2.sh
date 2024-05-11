@@ -43,7 +43,7 @@ feeds/packages/net/v2ray-plugin
 feeds/packages/net/xray-plugin
 feeds/packages/net/xray-core
 feeds/packages/lang/golang
-# feeds/packages/net/adguardhome
+feeds/packages/net/adguardhome
 "
 
 for cmd in $del_data;
@@ -56,7 +56,7 @@ done
 git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 
 # ## -------------- adguardhome ---------------------------
-rm -rf feeds/packages/net/adguardhome
+# rm -rf feeds/packages/net/adguardhome
 rm -rf feeds/luci/applications/luci-app-adguardhome
 git clone https://github.com/xiaoxiao29/luci-app-adguardhome package/custom/adguardhome
 # ## ---------------------------------------------------------
@@ -147,8 +147,16 @@ rm -rf feeds/packages/net/smartdns
 rm -rf feeds/luci/applications/luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns package/custom/smartdns
 git clone https://github.com/pymumu/luci-app-smartdns -b master package/custom/luci-app-smartdns
+
+## update to the newest
 SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
 SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
+echo SMARTDNS_VER
+echo SMAERTDNS_SHA
+
+#customize ver
+# SMARTDNS_VER=2024.05.08
+# SMAERTDNS_SHA=f92fbb83cefb0446fc5dd1b0cd16fc6b2fc7664c
 sed -i '/PKG_MIRROR_HASH:=/d' package/custom/smartdns/Makefile
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/smartdns/Makefile
 sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/custom/smartdns/Makefile
