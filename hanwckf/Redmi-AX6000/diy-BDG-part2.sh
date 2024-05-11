@@ -151,8 +151,8 @@ git clone https://github.com/pymumu/luci-app-smartdns -b master package/custom/l
 ## update to the newest
 SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
 SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
-echo SMARTDNS_VER
-echo SMAERTDNS_SHA
+echo $SMARTDNS_VER
+echo $SMAERTDNS_SHA
 
 #customize ver
 # SMARTDNS_VER=2024.05.08
