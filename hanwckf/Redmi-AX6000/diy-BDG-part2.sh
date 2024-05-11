@@ -149,14 +149,14 @@ git clone https://github.com/pymumu/openwrt-smartdns package/custom/smartdns
 git clone https://github.com/pymumu/luci-app-smartdns -b master package/custom/luci-app-smartdns
 
 ## update to the newest
-SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
-SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
-echo $SMARTDNS_VER
-echo $SMAERTDNS_SHA
+# SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
+# SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
+# echo $SMARTDNS_VER
+# echo $SMAERTDNS_SHA
 
 #customize ver
-# SMARTDNS_VER=2024.05.08
-# SMAERTDNS_SHA=f92fbb83cefb0446fc5dd1b0cd16fc6b2fc7664c
+SMARTDNS_VER=2024.05.08
+SMAERTDNS_SHA=f92fbb83cefb0446fc5dd1b0cd16fc6b2fc7664c
 sed -i '/PKG_MIRROR_HASH:=/d' package/custom/smartdns/Makefile
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/smartdns/Makefile
 sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/custom/smartdns/Makefile
