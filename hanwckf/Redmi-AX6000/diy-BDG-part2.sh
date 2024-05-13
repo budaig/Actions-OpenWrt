@@ -158,10 +158,10 @@ echo $SMAERTDNS_SHA
 # SMARTDNS_VER=2024.05.08
 # SMAERTDNS_SHA=f92fbb83cefb0446fc5dd1b0cd16fc6b2fc7664c
 # ------
-
 #fix 2024.05.09 ver
-sed -i 's/pymumu\/smartdns/zxlhhyccc\/smartdns/g' package/custom/smartdns/Makefile
-# ------
+# sed -i 's/pymumu\/smartdns/zxlhhyccc\/smartdns\/tree\/patch-12/g' package/custom/smartdns/Makefile
+sed -i '33 s/.*/  URL:=https:\/\/github.com\/zxlhhyccc\/smartdns\/tree\/patch-12\//g' package/custom/smartdns/Makefile
+# # ------
 
 sed -i '/PKG_MIRROR_HASH:=/d' package/custom/smartdns/Makefile
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/custom/smartdns/Makefile
