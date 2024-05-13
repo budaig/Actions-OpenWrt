@@ -159,8 +159,9 @@ echo $SMAERTDNS_SHA
 # SMAERTDNS_SHA=f92fbb83cefb0446fc5dd1b0cd16fc6b2fc7664c
 # ------
 #fix 2024.05.09 ver
-# sed -i 's/pymumu\/smartdns/zxlhhyccc\/smartdns\/tree\/patch-12/g' package/custom/smartdns/Makefile
-sed -i '33 s/.*/  URL:=https:\/\/github.com\/zxlhhyccc\/smartdns\/tree\/patch-12\//g' package/custom/smartdns/Makefile
+#failed sed -i 's/pymumu\/smartdns/zxlhhyccc\/smartdns\/tree\/patch-12/g' package/custom/smartdns/Makefile
+#failed sed -i '33 s/.*/  URL:=https:\/\/github.com\/zxlhhyccc\/smartdns\/tree\/patch-12\//g' package/custom/smartdns/Makefile
+# sed -i 's/.*/pymumu\/smartdns/zxlhhyccc\/smartdns\/tree\/patch-12.git/g' package/custom/smartdns/Makefile
 # # ------
 
 sed -i '/PKG_MIRROR_HASH:=/d' package/custom/smartdns/Makefile
