@@ -86,16 +86,29 @@ git clone https://github.com/sbwml/luci-app-alist.git package/custom/alist
 # ## -------------- lucky ---------------------------
 # rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
-git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
-# git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
-sleep 1
-## customize lucky ver
-# wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
-lkver=2.6.2
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/custom/lucky/lucky/Makefile
+
+# #/etc/config/lucky.daji/lucky.conf
+# git clone https://github.com/gdy666/luci-app-lucky.git package/custom/lucky
+# sleep 1
+# ## customize lucky ver
+# # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
+# lkver=2.6.2
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/custom/lucky/lucky/Makefile
+
 # wget https://github.com/gdy666/lucky-files$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
 # lkver=2.5.1
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/custom/lucky/lucky/Makefile
+
+
+   #/etc/lucky/lucky.conf
+git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
+sleep 1
+## customize lucky ver
+wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
+lkver=2.9.0
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/custom/lucky/lucky/Makefile
+sed -i '/PKG_SOURCE_VERSION:=/d' package/custom/lucky/lucky/Makefile
+
 # cat package/custom/lucky/lucky/Makefile
 # ## ---------------------------------------------------------
 
