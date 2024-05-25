@@ -103,8 +103,8 @@ rm -rf feeds/luci/applications/luci-app-lucky
    #/etc/lucky/lucky.conf
 git clone https://github.com/sirpdboy/luci-app-lucky.git package/custom/lucky
 sleep 1
-## customize lucky ver
-wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
+# ## customize lucky ver
+# # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
 lkver=2.9.0
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/custom/lucky/lucky/Makefile
 sed -i '/PKG_SOURCE_VERSION:=/d' package/custom/lucky/lucky/Makefile
