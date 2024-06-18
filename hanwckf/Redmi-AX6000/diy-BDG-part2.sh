@@ -137,7 +137,6 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/diy/chatgpt-w
 # ## -------------- v2raya ---------------------------
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
-git clone https://github.com/v2rayA/v2raya-openwrt package/diy/v2raya
 
 ## customize v2raya ver
 # sleep 1
@@ -146,17 +145,26 @@ git clone https://github.com/v2rayA/v2raya-openwrt package/diy/v2raya
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile
 
-sleep 1
-mkdir -p package/diy/v2raya/v2raya/root/etc/v2raya
-curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/mijia-hook.sh -o package/diy/v2raya/v2raya/root/etc/v2raya/mijia-hook.sh
-curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya.init -o package/diy/v2raya/v2raya/files/v2raya.init
+# sleep 1
+# mkdir -p package/diy/v2raya/v2raya/root/etc/v2raya
+# curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/mijia-hook.sh -o package/diy/v2raya/v2raya/root/etc/v2raya/mijia-hook.sh
+# curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya.init -o package/diy/v2raya/v2raya/files/v2raya.init
+
 
 rm -rf package/diy/v2raya/v2ray-core
 
-sleep 1
-xrver=1.8.13
-xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
-sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
+## customize xray
+# use yicha xray status ---------------
+rm -rf package/diy/v2raya/xray-core
+mkdir -p package/diy/v2raya/luci-app-xray
+git clone https://github.com/yichya/luci-app-xray package/diy/v2raya/luci-app-xray
+# use yicha xray status ---------------
+
+# use custom ver ----------------
+# sleep 1
+# xrver=1.8.13
+# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+# sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
 
 ## 更新v2ra geoip geosite 数据库
 
