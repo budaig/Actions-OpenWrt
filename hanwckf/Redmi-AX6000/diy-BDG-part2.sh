@@ -137,6 +137,7 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/diy/chatgpt-w
 # ## -------------- v2raya ---------------------------
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
+git clone https://github.com/v2rayA/v2raya-openwrt package/diy/v2raya
 
 ## customize v2raya ver
 # sleep 1
