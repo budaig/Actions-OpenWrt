@@ -53,7 +53,7 @@ do
 done
 
 # ## update golang 20.x to 21.x
-git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
 # ## -------------- adguardhome ---------------------------
 # rm -rf feeds/packages/net/adguardhome
@@ -142,8 +142,8 @@ git clone https://github.com/v2rayA/v2raya-openwrt package/diy/v2raya
 ## customize v2raya ver
 sleep 1
 v2aver=2.2.5.2
-v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
-v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$(v2aver) | shasum -a 256))
+v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$(v2aver)/web.tar.gz | shasum -a 256))
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile
 
 sleep 1
