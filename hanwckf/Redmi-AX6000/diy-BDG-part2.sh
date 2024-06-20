@@ -160,7 +160,7 @@ git clone https://github.com/v2rayA/v2raya-openwrt package/diy/v2raya
 
 # use custom ver ----------------
 sleep 1
-xrver=1.8.15
+xrver=1.8.13
 xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 echo $xrsha256
 sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
