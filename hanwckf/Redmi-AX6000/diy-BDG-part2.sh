@@ -53,7 +53,7 @@ do
 done
 
 # ## update golang 20.x to 21.x
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 
 # ## -------------- adguardhome ---------------------------
 # rm -rf feeds/packages/net/adguardhome
@@ -130,10 +130,6 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/diy/chatgpt-web
 
-# ## add jq a Lightweight and flexible command-line JSON processor.
-# rm -rf feeds/packages/utils/jq
-# git clone https://github.com/ferstar/jq-openwrt package/diy/jq
-
 # ## -------------- v2raya ---------------------------
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
@@ -144,10 +140,13 @@ sleep 1
 v2aver=2.2.5.2
 v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+echo $v2asha256
+echo $v2awebsha256
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile
 
 sleep 1
 curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/mijia-hook.sh -o package/diy/v2raya/luci-app-v2raya/root/usr/share/mijia-hook.sh
+rm package/diy/v2raya/v2raya/files/v2raya.init
 curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya02.init -o package/diy/v2raya/v2raya/files/v2raya.init
 
 # rm -rf package/diy/v2raya/v2ray-core
