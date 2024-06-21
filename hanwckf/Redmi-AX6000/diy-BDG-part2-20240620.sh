@@ -162,13 +162,7 @@ git clone https://github.com/v2rayA/v2raya-openwrt package/diy/v2raya
 
 # use custom ver ----------------
 sleep 1
-vrver=5.16.1
-vrsha256=($(curl -sL https://codeload.github.com/v2fly/v2ray-core/tar.gz/v$vrver | shasum -a 256))
-echo $vrsha256
-sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
-
-
-xrver=1.8.16
+xrver=1.8.13
 xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 echo $xrsha256
 sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
@@ -187,9 +181,9 @@ sed -i '24 s/.*/GEOSITE_VER:='"$datetime2"'/g;27 s/.*/  URL:=https:\/\/github.co
 ## GeoSite-GFWlist4v2ra数据库 
 curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
 sleep 1
-mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray
+mkdir package/diy/v2raya/luci-app-v2raya/root/usr/share/xray
 # rm package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
-mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray/LoyalsoldierSite.dat >/dev/null 2>&1
+mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
 # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------
