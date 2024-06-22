@@ -53,12 +53,15 @@ do
 done
 
 # ## update golang 20.x to 21.x
-git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
 # ## -------------- adguardhome ---------------------------
 # rm -rf feeds/packages/net/adguardhome
 rm -rf feeds/luci/applications/luci-app-adguardhome
 git clone https://github.com/xiaoxiao29/luci-app-adguardhome package/diy/adguardhome
+mkdir -p package/diy/adguardhome/etc/config/adGuardConfig
+curl -sL -m 30 --retry 2 https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_arm64.tar.gz -o /tmp/AdGuardHome_linux_arm64.tar.gz && tar -xzf /tmp/AdGuardHome_linux_arm64.tar.gz -C /tmp && mv /tmp/AdGuardHome/AdGuardHome package/diy/adguardhome/etc/config/adGuardConfig/AdGuardHome
+
 # ## ---------------------------------------------------------
 
 # ## -------------- alist ---------------------------
@@ -145,6 +148,7 @@ echo $v2awebsha256
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile
 
 # sleep 1
+# curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya-static-config.js -o package/diy/v2raya/luci-app-v2raya/htdocs/luci-static/resources/view/v2raya/config.js
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/mijia-hook.sh -o package/diy/v2raya/luci-app-v2raya/root/usr/share/mijia-hook.sh
 # chmod +x package/diy/v2raya/luci-app-v2raya/root/usr/share/mijia-hook.sh
 # rm package/diy/v2raya/v2raya/files/v2raya.init
@@ -162,11 +166,10 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"
 
 # use custom ver ----------------
 sleep 1
-vrver=5.16.1
-vrsha256=($(curl -sL https://codeload.github.com/v2fly/v2ray-core/tar.gz/v$vrver | shasum -a 256))
-echo $vrsha256
-sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
-
+# vrver=5.16.1
+# vrsha256=($(curl -sL https://codeload.github.com/v2fly/v2ray-core/tar.gz/v$vrver | shasum -a 256))
+# echo $vrsha256
+# sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
 xrver=1.8.16
 xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
