@@ -1,0 +1,32 @@
+{
+"inbounds":[
+    {
+      "port": 52345,
+      "protocol": "dokodemo-door",
+      "listen": "0.0.0.0",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ],
+        "metadataOnly": false,
+        "domainsExcluded": [
+          "mijia cloud",
+          "courier.push.apple.com",
+          "dlg.io.mi.com"
+        ]
+      },
+      "settings": {
+        "network": "tcp,udp",
+        "followRedirect": true
+      },
+      "streamSettings": {
+        "sockopt": {
+          "tproxy": "tproxy"
+        }
+      },
+      "tag": "transparent"
+    }
+]
+}
