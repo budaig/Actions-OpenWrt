@@ -39,7 +39,7 @@ EOF
 # sleep 3
 
 del_data="
-#package/feeds/luci/luci-app-passwall
+package/feeds/luci/luci-app-passwall
 package/feeds/luci/luci-app-ssr-plus
 package/feeds/luci/luci-app-vssr
 feeds/packages/net/v2ray-geodata
@@ -178,7 +178,7 @@ rm -rf package/diy/v2raya/v2ray-core
 
 ## customize xray
 # use yicha xray status for 22.03 or up---------------
-rm -rf package/diy/v2raya/xray-core
+# rm -rf package/diy/v2raya/xray-core
 mkdir -p package/diy/v2raya/luci-app-xray
 git clone https://github.com/yichya/luci-app-xray package/diy/v2raya/luci-app-xray
 # use yicha xray status ---------------
@@ -190,10 +190,10 @@ sleep 1
 # echo $vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
-# xrver=1.8.16
-# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
-# echo $xrsha256
-# sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
+xrver=1.8.16
+xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+echo $xrsha256
+sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
 
 ## 更新v2ra geoip geosite 数据库
 
