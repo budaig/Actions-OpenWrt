@@ -181,7 +181,7 @@ rm -rf package/diy/v2raya/v2ray-core
 rm -rf package/diy/v2raya/xray-core
 mkdir -p package/diy/v2raya/luci-app-xray
 git clone https://github.com/yichya/luci-app-xray package/diy/v2raya/luci-app-xray
-use yicha xray status ---------------
+# use yicha xray status ---------------
 
 # use custom ver ----------------
 sleep 1
