@@ -49,6 +49,7 @@ feeds/packages/net/xray-plugin
 feeds/packages/net/xray-core
 feeds/packages/lang/golang
 feeds/packages/net/adguardhome
+package/feeds/telephony/asterisk
 "
 
 for cmd in $del_data;

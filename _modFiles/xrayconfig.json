@@ -13,7 +13,11 @@
         "metadataOnly": false,
         "domainsExcluded": [
           "mijia cloud",
+          "Mijia Cloud",
+          "api.ai.xiaomi.com",
+          "i.ai.xiaomi.com",
           "courier.push.apple.com",
+          "ot.io.mi.com",
           "dlg.io.mi.com"
         ]
       },
