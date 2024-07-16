@@ -115,12 +115,12 @@ git clone https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
 sleep 1
 # ## customize lucky ver
 # # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
-lkver=2.6.2
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/diy/lucky/lucky/Makefile
+# lkver=2.6.2
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/diy/lucky/lucky/Makefile
 
 # wget https://github.com/gdy666/lucky-files$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
-# lkver=2.5.1
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
+lkver=2.10.8
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
    #/etc/lucky/lucky.conf
 # git clone https://github.com/sirpdboy/luci-app-lucky.git package/diy/lucky
@@ -146,7 +146,7 @@ git clone https://github.com/v2rayA/v2raya-openwrt package/diy/v2raya
 
 ## customize v2raya ver
 sleep 1
-v2aver=2.2.5.7
+v2aver=2.2.5.8
 v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 echo $v2asha256
