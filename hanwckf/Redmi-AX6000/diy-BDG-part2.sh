@@ -42,7 +42,7 @@ feeds/packages/net/v2ray-core
 feeds/packages/net/v2ray-plugin
 feeds/packages/net/xray-plugin
 feeds/packages/net/xray-core
-feeds/packages/lang/golang
+# feeds/packages/lang/golang
 feeds/packages/net/adguardhome
 "
 
@@ -53,7 +53,7 @@ do
 done
 
 # ## update golang 20.x to 21.x
-git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
+# git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 
 # ## -------------- adguardhome ---------------------------
 # rm -rf feeds/packages/net/adguardhome
