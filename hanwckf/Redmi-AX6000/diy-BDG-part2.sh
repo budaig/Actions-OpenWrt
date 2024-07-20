@@ -194,7 +194,7 @@ xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver |
 echo $xrsha256
 sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
 # use go 1.21.4
-sed -i 's/1.21.7/1.21.4/g' package/diy/v2raya/xray-core/patcher/100-go-mod-ver.patch
+sed -i 's/1.21.7/1.21.4/g' package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
 
 ## 更新v2ra geoip geosite 数据库
 
