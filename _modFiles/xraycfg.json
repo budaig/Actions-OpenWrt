@@ -1,0 +1,353 @@
+// REFERENCE:
+// https://github.com/XTLS/Xray-examples
+// https://xtls.github.io/config/
+
+// 常用的config文件，不论服务器端还是客户端，都有5个部分。外加小小白解读：
+// ┌─ 1_log          日志设置 - 日志写什么，写哪里（出错时有据可查）
+// ├─ 2_dns          DNS-设置 - DNS怎么查（防DNS污染、防偷窥、避免国内外站匹配到国外服务器等）
+// ├─ 3_routing      分流设置 - 流量怎么分类处理（是否过滤广告、是否国内外分流）
+// ├─ 4_inbounds     入站设置 - 什么流量可以流入Xray
+// └─ 5_outbounds    出站设置 - 流出Xray的流量往哪里去
+
+{
+// 1_日志设置
+// 注意，本例中我默认注释掉了日志文件，因为windows, macOS, Linux 需要写不同的路径，请自行配置
+	"log": {
+	// "access": "/home/local/xray_log/access.log",    // 访问记录
+	// "error": "/home/local/xray_log/error.log",    // 错误记录
+	"loglevel": "warning" // 内容从少到多: "none", "error", "warning", "info", "debug"
+	},
+
+// 2_DNS设置
+	"dns": {
+	"servers": [
+		// 2.1 国外域名使用国外DNS查询
+		{
+		"address": "1.1.1.1",
+		"domains": ["geosite:geolocation-!cn"]
+		},
+		// 2.2 国内域名使用国内DNS查询，并期待返回国内的IP，若不是国内IP则舍弃，用下一个查询
+		{
+		"address": "223.5.5.5",
+		"domains": ["geosite:cn"],
+		"expectIPs": ["geoip:cn"]
+		},
+		// 2.3 作为2.2的备份，对国内网站进行二次查询
+		{
+		"address": "114.114.114.114",
+		"domains": ["geosite:cn"]
+		},
+		// 2.4 最后的备份，上面全部失败时，用本机DNS查询
+		"localhost"
+	]
+	},
+
+// 3_分流设置
+// 所谓分流，就是将符合否个条件的流量，用指定`tag`的出站协议去处理（对应配置的5.x内容）
+	"routing": {
+		"domainStrategy": "IPOnDemand",
+		"domainMatcher": "mph",
+		"rules": [
+		{
+			"type": "field",
+			"outboundTag": "direct",
+			"domain": ["d163.v1a5.2223.pub"],
+			"port": "443"
+		},
+		{
+			"type": "field",
+			"outboundTag": "direct",
+			"domain": ["d163.v3d7.2223.pub"],
+			"port": "443"
+		},
+		{
+			"type": "field",
+			"outboundTag": "direct",
+			"inboundTag": ["dns"],
+			"ip": ["208.67.220.220"],
+			"port": "5353"
+		},
+		{
+			"type": "field",
+			"outboundTag": "direct",
+			"inboundTag": ["dns"],
+			"ip": ["119.29.29.29"],
+			"port": "53"
+		},
+		{
+			"type": "field",
+			"outboundTag": "direct",
+			"inboundTag": ["dns"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "direct",
+			"inboundTag": ["transparent"],
+			"ip": ["geoip:private", "127.0.0.1/8", "192.168.0.2/24", "192.168.8.1/24", "10.93.6.180/32", "::1/128", "fe80::cabf:4cff:fefd:4146/64", "fe80::46df:65ff:fe66:ceb8/64", "2409:8a50:4024:a298::1/64", "fe80::46df:65ff:fe66:ceb7/64", "fe80::44df:65ff:fe66:ceb8/64", "2409:8a50:4002:a753:bdc4:530f:ab23:c607/64", "fe80::bdc4:530f:ab23:c607/128"],
+			"port": "53"
+		},
+		{
+			"type": "field",
+			"outboundTag": "direct",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"source": ["192.168.8.115/32", "192.168.8.150/32", "192.168.8.118/32", "192.168.8.123/32", "192.168.8.127/32", "192.168.8.128/32"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "direct",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"domain": ["full:v4.887978.xyz", "full:v6.887978.xyz"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "direct",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"ip": ["180.76.76.76", "39.102.42.84", "192.168.8.115/32", "192.168.8.150/32"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "prox2us",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"domain": ["domain:bitssec.com", "domain:p16-tiktokcdn-com.akamaized.net", "domain:byteoversea.com", "domain:ibytedtos.com", "domain:ibyteimg.com", "domain:ipstatp.com", "domain:muscdn.com", "domain:musical.ly", "domain:sgpstatp.com", "domain:snssdk.com", "domain:tik-tokapi.com", "domain:tiktok.com", "domain:tiktokcdn.com", "domain:tiktokv.com", "-tiktokcdn-com"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "prox2us",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"domain": ["google", "domain:g.whatsapp.net", "domain:facebook.com", "domain:messenger.com", "domain:instagram.com", "domain:fbsbx.com", "domain:cdninstagram.com", "domain:t.me", "domain:intellifluence.com", "domain:zdassets.com", "domain:stripe.com", "domain:app.intellifluence.com", "domain:postimg.cc", "domain:postimages.org", "domain:usefulcontentsites.com", "domain:postimgs.org", "domain:reddit.com", "domain:redditstatic.com", "domain:redd.it", "domain:amazon.com", "domain:media-amazon.com"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "prox2us",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"domain": ["geosite:netflix", "geosite:appledaily", "geosite:twitter"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "prox2us",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"domain": ["domain:imgur.com", "domain:i.imgur.com", "domain:developer.apple.com", "domain:testflight.apple.com"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "prox2us",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"ip": ["8.8.4.4", "8.8.8.8"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "prox2us",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"domain": ["full:dns.google"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "proxy",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"domain": ["geosite:telegram", "domain:aol.com", "domain:f-droid.org", "domain:mega.io", "domain:mega.nz", "domain:mega.co.nz", "domain:ok.ru", "domain:v2raya.org", "domain:bbs2.eastgame.org"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "proxy",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"domain": ["domain:cloudflare.com", "domain:every1dns.net", "full:cloudflare-dns.com"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "proxy",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"ip": ["208.67.222.222", "208.67.220.220", "1.1.1.1", "1.1.1.2", "1.0.0.1", "9.9.9.9", "9.9.9.11"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "proxy",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"domain": ["ext:LoyalsoldierSite.dat:geolocation-!cn"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "block",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"ip": ["193.112.97.61", "175.178.207.92"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "block",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"],
+			"domain": ["domain:api.app.skysrt.com", "domain:api.upgrade.skysrt.com", "domain:log.skysrt.com", "domain:apk.sky.fs.skysrt.com", "domain:api.device.skysrt.com", "domain:pl.cp31.OTT.cibntv.net", "domain:v-play.coocaa.wasu.tv", "domain:hoisin.coocaatv.com", "domain:pfg.coocaa.wasu.tv", "domain:data-hoisin.coocaa.wasu.tv"]
+		},
+		{
+			"type": "field",
+			"outboundTag": "direct",
+			"inboundTag": ["rule-http", "rule-socks", "transparent"]
+		}
+		]
+	},
+
+// 4_入站设置
+	"inbounds": [
+	// 4.1 一般都默认使用socks5协议作本地转发
+	{
+		"port": 20170,
+		"protocol": "socks",
+		"listen": "0.0.0.0",
+		"sniffing": {
+			"enabled": false,
+			"destOverride": ["http", "tls"],
+			"metadataOnly": false
+		},
+		"settings": {
+			"auth": "noauth",
+			"udp": true
+		},
+		"streamSettings": null,
+		"tag": "socks"
+	},
+	// 4.2 有少数APP不兼容socks协议，需要用http协议做转发，则可以用下面的端口
+	{
+		"port": 20171,
+		"protocol": "http",
+		"listen": "0.0.0.0",
+		"sniffing": {
+			"enabled": false,
+			"destOverride": ["http", "tls"],
+			"metadataOnly": false
+		},
+		"streamSettings": null,
+		"tag": "http"
+	},
+	// 4.3 跟随规则的socks5转发
+	{
+		"port": 1080,
+		"protocol": "socks",
+		"listen": "0.0.0.0",
+		"sniffing": {
+			"enabled": false,
+			"destOverride": ["http", "tls"],
+			"metadataOnly": false
+		},
+		"settings": {
+			"auth": "noauth",
+			"udp": true
+		},
+		"streamSettings": null,
+		"tag": "rule-socks"
+	},
+	// 4.4 跟随规则的http转发
+	{
+		"port": 20172,
+		"protocol": "http",
+		"listen": "0.0.0.0",
+		"sniffing": {
+			"enabled": false,
+			"destOverride": ["http", "tls"],
+			"metadataOnly": false
+		},
+		"streamSettings": null,
+		"tag": "rule-http"
+	},
+	// 4.5 排除mijia嗅探
+	{
+		"port": 52345,
+		"protocol": "dokodemo-door",
+		"listen": "0.0.0.0",
+		"sniffing": {
+			"enabled": true,
+			"destOverride": ["http", "tls"],
+			"domainsExcluded": ["mijia cloud", "courier.push.apple.com", "dlg.io.mi.com", "api.io.mi.com", "device.io.mi.com", "app.chat.xiaomi.net", "o2o.api.xiaomi.com", "o2o.api.xiaomi.com.lan", "package.box.xiaomi.com"],
+			"metadataOnly": false
+		},
+		"settings": {
+			"network": "tcp,udp",
+			"followRedirect": true
+		},
+		"streamSettings": {
+			"sockopt": {
+				"tproxy": "tproxy"
+			}
+		},
+		"tag": "transparent"
+	}
+	],
+
+// 5_出站设置
+	"outbounds": [
+	// 5.1 默认转发VPS
+	// 一定放在第一个，在routing 3.5 里面已经说明了，这等于是默认规则，所有不符合任何规则的流量都走这个
+	{
+		"tag": "proxy",
+		"protocol": "vmess",
+		"settings": {
+			"vnext": [{
+				"address": "d163.v1a5.2223.pub",
+				"port": 443,
+				"users": [{
+					"id": "2eeee3b1-e945-cb20-2258-3fc64b95e872",
+					"security": "auto"
+				}]
+			}]
+		},
+		"streamSettings": {
+			"network": "ws",
+			"wsSettings": {
+				"path": "/usmawjdp",
+				"headers": {
+					"Host": ""
+				}
+			},
+			"sockopt": {
+				"mark": 128
+			}
+		}
+	},
+
+	// 5.2 第二转发VPS
+	{
+		"tag": "prox2us",
+		"protocol": "vmess",
+		"settings": {
+			"vnext": [{
+				"address": "d163.v3d7.2223.pub",
+				"port": 443,
+				"users": [{
+					"id": "2eeee3b1-e945-cb20-2258-3fc64b95e872",
+					"security": "auto"
+				}]
+			}]
+		},
+		"streamSettings": {
+			"network": "ws",
+			"wsSettings": {
+				"path": "/usmawjdp",
+				"headers": {
+					"Host": ""
+				}
+			},
+			"sockopt": {
+				"mark": 128
+			}
+		}
+	},
+	
+	// 5.3 用`freedom`协议直连出站，即当routing中指定'direct'流出时，调用这个协议做处理
+	{
+		"tag": "direct",
+		"protocol": "freedom",
+		"settings": {
+			"domainStrategy": "UseIP"
+		},
+		"streamSettings": {
+			"sockopt": {
+				"mark": 128
+			}
+		}
+	},
+	
+	// 5.4 用`blackhole`协议屏蔽流量，即当routing中指定'block'时，调用这个协议做处理
+	{
+		"tag": "block",
+		"protocol": "blackhole",
+		"settings": {}
+	}
+	]
+}

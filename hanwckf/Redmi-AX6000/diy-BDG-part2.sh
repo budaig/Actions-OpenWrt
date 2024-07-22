@@ -147,7 +147,7 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/diy/chatgpt-w
 # use yicha xray status for 22.03 or up---------------
 # rm -rf package/diy/v2raya/xray-core
 # mkdir -p package/diy/v2raya/luci-app-xray
-# git clone https://github.com/yichya/luci-app-xray package/diy/xray
+# git clone https://github.com/yichya/luci-app-xray package/diy/xray/luci-app-status
 # use yicha xray status ---------------
 
 rm -rf feeds/packages/net/v2raya

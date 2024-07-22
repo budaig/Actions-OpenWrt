@@ -158,7 +158,7 @@ rm -rf package/diy/xray/v2ray-core
 ## customize xray
 # use yicha xray status for 22.03 or up---------------
 mkdir -p package/diy/xray/luci-app-xray
-git clone https://github.com/yichya/luci-app-xray package/diy/xray
+git clone https://github.com/yichya/luci-app-xray package/diy/xray/luci-app-status
 # use yicha xray status ---------------
 
 # or use ttimasdf xray/xapp for 21.02 or up---------------
