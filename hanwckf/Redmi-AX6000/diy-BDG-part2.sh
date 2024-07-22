@@ -76,6 +76,7 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome package/diy/adguard
 # replace alist
 rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
+# alist 3.36 requires go 1.22
 git clone https://github.com/sbwml/luci-app-alist.git package/diy/alist
 
 ## customize alist ver
@@ -189,12 +190,12 @@ sleep 1
 # echo $vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
-xrver=1.8.21
+xrver=1.8.17
 xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 echo $xrsha256
 sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
-# use go 1.21.4
-# sed -i 's/1.21.7/1.21.4/g' package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
+# go 1.22.5
+sed -i 's/1.21.7/1.22.5/g' package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
 
 ## 更新v2ra geoip geosite 数据库
 
