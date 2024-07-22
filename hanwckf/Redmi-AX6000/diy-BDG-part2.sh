@@ -147,7 +147,7 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/diy/chatgpt-w
 # use yicha xray status for 22.03 or up---------------
 # rm -rf package/diy/v2raya/xray-core
 # mkdir -p package/diy/v2raya/luci-app-xray
-# git clone https://github.com/yichya/luci-app-xray package/diy/v2raya/luci-app-xray
+# git clone https://github.com/yichya/luci-app-xray package/diy/xray
 # use yicha xray status ---------------
 
 rm -rf feeds/packages/net/v2raya
@@ -159,7 +159,7 @@ rm -rf package/diy/xray/v2raya
 rm -rf package/diy/xray/v2ray-core
 
 # use ttimasdf xray/xapp for 21.02 or up---------------
-git clone https://github.com/ttimasdf/luci-app-xray package/diy/xray/luci-app-xray
+git clone https://github.com/ttimasdf/luci-app-xray package/diy/xray/luci-app-xapp
 # use yicha xray status ---------------
 
 # use custom ver ----------------
@@ -168,8 +168,8 @@ xrver=1.8.21
 xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 echo xrsha256 $xrsha256
 sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/xray/xray-core/Makefile
-# go 1.22.5
-# sed -i 's/1.21.7/1.22.5/g' package/diy/xray/xray-core/patches/100-go-mod-ver.patch
+# go 1.21.4
+sed -i 's/1.21.7/1.21.4/g' package/diy/xray/xray-core/patches/100-go-mod-ver.patch
 
 ## 更新v2ra geoip geosite 数据库
 # datetime1=$(date +"%Y%m%d%H%M")
