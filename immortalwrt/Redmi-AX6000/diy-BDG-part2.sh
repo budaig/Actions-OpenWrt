@@ -58,7 +58,7 @@ do
  echo "Deleted $cmd"
 done
 
-# ## update golang 20.x to 21.x
+# ## update golang to 21.x
 git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
 # ## -------------- adguardhome ---------------------------
@@ -146,32 +146,20 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/diy/chatgpt-web
 
 # ##  -------------- xray ---------------------------
-
-rm -rf feeds/packages/net/v2raya
-rm -rf feeds/luci/applications/luci-app-v2raya
-git clone https://github.com/v2rayA/v2raya-openwrt package/diy/xray
-
-rm -rf package/diy/xray/luci-app-v2raya
-rm -rf package/diy/xray/v2raya
-rm -rf package/diy/xray/v2ray-core
-
-## customize xray
+git clone https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
+git clone https://github.com/yichya/openwrt-xray-geodata-cut package/diy/openwrt-geodata
+mkdir -p package/diy/openwrt-xray/root/etc/init.d
+cp ${GITHUB_WORKSPACE}/_modFiles/xray.int package/diy/openwrt-xray/root/etc/init.d/xray
+mkdir -p package/diy/openwrt-xray/root/usr/share/xray
+cp ${GITHUB_WORKSPACE}/_modFiles/bg1.jpg package/diy/openwrt-xray/root/usr/share/xray/xraycfg.json
+# ##  -------------- luci app xray ---------------------------
 # use yicha xray status for 22.03 or up---------------
-mkdir -p package/diy/xray/luci-app-xray
-git clone https://github.com/yichya/luci-app-xray package/diy/xray/luci-app-status
+git clone https://github.com/yichya/luci-app-xray package/diy/luci-app-status
 # use yicha xray status ---------------
-
 # or use ttimasdf xray/xapp for 21.02 or up---------------
-# git clone https://github.com/ttimasdf/luci-app-xray package/diy/xray/luci-app-xapp
+# git clone https://github.com/ttimasdf/luci-app-xray package/diy/luci-app-xapp
 # use yicha xray status ---------------
-
-# use custom xray-core ver ----------------
-sleep 1
-xrver=1.8.21
-xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
-echo xrsha256 $xrsha256
-sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/xray/xray-core/Makefile
-
+# ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------
 rm -rf feeds/packages/net/smartdns
