@@ -164,7 +164,7 @@ git clone https://github.com/ttimasdf/luci-app-xray package/diy/xray/luci-app-xa
 
 # use custom ver ----------------
 sleep 1
-xrver=1.8.21
+xrver=1.8.17
 xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 echo xrsha256 $xrsha256
 sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/xray/xray-core/Makefile
@@ -172,6 +172,7 @@ sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' pack
 sed -i 's/1.21.7/1.21.4/g' package/diy/xray/xray-core/patches/100-go-mod-ver.patch
 
 ## 更新v2ra geoip geosite 数据库
+
 # datetime1=$(date +"%Y%m%d%H%M")
 # ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/latest/download/geoip.dat | shasum -a 256))
 # sed -i '15 s/.*/GEOIP_VER:='"$datetime1"'/g;18 s/.*/  URL:=https:\/\/github.com\/v2fly\/geoip\/releases\/latest\/download\//g;21 s/.*/  HASH:='"$ipsha256"'/g' package/diy/xray/v2fly-geodata/Makefile
