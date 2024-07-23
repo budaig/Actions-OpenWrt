@@ -1,0 +1,93 @@
+// REFERENCE:
+// https://github.com/XTLS/Xray-examples
+// https://xtls.github.io/config/
+
+// 常用的config文件，不论服务器端还是客户端，都有5个部分。外加小小白解读：
+// ┌─ 1_log          日志设置 - 日志写什么，写哪里（出错时有据可查）
+// ├─ 2_dns          DNS-设置 - DNS怎么查（防DNS污染、防偷窥、避免国内外站匹配到国外服务器等）
+// ├─ 3_routing      分流设置 - 流量怎么分类处理（是否过滤广告、是否国内外分流）
+// ├─ 4_inbounds     入站设置 - 什么流量可以流入Xray
+// └─ 5_outbounds    出站设置 - 流出Xray的流量往哪里去
+
+{
+// 5_出站设置
+	"outbounds": [
+	// 5.1 默认转发VPS
+	// 一定放在第一个，在routing 3.5 里面已经说明了，这等于是默认规则，所有不符合任何规则的流量都走这个
+	{
+		"tag": "proxy",
+		"protocol": "vmess",
+		"settings": {
+			"vnext": [{
+				"address": "d163.v1a5.2223.pub",
+				"port": 443,
+				"users": [{
+					"id": "2eeee3b1-e945-cb20-2258-3fc64b95e872",
+					"security": "auto"
+				}]
+			}]
+		},
+		"streamSettings": {
+			"network": "ws",
+			"wsSettings": {
+				"path": "/usmawjdp",
+				"headers": {
+					"Host": ""
+				}
+			},
+			"sockopt": {
+				"mark": 128
+			}
+		}
+	},
+
+	// 5.2 第二转发VPS
+	{
+		"tag": "prox2us",
+		"protocol": "vmess",
+		"settings": {
+			"vnext": [{
+				"address": "d163.v3d7.2223.pub",
+				"port": 443,
+				"users": [{
+					"id": "2eeee3b1-e945-cb20-2258-3fc64b95e872",
+					"security": "auto"
+				}]
+			}]
+		},
+		"streamSettings": {
+			"network": "ws",
+			"wsSettings": {
+				"path": "/usmawjdp",
+				"headers": {
+					"Host": ""
+				}
+			},
+			"sockopt": {
+				"mark": 128
+			}
+		}
+	},
+	
+	// 5.3 用`freedom`协议直连出站，即当routing中指定'direct'流出时，调用这个协议做处理
+	{
+		"tag": "direct",
+		"protocol": "freedom",
+		"settings": {
+			"domainStrategy": "UseIP"
+		},
+		"streamSettings": {
+			"sockopt": {
+				"mark": 128
+			}
+		}
+	},
+	
+	// 5.4 用`blackhole`协议屏蔽流量，即当routing中指定'block'时，调用这个协议做处理
+	{
+		"tag": "block",
+		"protocol": "blackhole",
+		"settings": {}
+	}
+	]
+}
