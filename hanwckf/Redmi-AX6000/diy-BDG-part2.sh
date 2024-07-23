@@ -144,28 +144,31 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/diy/chatgpt-w
 
 
 # # ## -------------- v2raya ---------------------------
-rm -rf feeds/packages/net/v2raya
-rm -rf feeds/luci/applications/luci-app-v2raya
-git clone https://github.com/v2rayA/v2raya-openwrt package/diy/v2raya
+# rm -rf feeds/packages/net/v2raya
+# rm -rf feeds/luci/applications/luci-app-v2raya
+# git clone https://github.com/v2rayA/v2raya-openwrt package/diy/v2raya
 
 # rm -rf package/diy/v2raya/luci-app-v2raya
 # rm -rf package/diy/v2raya/v2raya
-rm -rf package/diy/v2raya/v2ray-core
+# rm -rf package/diy/v2raya/v2ray-core
 
 # use custom ver ----------------
-sleep 1
-xrver=1.8.21
-xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
-echo xrsha256 $xrsha256
-sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
+# sleep 1
+# xrver=1.8.21
+# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+# echo xrsha256 $xrsha256
+# sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
 # go 1.21.4
 # sed -i 's/1.21.7/1.21.4/g' package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
 # ## ---------------------------------------------------------
 
 # ##  -------------- luci app xray ---------------------------
+git clone https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
+git clone https://github.com/yichya/openwrt-xray-geodata-cut package/diy/openwrt-geodata
+
 ## customize xray
 # use yicha xray status for 22.03 or up---------------
-# git clone https://github.com/yichya/luci-app-xray package/diy/luci-app-status
+# git clone https://github.com/yichya/luci-app-xray 
 # use yicha xray status ---------------
 
 # use ttimasdf xray/xapp for 21.02 or up---------------
