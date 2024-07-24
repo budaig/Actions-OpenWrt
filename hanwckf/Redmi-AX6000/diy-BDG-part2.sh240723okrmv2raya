@@ -33,11 +33,6 @@ cat > package/base-files/files/etc/banner << EOF
  -----------------------------------------------------
 EOF
 
-# pushd feeds/packages/net/xray-core/tools/po2lmo
-# make && sudo make install
-# popd
-# sleep 3
-
 del_data="
 package/feeds/luci/luci-app-passwall
 package/feeds/luci/luci-app-ssr-plus
@@ -47,9 +42,7 @@ feeds/packages/net/v2ray-core
 feeds/packages/net/v2ray-plugin
 feeds/packages/net/xray-plugin
 feeds/packages/net/xray-core
-feeds/packages/lang/golang
 feeds/packages/net/adguardhome
-package/feeds/telephony/asterisk
 "
 
 for cmd in $del_data;
@@ -59,7 +52,10 @@ do
 done
 
 # ## update golang to 21.x
+rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+# use go 1.21.4
+# sed -i 's/GO_VERSION_PATCH:=12/GO_VERSION_PATCH:=4/g;s/PKG_HASH:=30e68af27bc1f1df231e3ab74f3d17d3b8d52a089c79bcaab573b4f1b807ed4f/PKG_HASH:=47b26a83d2b65a3c1c1bcace273b69bee49a7a7b5168a7604ded3d26a37bd787/g' feeds/packages/lang/golang/golang/Makefile
 
 # ## -------------- adguardhome ---------------------------
 # rm -rf feeds/packages/net/adguardhome
@@ -116,6 +112,7 @@ curl -sL -m 30 --retry 2 "$urldl" -o package/diy/luci-app-ikoolproxy/root/usr/sh
 # ## -------------- lucky ---------------------------
 # rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
+
 # #/etc/config/lucky.daji/lucky.conf
 git clone https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
 sleep 1
@@ -145,7 +142,27 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/diy/chatgpt-web
 
-# ##  -------------- xray ---------------------------
+
+# # ## -------------- v2raya ---------------------------
+# rm -rf feeds/packages/net/v2raya
+# rm -rf feeds/luci/applications/luci-app-v2raya
+# git clone https://github.com/v2rayA/v2raya-openwrt package/diy/v2raya
+
+# rm -rf package/diy/v2raya/luci-app-v2raya
+# rm -rf package/diy/v2raya/v2raya
+# rm -rf package/diy/v2raya/v2ray-core
+
+# use custom ver ----------------
+# sleep 1
+# xrver=1.8.21
+# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+# echo xrsha256 $xrsha256
+# sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
+# go 1.21.4
+# sed -i 's/1.21.7/1.21.4/g' package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
+# ## ---------------------------------------------------------
+
+# ##  -------------- luci app xray ---------------------------
 git clone https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
 git clone https://github.com/yichya/openwrt-xray-geodata-cut package/diy/openwrt-geodata
 mkdir -p package/diy/openwrt-xray/root/etc/init.d
@@ -153,14 +170,93 @@ cp ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/openwrt-xray/root/etc/ini
 mkdir -p package/diy/openwrt-xray/root/usr/share/xray
 cp ${GITHUB_WORKSPACE}/_modFiles/xraycfg.json package/diy/openwrt-xray/root/usr/share/xray/xraycfg.json
 
-# ##  -------------- luci app xray ---------------------------
+## customize xray
 # use yicha xray status for 22.03 or up---------------
-git clone https://github.com/yichya/luci-app-xray package/diy/luci-app-status
+# git clone https://github.com/yichya/luci-app-xray package/diy/luci-app-status
 # use yicha xray status ---------------
-# or use ttimasdf xray/xapp for 21.02 or up---------------
+
+# use ttimasdf xray/xapp for 21.02 or up---------------
 # git clone https://github.com/ttimasdf/luci-app-xray package/diy/luci-app-xapp
 # use yicha xray status ---------------
-# ## ---------------------------------------------------------
+# ##  -------------- xray ---------------------------
+
+# # ## -------------- v2raya ---------------------------
+# rm -rf feeds/packages/net/v2raya
+# rm -rf feeds/luci/applications/luci-app-v2raya
+# git clone https://github.com/v2rayA/v2raya-openwrt package/diy/v2raya
+
+# ## customize v2raya ver
+# sleep 1
+# v2aver=2.2.5.8
+# v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
+# v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+# echo v2asha256 $v2asha256
+# echo v2awebsha256 $v2awebsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile
+
+# # fix mijia cloud wrong dns (use xraycore)-------
+# cp ${GITHUB_WORKSPACE}/_modFiles/v2raya.init package/diy/v2raya/v2raya/files/v2raya.init
+# #or
+# # sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
+# # # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya.init -o package/diy/v2raya/v2raya/files/v2raya.init
+# mkdir -p package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray
+# cp ${GITHUB_WORKSPACE}/_modFiles/xrayconfig.json package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
+# # or
+# # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/xrayconfig.json -o package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
+
+# # sleep 1
+# # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya-static-config.js -o package/diy/v2raya/luci-app-v2raya/htdocs/luci-static/resources/view/v2raya/config.js
+# # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/mijia-hook.sh -o package/diy/v2raya/luci-app-v2raya/root/usr/share/mijia-hook.sh
+# # chmod +x package/diy/v2raya/luci-app-v2raya/root/usr/share/mijia-hook.sh
+# # rm package/diy/v2raya/v2raya/files/v2raya.init
+# # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya02.init -o package/diy/v2raya/v2raya/files/v2raya.init
+# # chmod +x package/diy/v2raya/v2raya/files/v2raya.init
+# # fix mijia cloud ------------------------
+
+# rm -rf package/diy/v2raya/v2ray-core
+
+# ## customize xray
+# # use yicha xray status for 22.03 or up---------------
+# # rm -rf package/diy/v2raya/xray-core
+# # mkdir -p package/diy/v2raya/luci-app-xray
+# # git clone https://github.com/yichya/luci-app-xray package/diy/v2raya/luci-app-xray
+# # use yicha xray status ---------------
+
+# # use custom ver ----------------
+# sleep 1
+# # vrver=5.16.1
+# # vrsha256=($(curl -sL https://codeload.github.com/v2fly/v2ray-core/tar.gz/v$vrver | shasum -a 256))
+# # echo $vrsha256
+# # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
+
+# xrver=1.8.17
+# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+# echo xrsha256 $xrsha256
+# sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
+# # go 1.22.5
+# # sed -i 's/1.21.7/1.22.5/g' package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
+
+# ## 更新v2ra geoip geosite 数据库
+
+# datetime1=$(date +"%Y%m%d%H%M")
+# ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/latest/download/geoip.dat | shasum -a 256))
+# sed -i '15 s/.*/GEOIP_VER:='"$datetime1"'/g;18 s/.*/  URL:=https:\/\/github.com\/v2fly\/geoip\/releases\/latest\/download\//g;21 s/.*/  HASH:='"$ipsha256"'/g' package/diy/v2raya/v2fly-geodata/Makefile
+# # # https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
+
+# datetime2=$(date +"%Y%m%d%H%M%S")
+# sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat | shasum -a 256))
+# sed -i '24 s/.*/GEOSITE_VER:='"$datetime2"'/g;27 s/.*/  URL:=https:\/\/github.com\/v2fly\/domain-list-community\/releases\/latest\/download\//g;30 s/.*/  HASH:='"$sitesha256"'/g' package/diy/v2raya/v2fly-geodata/Makefile
+
+# ## GeoSite-GFWlist4v2ra数据库 
+# curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
+# sleep 1
+# mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/xray
+# # rm package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
+# mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
+# # mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray
+# # # rm package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
+# # mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray/LoyalsoldierSite.dat >/dev/null 2>&1
+# # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------
 rm -rf feeds/packages/net/smartdns
@@ -215,16 +311,3 @@ cp ${GITHUB_WORKSPACE}/_modFiles/bg1.jpg feeds/luci/themes/luci-theme-argon/htdo
 
 # ## Enable Cache
 # echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
-
-# CONFIG_TARGET_DEVICE_mediatek_mt7986_DEVICE_xiaomi_redmi-router-ax6000=y
-# grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-# cat DEVICE_NAME
-# xiaomi_redmi-router-ax6000
-# ROOTFS
-
-# grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
-# cat TARGET_NAME
-# mt7986
-# CONFIG_TARGET_PER_DEVICE_ROOTFS=y
-
-# sleep 5
