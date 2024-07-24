@@ -78,6 +78,16 @@ jobs:
             ImmortalWrt/feeds.conf.default
             ImmortalWrt/.config
 
+      - name: 下载安装包
+        id: package
+        working-directory: ImmortalWrt
+        run: |
+          cd openwrt
+          make defconfig
+          make download -j$(nproc)
+          find dl -size -1024c -exec ls -l {} \;
+          find dl -size -1024c -exec rm -f {} \;
+
       - name: 多线程编译 ImmortalWrt (Build ImmortalWrt multithreading)
         if: ${{inputs.multithreading == true}}
         working-directory: ImmortalWrt
