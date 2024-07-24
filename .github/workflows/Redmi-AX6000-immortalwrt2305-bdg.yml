@@ -82,7 +82,6 @@ jobs:
         id: package
         working-directory: ImmortalWrt
         run: |
-          cd openwrt
           make defconfig
           make download -j$(nproc)
           find dl -size -1024c -exec ls -l {} \;
