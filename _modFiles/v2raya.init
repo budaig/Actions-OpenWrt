@@ -42,8 +42,6 @@ start_service() {
 
 	append_env "config" "/etc/v2raya"
 	append_env "log_file" "/var/log/v2raya/v2raya.log"
-	
-	procd_append_param command "core_hook" "/etc/v2raya/tproxyhook.sh"
 
 	append_env_arg "config" "address" "0.0.0.0:2017"
 	append_env_arg "config" "ipv6_support" "auto"
