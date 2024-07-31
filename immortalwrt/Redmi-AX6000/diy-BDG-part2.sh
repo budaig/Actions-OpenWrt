@@ -148,10 +148,10 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/diy/chatgpt-w
 # ##  -------------- xray ---------------------------
 git clone https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
 git clone https://github.com/yichya/openwrt-xray-geodata-cut package/diy/openwrt-geodata
-mkdir -p package/diy/openwrt-xray/root/etc/init.d
-cp ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/openwrt-xray/root/etc/init.d/xray
-mkdir -p package/diy/openwrt-xray/root/usr/share/xray
-cp ${GITHUB_WORKSPACE}/_modFiles/xraycfg.json package/diy/openwrt-xray/root/usr/share/xray/xraycfg.json
+# mkdir -p package/diy/openwrt-xray/root/etc/init.d
+# cp ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/openwrt-xray/root/etc/init.d/xray
+# mkdir -p package/diy/openwrt-xray/root/usr/share/xray
+# cp ${GITHUB_WORKSPACE}/_modFiles/xraycfg.json package/diy/openwrt-xray/root/usr/share/xray/xraycfg.json
 
 # ##  -------------- luci app xray ---------------------------
 # use yicha xray status for 22.03 or up---------------
@@ -171,8 +171,7 @@ git clone https://github.com/pymumu/luci-app-smartdns -b master package/diy/luci
 ## update to the newest
 SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
 SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
-echo $SMARTDNS_VER
-echo $SMAERTDNS_SHA
+echo smartdns $SMARTDNS_VER sha256=$SMAERTDNS_SHA
 
 #customize ver
 # SMARTDNS_VER=2024.05.08
