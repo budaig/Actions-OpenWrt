@@ -196,16 +196,14 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 发布至release
-      uses: softprops/action-gh-release@master
+      uses: softprops/action-gh-release@v2
       # uses: ncipollo/release-action@v1
-      if: steps.tag.outputs.status == 'success' && !cancelled()
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: release.txt
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
-        tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
-        files: ${{ env.FIRMWARE }}/*
+
 
     # - name: Delete workflow runs
       # uses: Mattraks/delete-workflow-runs@main
