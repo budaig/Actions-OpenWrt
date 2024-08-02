@@ -148,13 +148,29 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/diy/chatgpt-w
 
 # ##  -------------- xray ---------------------------
 git clone https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
+# use custom ver
+# xrver=1.8.23
+# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+# echo xray $xrver sha256=$xrsha256
+# sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
+
 git clone https://github.com/yichya/openwrt-xray-geodata-cut package/diy/openwrt-geodata
 
 # 不安装v2raya 借用smartdns配置文件夹安装xrayconfig
 # mkdir package/diy/luci-app-smartdns/root/etc/init.d/xray
 # cp ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/luci-app-smartdns/root/etc/init.d/xray
+# if [ $? -eq 0 ]; then
+    # echo "文件复制成功"
+# else
+    # echo "文件复制失败"
+# fi
 # mkdir -p package/diy/luci-app-smartdns/root/etc/xray
 # cp ${GITHUB_WORKSPACE}/_modFiles/xraycfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
+# if [ $? -eq 0 ]; then
+    # echo "文件复制成功"
+# else
+    # echo "文件复制失败"
+# fi
 
 # ##  -------------- luci app xray ---------------------------
 # use yicha xray status for 22.03 or up---------------
@@ -178,16 +194,31 @@ echo v2raya-web $v2aver sha256=$v2awebsha256
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile
 
 # fix mijia cloud wrong dns (use xraycore)-------
-cp ${GITHUB_WORKSPACE}/_modFiles/v2raya.init package/diy/v2raya/v2raya/files/v2raya.init
+cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init package/diy/v2raya/v2raya/files/v2raya.init
+if [ $? -eq 0 ]; then
+    echo "文件复制成功"
+else
+    echo "文件复制失败"
+fi
 # sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
 #or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya.init -o package/diy/v2raya/v2raya/files/v2raya.init
-mkdir -p package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray
-cp ${GITHUB_WORKSPACE}/_modFiles/xrayconf.json package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
+mkdir -p package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create directory"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/xrayconf.json package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
+if [ $? -eq 0 ]; then
+    echo "文件复制成功"
+else
+    echo "文件复制失败"
+fi
 # or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/xrayconfig.json -o package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
 # # go 1.21.4
-# cp ${GITHUB_WORKSPACE}/_modFiles/100-go-mod-ver.patch package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/100-go-mod-ver.patch package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
+# if [ $? -eq 0 ]; then
+    # echo "文件复制成功"
+# else
+    # echo "文件复制失败"
+# fi
 # sed -i 's/1.21.7/1.21.9/g' package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
 
 # sleep 1
@@ -202,7 +233,7 @@ cp ${GITHUB_WORKSPACE}/_modFiles/xrayconf.json package/diy/v2raya/luci-app-v2ray
 ## customize xray
 # use yicha xray status for 22.03 or up---------------
 rm -rf package/diy/v2raya/xray-core
-# mkdir -p package/diy/v2raya/luci-app-xray
+# mkdir -p package/diy/v2raya/luci-app-xray || echo "Failed to create directory"
 # git clone https://github.com/yichya/luci-app-xray package/diy/v2raya/luci-app-xray
 # use yicha xray status ---------------
 
@@ -232,10 +263,10 @@ sleep 1
 # ## GeoSite-GFWlist4v2ra数据库 
 # curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
 # sleep 1
-# mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/xray
+# mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/xray || echo "Failed to create directory"
 # # rm package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
 # mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
-# # mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray
+# # mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray || echo "Failed to create directory"
 # # # rm package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
 # # mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray/LoyalsoldierSite.dat >/dev/null 2>&1
 # ## ---------------------------------------------------------
@@ -268,7 +299,7 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile
 
 ## add anti-ad data
-mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set
+mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create directory"
 # ls -dR package/diy/luci-app-smartdns/root/etc/smartdns
 sleep 1
 urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
@@ -286,6 +317,11 @@ curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc
 # replace theme bg
 rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
 cp ${GITHUB_WORKSPACE}/_modFiles/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
+if [ $? -eq 0 ]; then
+    echo "文件复制成功"
+else
+    echo "文件复制失败"
+fi
 # or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/bg1.jpg -o /tmp/bg1.jpg 
 # mv /tmp/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
