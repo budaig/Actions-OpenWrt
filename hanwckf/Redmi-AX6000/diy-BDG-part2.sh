@@ -53,7 +53,7 @@ do
 done
 
 # ## update golang 20.x to 21.x
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 # use
 # cp ${GITHUB_WORKSPACE}/_modFiles/golang-values.mk feeds/packages/lang/golang/golang-values.mk
 # 21.x to use 21.4
@@ -146,6 +146,19 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/diy/chatgpt-web
 
+# ##  -------------- xray ---------------------------
+git clone https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
+git clone https://github.com/yichya/openwrt-xray-geodata-cut package/diy/openwrt-geodata
+mkdir -p package/diy/openwrt-xray/root/etc/init.d
+cp ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/openwrt-xray/root/etc/init.d/xray
+mkdir -p package/diy/openwrt-xray/root/usr/share/xray
+cp ${GITHUB_WORKSPACE}/_modFiles/xraycfg.json package/diy/openwrt-xray/root/usr/share/xray/xraycfg.json
+
+# ##  -------------- luci app xray ---------------------------
+# use yicha xray status for 22.03 or up---------------
+# git clone https://github.com/yichya/luci-app-xray package/diy/luci-app-status
+# ## ---------------------------------------------------------
+
 # ## -------------- v2raya ---------------------------
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
@@ -163,12 +176,12 @@ echo v2raya-web $v2aver sha256=$v2awebsha256
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile
 
 # fix mijia cloud wrong dns (use xraycore)-------
-cp ${GITHUB_WORKSPACE}/_modFiles/v2raya.init package/diy/v2raya/v2raya/files/v2raya.init
+# cp ${GITHUB_WORKSPACE}/_modFiles/v2raya.init package/diy/v2raya/v2raya/files/v2raya.init
 # sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
 #or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya.init -o package/diy/v2raya/v2raya/files/v2raya.init
-mkdir -p package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray
-cp ${GITHUB_WORKSPACE}/_modFiles/xrayconfig.json package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
+# mkdir -p package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray
+# cp ${GITHUB_WORKSPACE}/_modFiles/xrayconfig.json package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
 # or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/xrayconfig.json -o package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
 # # go 1.21.4
@@ -186,7 +199,7 @@ cp ${GITHUB_WORKSPACE}/_modFiles/xrayconfig.json package/diy/v2raya/luci-app-v2r
 
 ## customize xray
 # use yicha xray status for 22.03 or up---------------
-# rm -rf package/diy/v2raya/xray-core
+rm -rf package/diy/v2raya/xray-core
 # mkdir -p package/diy/v2raya/luci-app-xray
 # git clone https://github.com/yichya/luci-app-xray package/diy/v2raya/luci-app-xray
 # use yicha xray status ---------------
@@ -198,31 +211,31 @@ sleep 1
 # echo v2ray $vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
-xrver=1.8.23
-xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
-echo xray $xrver sha256=$xrsha256
-sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
+# xrver=1.8.23
+# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+# echo xray $xrver sha256=$xrsha256
+# sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
 
 ## 更新v2ra geoip geosite 数据库
 
-datetime1=$(date +"%Y%m%d%H%M")
-ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/latest/download/geoip.dat | shasum -a 256))
-sed -i '15 s/.*/GEOIP_VER:='"$datetime1"'/g;18 s/.*/  URL:=https:\/\/github.com\/v2fly\/geoip\/releases\/latest\/download\//g;21 s/.*/  HASH:='"$ipsha256"'/g' package/diy/v2raya/v2fly-geodata/Makefile
-# # https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
+# datetime1=$(date +"%Y%m%d%H%M")
+# ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/latest/download/geoip.dat | shasum -a 256))
+# sed -i '15 s/.*/GEOIP_VER:='"$datetime1"'/g;18 s/.*/  URL:=https:\/\/github.com\/v2fly\/geoip\/releases\/latest\/download\//g;21 s/.*/  HASH:='"$ipsha256"'/g' package/diy/v2raya/v2fly-geodata/Makefile
+# # # https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
 
-datetime2=$(date +"%Y%m%d%H%M%S")
-sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat | shasum -a 256))
-sed -i '24 s/.*/GEOSITE_VER:='"$datetime2"'/g;27 s/.*/  URL:=https:\/\/github.com\/v2fly\/domain-list-community\/releases\/latest\/download\//g;30 s/.*/  HASH:='"$sitesha256"'/g' package/diy/v2raya/v2fly-geodata/Makefile
+# datetime2=$(date +"%Y%m%d%H%M%S")
+# sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat | shasum -a 256))
+# sed -i '24 s/.*/GEOSITE_VER:='"$datetime2"'/g;27 s/.*/  URL:=https:\/\/github.com\/v2fly\/domain-list-community\/releases\/latest\/download\//g;30 s/.*/  HASH:='"$sitesha256"'/g' package/diy/v2raya/v2fly-geodata/Makefile
 
-## GeoSite-GFWlist4v2ra数据库 
-curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
-sleep 1
-mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/xray
-# rm package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
-mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
-# mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray
+# ## GeoSite-GFWlist4v2ra数据库 
+# curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
+# sleep 1
+# mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/xray
 # # rm package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
-# mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray/LoyalsoldierSite.dat >/dev/null 2>&1
+# mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
+# # mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray
+# # # rm package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
+# # mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray/LoyalsoldierSite.dat >/dev/null 2>&1
 # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------

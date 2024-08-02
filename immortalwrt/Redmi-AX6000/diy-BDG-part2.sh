@@ -90,6 +90,8 @@ git clone https://github.com/sbwml/luci-app-alist.git package/diy/alist
 # alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
 # alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/Makefile
+# echo alist $alver sha256=$alsha256
+# echo alist-web $alwebver sha256=$alwebsha256
 
 # change default port: version 3.33.0 and up
 # sed -i 's/5244/5246/g' package/diy/alist/files/alist.config
@@ -114,7 +116,7 @@ curl -sL -m 30 --retry 2 "$urldl" -o package/diy/luci-app-ikoolproxy/root/usr/sh
 # ## ---------------------------------------------------------
 
 # ## -------------- lucky ---------------------------
-# rm -rf feeds/packages/net/lucky
+rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 # #/etc/config/lucky.daji/lucky.conf
 git clone https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
@@ -219,11 +221,9 @@ cp ${GITHUB_WORKSPACE}/_modFiles/bg1.jpg feeds/luci/themes/luci-theme-argon/htdo
 grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
 cat DEVICE_NAME
 # xiaomi_redmi-router-ax6000
-# ROOTFS
 
 grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
 cat TARGET_NAME
-# mt7986
-# CONFIG_TARGET_PER_DEVICE_ROOTFS=y
+# filogic
 
 # sleep 5

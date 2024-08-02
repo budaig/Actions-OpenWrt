@@ -186,7 +186,7 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=${{ github.workflow }}-${{ env.FILE_DATE }}"
+        echo "release_tag=${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}" >> $GITHUB_OUTPUT
         touch release.txt
         echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
         echo "The default IP address is 192.168.XXX.1" >> release.txt
@@ -201,12 +201,19 @@ jobs:
     - name: 发布至release
       uses: softprops/action-gh-release@v2
       # uses: ncipollo/release-action@v1
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        files: release.txt
+      # if: startsWith(github.ref, 'refs/tags/')
+      # with:
+        # files: release.txt
+      # env:
+        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      with:
+        name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        body_path: release.txt
+        files: ${{ env.FIRMWARE }}/*
 
     # - name: Delete workflow runs
       # uses: Mattraks/delete-workflow-runs@main
