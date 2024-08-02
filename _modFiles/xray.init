@@ -3,8 +3,8 @@ DESCRIPTION="简单好用的xray"
 
 PROG=/usr/bin/xray
 arg=-c
-CONFIG_FILE=/usr/share/xray/xraycfg.json
-#CONFIG_FILE=/etc/xray/xraycfg.json
+#CONFIG_FILE=/usr/share/xray/xraycfg.json
+CONFIG_FILE=/etc/xray/xraycfg.json
 
 name="xray"
 pid_file="/var/run/$name.pid"
@@ -24,7 +24,6 @@ start() {
 	else
 		echo "Starting $name"
 		
-		# $PROG $arg $arg1 $CONFIG_PATH >> "$stdout_log" 2>> "$stderr_log" &
 		$PROG $arg $CONFIG_FILE >> "$stdout_log" 2>> "$stderr_log" &
 		echo $! > "$pid_file"
 		if ! is_running; then

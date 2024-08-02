@@ -279,10 +279,10 @@
 		"protocol": "vmess",
 		"settings": {
 			"vnext": [{
-				"address": "d163.v1a5.2223.pub",
+				"address": "d163..2223.pub",
 				"port": 443,
 				"users": [{
-					"id": "2eeee3b1-e945-cb20-2258-3fc64b95e872",
+					"id": "2eeee3b1-e945-cb20-2258-",
 					"security": "auto"
 				}]
 			}]
@@ -307,10 +307,10 @@
 		"protocol": "vmess",
 		"settings": {
 			"vnext": [{
-				"address": "d163.v3d7.2223.pub",
+				"address": "d163..2223.pub",
 				"port": 443,
 				"users": [{
-					"id": "2eeee3b1-e945-cb20-2258-3fc64b95e872",
+					"id": "2eeee3b1-e945-cb20-2258-",
 					"security": "auto"
 				}]
 			}]
