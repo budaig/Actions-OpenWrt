@@ -64,14 +64,14 @@ git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/l
 # ## -------------- adguardhome ---------------------------
 # rm -rf feeds/packages/net/adguardhome
 rm -rf feeds/luci/applications/luci-app-adguardhome
-git clone https://github.com/xiaoxiao29/luci-app-adguardhome package/diy/adguardhome
+git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
 # sleep 1
 # aghver=0.107.51
 # aghsha256=($(curl -sL https://github.com/AdguardTeam/AdGuardHome/releases/download/v$aghver/AdGuardHome_linux_arm64.tar.gz | shasum -a 256))
 # echo $aghsha256
 # sed -i '10 s/.*/PKG_VERSION:='"$aghver"'/g;17 s/.*/PKG_MIRROR_HASH:='"$aghsha256"'/g' package/diy/adguardhome/AdguardHome/Makefile
 
-# # mkdir -p package/diy/adguardhome/etc/config/adGuardConfig
+# # mkdir -p package/diy/adguardhome/etc/config/adGuardConfig || echo "Failed to create /adguardhome/etc/config/adGuardConfig"
 # # curl -sL -m 30 --retry 2 https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_arm64.tar.gz -o /tmp/AdGuardHome_linux_arm64.tar.gz && tar -xzf /tmp/AdGuardHome_linux_arm64.tar.gz -C /tmp && mv /tmp/AdGuardHome/AdGuardHome package/diy/adguardhome/etc/config/adGuardConfig/AdGuardHome
 
 # ## ---------------------------------------------------------
@@ -81,7 +81,7 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome package/diy/adguard
 rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
 # alist 3.36 requires go 1.22
-git clone https://github.com/sbwml/luci-app-alist.git package/diy/alist
+git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
 
 ## customize alist ver
 # sleep 1
@@ -89,9 +89,9 @@ git clone https://github.com/sbwml/luci-app-alist.git package/diy/alist
 # alwebver=3.32.0
 # alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
 # alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/Makefile
 # echo alist $alver sha256=$alsha256
-# echo alist-web $alwebver sha256=$alwebsha256
+# echo alist-web $alver sha256=$alwebsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/Makefile
 
 # change default port: version 3.33.0 and up
 # sed -i 's/5244/5246/g' package/diy/alist/files/alist.config
@@ -102,15 +102,15 @@ git clone https://github.com/sbwml/luci-app-alist.git package/diy/alist
 # ## ---------------------------------------------------------
 
 # ## -------------- ikoolproxy ---------------------------
-git clone -b main https://github.com/ilxp/luci-app-ikoolproxy.git package/diy/luci-app-ikoolproxy
+# git clone -b main https://github.com/ilxp/luci-app-ikoolproxy.git package/diy/luci-app-ikoolproxy
 ## add video rule
 sleep 1
-sed -i 's/-traditional -aes256/-aes256/g' package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/gen_ca.sh
-curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/kpupdate -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/kpupdate
-urlkp="https://cdn.jsdelivr.net/gh/ilxp/koolproxy@main/rules/koolproxy.txt"
-curl -sL -m 30 --retry 2 "$urlkp" -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/koolproxy.txt >/dev/null 2>&1
-urldl="https://cdn.jsdelivr.net/gh/ilxp/koolproxy@main/rules/daily.txt"
-curl -sL -m 30 --retry 2 "$urldl" -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/daily.txt >/dev/null 2>&1
+# sed -i 's/-traditional -aes256/-aes256/g' package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/gen_ca.sh
+# curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/kpupdate -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/kpupdate
+# urlkp="https://cdn.jsdelivr.net/gh/ilxp/koolproxy@main/rules/koolproxy.txt"
+# curl -sL -m 30 --retry 2 "$urlkp" -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/koolproxy.txt >/dev/null 2>&1
+# urldl="https://cdn.jsdelivr.net/gh/ilxp/koolproxy@main/rules/daily.txt"
+# curl -sL -m 30 --retry 2 "$urldl" -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/daily.txt >/dev/null 2>&1
 # curl -sL -m 30 --retry 2 "$urlkpdat" -o /tmp/kp.dat
 # mv /tmp/kp.dat package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/kp.dat >/dev/null 2>&1
 # ## ---------------------------------------------------------
@@ -119,7 +119,7 @@ curl -sL -m 30 --retry 2 "$urldl" -o package/diy/luci-app-ikoolproxy/root/usr/sh
 rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 # #/etc/config/lucky.daji/lucky.conf
-git clone https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
+git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 sleep 1
 # ## customize lucky ver
 # # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
@@ -131,7 +131,7 @@ lkver=2.10.8
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
    #/etc/lucky/lucky.conf
-# git clone https://github.com/sirpdboy/luci-app-lucky.git package/diy/lucky
+# git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
 # sleep 1
 # ## customize lucky ver
 # # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
@@ -145,45 +145,37 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\
 # ## add chatgpt-web
 # rm -rf feeds/packages/net/luci-app-chatgpt-web
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
-git clone https://github.com/sirpdboy/luci-app-chatgpt-web package/diy/chatgpt-web
+git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
 # ##  -------------- xray ---------------------------
-git clone https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
-git clone https://github.com/yichya/openwrt-xray-geodata-cut package/diy/openwrt-geodata
-# mkdir -p package/diy/openwrt-xray/root/etc/init.d
-# cp ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/openwrt-xray/root/etc/init.d/xray
-# mkdir -p package/diy/openwrt-xray/root/usr/share/xray
-# cp ${GITHUB_WORKSPACE}/_modFiles/xraycfg.json package/diy/openwrt-xray/root/usr/share/xray/xraycfg.json
+git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
+# use custom ver
+# xrver=1.8.23
+# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+# echo xray $xrver sha256=$xrsha256
+# sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
 
 # ##  -------------- luci app xray ---------------------------
 # use yicha xray status for 22.03 or up---------------
-git clone https://github.com/yichya/luci-app-xray package/diy/luci-app-status
+# git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-status
 # use yicha xray status ---------------
 # or use ttimasdf xray/xapp for 21.02 or up---------------
-# git clone https://github.com/ttimasdf/luci-app-xray package/diy/luci-app-xapp
+# git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 21.02
+# git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 22.03 or up
 # use yicha xray status ---------------
 # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------
 rm -rf feeds/packages/net/smartdns
 rm -rf feeds/luci/applications/luci-app-smartdns
-git clone https://github.com/pymumu/openwrt-smartdns package/diy/smartdns
+git clone https://github.com/pymumu/openwrt-smartdns -b master package/diy/smartdns
 git clone https://github.com/pymumu/luci-app-smartdns -b master package/diy/luci-app-smartdns
 
 ## update to the newest
 SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
 SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
 echo smartdns $SMARTDNS_VER sha256=$SMAERTDNS_SHA
-
-#customize ver
-# SMARTDNS_VER=2024.05.08
-# SMAERTDNS_SHA=f92fbb83cefb0446fc5dd1b0cd16fc6b2fc7664c
-# ------
-#fix 2024.05.09 ver
-#failed sed -i 's/pymumu\/smartdns/zxlhhyccc\/smartdns\/tree\/patch-12/g' package/diy/smartdns/Makefile
-#failed sed -i '33 s/.*/  URL:=https:\/\/github.com\/zxlhhyccc\/smartdns\/tree\/patch-12\//g' package/diy/smartdns/Makefile
-# sed -i 's/.*/pymumu\/smartdns/zxlhhyccc\/smartdns\/tree\/patch-12.git/g' package/diy/smartdns/Makefile
-# # ------
 
 sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile
@@ -192,7 +184,7 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile
 
 ## add anti-ad data
-mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set
+mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
 # ls -dR package/diy/luci-app-smartdns/root/etc/smartdns
 sleep 1
 urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
@@ -202,6 +194,23 @@ mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf 
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
+
+## 若不安装 v2raya 则借用 smartdns 配置文件夹安装 xrayconfig
+mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/luci-app-smartdns/root/etc/init.d/xray
+if [ $? -eq 0 ]; then
+    echo "xrayint copied"
+else
+    echo "xrayint copy failed"
+fi
+mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/xraycfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
+if [ $? -eq 0 ]; then
+    echo "xraycfg copied"
+else
+    echo "xraycfg copy failed"
+fi
+
 # ## ---------------------------------------------------------
 
 # ## replace a theme
@@ -210,6 +219,11 @@ curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc
 # replace theme bg
 rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
 cp ${GITHUB_WORKSPACE}/_modFiles/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
+if [ $? -eq 0 ]; then
+    echo "bg1 copied"
+else
+    echo "bg1 copy failed"
+fi
 # or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/bg1.jpg -o /tmp/bg1.jpg 
 # mv /tmp/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
