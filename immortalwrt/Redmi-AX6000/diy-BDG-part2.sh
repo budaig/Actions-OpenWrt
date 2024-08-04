@@ -82,6 +82,8 @@ rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
 # alist 3.36 requires go 1.22
 git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
+mv package/diy/alist feeds/packages/net/alist
+mv package/diy/luci-app-alist feeds/packages/net/luci-app-alist
 
 ## customize alist ver
 # sleep 1
@@ -178,29 +180,31 @@ git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geo
 rm -rf feeds/packages/net/smartdns
 rm -rf feeds/luci/applications/luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns -b master package/diy/smartdns
+mv package/diy/smartdns feeds/packages/net/smartdns
 git clone https://github.com/pymumu/luci-app-smartdns -b master package/diy/luci-app-smartdns
+mv package/diy/luci-app-smartdns feeds/luci/applications/luci-app-smartdns
 
 ## update to the newest
 SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
 SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
 echo smartdns $SMARTDNS_VER sha256=$SMAERTDNS_SHA
 
-sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile
-sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/diy/smartdns/Makefile
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile
-sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile
+sed -i '/PKG_MIRROR_HASH:=/d' feeds/packages/net/smartdns   #package/diy/smartdns/Makefile
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' feeds/packages/net/smartdns   #package/diy/smartdns/Makefile
+sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' feeds/packages/net/smartdns   #package/diy/smartdns/Makefile
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' feeds/luci/applications/luci-app-smartdns   #package/diy/luci-app-smartdns/Makefile
+sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' feeds/luci/applications/luci-app-smartdns   #package/diy/luci-app-smartdns/Makefile
 
 ## add anti-ad data
-mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
+mkdir -p feeds/luci/applications/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
 # ls -dR package/diy/luci-app-smartdns/root/etc/smartdns
 sleep 1
 urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
 curl -sL -m 30 --retry 2 "$urlreject" -o /tmp/reject.conf
-mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
+mv /tmp/reject.conf feeds/luci/applications/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
 ## add githubhosts
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
-curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
+curl -sL -m 30 --retry 2 "$urlgthosts" -o feeds/luci/applications/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
