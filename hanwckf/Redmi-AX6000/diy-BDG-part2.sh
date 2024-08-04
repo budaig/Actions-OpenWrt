@@ -83,13 +83,13 @@ git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alis
 
 ## customize alist ver
 # sleep 1
-# alver=3.35.0
-# alwebver=3.35.0
-# alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
-# alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
-# echo alist $alver sha256=$alsha256
-# echo alist-web $alver sha256=$alwebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/Makefile
+alver=3.33.0
+alwebver=3.33.0
+alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
+alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
+echo alist $alver sha256=$alsha256
+echo alist-web $alver sha256=$alwebsha256
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/Makefile
 
 # change default port: version 3.33.0 and up
 # sed -i 's/5244/5246/g' package/diy/alist/files/alist.config
@@ -100,15 +100,15 @@ git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alis
 # ## ---------------------------------------------------------
 
 # ## -------------- ikoolproxy ---------------------------
-git clone -b main https://github.com/ilxp/luci-app-ikoolproxy.git package/diy/luci-app-ikoolproxy
+# git clone -b main https://github.com/ilxp/luci-app-ikoolproxy.git package/diy/luci-app-ikoolproxy
 ## add video rule
-sleep 1
-sed -i 's/-traditional -aes256/-aes256/g' package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/gen_ca.sh
-curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/kpupdate -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/kpupdate
-urlkp="https://cdn.jsdelivr.net/gh/ilxp/koolproxy@main/rules/koolproxy.txt"
-curl -sL -m 30 --retry 2 "$urlkp" -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/koolproxy.txt >/dev/null 2>&1
-urldl="https://cdn.jsdelivr.net/gh/ilxp/koolproxy@main/rules/daily.txt"
-curl -sL -m 30 --retry 2 "$urldl" -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/daily.txt >/dev/null 2>&1
+# sleep 1
+# sed -i 's/-traditional -aes256/-aes256/g' package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/gen_ca.sh
+# curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/kpupdate -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/kpupdate
+# urlkp="https://cdn.jsdelivr.net/gh/ilxp/koolproxy@main/rules/koolproxy.txt"
+# curl -sL -m 30 --retry 2 "$urlkp" -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/koolproxy.txt >/dev/null 2>&1
+# urldl="https://cdn.jsdelivr.net/gh/ilxp/koolproxy@main/rules/daily.txt"
+# curl -sL -m 30 --retry 2 "$urldl" -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/daily.txt >/dev/null 2>&1
 # curl -sL -m 30 --retry 2 "$urlkpdat" -o /tmp/kp.dat
 # mv /tmp/kp.dat package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/kp.dat >/dev/null 2>&1
 # ## ---------------------------------------------------------
@@ -129,7 +129,7 @@ sleep 1
 lkver=2.10.8
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-   #/etc/lucky/lucky.conf
+# #/etc/lucky/lucky.conf
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
 # sleep 1
 # ## customize lucky ver
@@ -203,9 +203,9 @@ fi
 # # go 1.21.4
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/100-go-mod-ver.patch package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
 # if [ $? -eq 0 ]; then
-    echo "100-go-mod-ver copied"
-else
-    echo "100-go-mod-ver copy failed"
+    # echo "100-go-mod-ver copied"
+# else
+    # echo "100-go-mod-ver copy failed"
 # fi
 # sed -i 's/1.21.7/1.21.9/g' package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
 
@@ -250,6 +250,14 @@ else
 # # mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray || echo "Failed to create /luci-app-v2raya/root/usr/share/v2ray"
 # # # rm package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
 # # mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray/LoyalsoldierSite.dat >/dev/null 2>&1
+# ## ---------------------------------------------------------
+
+# ## -------------- mosdns ---------------------------
+# rm -rf feeds/packages/net/v2ray-geodata
+# rm -rf feeds/packages/net/mosdns
+# rm -rf feeds/luci/applications/luci-app-mosdns
+# git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
+# git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
 # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------
