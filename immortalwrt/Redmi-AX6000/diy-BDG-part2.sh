@@ -260,7 +260,8 @@ cat TARGET_NAME
 
 # sleep 5
 
-ls -al tmp/
-ls -al tmp/info/
+# ls -al tmp/
+# ls -al tmp/info/
 
-rm -rf bin tmp build_dir
+rm -rf tmp/info/.packageinfo*
+ls -al tmp/info/
