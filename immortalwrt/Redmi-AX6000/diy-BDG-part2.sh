@@ -78,10 +78,10 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 
 # ## -------------- alist ---------------------------
 # replace alist
-# rm -rf feeds/packages/net/alist
-# rm -rf feeds/luci/applications/luci-app-alist
+rm -rf feeds/packages/net/alist
+rm -rf feeds/luci/applications/luci-app-alist
 # alist 3.36 requires go 1.22
-# git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
+git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
 
 ## customize alist ver
 # sleep 1
@@ -116,10 +116,10 @@ sleep 1
 # ## ---------------------------------------------------------
 
 # ## -------------- lucky ---------------------------
-# rm -rf feeds/packages/net/lucky
-# rm -rf feeds/luci/applications/luci-app-lucky
+rm -rf feeds/packages/net/lucky
+rm -rf feeds/luci/applications/luci-app-lucky
 # #/etc/config/lucky.daji/lucky.conf
-# git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
+git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 # sleep 1
 # ## customize lucky ver
 # # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
@@ -127,8 +127,8 @@ sleep 1
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/diy/lucky/lucky/Makefile
 
 # wget https://github.com/gdy666/lucky-files$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
-# lkver=2.10.8
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
+lkver=2.10.8
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
    #/etc/lucky/lucky.conf
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
@@ -175,33 +175,33 @@ git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geo
 # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------
-# rm -rf feeds/packages/net/smartdns
-# rm -rf feeds/luci/applications/luci-app-smartdns
-# git clone https://github.com/pymumu/openwrt-smartdns -b master package/diy/smartdns
-# git clone https://github.com/pymumu/luci-app-smartdns -b master package/diy/luci-app-smartdns
+rm -rf feeds/packages/net/smartdns
+rm -rf feeds/luci/applications/luci-app-smartdns
+git clone https://github.com/pymumu/openwrt-smartdns -b master package/diy/smartdns
+git clone https://github.com/pymumu/luci-app-smartdns -b master package/diy/luci-app-smartdns
 
 ## update to the newest
-# SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
-# SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
-# echo smartdns $SMARTDNS_VER sha256=$SMAERTDNS_SHA
+SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
+SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
+echo smartdns $SMARTDNS_VER sha256=$SMAERTDNS_SHA
 
-# sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile
-# sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/diy/smartdns/Makefile
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile
-# sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile
+sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile
+sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/diy/smartdns/Makefile
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile
+sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile
 
 ## add anti-ad data
-# mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
+mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
 # ls -dR package/diy/luci-app-smartdns/root/etc/smartdns
 sleep 1
-# urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
-# curl -sL -m 30 --retry 2 "$urlreject" -o /tmp/reject.conf
-# mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
+urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
+curl -sL -m 30 --retry 2 "$urlreject" -o /tmp/reject.conf
+mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
 ## add githubhosts
-# urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
-# curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
-# ls -l package/diy/luci-app-smartdns/root/etc/smartdns
+urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
+curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
+ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
 # mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"

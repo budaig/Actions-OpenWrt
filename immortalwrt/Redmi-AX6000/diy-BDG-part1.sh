@@ -32,8 +32,8 @@
 # src/gz openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/aarch64_cortex-a53/kiddin9
 
 
-echo GITHUB_WORKSPACE ${GITHUB_WORKSPACE}
-echo GITHUB_WORKSPACE $GITHUB_WORKSPACE
+# echo GITHUB_WORKSPACE ${GITHUB_WORKSPACE}
+# echo GITHUB_WORKSPACE $GITHUB_WORKSPACE
 
 # cd $GITHUB_WORKSPACE/openwrt && ./scripts/feeds install luci-compat luci-lua-runtime luci-base csstidy luasrcdiet libpam
 # if [ $? -eq 0 ]; then
@@ -43,20 +43,20 @@ echo GITHUB_WORKSPACE $GITHUB_WORKSPACE
 # fi
 
 
-cd $GITHUB_WORKSPACE/openwrt
+# cd $GITHUB_WORKSPACE/openwrt
 
-find ./ | grep Makefile | grep alist | xargs rm -f
-git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
-if [ $? -eq 0 ]; then
-    echo "alist copied"
-else
-    echo "alist not copied"
-fi
+# find ./ | grep Makefile | grep alist | xargs rm -f
+# git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
+# if [ $? -eq 0 ]; then
+    # echo "alist copied"
+# else
+    # echo "alist not copied"
+# fi
 
-find ./ | grep Makefile | grep lucky | xargs rm -f
-git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
-if [ $? -eq 0 ]; then
-    echo "lucky copied"
-else
-    echo "lucky not copied"
-fi
+# find ./ | grep Makefile | grep lucky | xargs rm -f
+# git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
+# if [ $? -eq 0 ]; then
+    # echo "lucky copied"
+# else
+    # echo "lucky not copied"
+# fi
