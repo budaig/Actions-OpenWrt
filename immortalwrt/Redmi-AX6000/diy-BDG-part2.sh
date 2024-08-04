@@ -255,3 +255,5 @@ cat TARGET_NAME
 # filogic
 
 # sleep 5
+
+rm -rf bin tmp build_dir
