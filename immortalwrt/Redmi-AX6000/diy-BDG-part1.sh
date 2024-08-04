@@ -35,13 +35,6 @@
 echo GITHUB_WORKSPACE ${GITHUB_WORKSPACE}
 echo GITHUB_WORKSPACE $GITHUB_WORKSPACE
 
-cd ${GITHUB_WORKSPACE}/openwrt && AddPackage luci-compat luci-lua-runtime luci-base csstidy luasrcdiet libpam
-if [ $? -eq 0 ]; then
-    echo "added"
-else
-    echo "not added"
-fi
-
 cd $GITHUB_WORKSPACE/openwrt && ./scripts/feeds install luci-compat luci-lua-runtime luci-base csstidy luasrcdiet libpam
 if [ $? -eq 0 ]; then
     echo "installed"
@@ -49,7 +42,7 @@ else
     echo "not installed"
 fi
 
-cd $GITHUB_WORKSPACE
+cd $GITHUB_WORKSPACE/openwrt
 find ./ | grep Makefile | grep alist | xargs rm -f
 git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
 if [ $? -eq 0 ]; then
