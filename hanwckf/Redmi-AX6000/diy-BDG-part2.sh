@@ -289,9 +289,12 @@ urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/gith
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
-## 若不安装 v2raya 则借用 smartdns 配置文件夹安装 xrayconfig
+## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
 # mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/luci-app-smartdns/root/etc/init.d/xray
+# or
+# mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
 # if [ $? -eq 0 ]; then
     # echo "xrayint copied"
 # else
@@ -299,6 +302,9 @@ curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc
 # fi
 # mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/xraycfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
+# or
+# mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/xraycfg.cst package/diy/mosdns/luci-app-mosdns/root/etc/xray/xraycfg.json
 # if [ $? -eq 0 ]; then
     # echo "xraycfg copied"
 # else

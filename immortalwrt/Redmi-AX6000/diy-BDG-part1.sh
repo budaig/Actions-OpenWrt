@@ -30,3 +30,20 @@
 ## alist aria2 smartdns ddns-go lucky iperf3 v2raya zerotier openclash
 # sed -i '$a src-git openwrt_kiddin9 https://github.com/kiddin9/openwrt-packages' feeds.conf.default
 # src/gz openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/aarch64_cortex-a53/kiddin9
+
+
+find ./ | grep Makefile | grep alist | xargs rm -f
+git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
+if [ $? -eq 0 ]; then
+    echo "alist copied"
+else
+    echo "alist not copied"
+fi
+
+find ./ | grep Makefile | grep lucky | xargs rm -f
+git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
+if [ $? -eq 0 ]; then
+    echo "lucky copied"
+else
+    echo "lucky not copied"
+fi
