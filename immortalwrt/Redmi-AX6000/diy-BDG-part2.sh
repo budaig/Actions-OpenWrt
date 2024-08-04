@@ -39,17 +39,13 @@ EOF
 # sleep 3
 
 del_data="
-package/feeds/luci/luci-app-passwall
 package/feeds/luci/luci-app-ssr-plus
 package/feeds/luci/luci-app-vssr
 feeds/packages/net/v2ray-geodata
 feeds/packages/net/v2ray-core
-feeds/packages/net/v2ray-plugin
-feeds/packages/net/xray-plugin
 feeds/packages/net/xray-core
 feeds/packages/lang/golang
 feeds/packages/net/adguardhome
-package/feeds/telephony/asterisk
 "
 
 for cmd in $del_data;
@@ -62,9 +58,12 @@ done
 git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
 # ## -------------- adguardhome ---------------------------
-# rm -rf feeds/packages/net/adguardhome
+rm -rf feeds/packages/net/adguardhome
 rm -rf feeds/luci/applications/luci-app-adguardhome
 git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
+mv package/diy/adguardhome/AdGuardHome feeds/packages/net/adguardhome
+mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app-adguardhome
+
 # sleep 1
 # aghver=0.107.51
 # aghsha256=($(curl -sL https://github.com/AdguardTeam/AdGuardHome/releases/download/v$aghver/AdGuardHome_linux_arm64.tar.gz | shasum -a 256))
