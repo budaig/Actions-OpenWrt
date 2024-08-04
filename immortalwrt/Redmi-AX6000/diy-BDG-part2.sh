@@ -263,5 +263,5 @@ cat TARGET_NAME
 # ls -al tmp/
 # ls -al tmp/info/
 
-rm -rf tmp/info/.packageinfo*
-ls -al tmp/info/
+# rm -rf tmp/info/.packageinfo*
+# ls -al tmp/info/
