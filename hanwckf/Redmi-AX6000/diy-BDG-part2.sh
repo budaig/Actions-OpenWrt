@@ -253,10 +253,10 @@ fi
 # ## ---------------------------------------------------------
 
 # ## -------------- mosdns ---------------------------
-# rm -rf feeds/packages/net/v2ray-geodata
-# rm -rf feeds/packages/net/mosdns
-# rm -rf feeds/luci/applications/luci-app-mosdns
-# git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
+rm -rf feeds/packages/net/v2ray-geodata
+rm -rf feeds/packages/net/mosdns
+rm -rf feeds/luci/applications/luci-app-mosdns
+git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
 # git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
 # ## ---------------------------------------------------------
 
