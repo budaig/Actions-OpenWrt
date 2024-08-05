@@ -135,7 +135,7 @@ jobs:
       run: |
         cd openwrt
         ./scripts/feeds update -i
-        ./scripts/feeds update -a
+        # ./scripts/feeds update -a
         ./scripts/feeds install -a
         make defconfig
         make download -j8

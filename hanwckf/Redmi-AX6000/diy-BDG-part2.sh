@@ -89,11 +89,11 @@ alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver 
 alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
 echo alist $alver sha256=$alsha256
 echo alist-web $alver sha256=$alwebsha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/Makefile
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
 
 # change default port: version 3.33.0 and up
-# sed -i 's/5244/5246/g' package/diy/alist/files/alist.config
-# sed -i 's/5244/5246/g' package/diy/alist/files/alist.init
+# sed -i 's/5244/5246/g' package/diy/alist/alist/files/alist.config
+# sed -i 's/5244/5246/g' package/diy/alist/alist/files/alist.init
 # change default port: version 3.32.0 and below
 # sed -i 's/5244/5246/g' package/diy/alist/luci-app-alist/root/etc/config/alist
 # sed -i 's/5244/5246/g' package/diy/alist/luci-app-alist/root/etc/init.d/alist
@@ -147,7 +147,7 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
 # ##  -------------- xray ---------------------------
-git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+# git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # use custom ver
 # xrver=1.8.23
@@ -257,7 +257,7 @@ rm -rf feeds/packages/net/v2ray-geodata
 rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
 git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
-# git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
+git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
 # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------
