@@ -64,7 +64,7 @@ git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/l
 rm -rf feeds/luci/applications/luci-app-adguardhome
 git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
 # sleep 1
-# aghver=0.107.51
+# aghver=0.107.52
 # aghsha256=($(curl -sL https://github.com/AdguardTeam/AdGuardHome/releases/download/v$aghver/AdGuardHome_linux_arm64.tar.gz | shasum -a 256))
 # echo $aghsha256
 # sed -i '10 s/.*/PKG_VERSION:='"$aghver"'/g;17 s/.*/PKG_MIRROR_HASH:='"$aghsha256"'/g' package/diy/adguardhome/AdguardHome/Makefile
@@ -147,7 +147,8 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
 # ##  -------------- xray ---------------------------
-# git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+   #与 mosdns geodata 相同
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # use custom ver
 # xrver=1.8.23
@@ -258,6 +259,13 @@ rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
 git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
 git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
+   #与 openwrt-xray geodat 相同
+cp -f ${GITHUB_WORKSPACE}/_modFiles/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
+if [ $? -eq 0 ]; then
+    echo "mosdnsgeodataMakefile copied"
+else
+    echo "mosdnsgeodataMakefile copy failed"
+fi
 # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------

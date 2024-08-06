@@ -64,7 +64,7 @@ mv package/diy/adguardhome/AdGuardHome feeds/packages/net/adguardhome
 mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app-adguardhome
 
 # sleep 1
-# aghver=0.107.51
+# aghver=0.107.52
 # aghsha256=($(curl -sL https://github.com/AdguardTeam/AdGuardHome/releases/download/v$aghver/AdGuardHome_linux_arm64.tar.gz | shasum -a 256))
 # echo $aghsha256
 # sed -i '10 s/.*/PKG_VERSION:='"$aghver"'/g;17 s/.*/PKG_MIRROR_HASH:='"$aghsha256"'/g' package/diy/adguardhome/AdguardHome/Makefile
@@ -91,7 +91,7 @@ mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app
 # alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
 # echo alist $alver sha256=$alsha256
 # echo alist-web $alver sha256=$alwebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' feeds/packages/net/alist/Makefile
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' feeds/packages/net/alist/Makefile
 
 # change default port: version 3.33.0 and up
 # sed -i 's/5244/5246/g' package/diy/alist/alist/files/alist.config
@@ -176,26 +176,32 @@ rm -rf feeds/packages/net/v2ray-geodata
 rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
 git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
-# git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
+git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
    #与 openwrt-xray geodat 相同
+cp -f ${GITHUB_WORKSPACE}/_modFiles/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
+if [ $? -eq 0 ]; then
+    echo "mosdnsgeodataMakefile copied"
+else
+    echo "mosdnsgeodataMakefile copy failed"
+fi
 # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------
-rm -rf feeds/packages/net/smartdns
-rm -rf feeds/luci/applications/luci-app-smartdns
-git clone https://github.com/pymumu/openwrt-smartdns -b master feeds/packages/net/smartdns
-git clone https://github.com/pymumu/luci-app-smartdns -b master feeds/luci/applications/luci-app-smartdns
+#rm -rf feeds/packages/net/smartdns
+#rm -rf feeds/luci/applications/luci-app-smartdns
+#git clone https://github.com/pymumu/openwrt-smartdns -b master feeds/packages/net/smartdns
+#git clone https://github.com/pymumu/luci-app-smartdns -b master feeds/luci/applications/luci-app-smartdns
 
 ## update to the newest
-SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
-SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
+#SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
+#SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
 echo smartdns $SMARTDNS_VER sha256=$SMAERTDNS_SHA
 
-sed -i '/PKG_MIRROR_HASH:=/d' feeds/packages/net/smartdns/Makefile   #package/diy/smartdns/Makefile
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' feeds/packages/net/smartdns/Makefile   #package/diy/smartdns/Makefile
-sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' feeds/packages/net/smartdns/Makefile   #package/diy/smartdns/Makefile
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' feeds/luci/applications/luci-app-smartdns/Makefile   #package/diy/luci-app-smartdns/Makefile
-sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' feeds/luci/applications/luci-app-smartdns/Makefile   #package/diy/luci-app-smartdns/Makefile
+#sed -i '/PKG_MIRROR_HASH:=/d' feeds/packages/net/smartdns/Makefile   #package/diy/smartdns/Makefile
+#sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' feeds/packages/net/smartdns/Makefile   #package/diy/smartdns/Makefile
+#sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' feeds/packages/net/smartdns/Makefile   #package/diy/smartdns/Makefile
+#sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' feeds/luci/applications/luci-app-smartdns/Makefile   #package/diy/luci-app-smartdns/Makefile
+#sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' feeds/luci/applications/luci-app-smartdns/Makefile   #package/diy/luci-app-smartdns/Makefile
 
 ## add anti-ad data
 mkdir -p feeds/luci/applications/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
