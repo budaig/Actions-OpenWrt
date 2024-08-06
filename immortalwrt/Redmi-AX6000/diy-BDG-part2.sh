@@ -115,24 +115,24 @@ sleep 1
 # mv /tmp/kp.dat package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/kp.dat >/dev/null 2>&1
 # ## ---------------------------------------------------------
 
-# # ## -------------- lucky ---------------------------
-# rm -rf feeds/packages/net/lucky
-# rm -rf feeds/luci/applications/luci-app-lucky
+# ## -------------- lucky ---------------------------
+rm -rf feeds/packages/net/lucky
+rm -rf feeds/luci/applications/luci-app-lucky
 
-# # #/etc/config/lucky.daji/lucky.conf
-# git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
-# mv package/diy/lucky/lucky feeds/packages/net/lucky
-# mv package/diy/lucky/luci-app-lucky feeds/luci/applications/luci-app-lucky
+# #/etc/config/lucky.daji/lucky.conf
+git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
+mv package/diy/lucky/lucky feeds/packages/net/lucky
+mv package/diy/lucky/luci-app-lucky feeds/luci/applications/luci-app-lucky
 
-# # sleep 1
-# # ## customize lucky ver
-# # # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
-# # lkver=2.6.2
-# # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' feeds/packages/net/lucky/Makefile
+# sleep 1
+## customize lucky ver
+# wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
+# lkver=2.6.2
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' feeds/packages/net/lucky/Makefile
 
-# # wget https://github.com/gdy666/lucky-files$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
-# lkver=2.10.8
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' feeds/packages/net/lucky/Makefile
+# wget https://github.com/gdy666/lucky-files$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
+lkver=2.10.8
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' feeds/packages/net/lucky/Makefile
 
 # #/etc/lucky/lucky.conf
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
@@ -154,7 +154,7 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/c
 # ##  -------------- xray ---------------------------
 git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
-git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
+# git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # use custom ver
 # xrver=1.8.23
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
