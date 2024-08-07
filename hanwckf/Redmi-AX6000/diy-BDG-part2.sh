@@ -66,7 +66,7 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 # sleep 1
 # aghver=0.107.52
 # aghsha256=($(curl -sL https://github.com/AdguardTeam/AdGuardHome/releases/download/v$aghver/AdGuardHome_linux_arm64.tar.gz | shasum -a 256))
-# echo $aghsha256
+# echo adguardhome $aghver sha256=$aghsha256
 # sed -i '10 s/.*/PKG_VERSION:='"$aghver"'/g;17 s/.*/PKG_MIRROR_HASH:='"$aghsha256"'/g' package/diy/adguardhome/AdguardHome/Makefile
 
 # # mkdir -p package/diy/adguardhome/etc/config/adGuardConfig || echo "Failed to create /adguardhome/etc/config/adGuardConfig"
