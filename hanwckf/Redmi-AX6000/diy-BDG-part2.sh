@@ -147,7 +147,7 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
 # ##  -------------- xray ---------------------------
-git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+# git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # use custom ver
