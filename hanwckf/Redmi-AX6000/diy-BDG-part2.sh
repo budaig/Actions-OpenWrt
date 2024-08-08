@@ -34,10 +34,6 @@ cat > package/base-files/files/etc/banner << EOF
 EOF
 
 del_data="
-package/feeds/luci/luci-app-ssr-plus
-package/feeds/luci/luci-app-vssr
-feeds/packages/net/v2ray-core
-feeds/packages/net/xray-core
 feeds/packages/lang/golang
 "
 
