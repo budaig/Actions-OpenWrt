@@ -107,8 +107,8 @@ jobs:
       id: package
       run: |
         cd openwrt
-        ./scripts/feeds update -i
-        ./scripts/feeds install -a
+        # ./scripts/feeds update -i
+        # ./scripts/feeds install -a
         make defconfig
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
