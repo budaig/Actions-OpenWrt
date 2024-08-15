@@ -188,7 +188,7 @@
 	"inbounds": [
 	// 4.1 一般都默认使用socks5协议作本地转发
 	{
-		"port": 20170,
+		"port": 20183,
 		"protocol": "socks",
 		"listen": "0.0.0.0",
 		"sniffing": {
@@ -205,7 +205,7 @@
 	},
 	// 4.2 有少数APP不兼容socks协议，需要用http协议做转发，则可以用下面的端口
 	{
-		"port": 20171,
+		"port": 20181,
 		"protocol": "http",
 		"listen": "0.0.0.0",
 		"sniffing": {
@@ -218,7 +218,7 @@
 	},
 	// 4.3 跟随规则的socks5转发
 	{
-		"port": 1080,
+		"port": 20186,
 		"protocol": "socks",
 		"listen": "0.0.0.0",
 		"sniffing": {
@@ -235,7 +235,7 @@
 	},
 	// 4.4 跟随规则的http转发
 	{
-		"port": 20172,
+		"port": 20182,
 		"protocol": "http",
 		"listen": "0.0.0.0",
 		"sniffing": {
