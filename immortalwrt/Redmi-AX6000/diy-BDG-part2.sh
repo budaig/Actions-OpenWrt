@@ -170,42 +170,42 @@ git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app
 # ## ---------------------------------------------------------
 
 # ## -------------- v2raya ---------------------------
-# rm -rf feeds/packages/net/v2raya
-# rm -rf feeds/luci/applications/luci-app-v2raya
-# git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+rm -rf feeds/packages/net/v2raya
+rm -rf feeds/luci/applications/luci-app-v2raya
+git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
-# rm -rf package/diy/v2raya/v2ray-core
-# rm -rf package/diy/v2raya/xray-core
-# rm -rf package/diy/v2raya/v2fly-geodata
+rm -rf package/diy/v2raya/v2ray-core
+rm -rf package/diy/v2raya/xray-core
+rm -rf package/diy/v2raya/v2fly-geodata
 
 ## customize v2raya ver
 sleep 1
-# v2aver=2.2.5.8
-# v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
-# v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-# echo v2raya $v2aver sha256=$v2asha256
-# echo v2raya-web $v2aver sha256=$v2awebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
+v2aver=2.2.5.8
+v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
+v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+echo v2raya $v2aver sha256=$v2asha256
+echo v2raya-web $v2aver sha256=$v2awebsha256
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile   #feeds/packages/net/v2raya/Makefile
 
 # fix mijia cloud wrong dns (use xraycore)-------
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init feeds/packages/net/v2raya/files/v2raya.init
-# if [ $? -eq 0 ]; then
-    # echo "v2raya.init copied"
-# else
-    # echo "v2raya.init copy failed"
-# fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init package/diy/v2raya/v2raya/files/v2raya.init   #feeds/packages/net/v2raya/files/v2raya.init
+if [ $? -eq 0 ]; then
+    echo "v2raya.init copied"
+else
+    echo "v2raya.init copy failed"
+fi
 # sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
 #or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya.init -o package/diy/v2raya/v2raya/files/v2raya.init
-# mkdir -p feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/xrayconf.json feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray/config.json
-# if [ $? -eq 0 ]; then
-    # echo "xrayconf copied"
-# else
-    # echo "xrayconf copy failed"
-# fi
+mkdir -p package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"   #feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/xrayconf.json package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json   #feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray/config.json
+if [ $? -eq 0 ]; then
+    echo "xrayconf copied"
+else
+    echo "xrayconf copy failed"
+fi
 # or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/xrayconfig.json -o package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
 # # go 1.21.4
@@ -320,13 +320,17 @@ curl -sL -m 30 --retry 2 "$urlgthosts" -o feeds/luci/applications/luci-app-smart
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/xraycfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
 # or
 
-mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
-if [ $? -eq 0 ]; then
-    echo "xrayint copied"
-else
-    echo "xrayint copy failed"
-fi
+# mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
+
+# if [ $? -eq 0 ]; then
+    # echo "xrayint copied"
+# else
+    # echo "xrayint copy failed"
+# fi
+# # 2305 需要0755权限
+# chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
+
 mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
 cp -f ${GITHUB_WORKSPACE}/_modFiles/xraycfg.cst package/diy/mosdns/luci-app-mosdns/root/etc/xray/xraycfg.json
 if [ $? -eq 0 ]; then
