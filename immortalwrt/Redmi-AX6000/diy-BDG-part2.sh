@@ -55,11 +55,11 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
 # ## -------------- adguardhome ---------------------------
-rm -rf feeds/packages/net/adguardhome
-rm -rf feeds/luci/applications/luci-app-adguardhome
-git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
-mv package/diy/adguardhome/AdGuardHome feeds/packages/net/adguardhome
-mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app-adguardhome
+# rm -rf feeds/packages/net/adguardhome
+# rm -rf feeds/luci/applications/luci-app-adguardhome
+# git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
+# mv package/diy/adguardhome/AdGuardHome feeds/packages/net/adguardhome
+# mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app-adguardhome
 
 # sleep 1
 # aghver=0.107.52
@@ -187,14 +187,14 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 # rm -rf package/diy/v2raya/v2fly-geodata
 
 ## customize immortalwrt orig v2raya
-# cat feeds/packages/net/v2raya/Makefile
+# nl feeds/packages/net/v2raya/Makefile
 v2aver=2.2.5.8
 v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 echo v2raya $v2aver sha256=$v2asha256
 echo v2raya-web $v2aver sha256=$v2awebsha256
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
-cat feeds/packages/net/v2raya/Makefile
+nl feeds/packages/net/v2raya/Makefile
 
 ## customize v2raya ver
 sleep 1
