@@ -54,7 +54,7 @@ git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/l
 # sed -i 's/GO_VERSION_PATCH:=12/GO_VERSION_PATCH:=4/g;s/PKG_HASH:=30e68af27bc1f1df231e3ab74f3d17d3b8d52a089c79bcaab573b4f1b807ed4f/PKG_HASH:=47b26a83d2b65a3c1c1bcace273b69bee49a7a7b5168a7604ded3d26a37bd787/g' feeds/packages/lang/golang/golang/Makefile
 
 # ## -------------- adguardhome ---------------------------
-# rm -rf feeds/packages/net/adguardhome
+rm -rf feeds/packages/net/adguardhome
 rm -rf feeds/luci/applications/luci-app-adguardhome
 git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
 # sleep 1
@@ -185,7 +185,7 @@ v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2
 echo v2raya $v2aver sha256=$v2asha256
 echo v2raya-web $v2aver sha256=$v2awebsha256
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
-nl feeds/packages/net/v2raya/Makefile
+# nl feeds/packages/net/v2raya/Makefile
 
 ## customize v2raya ver
 sleep 1
