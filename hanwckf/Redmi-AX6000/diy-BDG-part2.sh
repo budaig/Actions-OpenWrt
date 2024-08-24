@@ -74,6 +74,8 @@ rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
 # alist 3.36 requires go 1.22
 git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
+mv package/diy/alist/alist feeds/packages/net/alist
+mv package/diy/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 
 ## customize alist ver
 # sleep 1
