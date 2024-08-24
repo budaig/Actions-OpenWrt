@@ -34,8 +34,13 @@ cat > package/base-files/files/etc/banner << EOF
 EOF
 
 del_data="
+package/feeds/luci/luci-app-passwall
+package/feeds/luci/luci-app-ssr-plus
+package/feeds/luci/luci-app-vssr
 feeds/packages/net/v2ray-geodata
 feeds/packages/net/v2ray-core
+feeds/packages/net/v2ray-plugin
+feeds/packages/net/xray-plugin
 feeds/packages/net/xray-core
 "
 
@@ -46,10 +51,9 @@ do
 done
 
 # ## update golang 20.x to 21.x
-nl feeds/packages/lang/golang/Makefile
-nl feeds/packages/lang/golang/golang/Makefile
+# nl feeds/packages/lang/golang/golang/Makefile   #21.02 org ver1.19
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 # use
 # cp ${GITHUB_WORKSPACE}/_modFiles/golang-values.mk feeds/packages/lang/golang/golang-values.mk
 # 21.x to use 21.4
@@ -83,14 +87,14 @@ git clone https://github.com/oppen321/luci-app-alist -b main package/diy/alist
 # mv package/diy/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 
 ## customize alist ver
-sleep 1
-alver=3.36.0
-alwebver=3.36.0
-alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
-alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
-echo alist $alver sha256=$alsha256
-echo alist-web $alver sha256=$alwebsha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
+# sleep 1
+# alver=3.36.0
+# alwebver=3.36.0
+# alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
+# alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
+# echo alist $alver sha256=$alsha256
+# echo alist-web $alver sha256=$alwebsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
 
 # change default port: version 3.33.0 and up
 # sed -i 's/5244/5246/g' package/diy/alist/alist/files/alist.config
@@ -138,12 +142,12 @@ sleep 1
 # lkver=2.6.2
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/diy/lucky/lucky/Makefile
 # sed -i '/PKG_SOURCE_VERSION:=/d' package/diy/lucky/lucky/Makefile
-cp -f ${GITHUB_WORKSPACE}/_modFiles/etcconfiglucky package/diy/lucky/luci-app-lucky/root/etc/config/lucky
-if [ $? -eq 0 ]; then
-    echo "etcconfiglucky copied"
-else
-    echo "etcconfiglucky copy failed"
-fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/etcconfiglucky package/diy/lucky/luci-app-lucky/root/etc/config/lucky
+# if [ $? -eq 0 ]; then
+#     echo "etcconfiglucky copied"
+# else
+#     echo "etcconfiglucky copy failed"
+# fi
 
 # cat package/diy/lucky/lucky/Makefile
 # ## ---------------------------------------------------------
@@ -182,8 +186,6 @@ mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
 # rm -rf package/diy/v2raya/v2ray-core
-# rm -rf package/diy/v2raya/xray-core
-# rm -rf package/diy/v2raya/v2fly-geodata
 
 ## customize immortalwrt orig v2raya
 # nl feeds/packages/net/v2raya/Makefile
@@ -332,18 +334,16 @@ curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
-# mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/luci-app-smartdns/root/etc/init.d/xray
-# mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/xraycfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
+mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/luci-app-smartdns/root/etc/init.d/xray
 # or
 # mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
-# if [ $? -eq 0 ]; then
-    # echo "xrayint copied"
-# else
-    # echo "xrayint copy failed"
-# fi
+if [ $? -eq 0 ]; then
+    echo "xrayint copied"
+else
+    echo "xrayint copy failed"
+fi
 # 2305 需要0755权限
 # chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
 
