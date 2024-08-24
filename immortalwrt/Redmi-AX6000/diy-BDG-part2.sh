@@ -176,6 +176,7 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 # ## ---------------------------------------------------------
 
 # ## -------------- v2raya ---------------------------
+#23.05 org ver2.2.5.7
 # rm -rf feeds/packages/net/v2raya
 # rm -rf feeds/luci/applications/luci-app-v2raya
 # git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
