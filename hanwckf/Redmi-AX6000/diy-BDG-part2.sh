@@ -167,34 +167,34 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 # ## ---------------------------------------------------------
 
 # ## -------------- v2raya ---------------------------
-# rm -rf feeds/packages/net/v2raya
-# rm -rf feeds/luci/applications/luci-app-v2raya
-# git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
-# mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
-# mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
+rm -rf feeds/packages/net/v2raya
+rm -rf feeds/luci/applications/luci-app-v2raya
+git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
+mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
-# rm -rf package/diy/v2raya/v2ray-core
-# rm -rf package/diy/v2raya/xray-core
-# rm -rf package/diy/v2raya/v2fly-geodata
+rm -rf package/diy/v2raya/v2ray-core
+rm -rf package/diy/v2raya/xray-core
+rm -rf package/diy/v2raya/v2fly-geodata
 
 ## customize immortalwrt orig v2raya
-nl feeds/packages/net/v2raya/Makefile
-v2aver=2.2.5.8
-v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
-v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-echo v2raya $v2aver sha256=$v2asha256
-echo v2raya-web $v2aver sha256=$v2awebsha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
-nl feeds/packages/net/v2raya/Makefile
-
-## customize v2raya ver
-sleep 1
+# nl feeds/packages/net/v2raya/Makefile
 # v2aver=2.2.5.8
 # v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # echo v2raya $v2aver sha256=$v2asha256
 # echo v2raya-web $v2aver sha256=$v2awebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
+# nl feeds/packages/net/v2raya/Makefile
+
+## customize v2raya ver
+sleep 1
+v2aver=2.2.5.8
+v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
+v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+echo v2raya $v2aver sha256=$v2asha256
+echo v2raya-web $v2aver sha256=$v2awebsha256
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
 
 # fix mijia cloud wrong dns (use xraycore)-------
 cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init feeds/packages/net/v2raya/files/v2raya.init
