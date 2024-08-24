@@ -279,7 +279,7 @@ fi
 rm -rf feeds/packages/net/v2ray-geodata
 rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
-git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
+# git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
 # customize to use 5.3.x
 mkdir -p package/diy/mosdns
 mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns531/* package/diy/mosdns
