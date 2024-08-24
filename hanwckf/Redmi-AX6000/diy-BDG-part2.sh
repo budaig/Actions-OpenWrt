@@ -178,14 +178,14 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 # rm -rf package/diy/v2raya/v2fly-geodata
 
 ## customize immortalwrt orig v2raya
-# nl feeds/packages/net/v2raya/Makefile
+nl feeds/packages/net/v2raya/Makefile
 v2aver=2.2.5.8
 v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 echo v2raya $v2aver sha256=$v2asha256
 echo v2raya-web $v2aver sha256=$v2awebsha256
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
-# nl feeds/packages/net/v2raya/Makefile
+nl feeds/packages/net/v2raya/Makefile
 
 ## customize v2raya ver
 sleep 1
@@ -194,10 +194,10 @@ sleep 1
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # echo v2raya $v2aver sha256=$v2asha256
 # echo v2raya-web $v2aver sha256=$v2awebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
 
 # fix mijia cloud wrong dns (use xraycore)-------
-cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init package/diy/v2raya/v2raya/files/v2raya.init
+cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init feeds/packages/net/v2raya/files/v2raya.init
 if [ $? -eq 0 ]; then
     echo "v2raya.init copied"
 else
@@ -206,8 +206,8 @@ fi
 # sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
 #or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya.init -o package/diy/v2raya/v2raya/files/v2raya.init
-mkdir -p package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/xrayconf.json package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
+mkdir -p feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/xrayconf.json feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray/config.json
 if [ $? -eq 0 ]; then
     echo "xrayconf copied"
 else
