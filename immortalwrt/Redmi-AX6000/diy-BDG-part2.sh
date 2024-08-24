@@ -194,7 +194,7 @@ v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2
 echo v2raya $v2aver sha256=$v2asha256
 echo v2raya-web $v2aver sha256=$v2awebsha256
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
-nl feeds/packages/net/v2raya/Makefile
+# nl feeds/packages/net/v2raya/Makefile
 
 ## customize v2raya ver
 sleep 1
