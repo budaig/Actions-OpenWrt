@@ -88,13 +88,13 @@ git clone https://github.com/oppen321/luci-app-alist -b main package/diy/alist
 
 ## customize alist ver
 # sleep 1
-# alver=3.36.0
-# alwebver=3.36.0
-# alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
-# alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
-# echo alist $alver sha256=$alsha256
-# echo alist-web $alver sha256=$alwebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
+alver=3.36.0
+alwebver=3.36.0
+alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
+alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
+echo alist $alver sha256=$alsha256
+echo alist-web $alver sha256=$alwebsha256
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
 
 # change default port: version 3.33.0 and up
 # sed -i 's/5244/5246/g' package/diy/alist/alist/files/alist.config
@@ -294,14 +294,14 @@ else
 fi
 ls package/diy/mosdns
 
-# git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
+git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
    # #与 openwrt-xray geodat 相同
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
-# if [ $? -eq 0 ]; then
-    # echo "mosdnsgeodataMakefile copied"
-# else
-    # echo "mosdnsgeodataMakefile copy failed"
-# fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
+if [ $? -eq 0 ]; then
+    echo "mosdnsgeodataMakefile copied"
+else
+    echo "mosdnsgeodataMakefile copy failed"
+fi
 # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------
