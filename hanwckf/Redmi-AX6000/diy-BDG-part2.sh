@@ -47,7 +47,7 @@ done
 
 # ## update golang 20.x to 21.x
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 # use
 # cp ${GITHUB_WORKSPACE}/_modFiles/golang-values.mk feeds/packages/lang/golang/golang-values.mk
 # 21.x to use 21.4
@@ -173,9 +173,9 @@ git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
-rm -rf package/diy/v2raya/v2ray-core
-rm -rf package/diy/v2raya/xray-core
-rm -rf package/diy/v2raya/v2fly-geodata
+# rm -rf package/diy/v2raya/v2ray-core
+# rm -rf package/diy/v2raya/xray-core
+# rm -rf package/diy/v2raya/v2fly-geodata
 
 ## customize immortalwrt orig v2raya
 # nl feeds/packages/net/v2raya/Makefile
@@ -274,12 +274,13 @@ rm -rf feeds/luci/applications/luci-app-mosdns
 # git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
 # customize to use 5.3.x
 mkdir -p package/diy/mosdns
-mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns533 package/diy/mosdns
+mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns
 if [ $? -eq 0 ]; then
     echo "mosdns dir copied"
 else
     echo "mosdns dir copy failed"
 fi
+ls package/diy/mosdns
 
 git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
    #与 openwrt-xray geodat 相同
