@@ -72,6 +72,7 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 # replace alist
 rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
+# rm -rf luci-i18n-alist-zh-cn
 # alist 3.36 requires go 1.22
 git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
 mv package/diy/alist/alist feeds/packages/net/alist
@@ -270,19 +271,21 @@ fi
 # ## ---------------------------------------------------------
 
 # ## -------------- mosdns ---------------------------
+# ls feeds/packages/net/mosdns
+nl feeds/packages/net/mosdns/Makefile
 rm -rf feeds/packages/net/v2ray-geodata
 rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
 # git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
 # customize to use 5.3.x
 mkdir -p package/diy/mosdns
-mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns
+mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns531/* package/diy/mosdns
 if [ $? -eq 0 ]; then
     echo "mosdns dir copied"
 else
     echo "mosdns dir copy failed"
 fi
-ls package/diy/mosdns
+# ls package/diy/mosdns
 
 git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
    #与 openwrt-xray geodat 相同
