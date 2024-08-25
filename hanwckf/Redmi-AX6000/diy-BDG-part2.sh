@@ -53,7 +53,7 @@ done
 # ## update golang 20.x to 21.x
 # nl feeds/packages/lang/golang/golang/Makefile   #21.02 org ver1.19
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 # use
 # cp ${GITHUB_WORKSPACE}/_modFiles/golang-values.mk feeds/packages/lang/golang/golang-values.mk
 # 21.x to use 21.4
@@ -186,6 +186,13 @@ mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
 # rm -rf package/diy/v2raya/v2ray-core
+
+## customize ca ver
+caver=20240203
+casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
+echo ca-certificates $caver sha256=$casha256
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
+# nl feeds/packages/net/v2raya/Makefile
 
 ## customize immortalwrt orig v2raya
 # nl feeds/packages/net/v2raya/Makefile
