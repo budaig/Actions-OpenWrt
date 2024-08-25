@@ -187,13 +187,6 @@ mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
 # rm -rf package/diy/v2raya/v2ray-core
 
-## customize ca ver
-caver=20240203
-casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
-echo ca-certificates $caver sha256=$casha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
-# nl feeds/packages/net/v2raya/Makefile
-
 ## customize immortalwrt orig v2raya
 # nl feeds/packages/net/v2raya/Makefile
 # v2aver=2.2.5.8
@@ -202,6 +195,13 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$
 # echo v2raya $v2aver sha256=$v2asha256
 # echo v2raya-web $v2aver sha256=$v2awebsha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
+# nl feeds/packages/net/v2raya/Makefile
+
+## customize ca ver
+caver=20240203
+casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
+echo ca-certificates $caver sha256=$casha256
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
 # nl feeds/packages/net/v2raya/Makefile
 
 ## customize v2raya ver
