@@ -288,8 +288,8 @@ fi
 # ls feeds/packages/net/mosdns
 # nl feeds/packages/net/mosdns/Makefile   #ver5.1.3
 # rm -rf feeds/packages/net/v2ray-geodata
-# rm -rf feeds/packages/net/mosdns
-# rm -rf feeds/luci/applications/luci-app-mosdns
+rm -rf feeds/packages/net/mosdns
+rm -rf feeds/luci/applications/luci-app-mosdns
 git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
 # # git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
 # # customize to use 5.3.x
