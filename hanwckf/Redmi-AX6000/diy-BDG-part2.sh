@@ -53,7 +53,7 @@ done
 # ## update golang 20.x to 21.x
 # nl feeds/packages/lang/golang/golang/Makefile   #21.02 org ver1.19
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 # use
 # cp ${GITHUB_WORKSPACE}/_modFiles/golang-values.mk feeds/packages/lang/golang/golang-values.mk
 # 21.x to use 21.4
@@ -81,8 +81,8 @@ rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
 # rm -rf luci-i18n-alist-zh-cn
 # alist 3.36 requires go 1.22
-# git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
-git clone https://github.com/oppen321/luci-app-alist -b main package/diy/alist
+git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
+# git clone https://github.com/oppen321/luci-app-alist -b main package/diy/alist
 # mv package/diy/alist/alist feeds/packages/net/alist
 # mv package/diy/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 
