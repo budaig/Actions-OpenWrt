@@ -179,8 +179,8 @@ git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app
 
 # ## -------------- v2raya ---------------------------
 # nl feeds/packages/net/v2raya/Makefile   #21.02 org ver2.1.0
-# rm -rf feeds/packages/net/v2raya
-# rm -rf feeds/luci/applications/luci-app-v2raya
+rm -rf feeds/packages/net/v2raya
+rm -rf feeds/luci/applications/luci-app-v2raya
 # git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
