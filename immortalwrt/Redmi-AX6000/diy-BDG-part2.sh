@@ -158,7 +158,7 @@ fi
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
 # ##  -------------- xray ---------------------------
-git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+# git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # use custom ver
@@ -298,23 +298,23 @@ rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
 # git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
 git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
-# customize to use 5.3.x
-# mkdir -p package/diy/mosdns
-# mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns531/* package/diy/mosdns
-# if [ $? -eq 0 ]; then
-    # echo "mosdns dir copied"
-# else
-    # echo "mosdns dir copy failed"
-# fi
-
-git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
-   #与 openwrt-xray geodat 相同
-cp -f ${GITHUB_WORKSPACE}/_modFiles/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
+# customize to use 5.3.x (include both https://github.com/sbwml/v2ray-geodata and https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
+mkdir -p package/diy/mosdns
+mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns531/* package/diy/mosdns
 if [ $? -eq 0 ]; then
-    echo "mosdnsgeodataMakefile copied"
+    echo "mosdns dir copied"
 else
-    echo "mosdnsgeodataMakefile copy failed"
+    echo "mosdns dir copy failed"
 fi
+
+# git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
+   #与 openwrt-xray geodat 相同
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "mosdnsgeodataMakefile copied"
+# else
+    # echo "mosdnsgeodataMakefile copy failed"
+# fi
 # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------
