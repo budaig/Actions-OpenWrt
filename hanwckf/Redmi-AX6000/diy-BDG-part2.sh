@@ -53,7 +53,7 @@ done
 # ## update golang 20.x to 21.x
 # nl feeds/packages/lang/golang/golang/Makefile   #21.02 org ver1.19
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 21.x feeds/packages/lang/golang
 # use
 # cp ${GITHUB_WORKSPACE}/_modFiles/golang-values.mk feeds/packages/lang/golang/golang-values.mk
 # 21.x to use 21.4
@@ -302,7 +302,7 @@ git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
 # fi
 # ls package/diy/mosdns
 
-# git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
+git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
    #与 openwrt-xray geodat 相同
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
 # if [ $? -eq 0 ]; then
