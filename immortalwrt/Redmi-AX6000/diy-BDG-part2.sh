@@ -120,7 +120,7 @@ rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 
 # #/etc/config/lucky.daji/lucky.conf
-# git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
+git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 # mv package/diy/lucky/lucky feeds/packages/net/lucky
 # mv package/diy/lucky/luci-app-lucky feeds/luci/applications/luci-app-lucky
 
@@ -135,19 +135,19 @@ rm -rf feeds/luci/applications/luci-app-lucky
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' feeds/packages/net/lucky/Makefile
 
 # #/etc/lucky/lucky.conf
-git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
+# git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
 # sleep 1
 # ## customize lucky ver
 # # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
 # lkver=2.6.2
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/diy/lucky/lucky/Makefile
 # sed -i '/PKG_SOURCE_VERSION:=/d' package/diy/lucky/lucky/Makefile
-cp -f ${GITHUB_WORKSPACE}/_modFiles/etcconfiglucky package/diy/lucky/luci-app-lucky/root/etc/config/lucky
-if [ $? -eq 0 ]; then
-    echo "etcconfiglucky copied"
-else
-    echo "etcconfiglucky copy failed"
-fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/etcconfiglucky package/diy/lucky/luci-app-lucky/root/etc/config/lucky
+# if [ $? -eq 0 ]; then
+    # echo "etcconfiglucky copied"
+# else
+    # echo "etcconfiglucky copy failed"
+# fi
 
 # cat package/diy/lucky/lucky/Makefile
 # ## ---------------------------------------------------------
