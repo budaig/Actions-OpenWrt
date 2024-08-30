@@ -194,7 +194,7 @@ jobs:
         echo "The default IP address is 192.168.XXX.1" >> release.txt
         echo "## immortalwrt-23.05 uboot layout " >> release.txt
         echo "------" >> release.txt
-        useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
+        useVersionInfo=$(git show -s --date=medium --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
         echo "$useVersionInfo" >> release.txt
         echo "📥 固件下载" >> release.txt
         echo "status=success"

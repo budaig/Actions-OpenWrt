@@ -157,24 +157,26 @@ git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
-# ##  -------------- xray ---------------------------
-git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+# ##  -------------- xray +  ---------------------------
+## geodata
+# git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
-git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
-# use custom ver
+## core
+# git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
+# custom ver
 # xrver=1.8.23
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
 
-# ##  -------------- luci app xray ---------------------------
-# use yicha xray status for 22.03 or up---------------
+##  -------------- luci app xray ---------------------------
+## yicha xray status core+luci for 22.03 and up---------------
 git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-status
-# use yicha xray status ---------------
-# or use ttimasdf xray/xapp for 21.02 or up---------------
-# git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 21.02
-# git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 22.03 or up
-# use yicha xray status ---------------
+# yicha xray status ---------------
+## or ttimasdf xray/xapp luci for 21.02 and up---------------
+# git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 19.07
+# git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 21.02 and up
+# yicha xray xapp ---------------
 # ## ---------------------------------------------------------
 
 # ## -------------- v2raya ---------------------------
@@ -296,7 +298,7 @@ fi
 rm -rf feeds/packages/net/v2ray-geodata
 rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
-git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
+# git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
 git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
 # customize to use 5.3.x ( 531 include both https://github.com/sbwml/v2ray-geodata and https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
 # mkdir -p package/diy/mosdns
