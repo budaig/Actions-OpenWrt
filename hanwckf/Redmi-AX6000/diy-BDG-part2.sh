@@ -88,13 +88,13 @@ git clone https://github.com/oppen321/luci-app-alist -b main package/diy/alist
 
 ## customize alist ver
 # sleep 1
-# alver=3.36.0
-# alwebver=3.36.0
-# alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
-# alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
-# echo alist $alver sha256=$alsha256
-# echo alist-web $alver sha256=$alwebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
+alver=3.36.0
+alwebver=3.36.0
+alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
+alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
+echo alist $alver sha256=$alsha256
+echo alist-web $alver sha256=$alwebsha256
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
 
 # change default port: version 3.33.0 and up
 # sed -i 's/5244/5246/g' package/diy/alist/alist/files/alist.config
@@ -164,19 +164,26 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-# xrver=1.8.23
+# xrver=1.8.24
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
 
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
-## yicha xray status core+luci for 22.03 and up---------------
+## yicha xray status luci for 22.03 and up---------------
 # git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-status
 # yicha xray status ---------------
 ## or ttimasdf xray/service name xapp/ luci for 21.02 and up---------------
 # git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 19.07
 git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 21.02 and up
+# disable auto start
+cp -f ${GITHUB_WORKSPACE}/_modFiles/xapp.conf package/diy/luci-app-xapp/root/etc/config/xapp
+if [ $? -eq 0 ]; then
+    echo "xapp.conf copied"
+else
+    echo "xapp.conf copy failed"
+fi
 # yicha xray xapp ---------------
 # ## ---------------------------------------------------------
 
@@ -260,7 +267,7 @@ fi
 # echo v2ray $vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
-# xrver=1.8.23
+# xrver=1.8.24
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
@@ -303,6 +310,7 @@ if [ $? -eq 0 ]; then
 else
     echo "mosdns dir copy failed"
 fi
+chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
 # ls package/diy/mosdns
 
 git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
