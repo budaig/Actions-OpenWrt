@@ -170,10 +170,11 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
 
 ##  -------------- luci app xray ---------------------------
+rm -rf feeds/luci/applications/luci-app-xray
 ## yicha xray status core+luci for 22.03 and up---------------
 # git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-status
 # yicha xray status ---------------
-## or ttimasdf xray/xapp luci for 21.02 and up---------------
+## or ttimasdf xray/service name xapp/ luci for 21.02 and up---------------
 # git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 19.07
 git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 21.02 and up
 # yicha xray xapp ---------------
@@ -181,11 +182,11 @@ git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app
 
 # ## -------------- v2raya ---------------------------
 # nl feeds/packages/net/v2raya/Makefile   #21.02 org ver2.1.0
-# rm -rf feeds/packages/net/v2raya
-# rm -rf feeds/luci/applications/luci-app-v2raya
-# git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
-# mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
-# mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
+rm -rf feeds/packages/net/v2raya
+rm -rf feeds/luci/applications/luci-app-v2raya
+git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
+mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
 # rm -rf package/diy/v2raya/v2ray-core
 
@@ -200,38 +201,38 @@ git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app
 # nl feeds/packages/net/v2raya/Makefile
 
 ## customize ca ver
-# caver=20240203
-# casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
-# echo ca-certificates $caver sha256=$casha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
+caver=20240203
+casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
+echo ca-certificates $caver sha256=$casha256
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
 # nl feeds/packages/net/v2raya/Makefile
 
 ## customize v2raya ver
-# sleep 1
-# v2aver=2.2.5.8
-# v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
-# v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-# echo v2raya $v2aver sha256=$v2asha256
-# echo v2raya-web $v2aver sha256=$v2awebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
+sleep 1
+v2aver=2.2.5.8
+v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
+v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+echo v2raya $v2aver sha256=$v2asha256
+echo v2raya-web $v2aver sha256=$v2awebsha256
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
 
 # fix mijia cloud wrong dns (use xraycore)-------
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init feeds/packages/net/v2raya/files/v2raya.init
-# if [ $? -eq 0 ]; then
-    # echo "v2raya.init copied"
-# else
-    # echo "v2raya.init copy failed"
-# fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init feeds/packages/net/v2raya/files/v2raya.init
+if [ $? -eq 0 ]; then
+    echo "v2raya.init copied"
+else
+    echo "v2raya.init copy failed"
+fi
 # sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
 #or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya.init -o package/diy/v2raya/v2raya/files/v2raya.init
-# mkdir -p feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/xrayconf.json feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray/config.json
-# if [ $? -eq 0 ]; then
-    # echo "xrayconf copied"
-# else
-    # echo "xrayconf copy failed"
-# fi
+mkdir -p feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/xrayconf.json feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray/config.json
+if [ $? -eq 0 ]; then
+    echo "xrayconf copied"
+else
+    echo "xrayconf copy failed"
+fi
 # or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/xrayconfig.json -o package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
 # # go 1.21.4
@@ -294,7 +295,7 @@ rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
 # git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
 # git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
-# customize to use 5.3.x (531 include both https://github.com/sbwml/v2ray-geodata and https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
+# customize to use 5.3.x (TODO:531 include both https://github.com/sbwml/v2ray-geodata and https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
 mkdir -p package/diy/mosdns
 mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns531/* package/diy/mosdns
 if [ $? -eq 0 ]; then
