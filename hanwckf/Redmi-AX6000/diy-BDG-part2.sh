@@ -159,7 +159,7 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/c
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
-# git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
