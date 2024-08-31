@@ -55,11 +55,11 @@ rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
 # ## -------------- adguardhome ---------------------------
-# rm -rf feeds/packages/net/adguardhome
-# rm -rf feeds/luci/applications/luci-app-adguardhome
-# git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
-# mv package/diy/adguardhome/AdGuardHome feeds/packages/net/adguardhome
-# mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app-adguardhome
+rm -rf feeds/packages/net/adguardhome
+rm -rf feeds/luci/applications/luci-app-adguardhome
+git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
+mv package/diy/adguardhome/AdGuardHome feeds/packages/net/adguardhome
+mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app-adguardhome
 
 # sleep 1
 # aghver=0.107.52
@@ -144,9 +144,9 @@ git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 # sed -i '/PKG_SOURCE_VERSION:=/d' package/diy/lucky/lucky/Makefile
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/etcconfiglucky package/diy/lucky/luci-app-lucky/root/etc/config/lucky
 # if [ $? -eq 0 ]; then
-    # echo "etcconfiglucky copied"
+#     echo "etcconfiglucky copied"
 # else
-    # echo "etcconfiglucky copy failed"
+#     echo "etcconfiglucky copy failed"
 # fi
 
 # cat package/diy/lucky/lucky/Makefile
@@ -159,10 +159,10 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/c
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
-# git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
 ## core
-# git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
+git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
 # xrver=1.8.24
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
@@ -170,44 +170,66 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/c
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
 
 ##  -------------- luci app xray ---------------------------
-## yicha xray status core+luci for 22.03 and up---------------
+rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
+## yicha xray status luci for 22.03 and up---------------
 git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-status
 # yicha xray status ---------------
-## or ttimasdf xray/xapp luci for 21.02 and up---------------
+## or ttimasdf xray/service name xapp/ luci for 21.02 and up---------------
 # git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 19.07
 # git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 21.02 and up
+# disable auto start
+cp -f ${GITHUB_WORKSPACE}/_modFiles/xapp.conf package/diy/luci-app-xapp/root/etc/config/xapp
+if [ $? -eq 0 ]; then
+    echo "xapp.conf copied"
+else
+    echo "xapp.conf copy failed"
+fi
 # yicha xray xapp ---------------
 # ## ---------------------------------------------------------
 
 # ## -------------- v2raya ---------------------------
-#23.05 org ver2.2.5.7
-# rm -rf feeds/packages/net/v2raya
-# rm -rf feeds/luci/applications/luci-app-v2raya
-git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+# nl feeds/packages/net/v2raya/Makefile   #23.05 org ver2.2.5.7
+rm -rf feeds/packages/net/v2raya
+rm -rf feeds/luci/applications/luci-app-v2raya
+
+## method 1: replace whole dir
+mkdir -p package/diy/v2raya
+mv -f ${GITHUB_WORKSPACE}/_modFiles/v2raya-openwrt/* package/diy/v2raya
+if [ $? -eq 0 ]; then
+    echo "v2raya dir copied"
+else
+    echo "v2raya dir copy failed"
+fi
+chmod +x package/diy/v2raya/v2raya/files/v2raya.init
+ls package/diy/v2raya
+
+## method 2: clone then replace key files
+# git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
-rm -rf package/diy/v2raya/v2ray-core
-rm -rf package/diy/v2raya/xray-core
-rm -rf package/diy/v2raya/v2fly-geodata
+# rm -rf package/diy/v2raya/v2ray-core
+# rm -rf package/diy/v2raya/xray-core
+# rm -rf package/diy/v2raya/v2fly-geodata
 
-rm -rf package/diy/v2raya/luci-app-v2raya
-rm -rf package/diy/v2raya/v2raya
-## customize ca ver
-caver=20240203
-casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
-echo ca-certificates $caver sha256=$casha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
-# nl feeds/packages/net/v2raya/Makefile
+# rm -rf package/diy/v2raya/luci-app-v2raya
+# rm -rf package/diy/v2raya/v2raya
 
 ## customize immortalwrt orig v2raya
 # nl feeds/packages/net/v2raya/Makefile
-v2aver=2.2.5.8
-v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
-v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-echo v2raya $v2aver sha256=$v2asha256
-echo v2raya-web $v2aver sha256=$v2awebsha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
+# v2aver=2.2.5.8
+# v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
+# v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+# echo v2raya $v2aver sha256=$v2asha256
+# echo v2raya-web $v2aver sha256=$v2awebsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
+# nl feeds/packages/net/v2raya/Makefile
+
+## customize ca ver
+# caver=20240203
+# casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
+# echo ca-certificates $caver sha256=$casha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
 # nl feeds/packages/net/v2raya/Makefile
 
 ## customize v2raya ver
@@ -221,25 +243,25 @@ sleep 1
 #package/diy/v2raya/v2raya/Makefile   #
 
 # fix mijia cloud wrong dns (use xraycore)-------
-cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init feeds/packages/net/v2raya/files/v2raya.init
-#package/diy/v2raya/v2raya/files/v2raya.init   #
-if [ $? -eq 0 ]; then
-    echo "v2raya.init copied"
-else
-    echo "v2raya.init copy failed"
-fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init feeds/packages/net/v2raya/files/v2raya.init
+# #package/diy/v2raya/v2raya/files/v2raya.init   #
+# if [ $? -eq 0 ]; then
+    # echo "v2raya.init copied"
+# else
+    # echo "v2raya.init copy failed"
+# fi
 # sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
 #or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya.init -o package/diy/v2raya/v2raya/files/v2raya.init
-mkdir -p feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"
-#package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"   #
-cp -f ${GITHUB_WORKSPACE}/_modFiles/xrayconf.json feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray/config.json
-#package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json   #
-if [ $? -eq 0 ]; then
-    echo "xrayconf copied"
-else
-    echo "xrayconf copy failed"
-fi
+# mkdir -p feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"
+# #package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"   #
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/xrayconf.json feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray/config.json
+# #package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json   #
+# if [ $? -eq 0 ]; then
+    # echo "xrayconf copied"
+# else
+    # echo "xrayconf copy failed"
+# fi
 # or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/xrayconfig.json -o package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
 # # go 1.21.4
@@ -295,6 +317,8 @@ fi
 # ## ---------------------------------------------------------
 
 # ## -------------- mosdns ---------------------------
+# ls feeds/packages/net/mosdns
+# nl feeds/packages/net/mosdns/Makefile   #ver5.1.3
 rm -rf feeds/packages/net/v2ray-geodata
 rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
@@ -309,7 +333,7 @@ git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
     # echo "mosdns dir copy failed"
 # fi
 
-git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
+# git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
    #与 openwrt-xray geodat 相同
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
 # if [ $? -eq 0 ]; then
