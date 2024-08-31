@@ -363,6 +363,8 @@ mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf 
 ## add githubhosts
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
+urladhosts="https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-hosts.txt"
+curl -sL -m 30 --retry 2 "$urladhosts"  -o /etc/AWAvenueadshosts.txt
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
