@@ -326,7 +326,7 @@ fi
 chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
 # ls package/diy/mosdns
 
-git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
+# git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
    #与 openwrt-xray geodat 相同
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
 # if [ $? -eq 0 ]; then
