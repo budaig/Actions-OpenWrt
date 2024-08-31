@@ -172,7 +172,7 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 ## yicha xray status luci for 22.03 and up---------------
-git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-status
+git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
 # disable auto start
 cp -f ${GITHUB_WORKSPACE}/_modFiles/xstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
 if [ $? -eq 0 ]; then
@@ -181,6 +181,7 @@ else
     echo "xstatus.conf copy failed"
 fi
 # yicha xray status ---------------
+
 ## or ttimasdf xray/service name xapp/ luci for 21.02 and up---------------
 # git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 19.07
 # git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 21.02 and up
