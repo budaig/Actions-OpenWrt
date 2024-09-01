@@ -317,7 +317,7 @@ rm -rf feeds/luci/applications/luci-app-mosdns
 # git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
 # customize to use 5.3.x (TODO:531 include both https://github.com/sbwml/v2ray-geodata and https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
 mkdir -p package/diy/mosdns
-mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns
+mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns531/* package/diy/mosdns
 if [ $? -eq 0 ]; then
     echo "mosdns dir copied"
 else
@@ -365,7 +365,7 @@ mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf 
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
 urladhosts="https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-hosts.txt"
-curl -sL -m 30 --retry 2 "$urladhosts"  -o feeds/luci/applications/luci-app-smartdns/root/etc/AWAvenueadshosts.txt
+curl -sL -m 30 --retry 2 "$urladhosts"  -o package/diy/luci-app-smartdns/root/etc/AWAvenueadshosts.txt
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
