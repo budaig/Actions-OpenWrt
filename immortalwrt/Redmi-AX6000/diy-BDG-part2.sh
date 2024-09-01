@@ -57,9 +57,9 @@ git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/l
 # ## -------------- adguardhome ---------------------------
 rm -rf feeds/packages/net/adguardhome
 rm -rf feeds/luci/applications/luci-app-adguardhome
-git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
-mv package/diy/adguardhome/AdGuardHome feeds/packages/net/adguardhome
-mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app-adguardhome
+# git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/luci-adguardhome
+# mv package/diy/adguardhome/AdGuardHome feeds/packages/net/adguardhome
+# mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app-adguardhome
 
 # sleep 1
 # aghver=0.107.52
@@ -69,6 +69,10 @@ mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app
 
 # # mkdir -p package/diy/adguardhome/etc/config/adGuardConfig || echo "Failed to create /adguardhome/etc/config/adGuardConfig"
 # # curl -sL -m 30 --retry 2 https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_arm64.tar.gz -o /tmp/AdGuardHome_linux_arm64.tar.gz && tar -xzf /tmp/AdGuardHome_linux_arm64.tar.gz -C /tmp && mv /tmp/AdGuardHome/AdGuardHome package/diy/adguardhome/etc/config/adGuardConfig/AdGuardHome
+
+##
+git clone https://github.com/oppen321/luci-app-adguardhome -b main package/diy/luci-adguardhome
+# git clone https://github.com/kongfl888/luci-app-adguardhome -b master package/diy/luci-adguardhome
 
 # ## ---------------------------------------------------------
 
@@ -372,14 +376,15 @@ sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' feeds/luci/applicat
 mkdir -p feeds/luci/applications/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
 # ls -dR package/diy/luci-app-smartdns/root/etc/smartdns
 sleep 1
-urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
+# urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
+urlreject="https://raw.githubusercontent.com/hululu1068/AdRules/main/smart-dns.conf"
 curl -sL -m 30 --retry 2 "$urlreject" -o /tmp/reject.conf
 mv /tmp/reject.conf feeds/luci/applications/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
 ## add githubhosts
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o feeds/luci/applications/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
 urladhosts="https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-hosts.txt"
-curl -sL -m 30 --retry 2 "$urladhosts"  -o /etc/AWAvenueadshosts.txt
+curl -sL -m 30 --retry 2 "$urladhosts"  -o feeds/luci/applications/luci-app-smartdns/root/etc/etc/AWAvenueadshosts.txt
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig

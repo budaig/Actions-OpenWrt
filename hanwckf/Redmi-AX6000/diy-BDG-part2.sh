@@ -357,14 +357,15 @@ sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-ap
 mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
 # ls -dR package/diy/luci-app-smartdns/root/etc/smartdns
 sleep 1
-urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
+# urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
+urlreject="https://raw.githubusercontent.com/hululu1068/AdRules/main/smart-dns.conf"
 curl -sL -m 30 --retry 2 "$urlreject" -o /tmp/reject.conf
 mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
 ## add githubhosts
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
 urladhosts="https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-hosts.txt"
-curl -sL -m 30 --retry 2 "$urladhosts"  -o /etc/AWAvenueadshosts.txt
+curl -sL -m 30 --retry 2 "$urladhosts"  -o feeds/luci/applications/luci-app-smartdns/root/etc/AWAvenueadshosts.txt
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
