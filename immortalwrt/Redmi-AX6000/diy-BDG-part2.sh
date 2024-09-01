@@ -338,12 +338,15 @@ rm -rf feeds/luci/applications/luci-app-mosdns
 # git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
 # customize to use 5.3.x ( 531 include both https://github.com/sbwml/v2ray-geodata and https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
 mkdir -p package/diy/mosdns
-mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns
+mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns/
 if [ $? -eq 0 ]; then
     echo "mosdns dir copied"
 else
     echo "mosdns dir copy failed"
 fi
+chmod +x package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
+chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
+# ls package/diy/mosdns
 
 # git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
    #与 openwrt-xray geodat 相同

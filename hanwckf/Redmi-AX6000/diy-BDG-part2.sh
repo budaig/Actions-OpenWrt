@@ -314,16 +314,20 @@ rm -rf feeds/packages/net/v2ray-geodata
 rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
 # git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
-# git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
+git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
+sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
+
 # customize to use 5.3.x (TODO:531 include both https://github.com/sbwml/v2ray-geodata and https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
-mkdir -p package/diy/mosdns
-mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns531/* package/diy/mosdns
-if [ $? -eq 0 ]; then
-    echo "mosdns dir copied"
-else
-    echo "mosdns dir copy failed"
-fi
-chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
+# mkdir -p package/diy/mosdns
+# cp -rf ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns/
+# mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns/
+# if [ $? -eq 0 ]; then
+    # echo "mosdns dir copied"
+# else
+    # echo "mosdns dir copy failed"
+# fi
+# chmod +x package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
+# chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
 # ls package/diy/mosdns
 
 # git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
