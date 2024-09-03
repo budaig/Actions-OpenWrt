@@ -32,9 +32,6 @@ append_env_bool() {
 }
 
 start_service() {
-	mkdir -p /usr/share/v2ray
-	ln -s /usr/share/xray/geosite.dat /usr/share/v2ray/geosite.dat
-	ln -s /usr/share/xray/geoip.dat /usr/share/v2ray/geoip.dat
 
 	config_load "$CONF"
 

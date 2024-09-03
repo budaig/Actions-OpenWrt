@@ -194,7 +194,7 @@ rm -rf feeds/luci/applications/luci-app-v2raya
 
 ## method 1: replace whole dir
 mkdir -p package/diy/v2raya
-mv -f ${GITHUB_WORKSPACE}/_modFiles/v2raya-openwrt/* package/diy/v2raya
+mv -f ${GITHUB_WORKSPACE}/_modFiles/v2raya-openwrt/* package/diy/v2raya/
 if [ $? -eq 0 ]; then
     echo "v2raya dir copied"
 else
@@ -359,8 +359,16 @@ sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-ap
 
 ## add anti-ad data
 mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/smartdns_rules_update.sh package/diy/luci-app-smartdns/root/etc/smartdns/smartdns_rules_update.sh
+if [ $? -eq 0 ]; then
+    echo "smartdns_rules_update copied"
+else
+    echo "smartdns_rules_update copy failed"
+fi
+chmod +x package/diy/luci-app-smartdns/root/etc/smartdns/smartdns_rules_update.sh
 # ls -dR package/diy/luci-app-smartdns/root/etc/smartdns
 sleep 1
+## add hululu1068 / anti-ad 广告smartdns规则
 # urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
 urlreject="https://raw.githubusercontent.com/hululu1068/AdRules/main/smart-dns.conf"
 curl -sL -m 30 --retry 2 "$urlreject" -o /tmp/reject.conf
@@ -368,8 +376,15 @@ mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf 
 ## add githubhosts
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
-urladhosts="https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-hosts.txt"
-curl -sL -m 30 --retry 2 "$urladhosts"  -o package/diy/luci-app-smartdns/root/etc/AWAvenueadshosts.txt
+## add direct-domain-list
+urlcnlist="https://raw.githubusercontent.com/ixmu/smartdns-conf/main/direct-domain-list.conf"
+curl -sL -m 30 --retry 2 "$urlcnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/direct-domain-list.conf
+## add proxy-domain-list
+urlncnlist="https://raw.githubusercontent.com/ixmu/smartdns-conf/main/proxy-domain-list.conf"
+curl -sL -m 30 --retry 2 "$urlncnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/proxy-domain-list.conf
+## add 秋风广告规则-hosts
+# urladhosts="https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-hosts.txt"
+# curl -sL -m 30 --retry 2 "$urladhosts"  -o package/diy/luci-app-smartdns/root/etc/AWAvenueadshosts.txt
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
