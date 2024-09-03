@@ -161,6 +161,12 @@ git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
+# ## add OpenAppFilter oaf
+git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
+
+# ## add accesscontrolplus
+# git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
+
 # ##  -------------- xray +  ---------------------------
 ## geodata
 git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
