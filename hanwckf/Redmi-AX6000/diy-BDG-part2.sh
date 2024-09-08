@@ -81,20 +81,20 @@ rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
 # rm -rf luci-i18n-alist-zh-cn
 # alist 3.36 requires go 1.22
-# git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
-git clone https://github.com/oppen321/luci-app-alist -b main package/diy/alist
+git clone https://github.com/sbwml/luci-app-alist.git -b master package/diy/alist
+# git clone https://github.com/oppen321/luci-app-alist -b main package/diy/alist
 # mv package/diy/alist/alist feeds/packages/net/alist
 # mv package/diy/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 
 ## customize alist ver
 # sleep 1
-alver=3.36.0
-alwebver=3.36.0
-alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
-alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
-echo alist $alver sha256=$alsha256
-echo alist-web $alver sha256=$alwebsha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
+# alver=3.36.0
+# alwebver=3.36.0
+# alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
+# alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
+# echo alist $alver sha256=$alsha256
+# echo alist-web $alver sha256=$alwebsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
 
 # change default port: version 3.33.0 and up
 # sed -i 's/5244/5246/g' package/diy/alist/alist/files/alist.config
@@ -281,7 +281,7 @@ ls package/diy/v2raya
 
 # use custom ver ----------------
 # sleep 1
-# vrver=5.16.1
+# vrver=5.17.1
 # vrsha256=($(curl -sL https://codeload.github.com/v2fly/v2ray-core/tar.gz/v$vrver | shasum -a 256))
 # echo v2ray $vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
