@@ -161,7 +161,7 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/c
 git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
 
 # ## add accesscontrolplus
-# git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
+git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
@@ -170,7 +170,7 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-# xrver=1.8.24
+# xrver=24.9.7
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
@@ -286,7 +286,7 @@ ls package/diy/v2raya
 # echo v2ray $vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
-# xrver=1.8.24
+# xrver=24.9.7
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
