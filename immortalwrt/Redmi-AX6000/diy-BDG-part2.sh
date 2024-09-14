@@ -52,12 +52,12 @@ done
 
 # ## update golang 20.x to 21.x
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 23.x feeds/packages/lang/golang
 
 # ## -------------- adguardhome ---------------------------
 rm -rf feeds/packages/net/adguardhome
 rm -rf feeds/luci/applications/luci-app-adguardhome
-# git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/luci-adguardhome
+git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
 # mv package/diy/adguardhome/AdGuardHome feeds/packages/net/adguardhome
 # mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app-adguardhome
 
@@ -71,7 +71,7 @@ rm -rf feeds/luci/applications/luci-app-adguardhome
 # # curl -sL -m 30 --retry 2 https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_arm64.tar.gz -o /tmp/AdGuardHome_linux_arm64.tar.gz && tar -xzf /tmp/AdGuardHome_linux_arm64.tar.gz -C /tmp && mv /tmp/AdGuardHome/AdGuardHome package/diy/adguardhome/etc/config/adGuardConfig/AdGuardHome
 
 ##
-git clone https://github.com/oppen321/luci-app-adguardhome -b main package/diy/luci-adguardhome
+# git clone https://github.com/oppen321/luci-app-adguardhome -b main package/diy/luci-adguardhome
 # git clone https://github.com/kongfl888/luci-app-adguardhome -b master package/diy/luci-adguardhome
 
 # ## ---------------------------------------------------------
@@ -165,7 +165,7 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/c
 git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
 
 # ## add accesscontrolplus
-# git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
+git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
@@ -174,7 +174,7 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-# xrver=1.8.24
+# xrver=24.9.7
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
@@ -212,7 +212,7 @@ rm -rf feeds/luci/applications/luci-app-v2raya
 
 ## method 1: replace whole dir
 mkdir -p package/diy/v2raya
-mv -f ${GITHUB_WORKSPACE}/_modFiles/v2raya-openwrt/* package/diy/v2raya
+mv -f ${GITHUB_WORKSPACE}/_modFiles/v2raya-openwrt/* package/diy/v2raya/
 if [ $? -eq 0 ]; then
     echo "v2raya dir copied"
 else
@@ -302,12 +302,12 @@ sleep 1
 
 # use custom ver ----------------
 # sleep 1
-# vrver=5.16.1
+# vrver=5.17.1
 # vrsha256=($(curl -sL https://codeload.github.com/v2fly/v2ray-core/tar.gz/v$vrver | shasum -a 256))
 # echo v2ray $vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
-# xrver=1.8.24
+# xrver=24.9.7
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
@@ -341,17 +341,20 @@ rm -rf feeds/packages/net/v2ray-geodata
 rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
 # git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
-# git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
-# customize to use 5.3.x ( 531 include both https://github.com/sbwml/v2ray-geodata and https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
-mkdir -p package/diy/mosdns
-mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns/
-if [ $? -eq 0 ]; then
-    echo "mosdns dir copied"
-else
-    echo "mosdns dir copy failed"
-fi
-chmod +x package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
-chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
+git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
+sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
+
+# customize to use 5.3.x (TODO:531 include both https://github.com/sbwml/v2ray-geodata and https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
+# mkdir -p package/diy/mosdns
+# cp -rf ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns/
+# mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns/
+# if [ $? -eq 0 ]; then
+    # echo "mosdns dir copied"
+# else
+    # echo "mosdns dir copy failed"
+# fi
+# chmod +x package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
+# chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
 # ls package/diy/mosdns
 
 # git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
