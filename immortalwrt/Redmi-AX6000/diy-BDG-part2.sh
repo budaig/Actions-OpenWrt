@@ -370,22 +370,22 @@ sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mos
 # ## -------------- smartdns ---------------------------
 rm -rf feeds/packages/net/smartdns
 rm -rf feeds/luci/applications/luci-app-smartdns
-git clone https://github.com/pymumu/openwrt-smartdns -b master feeds/packages/net/smartdns
-git clone https://github.com/pymumu/luci-app-smartdns -b master feeds/luci/applications/luci-app-smartdns
+git clone https://github.com/pymumu/openwrt-smartdns -b master package/diy/smartdns   #feeds/packages/net/smartdns
+git clone https://github.com/pymumu/luci-app-smartdns -b master package/diy/luci-app-smartdns   #feeds/luci/applications/luci-app-smartdns
 
 ## update to the newest
 SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
 SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
 echo smartdns $SMARTDNS_VER sha256=$SMAERTDNS_SHA
 
-sed -i '/PKG_MIRROR_HASH:=/d' feeds/packages/net/smartdns/Makefile   #package/diy/smartdns/Makefile
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' feeds/packages/net/smartdns/Makefile   #package/diy/smartdns/Makefile
-sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' feeds/packages/net/smartdns/Makefile   #package/diy/smartdns/Makefile
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' feeds/luci/applications/luci-app-smartdns/Makefile   #package/diy/luci-app-smartdns/Makefile
-sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' feeds/luci/applications/luci-app-smartdns/Makefile   #package/diy/luci-app-smartdns/Makefile
+sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile   #feeds/packages/net/smartdns/Makefile
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile   #feeds/packages/net/smartdns/Makefile
+sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/diy/smartdns/Makefile   #feeds/packages/net/smartdns/Makefile
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile   #feeds/luci/applications/luci-app-smartdns/Makefile
+sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile   #feeds/luci/applications/luci-app-smartdns/Makefile
 
 ## add anti-ad data
-mkdir -p feeds/luci/applications/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
+mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
 cp -f ${GITHUB_WORKSPACE}/_modFiles/smartdns_rules_update.sh package/diy/luci-app-smartdns/root/etc/smartdns/smartdns_rules_update.sh
 if [ $? -eq 0 ]; then
     echo "smartdns_rules_update copied"
