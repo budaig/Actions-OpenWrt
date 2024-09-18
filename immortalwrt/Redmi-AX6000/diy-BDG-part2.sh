@@ -174,7 +174,7 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-# xrver=24.9.7
+# xrver=24.9.16
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
@@ -302,12 +302,12 @@ sleep 1
 
 # use custom ver ----------------
 # sleep 1
-# vrver=5.17.1
+# vrver=5.18.0
 # vrsha256=($(curl -sL https://codeload.github.com/v2fly/v2ray-core/tar.gz/v$vrver | shasum -a 256))
 # echo v2ray $vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
-# xrver=24.9.7
+# xrver=24.9.16
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
@@ -436,6 +436,23 @@ if [ $? -eq 0 ]; then
     echo "xraycfg copied"
 else
     echo "xraycfg copy failed"
+fi
+
+## 借用 smartdns / mosdns 配置文件夹安装 nft 自启
+cp -f ${GITHUB_WORKSPACE}/_modFiles/nft package/diy/mosdns/luci-app-mosdns/root/etc/init.d/nft
+if [ $? -eq 0 ]; then
+    echo "nft copied"
+else
+    echo "nft copy failed"
+fi
+chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/nft
+
+mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/nftables.d || echo "Failed to create /luci-app-smartdns/root/etc/nftables.d"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/openwrt-nft-ruleset.conf package/diy/mosdns/luci-app-mosdns/root/etc/nftables.d/openwrt-nft-ruleset.conf
+if [ $? -eq 0 ]; then
+    echo "nft copied"
+else
+    echo "nft copy failed"
 fi
 
 # ## ---------------------------------------------------------
