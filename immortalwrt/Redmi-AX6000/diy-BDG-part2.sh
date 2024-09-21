@@ -450,9 +450,9 @@ chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/nft
 mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/nftables.d || echo "Failed to create /luci-app-smartdns/root/etc/nftables.d"
 cp -f ${GITHUB_WORKSPACE}/_modFiles/openwrt-nft-ruleset.conf package/diy/mosdns/luci-app-mosdns/root/etc/nftables.d/openwrt-nft-ruleset.conf
 if [ $? -eq 0 ]; then
-    echo "nft copied"
+    echo "openwrt-nft-ruleset copied"
 else
-    echo "nft copy failed"
+    echo "openwrt-nft-ruleset copy failed"
 fi
 
 # ## ---------------------------------------------------------
