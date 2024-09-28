@@ -211,7 +211,7 @@ else
     echo "v2raya dir copy failed"
 fi
 chmod +x package/diy/v2raya/v2raya/files/v2raya.init
-ls package/diy/v2raya
+# ls package/diy/v2raya
 
 ## method 2: clone then replace key files
 # git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
@@ -378,14 +378,14 @@ else
 fi
 chmod +x package/diy/luci-app-smartdns/root/etc/smartdns/dns_rules_update.sh
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/blockADcooka.txt package/diy/luci-app-smartdns/root/etc/smartdns/blockADcooka.txt
+cp -f ${GITHUB_WORKSPACE}/_modFiles/blockADcooka.mos package/diy/luci-app-smartdns/root/etc/smartdns/blockADcooka.txt
 if [ $? -eq 0 ]; then
     echo "blockADcooka copied"
 else
     echo "blockADcooka copy failed"
 fi
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/gthosts.txt package/diy/luci-app-smartdns/root/etc/smartdns/gthosts.txt
+cp -f ${GITHUB_WORKSPACE}/_modFiles/gthosts.mos package/diy/luci-app-smartdns/root/etc/smartdns/gthosts.txt
 if [ $? -eq 0 ]; then
     echo "gthost copied"
 else
