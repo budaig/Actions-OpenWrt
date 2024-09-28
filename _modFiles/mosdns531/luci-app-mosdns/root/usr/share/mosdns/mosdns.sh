@@ -133,7 +133,7 @@ geodat_update() (
         exit 1
     fi
     rm -rf "$TMPDIR"/*.sha256sum
-    \cp -a "$TMPDIR"/* /usr/share/v2ray
+    \cp -a "$TMPDIR"/* /usr/share/xray
     rm -rf "$TMPDIR"
 )
 
@@ -147,7 +147,7 @@ flush_cache() {
 
 v2dat_dump() {
     # env
-    v2dat_dir=/usr/share/v2ray
+    v2dat_dir=/usr/share/xray
     adblock=$(uci -q get mosdns.config.adblock)
     ad_source=$(uci -q get mosdns.config.ad_source)
     configfile=$(uci -q get mosdns.config.configfile)

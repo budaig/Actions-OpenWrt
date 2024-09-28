@@ -218,7 +218,7 @@
 	},
 	// 4.3 跟随规则的socks5转发
 	{
-		"port": 20186,
+		"port": 21086,
 		"protocol": "socks",
 		"listen": "0.0.0.0",
 		"sniffing": {

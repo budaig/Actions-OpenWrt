@@ -104,6 +104,10 @@ git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 # sed -i 's/5244/5246/g' package/diy/alist/luci-app-alist/root/etc/init.d/alist
 # ## ---------------------------------------------------------
 
+# ## -------------- qosmate ------------------------------
+git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
+# ## ---------------------------------------------------------
+
 # ## -------------- ikoolproxy ---------------------------
 # git clone -b main https://github.com/ilxp/luci-app-ikoolproxy.git package/diy/luci-app-ikoolproxy
 ## add video rule
@@ -366,20 +370,34 @@ sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-ap
 
 ## add anti-ad data
 mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/smartdns_rules_update.sh package/diy/luci-app-smartdns/root/etc/smartdns/smartdns_rules_update.sh
+cp -f ${GITHUB_WORKSPACE}/_modFiles/dns_rules_update.sh package/diy/luci-app-smartdns/root/etc/smartdns/dns_rules_update.sh
 if [ $? -eq 0 ]; then
-    echo "smartdns_rules_update copied"
+    echo "dns_rules_update copied"
 else
-    echo "smartdns_rules_update copy failed"
+    echo "dns_rules_update copy failed"
 fi
-chmod +x package/diy/luci-app-smartdns/root/etc/smartdns/smartdns_rules_update.sh
+chmod +x package/diy/luci-app-smartdns/root/etc/smartdns/dns_rules_update.sh
+
+cp -f ${GITHUB_WORKSPACE}/_modFiles/blockADcooka.txt package/diy/luci-app-smartdns/root/etc/smartdns/blockADcooka.txt
+if [ $? -eq 0 ]; then
+    echo "blockADcooka copied"
+else
+    echo "blockADcooka copy failed"
+fi
+
+cp -f ${GITHUB_WORKSPACE}/_modFiles/gthosts.txt package/diy/luci-app-smartdns/root/etc/smartdns/gthosts.txt
+if [ $? -eq 0 ]; then
+    echo "gthost copied"
+else
+    echo "gthosts copy failed"
+fi
 # ls -dR package/diy/luci-app-smartdns/root/etc/smartdns
 sleep 1
 ## add hululu1068 / anti-ad 广告smartdns规则
 # urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
-urlreject="https://raw.githubusercontent.com/hululu1068/AdRules/main/smart-dns.conf"
-curl -sL -m 30 --retry 2 "$urlreject" -o /tmp/reject.conf
-mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
+# urlreject="https://raw.githubusercontent.com/hululu1068/AdRules/main/smart-dns.conf"
+# curl -sL -m 30 --retry 2 "$urlreject" -o /tmp/reject.conf
+# mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
 ## add githubhosts
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
