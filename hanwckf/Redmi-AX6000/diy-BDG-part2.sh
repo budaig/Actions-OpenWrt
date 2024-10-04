@@ -407,6 +407,9 @@ curl -sL -m 30 --retry 2 "$urlcnlist" -o package/diy/luci-app-smartdns/root/etc/
 ## add proxy-domain-list
 urlncnlist="https://raw.githubusercontent.com/ixmu/smartdns-conf/main/proxy-domain-list.conf"
 curl -sL -m 30 --retry 2 "$urlncnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/proxy-domain-list.conf
+## add gfw list
+urlgfwlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/gfw.txt"
+curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/gfw.txt
 ## add 秋风广告规则-hosts
 # urladhosts="https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-hosts.txt"
 # curl -sL -m 30 --retry 2 "$urladhosts"  -o package/diy/luci-app-smartdns/root/etc/AWAvenueadshosts.txt
