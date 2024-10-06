@@ -105,7 +105,7 @@ git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 # ## ---------------------------------------------------------
 
 # ## -------------- qosmate ------------------------------
-# git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
+git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
 # ## ---------------------------------------------------------
 
 # ## -------------- ikoolproxy ---------------------------
@@ -325,7 +325,7 @@ rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
 
 ## gitclone sbwml/luci-app-mosdns
-1. gitclone + mod makfile   -  prefer 1.
+# 1. gitclone + mod makfile   -  prefer 1.
 
 git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
 sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
