@@ -105,7 +105,7 @@ git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 # ## ---------------------------------------------------------
 
 # ## -------------- qosmate ------------------------------
-git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
+# git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
 # ## ---------------------------------------------------------
 
 # ## -------------- ikoolproxy ---------------------------
