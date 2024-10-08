@@ -327,9 +327,9 @@ rm -rf feeds/luci/applications/luci-app-mosdns
 ## gitclone sbwml/luci-app-mosdns
 # 1. gitclone + mod makfile   -  prefer 1.
 
-git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
-sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
-sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
+# git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
+# sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
+# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
 
 # 2. clone mod dir
 
@@ -358,8 +358,12 @@ sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/luci-app-mosdns/root/us
 ## gitclone QiuSimons/openwrt-mos
 # 1. gitclone + mod makfile
 
-# git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
-# rm -rf package/diy/mosdns/v2ray-geodata
+git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
+rm -rf package/diy/mosdns/v2ray-geodata
+sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config.yaml
+sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_new.yaml
+sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v4.yaml
+# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v5.yaml
 
 # 2. clone mod dir   -  prefer 2.
 # customize to use https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
