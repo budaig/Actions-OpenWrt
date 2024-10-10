@@ -223,7 +223,7 @@ chmod +x package/diy/v2raya/
 
 ## customize immortalwrt orig v2raya
 # nl feeds/packages/net/v2raya/Makefile
-# v2aver=2.2.5.8
+# v2aver=2.2.6
 # v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # echo v2raya $v2aver sha256=$v2asha256
@@ -350,7 +350,7 @@ rm -rf package/diy/mosdns/v2ray-geodata
 sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config.yaml
 sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_new.yaml
 sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v4.yaml
-sed -i 's/START=99/START=78/g' package/diy/luci-app-mosdns/root/etc/init.d/mosdns
+sed -i 's/START=99/START=78/g' package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
 # sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v5.yaml
 
 # 2. clone mod dir   -  prefer 2.
