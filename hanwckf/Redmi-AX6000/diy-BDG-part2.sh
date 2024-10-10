@@ -203,22 +203,23 @@ rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
 
 ## method 1: replace whole dir
-# mkdir -p package/diy/v2raya
-# mv -f ${GITHUB_WORKSPACE}/_modFiles/v2raya-openwrt/* package/diy/v2raya/
-# if [ $? -eq 0 ]; then
-    # echo "v2raya dir copied"
-# else
-    # echo "v2raya dir copy failed"
-# fi
-# chmod +x package/diy/v2raya/v2raya/files/v2raya.init
+mkdir -p package/diy/v2raya
+mv -f ${GITHUB_WORKSPACE}/_modFiles/v2raya-openwrt/* package/diy/v2raya/
+if [ $? -eq 0 ]; then
+    echo "v2raya dir copied"
+else
+    echo "v2raya dir copy failed"
+fi
+chmod +x package/diy/v2raya/v2raya/files/v2raya.init
+chmod +x package/diy/v2raya/
 # ls package/diy/v2raya
 
 ## method 2: clone then replace key files
-git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+# git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
-rm -rf package/diy/v2raya/v2ray-core
+# rm -rf package/diy/v2raya/v2ray-core
 
 ## customize immortalwrt orig v2raya
 # nl feeds/packages/net/v2raya/Makefile
@@ -231,31 +232,31 @@ rm -rf package/diy/v2raya/v2ray-core
 # nl feeds/packages/net/v2raya/Makefile
 
 ## customize ca ver
-caver=20240203
-casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
-echo ca-certificates $caver sha256=$casha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
+# caver=20240203
+# casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
+# echo ca-certificates $caver sha256=$casha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
 # nl feeds/packages/net/v2raya/Makefile
 
 ## customize v2raya ver
-sleep 1
-v2aver=2.2.6
-v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
-v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-echo v2raya $v2aver sha256=$v2asha256
-echo v2raya-web $v2aver sha256=$v2awebsha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile   #feeds/packages/net/v2raya/Makefile
+# sleep 1
+# v2aver=2.2.6
+# v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
+# v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+# echo v2raya $v2aver sha256=$v2asha256
+# echo v2raya-web $v2aver sha256=$v2awebsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile   #feeds/packages/net/v2raya/Makefile
 
 # fix mijia cloud wrong dns (use xraycore)-------
 # rm feeds/packages/net/v2raya/files/v2raya.init || echo "feeds/packages/net/v2raya/files/v2raya.init"
-rm package/diy/v2raya/v2raya/files/v2raya.init || echo "package/diy/v2raya/v2raya/files/v2raya.init"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init package/diy/v2raya/v2raya/files/v2raya.init
-if [ $? -eq 0 ]; then
-    echo "v2raya.init copied"
-else
-    echo "v2raya.init copy failed"
-fi
-chmod +x package/diy/package/diy/v2raya/v2raya/files/v2raya.init
+# rm package/diy/v2raya/v2raya/files/v2raya.init || echo "package/diy/v2raya/v2raya/files/v2raya.init"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init package/diy/v2raya/v2raya/files/v2raya.init
+# if [ $? -eq 0 ]; then
+    # echo "v2raya.init copied"
+# else
+    # echo "v2raya.init copy failed"
+# fi
+# chmod +x package/diy/v2raya/v2raya/files/v2raya.init
 #or #sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
 
 # # go 1.21.4
