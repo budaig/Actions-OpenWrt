@@ -104,10 +104,6 @@ git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 # sed -i 's/5244/5246/g' package/diy/alist/luci-app-alist/root/etc/init.d/alist
 # ## ---------------------------------------------------------
 
-# ## -------------- qosmate ------------------------------
-# git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
-# ## ---------------------------------------------------------
-
 # ## -------------- ikoolproxy ---------------------------
 # git clone -b main https://github.com/ilxp/luci-app-ikoolproxy.git package/diy/luci-app-ikoolproxy
 ## add video rule
@@ -161,11 +157,22 @@ sleep 1
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
-# ## add OpenAppFilter oaf
-git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
-
 # ## add accesscontrolplus
 git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
+
+# ## add OpenAppFilter oaf
+# git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
+
+# ## add eqosplus   需要安装eqosplus主题
+# git clone -b main https://github.com/sirpdboy/luci-app-eqosplus package/diy/eqosplus 
+
+# ## add parentcontrol
+# git clone -b main https://github.com/sirpdboy/luci-app-parentcontrol package/diy/parentcontrol
+git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/diy/parentcontrol
+
+# ## -------------- qosmate ------------------------------
+# git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
+# ## ---------------------------------------------------------
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
