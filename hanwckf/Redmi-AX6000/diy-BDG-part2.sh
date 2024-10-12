@@ -161,7 +161,7 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/c
 # git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
 
 # ## add OpenAppFilter oaf
-# git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
+git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
 
 # ## add eqosplus   需要安装eqosplus主题
 # git clone -b main https://github.com/sirpdboy/luci-app-eqosplus package/diy/eqosplus 
@@ -182,7 +182,7 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-# xrver=24.9.16
+# xrver=24.9.30
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
@@ -211,23 +211,25 @@ rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
 
 ## method 1: replace whole dir
-mkdir -p package/diy/v2raya
-mv -f ${GITHUB_WORKSPACE}/_modFiles/v2raya-openwrt/* package/diy/v2raya/
-if [ $? -eq 0 ]; then
-    echo "v2raya dir copied"
-else
-    echo "v2raya dir copy failed"
-fi
-chmod +x package/diy/v2raya/v2raya/files/v2raya.init
-chmod +x package/diy/v2raya/
+# mkdir -p package/diy/v2raya
+# mv -f ${GITHUB_WORKSPACE}/_modFiles/v2raya-openwrt/* package/diy/v2raya/
+# if [ $? -eq 0 ]; then
+    # echo "v2raya dir copied"
+# else
+    # echo "v2raya dir copy failed"
+# fi
+# chmod +x package/diy/v2raya/v2raya/files/v2raya.init
+# chmod +x package/diy/v2raya/
 # ls package/diy/v2raya
 
 ## method 2: clone then replace key files
-# git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
-# rm -rf package/diy/v2raya/v2ray-core
+rm -rf package/diy/v2raya/v2ray-core
+rm -rf package/diy/v2raya/v2fly-geodata
+rm -rf package/diy/v2raya/xray-core
 
 ## customize immortalwrt orig v2raya
 # nl feeds/packages/net/v2raya/Makefile
@@ -265,7 +267,9 @@ chmod +x package/diy/v2raya/
     # echo "v2raya.init copy failed"
 # fi
 # chmod +x package/diy/v2raya/v2raya/files/v2raya.init
-#or #sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
+# or 
+sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
+sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' package/diy/v2raya/v2raya/files/v2raya.init
 
 # # go 1.21.4
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/100-go-mod-ver.patch package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
@@ -280,12 +284,12 @@ chmod +x package/diy/v2raya/
 
 # use custom ver ----------------
 # sleep 1
-# vrver=5.18.0
+# vrver=5.19.0
 # vrsha256=($(curl -sL https://codeload.github.com/v2fly/v2ray-core/tar.gz/v$vrver | shasum -a 256))
 # echo v2ray $vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
-# xrver=24.9.16
+# xrver=24.9.30
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
