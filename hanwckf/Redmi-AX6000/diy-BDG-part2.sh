@@ -158,7 +158,7 @@ sleep 1
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
 # ## add accesscontrolplus
-git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
+# git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
 
 # ## add OpenAppFilter oaf
 # git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
@@ -171,7 +171,8 @@ git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus pa
 git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/diy/parentcontrol
 
 # ## -------------- qosmate ------------------------------
-# git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
+git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
+git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
 # ## ---------------------------------------------------------
 
 # ##  -------------- xray +  ---------------------------
