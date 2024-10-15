@@ -81,10 +81,16 @@ rm -rf feeds/packages/net/alist
 rm -rf feeds/luci/applications/luci-app-alist
 # rm -rf luci-i18n-alist-zh-cn
 # alist 3.36 requires go 1.22
+## 无binary 需手动下载bin
+# git clone https://github.com/lmq8267/luci-app-alist.git -b main package/diy/alist
+## bin 和 luci
 git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 # git clone https://github.com/oppen321/luci-app-alist -b main package/diy/alist
 # mv package/diy/alist/alist feeds/packages/net/alist
 # mv package/diy/alist/luci-app-alist feeds/luci/applications/luci-app-alist
+
+cp -f ${GITHUB_WORKSPACE}/_modFiles/alist/alistMakefile package/diy/alist/alist/Makefile
+cp -f ${GITHUB_WORKSPACE}/_modFiles/alist/alist338 package/diy/alist/alist/files/alist
 
 ## customize alist ver
 # sleep 1
@@ -284,7 +290,7 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 
 # use custom ver ----------------
 # sleep 1
-# vrver=5.19.0
+# vrver=5.20.0
 # vrsha256=($(curl -sL https://codeload.github.com/v2fly/v2ray-core/tar.gz/v$vrver | shasum -a 256))
 # echo v2ray $vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
