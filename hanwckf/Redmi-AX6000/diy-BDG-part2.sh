@@ -90,12 +90,22 @@ git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 # mv package/diy/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 
 cp -f ${GITHUB_WORKSPACE}/_modFiles/alist/alistMakefile package/diy/alist/alist/Makefile
+if [ $? -eq 0 ]; then
+    echo "alistMakefile copied"
+else
+    echo "alistMakefile copy failed"
+fi
 cp -f ${GITHUB_WORKSPACE}/_modFiles/alist/alist338 package/diy/alist/alist/files/alist
+if [ $? -eq 0 ]; then
+    echo "alistbin copied"
+else
+    echo "alistbin copy failed"
+fi
 
 ## customize alist ver
 # sleep 1
-# alver=3.36.0
-# alwebver=3.36.0
+# alver=3.38.0
+# alwebver=3.38.0
 # alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
 # alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
 # echo alist $alver sha256=$alsha256
@@ -188,7 +198,7 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-# xrver=24.9.30
+# xrver=24.10.16
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
@@ -295,7 +305,7 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 # echo v2ray $vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
-# xrver=24.9.30
+# xrver=24.10.16
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
