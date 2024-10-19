@@ -89,18 +89,19 @@ git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 # mv package/diy/alist/alist feeds/packages/net/alist
 # mv package/diy/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/alist/alistMakefile package/diy/alist/alist/Makefile
-if [ $? -eq 0 ]; then
-    echo "alistMakefile copied"
-else
-    echo "alistMakefile copy failed"
-fi
-cp -f ${GITHUB_WORKSPACE}/_modFiles/alist/alist338 package/diy/alist/alist/files/alist
-if [ $? -eq 0 ]; then
-    echo "alistbin copied"
-else
-    echo "alistbin copy failed"
-fi
+#-- use custom binary
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/alist/alistMakefile package/diy/alist/alist/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "alistMakefile copied"
+# else
+    # echo "alistMakefile copy failed"
+# fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/alist/alist338 package/diy/alist/alist/files/alist
+# if [ $? -eq 0 ]; then
+    # echo "alistbin copied"
+# else
+    # echo "alistbin copy failed"
+# fi
 
 ## customize alist ver
 # sleep 1
@@ -149,6 +150,20 @@ sleep 1
 # wget https://github.com/gdy666/lucky-files$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
 # lkver=2.10.8
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
+
+#-- use custom binary ver 2.12.7
+cp -f ${GITHUB_WORKSPACE}/_modFiles/lucky/luckyMakefile package/diy/lucky/lucky/Makefile
+if [ $? -eq 0 ]; then
+    echo "luckyMakefile copied"
+else
+    echo "luckyMakefile copy failed"
+fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/lucky/luckybin package/diy/lucky/lucky/files/lucky
+if [ $? -eq 0 ]; then
+    echo "luckybin copied"
+else
+    echo "luckybin copy failed"
+fi
 
 # #/etc/lucky/lucky.conf   #@go1.22
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
@@ -342,9 +357,9 @@ rm -rf feeds/luci/applications/luci-app-mosdns
 ## gitclone sbwml/luci-app-mosdns
 # 1. gitclone + mod makfile   -  prefer 1.
 
-# git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
-# sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
-# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
+git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
+sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
+sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
 
 # 2. clone mod dir
 
@@ -373,12 +388,12 @@ rm -rf feeds/luci/applications/luci-app-mosdns
 ## gitclone QiuSimons/openwrt-mos
 # 1. gitclone + mod makfile
 
-git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
-rm -rf package/diy/mosdns/v2ray-geodata
-sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config.yaml
-sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_new.yaml
-sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v4.yaml
-sed -i 's/START=99/START=78/g' package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
+# git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
+# rm -rf package/diy/mosdns/v2ray-geodata
+# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config.yaml
+# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_new.yaml
+# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v4.yaml
+# sed -i 's/START=99/START=78/g' package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
 # sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v5.yaml
 
 # 2. clone mod dir   -  prefer 2.
