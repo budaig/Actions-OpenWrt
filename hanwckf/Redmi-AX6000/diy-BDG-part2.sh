@@ -204,6 +204,9 @@ git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/di
 # ## -------------- qosmate ------------------------------
 git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
+qmver=0.5.29
+sed -i '4 s/.*/PKG_VERSION:='"$qmver"'/g' package/diy/qosmate/Makefile
+echo qosmate $qmver
 # ## ---------------------------------------------------------
 
 # ##  -------------- xray +  ---------------------------
