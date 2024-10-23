@@ -209,8 +209,8 @@ sed -i '4 s/.*/PKG_VERSION:='"$qmver"'/g' package/diy/qosmate/Makefile
 # sed -i '3 s/.*/VERSION='"$qmver"'/g' package/diy/qosmate/etc/qosmate.sh
 echo qosmate $qmver
 
-# https://github.com/LemonCrab666/luci-app-qosmate/blob/main/po/zh_Hans/qosmate.po
-mkdir -p package/diy/luci-app-qosmate/po/zh_Hans
+# # https://github.com/LemonCrab666/luci-app-qosmate/blob/main/po/zh_Hans/qosmate.po
+mkdir -p package/diy/luci-app-qosmate/po/zh_Hans || echo "Failed to create zh-Hans po"
 cp -f ${GITHUB_WORKSPACE}/_modFiles/qosmate/qosmate.po package/diy/luci-app-qosmate/po/zh_Hans/qosmate.po
 if [ $? -eq 0 ]; then
     echo "qosmate.po copied"
