@@ -220,6 +220,10 @@ fi
 # yicha xray xapp ---------------
 # ## ---------------------------------------------------------
 
+# ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
+git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/homeproxy
+# ## ---------------------------------------------------------
+
 # ## -------------- v2raya ---------------------------
 # nl feeds/packages/net/v2raya/Makefile   #23.05 org ver2.2.5.7
 rm -rf feeds/packages/net/v2raya

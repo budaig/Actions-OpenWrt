@@ -151,7 +151,7 @@ sleep 1
 # lkver=2.10.8
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-#-- use custom binary ver 2.12.7
+#-- use custom binary ver 2.13.3
 cp -f ${GITHUB_WORKSPACE}/_modFiles/lucky/luckyMakefile package/diy/lucky/lucky/Makefile
 if [ $? -eq 0 ]; then
     echo "luckyMakefile copied"
@@ -206,7 +206,17 @@ git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
 qmver=0.5.29
 sed -i '4 s/.*/PKG_VERSION:='"$qmver"'/g' package/diy/qosmate/Makefile
+# sed -i '3 s/.*/VERSION='"$qmver"'/g' package/diy/qosmate/etc/qosmate.sh
 echo qosmate $qmver
+
+# https://github.com/LemonCrab666/luci-app-qosmate/blob/main/po/zh_Hans/qosmate.po
+mkdir -p package/diy/luci-app-qosmate/po/zh_Hans
+cp -f ${GITHUB_WORKSPACE}/_modFiles/qosmate/qosmate.po package/diy/luci-app-qosmate/po/zh_Hans/qosmate.po
+if [ $? -eq 0 ]; then
+    echo "qosmate.po copied"
+else
+    echo "qosmate.po copy failed"
+fi
 # ## ---------------------------------------------------------
 
 # ##  -------------- xray +  ---------------------------
