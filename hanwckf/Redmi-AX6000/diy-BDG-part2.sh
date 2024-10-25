@@ -152,18 +152,18 @@ sleep 1
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
 #-- use custom binary ver 2.13.4
-cp -f ${GITHUB_WORKSPACE}/_modFiles/lucky/luckyMakefile package/diy/lucky/lucky/Makefile
-if [ $? -eq 0 ]; then
-    echo "luckyMakefile copied"
-else
-    echo "luckyMakefile copy failed"
-fi
-cp -f ${GITHUB_WORKSPACE}/_modFiles/lucky/luckybin package/diy/lucky/lucky/files/lucky
-if [ $? -eq 0 ]; then
-    echo "luckybin copied"
-else
-    echo "luckybin copy failed"
-fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/lucky/luckyMakefile package/diy/lucky/lucky/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "luckyMakefile copied"
+# else
+    # echo "luckyMakefile copy failed"
+# fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/lucky/luckybin package/diy/lucky/lucky/files/lucky
+# if [ $? -eq 0 ]; then
+    # echo "luckybin copied"
+# else
+    # echo "luckybin copy failed"
+# fi
 
 # #/etc/lucky/lucky.conf   #@go1.22
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
@@ -279,7 +279,7 @@ rm -rf package/diy/v2raya/xray-core
 
 ## customize immortalwrt orig v2raya
 # nl feeds/packages/net/v2raya/Makefile
-# v2aver=2.2.6
+# v2aver=2.2.6.1
 # v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # echo v2raya $v2aver sha256=$v2asha256
@@ -295,13 +295,13 @@ rm -rf package/diy/v2raya/xray-core
 # nl feeds/packages/net/v2raya/Makefile
 
 ## customize v2raya ver
-# sleep 1
-# v2aver=2.2.6
-# v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
-# v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-# echo v2raya $v2aver sha256=$v2asha256
-# echo v2raya-web $v2aver sha256=$v2awebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile   #feeds/packages/net/v2raya/Makefile
+sleep 1
+v2aver=2.2.6
+v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
+v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+echo v2raya $v2aver sha256=$v2asha256
+echo v2raya-web $v2aver sha256=$v2awebsha256
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile   #feeds/packages/net/v2raya/Makefile
 
 # fix mijia cloud wrong dns (use xraycore)-------
 # rm feeds/packages/net/v2raya/files/v2raya.init || echo "feeds/packages/net/v2raya/files/v2raya.init"
@@ -366,12 +366,18 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 rm -rf feeds/packages/net/chinadns-ng   #(241025 PKG_VERSION:=2023.10.28)
 rm -rf feeds/luci/applications/luci-app-chinadns-ng 
 
-git clone https://github.com/izilzty/luci-app-chinadns-ng -b master package/diy/luci-chiandns-ng
+git clone https://github.com/izilzty/luci-app-chinadns-ng -b master package/diy/luci-app-chinadns-ng
+# git clone https://github.com/pexcn/openwrt-chinadns-ng -b luci package/diy/luci-app-chinadns-ng  #(241025 未适配 2.0 的新功能)
 
-# git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chiandns-ng  #(241025 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能)
-# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chiandns-ng #(241025 PKG_VERSION:=2023.06.05)
-# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chiandns-ng #(241025 PKG_VERSION:=2024.10.14)
-git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chiandns-ng #(241025 PKG_VERSION:=2024.10.14)
+git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241025 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
+chng_ver=2024.10.14
+chng_SHA=$(echo -n `curl -sL https://api.github.com/repos/zfl9/chinadns-ng/commits | jq .[0].sha | sed 's/\"//g'`)
+sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA"'/g' package/diy/chinadns-ng/Makefile
+echo chinadns-ng sha256=$chng_SHA
+
+# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2023.06.05)
+# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2024.10.14)
+# git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2024.10.14)
 # ## ---------------------------------------------------------
 
 # ## -------------- mosdns ---------------------------
