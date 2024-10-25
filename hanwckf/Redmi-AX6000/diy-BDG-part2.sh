@@ -204,6 +204,7 @@ git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/di
 # ## -------------- qosmate ------------------------------
 git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
+sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
 qmver=0.5.29
 sed -i '4 s/.*/PKG_VERSION:='"$qmver"'/g' package/diy/qosmate/Makefile
 # sed -i '3 s/.*/VERSION='"$qmver"'/g' package/diy/qosmate/etc/qosmate.sh
@@ -360,6 +361,18 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 # # mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray/LoyalsoldierSite.dat >/dev/null 2>&1
 # ## ---------------------------------------------------------
 
+# ## -------------- chinadns-ng ---------------------------
+rm -rf feeds/packages/net/chinadns-ng   #(241025 PKG_VERSION:=2023.10.28)
+rm -rf feeds/luci/applications/luci-app-chinadns-ng 
+
+git clone https://github.com/izilzty/luci-app-chinadns-ng -b master package/diy/luci-chiandns-ng
+
+# git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chiandns-ng  #(241025 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能)
+# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chiandns-ng #(241025 PKG_VERSION:=2023.06.05)
+# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chiandns-ng #(241025 PKG_VERSION:=2024.10.14)
+git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chiandns-ng #(241025 PKG_VERSION:=2024.10.14)
+# ## ---------------------------------------------------------
+
 # ## -------------- mosdns ---------------------------
 # ls feeds/packages/net/mosdns
 # nl feeds/packages/net/mosdns/Makefile   #ver5.1.3
@@ -370,9 +383,9 @@ rm -rf feeds/luci/applications/luci-app-mosdns
 ## gitclone sbwml/luci-app-mosdns
 # 1. gitclone + mod makfile   -  prefer 1.
 
-git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
-sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
-sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
+# git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
+# sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
+# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
 
 # 2. clone mod dir
 

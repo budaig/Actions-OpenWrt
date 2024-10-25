@@ -135,13 +135,27 @@ git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 ## customize lucky ver
 # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
 # lkver=2.6.2
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' feeds/packages/net/lucky/Makefile
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/diy/lucky/lucky/Makefile
 
 # wget https://github.com/gdy666/lucky-files$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
 # lkver=2.10.8
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' feeds/packages/net/lucky/Makefile
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-# #/etc/lucky/lucky.conf
+#-- use custom binary ver 2.13.3
+cp -f ${GITHUB_WORKSPACE}/_modFiles/lucky/luckyMakefile package/diy/lucky/lucky/Makefile
+if [ $? -eq 0 ]; then
+    echo "luckyMakefile copied"
+else
+    echo "luckyMakefile copy failed"
+fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/lucky/luckybin package/diy/lucky/lucky/files/lucky
+if [ $? -eq 0 ]; then
+    echo "luckybin copied"
+else
+    echo "luckybin copy failed"
+fi
+
+# #/etc/lucky/lucky.conf   #@go1.22
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
 # sleep 1
 # ## customize lucky ver
@@ -180,6 +194,20 @@ git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/di
 # ## -------------- qosmate ------------------------------
 git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
+sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
+qmver=0.5.29
+sed -i '4 s/.*/PKG_VERSION:='"$qmver"'/g' package/diy/qosmate/Makefile
+# sed -i '3 s/.*/VERSION='"$qmver"'/g' package/diy/qosmate/etc/qosmate.sh
+echo qosmate $qmver
+
+# # https://github.com/LemonCrab666/luci-app-qosmate/blob/main/po/zh_Hans/qosmate.po
+mkdir -p package/diy/luci-app-qosmate/po/zh_Hans || echo "Failed to create zh-Hans po"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/qosmate/qosmate.po package/diy/luci-app-qosmate/po/zh_Hans/qosmate.po
+if [ $? -eq 0 ]; then
+    echo "qosmate.po copied"
+else
+    echo "qosmate.po copy failed"
+fi
 # ## ---------------------------------------------------------
 
 # ##  -------------- xray +  ---------------------------
@@ -221,7 +249,8 @@ fi
 # ## ---------------------------------------------------------
 
 # ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
-git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/homeproxy
+git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/homeproxy #(241025 chinadns-ng PKG_VERSION:=2024.07.21   immoralwrt23.05 chinadns-ng PKG_VERSION:=2024.10.14)
+rm -rf package/diy/homeproxy/chinadns-ng
 # ## ---------------------------------------------------------
 
 # ## -------------- v2raya ---------------------------
@@ -247,8 +276,8 @@ git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
 rm -rf package/diy/v2raya/v2ray-core
-rm -rf package/diy/v2raya/xray-core
 rm -rf package/diy/v2raya/v2fly-geodata
+rm -rf package/diy/v2raya/xray-core
 
 # rm -rf package/diy/v2raya/luci-app-v2raya
 # rm -rf package/diy/v2raya/v2raya
@@ -366,9 +395,9 @@ rm -rf feeds/luci/applications/luci-app-mosdns
 ## gitclone sbwml/luci-app-mosdns
 # 1. gitclone + mod makfile   -  prefer 1.
 
-# git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
-# sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
-# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
+git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
+sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
+sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
 
 # 2. clone mod dir
 
@@ -396,12 +425,12 @@ rm -rf feeds/luci/applications/luci-app-mosdns
 ## gitclone QiuSimons/openwrt-mos
 # 1. gitclone + mod makfile
 
-git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
-rm -rf package/diy/mosdns/v2ray-geodata
-sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config.yaml
-sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_new.yaml
-sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v4.yaml
-sed -i 's/START=99/START=78/g' package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
+# git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
+# rm -rf package/diy/mosdns/v2ray-geodata
+# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config.yaml
+# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_new.yaml
+# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v4.yaml
+# sed -i 's/START=99/START=78/g' package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
 # sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v5.yaml
 
 # 2. clone mod dir   -  prefer 2.
