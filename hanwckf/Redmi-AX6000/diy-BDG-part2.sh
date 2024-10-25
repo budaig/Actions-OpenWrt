@@ -199,7 +199,8 @@ git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/Op
 
 # ## add parentcontrol
 # git clone -b main https://github.com/sirpdboy/luci-app-parentcontrol package/diy/parentcontrol
-git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/diy/parentcontrol
+git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/parentcontrol
+# git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/diy/parentcontrol   #(已删)
 
 # ## -------------- qosmate ------------------------------
 git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
