@@ -136,7 +136,7 @@ git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 # ## ---------------------------------------------------------
 
 # ## -------------- lucky ---------------------------
-# rm -rf feeds/packages/net/lucky
+rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 
 # #/etc/config/lucky.daji/lucky.conf
@@ -366,18 +366,39 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 rm -rf feeds/packages/net/chinadns-ng   #(241025 PKG_VERSION:=2023.10.28)
 rm -rf feeds/luci/applications/luci-app-chinadns-ng 
 
-git clone https://github.com/izilzty/luci-app-chinadns-ng -b master package/diy/luci-app-chinadns-ng
+# git clone https://github.com/izilzty/luci-app-chinadns-ng -b master package/diy/luci-app-chinadns-ng
 # git clone https://github.com/pexcn/openwrt-chinadns-ng -b luci package/diy/luci-app-chinadns-ng  #(241025 未适配 2.0 的新功能)
 
 git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241025 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
-chng_ver=2024.10.14
-chng_SHA=$(echo -n `curl -sL https://api.github.com/repos/zfl9/chinadns-ng/commits | jq .[0].sha | sed 's/\"//g'`)
-sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA"'/g' package/diy/chinadns-ng/Makefile
-echo chinadns-ng sha=$chng_SHA
+# chng_ver=2024.10.14
+# chng_SHA=$(echo -n `curl -sL https://api.github.com/repos/zfl9/chinadns-ng/commits | jq .[0].sha | sed 's/\"//g'`)
+# sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA"'/g' package/diy/chinadns-ng/Makefile
+# echo chinadns-ng sha=$chng_SHA
 
 # git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2023.06.05)
 # git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2024.10.14)
 # git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2024.10.14)
+
+cp -f ${GITHUB_WORKSPACE}/_modFiles/chinadns-ng/Makefile package/diy/chinadns-ng/Makefile
+if [ $? -eq 0 ]; then
+    echo "chinadns-ng.Makefile copied"
+else
+    echo "chinadns-ng.Makefile copy failed"
+fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/chinadns-ng/chinadns-ng.init package/diy/chinadns-ng/files/chinadns-ng.init
+if [ $? -eq 0 ]; then
+    echo "chinadns-ng.init copied"
+else
+    echo "chinadns-ng.init copy failed"
+fi
+# rm package/diy/chinadns-ng/files/chinadns-ng.init
+cp -f ${GITHUB_WORKSPACE}/_modFiles/chinadns-ng/config.conf package/diy/chinadns-ng/files/config.conf
+if [ $? -eq 0 ]; then
+    echo "chinadns-ng config.conf copied"
+else
+    echo "chinadns-ng config.conf copy failed"
+fi
+
 # ## ---------------------------------------------------------
 
 # ## -------------- mosdns ---------------------------
