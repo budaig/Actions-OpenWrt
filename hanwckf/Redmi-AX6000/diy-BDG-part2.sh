@@ -238,6 +238,7 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 
 ## yicha xray xstatus luci for 22.03 and up---------------
 # git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
+# git clone https://github.com/xiechangan123/luci-i18n-xray-zh-cn -b main package/diy/luci-i18n-xray-zh-cn
 # disable auto start
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
 # if [ $? -eq 0 ]; then
@@ -250,7 +251,7 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 ## or ttimasdf xray/service name xapp/ luci for 21.02 and up---------------
 # git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 19.07
 git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 21.02 and up
-# git clone https://github.com/xiechangan123/luci-i18n-xray-zh-cn -b main package/diy/luci-i18n-xray-zh-cn
+
 # disable auto start
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxapp.conf package/diy/luci-app-xapp/root/etc/config/xapp
 if [ $? -eq 0 ]; then
@@ -374,18 +375,15 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 
 # ## -------------- chinadns-ng ---------------------------
 rm -rf feeds/packages/net/chinadns-ng   #(241025 PKG_VERSION:=2023.10.28)
-rm -rf feeds/luci/applications/luci-app-chinadns-ng 
+rm -rf feeds/luci/applications/luci-app-chinadns-ng
 
-# git clone https://github.com/izilzty/luci-app-chinadns-ng -b master package/diy/luci-app-chinadns-ng
-# git clone https://github.com/pexcn/openwrt-chinadns-ng -b luci package/diy/luci-app-chinadns-ng  #(241025 未适配 2.0 的新功能)
-
+# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2023.06.05)
 git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241025 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
 # chng_ver=2024.10.14
 # chng_SHA=$(echo -n `curl -sL https://api.github.com/repos/zfl9/chinadns-ng/commits | jq .[0].sha | sed 's/\"//g'`)
 # sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA"'/g' package/diy/chinadns-ng/Makefile
 # echo chinadns-ng sha=$chng_SHA
 
-# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2023.06.05)
 # git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2024.10.14)
 # git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2024.10.14)
 
@@ -408,6 +406,18 @@ if [ $? -eq 0 ]; then
 else
     echo "chinadns-ng config.conf copy failed"
 fi
+
+## add reject-list for mosdns
+rm package/diy/chinadns-ng/files/chnroute.txt
+rm package/diy/chinadns-ng/files/chnroute6.txt
+rm package/diy/chinadns-ng/files/chinalist.txt
+rm package/diy/chinadns-ng/files/gfwlist.txt
+ls package/diy/chinadns-ng/files
+
+urlchnroutelist="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute.txt"
+curl -sL -m 30 --retry 2 "$urlchnroutelist" -o package/diy/chinadns-ng/files/chnroute.txt
+urlchnroute6list="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute6.txt"
+curl -sL -m 30 --retry 2 "$urlchnroute6list" -o package/diy/chinadns-ng/files/chnroute6.txt
 
 # ## ---------------------------------------------------------
 
@@ -525,7 +535,7 @@ sleep 1
 # mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
 ## add githubhosts
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
-curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
+curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/gthosts.conf
 # GitHub hosts链接地址 for mosdns
 # url="https://raw.hellogithub.com/hosts"
 # # 配置文件、Title
@@ -535,21 +545,28 @@ curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc
 # curl -s "$url" | grep -v "^\s*#\|^\s*$" | awk '{print ""$2" "$1}' >> /tmp/gthosts.txt
 # mv /tmp/gthosts.txt package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.txt
 # }
+## add china-list
+# https://raw.githubusercontent.com/pexcn/daily/gh-pages/chinalist/chinalist.txt
+urlchnlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/china-list.txt"
+curl -sL -m 30 --retry 2 "$urlchnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitechn.txt
 ## add direct-domain-list
-urlcnlist="https://raw.githubusercontent.com/ixmu/smartdns-conf/main/direct-domain-list.conf"
-curl -sL -m 30 --retry 2 "$urlcnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/direct-domain-list.conf
+# https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/direct-list.txt
+# urlcnlist="https://raw.githubusercontent.com/ixmu/smartdns-conf/main/direct-domain-list.conf"
+# curl -sL -m 30 --retry 2 "$urlcnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitedirect.txt
 ## add proxy-domain-list
-urlncnlist="https://raw.githubusercontent.com/ixmu/smartdns-conf/main/proxy-domain-list.conf"
-curl -sL -m 30 --retry 2 "$urlncnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/proxy-domain-list.conf
+# https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/proxy-list.txt
+# urlncnlist="https://raw.githubusercontent.com/ixmu/smartdns-conf/main/proxy-domain-list.conf"
+# curl -sL -m 30 --retry 2 "$urlncnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/siteproxy.txt
 ## add gfw list
+# https://raw.githubusercontent.com/pexcn/daily/gh-pages/gfwlist/gfwlist.txt
 urlgfwlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/gfw.txt"
-curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/gfw.txt
+curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitegfw.txt
 ## add 秋风广告规则-hosts
 # urladhosts="https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-hosts.txt"
 # curl -sL -m 30 --retry 2 "$urladhosts"  -o package/diy/luci-app-smartdns/root/etc/AWAvenueadshosts.txt
 ## add reject-list for mosdns
 urlrejlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/reject-list.txt"
-curl -sL -m 30 --retry 2 "$urlrejlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/reject-list.txt
+curl -sL -m 30 --retry 2 "$urlrejlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitereject.txt
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
