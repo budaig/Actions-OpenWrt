@@ -92,8 +92,8 @@ mv package/diy/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 
 # ## customize alist ver
 # # sleep 1
-# alver=3.33.0
-# alwebver=3.33.0
+# alver=3.38.0
+# alwebver=3.38.0
 # alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
 # alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
 # echo alist $alver sha256=$alsha256
@@ -111,7 +111,7 @@ mv package/diy/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 # ## -------------- ikoolproxy ---------------------------
 # git clone -b main https://github.com/ilxp/luci-app-ikoolproxy.git package/diy/luci-app-ikoolproxy
 ## add video rule
-sleep 1
+# sleep 1
 # sed -i 's/-traditional -aes256/-aes256/g' package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/gen_ca.sh
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/kpupdate -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/kpupdate
 # urlkp="https://cdn.jsdelivr.net/gh/ilxp/koolproxy@main/rules/koolproxy.txt"
@@ -142,13 +142,13 @@ git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
 #-- use custom binary ver 2.13.4
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/lucky/luckyMakefile package/diy/lucky/lucky/Makefile
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
 # if [ $? -eq 0 ]; then
     # echo "luckyMakefile copied"
 # else
     # echo "luckyMakefile copy failed"
 # fi
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/lucky/luckybin package/diy/lucky/lucky/files/lucky
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckybin package/diy/lucky/lucky/files/lucky
 # if [ $? -eq 0 ]; then
     # echo "luckybin copied"
 # else
@@ -163,7 +163,7 @@ git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 # lkver=2.6.2
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/diy/lucky/lucky/Makefile
 # sed -i '/PKG_SOURCE_VERSION:=/d' package/diy/lucky/lucky/Makefile
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/etcconfiglucky package/diy/lucky/luci-app-lucky/root/etc/config/lucky
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/etcconfiglucky package/diy/lucky/luci-app-lucky/root/etc/config/lucky
 # if [ $? -eq 0 ]; then
 #     echo "etcconfiglucky copied"
 # else
@@ -203,7 +203,7 @@ echo qosmate $qmver
 
 # # https://github.com/LemonCrab666/luci-app-qosmate/blob/main/po/zh_Hans/qosmate.po
 mkdir -p package/diy/luci-app-qosmate/po/zh_Hans || echo "Failed to create zh-Hans po"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/qosmate/qosmate.po package/diy/luci-app-qosmate/po/zh_Hans/qosmate.po
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2qosmate/qosmate.po package/diy/luci-app-qosmate/po/zh_Hans/qosmate.po
 if [ $? -eq 0 ]; then
     echo "qosmate.po copied"
 else
@@ -225,28 +225,30 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
-## yicha xray status luci for 22.03 and up---------------
+
+## yicha xray xstatus luci for 22.03 and up---------------
 git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
 # disable auto start
-cp -f ${GITHUB_WORKSPACE}/_modFiles/xstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
 if [ $? -eq 0 ]; then
     echo "xstatus.conf copied"
 else
     echo "xstatus.conf copy failed"
 fi
-# yicha xray status ---------------
+# yicha xray xstatus ---------------
 
 ## or ttimasdf xray/service name xapp/ luci for 21.02 and up---------------
 # git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 19.07
 # git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 21.02 and up
+# git clone https://github.com/xiechangan123/luci-i18n-xray-zh-cn -b main package/diy/luci-i18n-xray-zh-cn
 # disable auto start
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/xapp.conf package/diy/luci-app-xapp/root/etc/config/xapp
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxapp.conf package/diy/luci-app-xapp/root/etc/config/xapp
 # if [ $? -eq 0 ]; then
     # echo "xapp.conf copied"
 # else
     # echo "xapp.conf copy failed"
 # fi
-# yicha xray xapp ---------------
+# ttimasdf xray xapp ---------------
 # ## ---------------------------------------------------------
 
 # ## -------------- v2raya ---------------------------
@@ -280,7 +282,7 @@ rm -rf package/diy/v2raya/xray-core
 
 ## customize immortalwrt orig v2raya
 # nl feeds/packages/net/v2raya/Makefile
-# v2aver=2.2.6.1
+# v2aver=2.2.6.2
 # v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # echo v2raya $v2aver sha256=$v2asha256
@@ -297,7 +299,7 @@ rm -rf package/diy/v2raya/xray-core
 
 ## customize v2raya ver
 sleep 1
-v2aver=2.2.6.1
+v2aver=2.2.6.2
 v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 echo v2raya $v2aver sha256=$v2asha256
@@ -305,7 +307,7 @@ echo v2raya-web $v2aver sha256=$v2awebsha256
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile   #feeds/packages/net/v2raya/Makefile
 
 # fix mijia cloud wrong dns (use xraycore)-------
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/v2raya.init feeds/packages/net/v2raya/files/v2raya.init
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2v2raya/v2raya.init feeds/packages/net/v2raya/files/v2raya.init
 # #package/diy/v2raya/v2raya/files/v2raya.init   #
 # if [ $? -eq 0 ]; then
     # echo "v2raya.init copied"
@@ -320,7 +322,7 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya.init -o package/diy/v2raya/v2raya/files/v2raya.init
 # mkdir -p feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"
 # #package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"   #
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/xrayconf.json feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray/config.json
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2v2raya/xrayconf.json feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray/config.json
 # #package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json   #
 # if [ $? -eq 0 ]; then
     # echo "xrayconf copied"
@@ -330,7 +332,7 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 # or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/xrayconfig.json -o package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
 # # go 1.21.4
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/100-go-mod-ver.patch package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2v2raya/100-go-mod-ver.patch package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
 # if [ $? -eq 0 ]; then
     # echo "100-go-mod-ver copied"
 # else
@@ -390,18 +392,39 @@ rm -rf package/diy/homeproxy/chinadns-ng
 rm -rf feeds/packages/net/chinadns-ng   #(241025 PKG_VERSION:=2023.10.28)
 rm -rf feeds/luci/applications/luci-app-chinadns-ng 
 
-git clone https://github.com/izilzty/luci-app-chinadns-ng -b master package/diy/luci-app-chinadns-ng
+# git clone https://github.com/izilzty/luci-app-chinadns-ng -b master package/diy/luci-app-chinadns-ng
 # git clone https://github.com/pexcn/openwrt-chinadns-ng -b luci package/diy/luci-app-chinadns-ng  #(241025 未适配 2.0 的新功能)
 
 git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241025 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
-chng_ver=2024.10.14
-chng_SHA=$(echo -n `curl -sL https://api.github.com/repos/zfl9/chinadns-ng/commits | jq .[0].sha | sed 's/\"//g'`)
-sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA"'/g' package/diy/chinadns-ng/Makefile
-echo chinadns-ng sha=$chng_SHA
+# chng_ver=2024.10.14
+# chng_SHA=$(echo -n `curl -sL https://api.github.com/repos/zfl9/chinadns-ng/commits | jq .[0].sha | sed 's/\"//g'`)
+# sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA"'/g' package/diy/chinadns-ng/Makefile
+# echo chinadns-ng sha=$chng_SHA
 
 # git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2023.06.05)
 # git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2024.10.14)
 # git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2024.10.14)
+
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/ver2Makefile package/diy/chinadns-ng/Makefile
+if [ $? -eq 0 ]; then
+    echo "chinadns-ng.Makefile copied"
+else
+    echo "chinadns-ng.Makefile copy failed"
+fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/chinadns-ng.init package/diy/chinadns-ng/files/chinadns-ng.init
+if [ $? -eq 0 ]; then
+    echo "chinadns-ng.init copied"
+else
+    echo "chinadns-ng.init copy failed"
+fi
+# rm package/diy/chinadns-ng/files/chinadns-ng.init
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconfig.conf package/diy/chinadns-ng/files/config.conf
+if [ $? -eq 0 ]; then
+    echo "chinadns-ng config.conf copied"
+else
+    echo "chinadns-ng config.conf copy failed"
+fi
+
 # ## ---------------------------------------------------------
 
 # ## -------------- mosdns ---------------------------
@@ -434,7 +457,7 @@ sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/luci-app-mosdns/root/us
 
 # git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
    #与 openwrt-xray geodat 相同
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2mosdns/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
 # if [ $? -eq 0 ]; then
     # echo "mosdnsgeodataMakefile copied"
 # else
@@ -485,7 +508,7 @@ sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-ap
 
 ## add anti-ad data
 mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/dns_rules_update.sh package/diy/luci-app-smartdns/root/etc/smartdns/dns_rules_update.sh
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/dns_rules_update.sh package/diy/luci-app-smartdns/root/etc/smartdns/dns_rules_update.sh
 if [ $? -eq 0 ]; then
     echo "dns_rules_update copied"
 else
@@ -493,14 +516,14 @@ else
 fi
 chmod +x package/diy/luci-app-smartdns/root/etc/smartdns/dns_rules_update.sh
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/blockADcooka.mos package/diy/luci-app-smartdns/root/etc/smartdns/blockADcooka.txt
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/blockADcooka.mos package/diy/luci-app-smartdns/root/etc/smartdns/blockADcooka.txt
 if [ $? -eq 0 ]; then
     echo "blockADcooka copied"
 else
     echo "blockADcooka copy failed"
 fi
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/gthosts.mos package/diy/luci-app-smartdns/root/etc/smartdns/gthosts.txt
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/gthosts.mos package/diy/luci-app-smartdns/root/etc/smartdns/gthosts.txt
 if [ $? -eq 0 ]; then
     echo "gthost copied"
 else
@@ -516,6 +539,15 @@ sleep 1
 ## add githubhosts
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.conf
+# GitHub hosts链接地址 for mosdns
+# url="https://raw.hellogithub.com/hosts"
+# # 配置文件、Title
+# echo "# Title: GitHub Hosts" > /tmp/gthosts.txt
+# echo "# Update: $(TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S')(GMT+8)" >> /tmp/gthosts.txt
+# # 转化
+# curl -s "$url" | grep -v "^\s*#\|^\s*$" | awk '{print ""$2" "$1}' >> /tmp/gthosts.txt
+# mv /tmp/gthosts.txt package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.txt
+# }
 ## add direct-domain-list
 urlcnlist="https://raw.githubusercontent.com/ixmu/smartdns-conf/main/direct-domain-list.conf"
 curl -sL -m 30 --retry 2 "$urlcnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/direct-domain-list.conf
@@ -535,12 +567,12 @@ curl -sL -m 30 --retry 2 "$urlrejlist" -o package/diy/luci-app-smartdns/root/etc
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
 # mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/luci-app-smartdns/root/etc/init.d/xray
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xray.init package/diy/luci-app-smartdns/root/etc/init.d/xray
 # mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/xraycfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
 # or
 mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/xray.init package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xray.init package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
 if [ $? -eq 0 ]; then
     echo "xrayint copied"
 else
@@ -550,10 +582,10 @@ fi
 # chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
 
 mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/xraycfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
 # or
 # mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/xraycfg.cst package/diy/mosdns/luci-app-mosdns/root/etc/xray/xraycfg.json
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycfg.cst package/diy/mosdns/luci-app-mosdns/root/etc/xray/xraycfg.json
 if [ $? -eq 0 ]; then
     echo "xraycfg copied"
 else
@@ -561,7 +593,7 @@ else
 fi
 
 ## 借用 smartdns / mosdns 配置文件夹安装 nft 自启
-cp -f ${GITHUB_WORKSPACE}/_modFiles/nft package/diy/mosdns/luci-app-mosdns/root/etc/init.d/nft
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2nft/nft package/diy/mosdns/luci-app-mosdns/root/etc/init.d/nft
 if [ $? -eq 0 ]; then
     echo "nft copied"
 else
@@ -570,7 +602,7 @@ fi
 chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/nft
 
 mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/nftables.d || echo "Failed to create /luci-app-smartdns/root/etc/nftables.d"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/openwrt-nft-ruleset.conf package/diy/mosdns/luci-app-mosdns/root/etc/nftables.d/openwrt-nft-ruleset.conf
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2nft/openwrt-nft-ruleset.conf package/diy/mosdns/luci-app-mosdns/root/etc/nftables.d/openwrt-nft-ruleset.conf
 if [ $? -eq 0 ]; then
     echo "openwrt-nft-ruleset copied"
 else
