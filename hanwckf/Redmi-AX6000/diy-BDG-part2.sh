@@ -400,7 +400,7 @@ else
     echo "chinadns-ng.init copy failed"
 fi
 # rm package/diy/chinadns-ng/files/chinadns-ng.init
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconfig.conf package/diy/chinadns-ng/files/config.conf
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconfig.conf package/diy/chinadns-ng/files/cusconfig.conf
 if [ $? -eq 0 ]; then
     echo "chinadns-ng config.conf copied"
 else
@@ -412,13 +412,13 @@ rm package/diy/chinadns-ng/files/chnroute.txt
 rm package/diy/chinadns-ng/files/chnroute6.txt
 rm package/diy/chinadns-ng/files/chinalist.txt
 rm package/diy/chinadns-ng/files/gfwlist.txt
-ls package/diy/chinadns-ng/files
 
 urlchnroutelist="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute.txt"
 curl -sL -m 30 --retry 2 "$urlchnroutelist" -o package/diy/chinadns-ng/files/chnroute.txt
 urlchnroute6list="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute6.txt"
 curl -sL -m 30 --retry 2 "$urlchnroute6list" -o package/diy/chinadns-ng/files/chnroute6.txt
 
+ls package/diy/chinadns-ng/files
 # ## ---------------------------------------------------------
 
 # ## -------------- mosdns ---------------------------
@@ -520,22 +520,17 @@ else
     echo "blockADcooka copy failed"
 fi
 
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/gthosts.mos package/diy/luci-app-smartdns/root/etc/smartdns/gthosts.txt
-# if [ $? -eq 0 ]; then
-    # echo "gthost copied"
-# else
-    # echo "gthosts copy failed"
-# fi
-# ls -dR package/diy/luci-app-smartdns/root/etc/smartdns
 sleep 1
 ## add hululu1068 / anti-ad 广告smartdns规则
 # urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
 # urlreject="https://raw.githubusercontent.com/hululu1068/AdRules/main/smart-dns.conf"
 # curl -sL -m 30 --retry 2 "$urlreject" -o /tmp/reject.conf
 # mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
-## add githubhosts
+## add github hosts
+curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgithub.txt
+## add githubhosts for smartdns
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdRules/main/rules/github-hosts.conf"
-curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/gthosts.conf
+curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgithub.conf
 # GitHub hosts链接地址 for mosdns
 # url="https://raw.hellogithub.com/hosts"
 # # 配置文件、Title
@@ -543,12 +538,8 @@ curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc
 # echo "# Update: $(TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S')(GMT+8)" >> /tmp/gthosts.txt
 # # 转化
 # curl -s "$url" | grep -v "^\s*#\|^\s*$" | awk '{print ""$2" "$1}' >> /tmp/gthosts.txt
-# mv /tmp/gthosts.txt package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/gthosts.txt
+# mv /tmp/gthosts.txt package/diy/luci-app-smartdns/root/etc/smartdns/domain-set/hostsghmos.txt
 # }
-## add china-list
-# https://raw.githubusercontent.com/pexcn/daily/gh-pages/chinalist/chinalist.txt
-urlchnlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/china-list.txt"
-curl -sL -m 30 --retry 2 "$urlchnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitechn.txt
 ## add direct-domain-list
 # https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/direct-list.txt
 # urlcnlist="https://raw.githubusercontent.com/ixmu/smartdns-conf/main/direct-domain-list.conf"
@@ -557,16 +548,20 @@ curl -sL -m 30 --retry 2 "$urlchnlist" -o package/diy/luci-app-smartdns/root/etc
 # https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/proxy-list.txt
 # urlncnlist="https://raw.githubusercontent.com/ixmu/smartdns-conf/main/proxy-domain-list.conf"
 # curl -sL -m 30 --retry 2 "$urlncnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/siteproxy.txt
+## add china-list
+# https://raw.githubusercontent.com/pexcn/daily/gh-pages/chinalist/chinalist.txt
+urlchnlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/china-list.txt"
+curl -sL -m 30 --retry 2 "$urlchnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/chnlist.txt
 ## add gfw list
 # https://raw.githubusercontent.com/pexcn/daily/gh-pages/gfwlist/gfwlist.txt
 urlgfwlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/gfw.txt"
-curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitegfw.txt
+curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/gfwlist.txt
 ## add 秋风广告规则-hosts
 # urladhosts="https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-hosts.txt"
 # curl -sL -m 30 --retry 2 "$urladhosts"  -o package/diy/luci-app-smartdns/root/etc/AWAvenueadshosts.txt
 ## add reject-list for mosdns
-urlrejlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/reject-list.txt"
-curl -sL -m 30 --retry 2 "$urlrejlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitereject.txt
+# urlrejlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/reject-list.txt"
+# curl -sL -m 30 --retry 2 "$urlrejlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitereject.txt
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
