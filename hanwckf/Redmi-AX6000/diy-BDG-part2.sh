@@ -407,16 +407,16 @@ fi
     # echo "chinadns-ng config.conf copy failed"
 # fi
 
-## add reject-list for mosdns
+## rv chnroute list
 rm package/diy/chinadns-ng/files/chnroute.txt
 rm package/diy/chinadns-ng/files/chnroute6.txt
 rm package/diy/chinadns-ng/files/chinalist.txt
 rm package/diy/chinadns-ng/files/gfwlist.txt
 
-urlchnroutelist="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute.txt"
-curl -sL -m 30 --retry 2 "$urlchnroutelist" -o package/diy/chinadns-ng/files/chnroute.txt
-urlchnroute6list="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute6.txt"
-curl -sL -m 30 --retry 2 "$urlchnroute6list" -o package/diy/chinadns-ng/files/chnroute6.txt
+# urlchnroutelist="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute.txt"
+# curl -sL -m 30 --retry 2 "$urlchnroutelist" -o package/diy/chinadns-ng/files/chnroute.txt
+# urlchnroute6list="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute6.txt"
+# curl -sL -m 30 --retry 2 "$urlchnroute6list" -o package/diy/chinadns-ng/files/chnroute6.txt
 
 ls package/diy/chinadns-ng/files
 # ## ---------------------------------------------------------
