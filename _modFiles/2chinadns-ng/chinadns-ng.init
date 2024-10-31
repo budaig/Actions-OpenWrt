@@ -3,12 +3,13 @@ START=99
 
 USE_PROCD=1
 PROG=/usr/bin/chinadns-ng
-argconf=/etc/chinadns-ng/cusconfig.conf
+defconf=/etc/chinadns-ng/defconfig.conf
+cusconf=/etc/chinadns-ng/cusconfig.conf
 
 start_service(){
          procd_open_instance [chinadns-ng]
          procd_set_param command /usr/bin/chinadns-ng # service executable that has to run in **foreground**.
-         procd_append_param command --config argconf # append command parameters
+         procd_append_param command --config cusconf # append command parameters
 
          procd_set_param respawn ${respawn_threshold:-3600} ${respawn_timeout:-5} ${respawn_retry:-5}
 

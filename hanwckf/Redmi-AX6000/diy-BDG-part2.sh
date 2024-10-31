@@ -400,7 +400,7 @@ else
     echo "chinadns-ng.init copy failed"
 fi
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconf.conf package/diy/chinadns-ng/files/config.conf
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconf.conf package/diy/chinadns-ng/files/defconfig.conf
 if [ $? -eq 0 ]; then
     echo "chinadns-ng config.conf copied"
 else
