@@ -206,9 +206,9 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
 sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
-qmver=0.5.29
-sed -i '4 s/.*/PKG_VERSION:='"$qmver"'/g' package/diy/qosmate/Makefile
-# sed -i '3 s/.*/VERSION='"$qmver"'/g' package/diy/qosmate/etc/qosmate.sh
+qmver=0.5.30
+sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
+sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
 echo qosmate $qmver
 
 # # https://github.com/LemonCrab666/luci-app-qosmate/blob/main/po/zh_Hans/qosmate.po
@@ -228,7 +228,7 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-# xrver=24.10.16
+# xrver=24.10.31
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
@@ -346,7 +346,7 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 # echo v2ray $vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
-# xrver=24.10.16
+# xrver=24.10.31
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
@@ -400,12 +400,12 @@ else
     echo "chinadns-ng.init copy failed"
 fi
 # rm package/diy/chinadns-ng/files/chinadns-ng.init
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconfig.conf package/diy/chinadns-ng/files/cusconfig.conf
-if [ $? -eq 0 ]; then
-    echo "chinadns-ng config.conf copied"
-else
-    echo "chinadns-ng config.conf copy failed"
-fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconfig.conf package/diy/chinadns-ng/files/cusconfig.conf
+# if [ $? -eq 0 ]; then
+    # echo "chinadns-ng config.conf copied"
+# else
+    # echo "chinadns-ng config.conf copy failed"
+# fi
 
 ## add reject-list for mosdns
 rm package/diy/chinadns-ng/files/chnroute.txt
