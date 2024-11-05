@@ -206,7 +206,7 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
 sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
-qmver=0.5.30
+qmver=0.5.31
 sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
 sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
 echo qosmate $qmver
@@ -307,12 +307,12 @@ rm -rf package/diy/v2raya/xray-core
 
 ## customize v2raya ver
 sleep 1
-v2aver=2.2.6.2
-v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
-v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-echo v2raya $v2aver sha256=$v2asha256
-echo v2raya-web $v2aver sha256=$v2awebsha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile   #feeds/packages/net/v2raya/Makefile
+# v2aver=2.2.6.2
+# v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
+# v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+# echo v2raya $v2aver sha256=$v2asha256
+# echo v2raya-web $v2aver sha256=$v2awebsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile   #feeds/packages/net/v2raya/Makefile
 
 # fix mijia cloud wrong dns (use xraycore)-------
 # rm feeds/packages/net/v2raya/files/v2raya.init || echo "feeds/packages/net/v2raya/files/v2raya.init"
