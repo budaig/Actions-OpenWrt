@@ -151,19 +151,19 @@ sleep 1
 # lkver=2.10.8
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-#-- use custom binary ver 2.13.4
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
-# if [ $? -eq 0 ]; then
-    # echo "luckyMakefile copied"
-# else
-    # echo "luckyMakefile copy failed"
-# fi
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckybin package/diy/lucky/lucky/files/lucky
-# if [ $? -eq 0 ]; then
-    # echo "luckybin copied"
-# else
-    # echo "luckybin copy failed"
-# fi
+#-- use custom binary ver 2.13.5
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
+if [ $? -eq 0 ]; then
+    echo "luckyMakefile copied"
+else
+    echo "luckyMakefile copy failed"
+fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckybin package/diy/lucky/lucky/files/lucky
+if [ $? -eq 0 ]; then
+    echo "luckybin copied"
+else
+    echo "luckybin copy failed"
+fi
 
 # #/etc/lucky/lucky.conf   #@go1.22
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
@@ -206,7 +206,7 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
 sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
-qmver=0.5.31
+qmver=0.5.33
 sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
 sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
 echo qosmate $qmver
@@ -228,7 +228,7 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-# xrver=24.10.31
+# xrver=24.11.11
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
@@ -346,7 +346,7 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 # echo v2ray $vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
-# xrver=24.10.31
+# xrver=24.11.11
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
