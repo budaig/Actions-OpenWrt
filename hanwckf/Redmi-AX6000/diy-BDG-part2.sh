@@ -394,12 +394,12 @@ if [ $? -eq 0 ]; then
     echo "chinadns-ng.Makefile copied"
 else
     echo "chinadns-ng.Makefile copy failed"
+fi
 chng_ver=2024.11.17
 chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl_noasm@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
 echo chinadns-ng v$chng_ver sha256=$chng_SHA256
 sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA256"'/g' package/diy/chinadns-ng/Makefile
 
-fi
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/chinadns-ng.init package/diy/chinadns-ng/files/chinadns-ng.init
 if [ $? -eq 0 ]; then
     echo "chinadns-ng.init copied"
