@@ -105,12 +105,12 @@ git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 
 ## customize alist ver
 # sleep 1
-# alver=3.38.0
-# alwebver=3.38.0
+# alver=3.39.2
+# alwebver=3.39.2
 # alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
 # alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
-# echo alist $alver sha256=$alsha256
-# echo alist-web $alver sha256=$alwebsha256
+# echo alist v$alver sha256=$alsha256
+# echo alist-web v$alver sha256=$alwebsha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
 
 # change default port: version 3.33.0 and up
@@ -151,18 +151,18 @@ sleep 1
 # lkver=2.10.8
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-#-- use custom binary ver 2.13.5
+#-- use custom binary ver 2.13.7
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
 if [ $? -eq 0 ]; then
     echo "luckyMakefile copied"
 else
     echo "luckyMakefile copy failed"
 fi
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckybin package/diy/lucky/lucky/files/lucky
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/lucky package/diy/lucky/lucky/files/lucky
 if [ $? -eq 0 ]; then
-    echo "luckybin copied"
+    echo "lucky bin copied"
 else
-    echo "luckybin copy failed"
+    echo "lucky bin copy failed"
 fi
 
 # #/etc/lucky/lucky.conf   #@go1.22
@@ -206,10 +206,10 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
 sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
-qmver=0.5.33
+qmver=0.5.34
 sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
 sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
-echo qosmate $qmver
+echo qosmate v$qmver
 
 # # https://github.com/LemonCrab666/luci-app-qosmate/blob/main/po/zh_Hans/qosmate.po
 mkdir -p package/diy/luci-app-qosmate/po/zh_Hans || echo "Failed to create zh-Hans po"
@@ -293,15 +293,15 @@ rm -rf package/diy/v2raya/xray-core
 # v2aver=2.2.6.2
 # v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-# echo v2raya $v2aver sha256=$v2asha256
-# echo v2raya-web $v2aver sha256=$v2awebsha256
+# echo v2raya v$v2aver sha256=$v2asha256
+# echo v2raya-web v$v2aver sha256=$v2awebsha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
 # nl feeds/packages/net/v2raya/Makefile
 
 ## customize ca ver
 # caver=20240203
 # casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
-# echo ca-certificates $caver sha256=$casha256
+# echo ca-certificates v$caver sha256=$casha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
 # nl feeds/packages/net/v2raya/Makefile
 
@@ -310,8 +310,8 @@ sleep 1
 # v2aver=2.2.6.2
 # v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-# echo v2raya $v2aver sha256=$v2asha256
-# echo v2raya-web $v2aver sha256=$v2awebsha256
+# echo v2raya v$v2aver sha256=$v2asha256
+# echo v2raya-web v$v2aver sha256=$v2awebsha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile   #feeds/packages/net/v2raya/Makefile
 
 # fix mijia cloud wrong dns (use xraycore)-------
@@ -341,14 +341,14 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 
 # use custom ver ----------------
 # sleep 1
-# vrver=5.20.0
+# vrver=5.22.0
 # vrsha256=($(curl -sL https://codeload.github.com/v2fly/v2ray-core/tar.gz/v$vrver | shasum -a 256))
-# echo v2ray $vrver sha256=$vrsha256
+# echo v2ray v$vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
 # xrver=24.11.11
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
-# echo xray $xrver sha256=$xrsha256
+# echo xray v$xrver sha256=$xrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
 
 ## 更新v2ra geoip geosite 数据库
@@ -374,24 +374,31 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 # ## ---------------------------------------------------------
 
 # ## -------------- chinadns-ng ---------------------------
-rm -rf feeds/packages/net/chinadns-ng   #(241025 PKG_VERSION:=2023.10.28)
+rm -rf feeds/packages/net/chinadns-ng   #(241119 PKG_VERSION:=2023.10.28)
 rm -rf feeds/luci/applications/luci-app-chinadns-ng
 
-# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2023.06.05)
-git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241025 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
-# chng_ver=2024.10.14
-# chng_SHA=$(echo -n `curl -sL https://api.github.com/repos/zfl9/chinadns-ng/commits | jq .[0].sha | sed 's/\"//g'`)
-# sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA"'/g' package/diy/chinadns-ng/Makefile
-# echo chinadns-ng sha=$chng_SHA
+# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241119 PKG_VERSION:=2023.06.05)
+git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241119 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
+# chng_ver=2024.11.17
+# chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl_noasm@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
+# echo chinadns-ng v$chng_ver sha256=$chng_SHA256
+# sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA256"'/g' package/diy/chinadns-ng/Makefile
 
-# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2024.10.14)
-# git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2024.10.14)
+
+# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241119 PKG_VERSION:=2024.10.14)
+# git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241119 PKG_VERSION:=2024.10.14)
+
 
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/ver2Makefile package/diy/chinadns-ng/Makefile
 if [ $? -eq 0 ]; then
     echo "chinadns-ng.Makefile copied"
 else
     echo "chinadns-ng.Makefile copy failed"
+chng_ver=2024.11.17
+chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl_noasm@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
+echo chinadns-ng v$chng_ver sha256=$chng_SHA256
+sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA256"'/g' package/diy/chinadns-ng/Makefile
+
 fi
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/chinadns-ng.init package/diy/chinadns-ng/files/chinadns-ng.init
 if [ $? -eq 0 ]; then
@@ -502,7 +509,7 @@ git clone https://github.com/pymumu/luci-app-smartdns -b master package/diy/luci
 ## update to the newest
 SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
 SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
-echo smartdns $SMARTDNS_VER sha=$SMAERTDNS_SHA
+echo smartdns v$SMARTDNS_VER sha=$SMAERTDNS_SHA
 
 sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile
