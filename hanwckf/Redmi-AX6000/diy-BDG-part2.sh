@@ -105,8 +105,8 @@ git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 
 ## customize alist ver
 # sleep 1
-# alver=3.39.4
-# alwebver=3.39.4
+# alver=3.40.0
+# alwebver=3.40.0
 # alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
 # alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
 # echo alist v$alver sha256=$alsha256
@@ -206,7 +206,7 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
 sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
-qmver=0.5.34
+qmver=0.5.35
 sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
 sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
 echo qosmate v$qmver
@@ -250,15 +250,15 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 
 ## or ttimasdf xray/service name xapp/ luci for 21.02 and up---------------
 # git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 19.07
-git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 21.02 and up
+# git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 21.02 and up
 
 # disable auto start
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxapp.conf package/diy/luci-app-xapp/root/etc/config/xapp
-if [ $? -eq 0 ]; then
-    echo "xapp.conf copied"
-else
-    echo "xapp.conf copy failed"
-fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxapp.conf package/diy/luci-app-xapp/root/etc/config/xapp
+# if [ $? -eq 0 ]; then
+    # echo "xapp.conf copied"
+# else
+    # echo "xapp.conf copy failed"
+# fi
 # ttimasdf xray xapp ---------------
 # ## ---------------------------------------------------------
 
@@ -575,29 +575,29 @@ curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
-mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycore.init package/diy/luci-app-smartdns/root/etc/init.d/xray
-# or
-# mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycore.init package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
-if [ $? -eq 0 ]; then
-    echo "xrayint copied"
-else
-    echo "xrayint copy failed"
-fi
+# mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycore.init package/diy/luci-app-smartdns/root/etc/init.d/xray
+# # or
+# # mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
+# # cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycore.init package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
+# if [ $? -eq 0 ]; then
+    # echo "xrayint copied"
+# else
+    # echo "xrayint copy failed"
+# fi
 # 2305 需要0755权限
 # chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
 
-mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycorecfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
-# or
-# mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycorecfg.cst package/diy/mosdns/luci-app-mosdns/root/etc/xray/xraycfg.json
-if [ $? -eq 0 ]; then
-    echo "xraycfg copied"
-else
-    echo "xraycfg copy failed"
-fi
+# mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycorecfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
+# # or
+# # mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
+# # cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycorecfg.cst package/diy/mosdns/luci-app-mosdns/root/etc/xray/xraycfg.json
+# if [ $? -eq 0 ]; then
+    # echo "xraycfg copied"
+# else
+    # echo "xraycfg copy failed"
+# fi
 
 # ## ---------------------------------------------------------
 
