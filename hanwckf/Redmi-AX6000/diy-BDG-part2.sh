@@ -228,10 +228,10 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-# xrver=24.11.21
-# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
-# echo xray $xrver sha256=$xrsha256
-# sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
+xrver=1.8.24
+xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+echo xray $xrver sha256=$xrsha256
+sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/oepnwrt-xray/Makefile
 
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
@@ -373,7 +373,7 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 # # mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray/LoyalsoldierSite.dat >/dev/null 2>&1
 # ## ---------------------------------------------------------
 
-# ## -------------- chinadns-ng ---------------------------
+# ## -------------- chinadns-ng   wolfssl_noasm 是没有硬件加速指令的版本---------------------------
 rm -rf feeds/packages/net/chinadns-ng   #(241119 PKG_VERSION:=2023.10.28)
 rm -rf feeds/luci/applications/luci-app-chinadns-ng
 
@@ -381,6 +381,7 @@ rm -rf feeds/luci/applications/luci-app-chinadns-ng
 git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241119 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
 # chng_ver=2024.11.17
 # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl_noasm@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
+# chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
 # echo chinadns-ng v$chng_ver sha256=$chng_SHA256
 # sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA256"'/g' package/diy/chinadns-ng/Makefile
 

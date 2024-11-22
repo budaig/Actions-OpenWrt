@@ -4,9 +4,12 @@ PKG_NAME:=chinadns-ng
 PKG_VERSION:=2024.11.17
 PKG_RELEASE:=1
 
+#ifeq ($(ARCH),aarch64)
+#  PKG_SOURCE_URL_FILE:=$(PKG_NAME)+wolfssl_noasm@aarch64-linux-musl@generic+v8a@fast+lto
+#  PKG_HASH:=b2e53d1fdc5d65b5f2a1dc26428bf15b86d84f51748ff1970d58bf301f69d2c0
 ifeq ($(ARCH),aarch64)
-  PKG_SOURCE_URL_FILE:=$(PKG_NAME)+wolfssl_noasm@aarch64-linux-musl@generic+v8a@fast+lto
-  PKG_HASH:=b2e53d1fdc5d65b5f2a1dc26428bf15b86d84f51748ff1970d58bf301f69d2c0
+  PKG_SOURCE_URL_FILE:=$(PKG_NAME)+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto
+  PKG_HASH:=590627101162b2ae2fd55ad27b290745fcd9d77fe5073f0e006770388edd9103
 else ifeq ($(ARCH),arm)
   # Referred to golang/golang-values.mk
   ARM_CPU_FEATURES:=$(word 2,$(subst +,$(space),$(call qstrip,$(CONFIG_CPU_TYPE))))
