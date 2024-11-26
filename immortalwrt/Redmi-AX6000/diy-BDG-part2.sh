@@ -510,7 +510,7 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile   #feeds/luci/applications/luci-app-smartdns/Makefile
 
 ## add anti-ad data
-mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
+mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns || echo "Failed to create /luci-app-smartdns/root/etc/smartdns"
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/dns_rules_update.sh package/diy/luci-app-smartdns/root/etc/smartdns/dns_rules_update.sh
 if [ $? -eq 0 ]; then
     echo "dns_rules_update copied"
@@ -609,21 +609,22 @@ curl -sL -m 30 --retry 2 "$urlrejlist" -o package/diy/luci-app-smartdns/root/etc
 #fi
 
 ## 借用 smartdns / mosdns 配置文件夹安装 nft 自启
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2nft/nft package/diy/mosdns/luci-app-mosdns/root/etc/init.d/nft
-if [ $? -eq 0 ]; then
-    echo "nft copied"
-else
-    echo "nft copy failed"
-fi
-chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/nft
+# mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2nft/nft package/diy/luci-app-smartdns/root/etc/init.d/nft
+# if [ $? -eq 0 ]; then
+    # echo "nft copied"
+# else
+    # echo "nft copy failed"
+# fi
+# chmod +x package/diy/luci-app-smartdns/root/etc/init.d/nft
 
-mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/nftables.d || echo "Failed to create /luci-app-smartdns/root/etc/nftables.d"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2nft/openwrt-nft-ruleset.conf package/diy/mosdns/luci-app-mosdns/root/etc/nftables.d/openwrt-nft-ruleset.conf
-if [ $? -eq 0 ]; then
-    echo "openwrt-nft-ruleset copied"
-else
-    echo "openwrt-nft-ruleset copy failed"
-fi
+# mkdir -p package/diy/luci-app-smartdns/root/etc/nftables.d || echo "Failed to create /luci-app-smartdns/root/etc/nftables.d"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2nft/openwrt-nft-ruleset.conf package/diy/luci-app-smartdns/root/etc/nftables.d/openwrt-nft-ruleset.conf
+# if [ $? -eq 0 ]; then
+    # echo "openwrt-nft-ruleset copied"
+# else
+    # echo "openwrt-nft-ruleset copy failed"
+# fi
 
 # ## ---------------------------------------------------------
 
