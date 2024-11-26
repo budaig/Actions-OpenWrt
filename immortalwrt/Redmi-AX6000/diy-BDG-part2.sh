@@ -141,7 +141,7 @@ git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 # lkver=2.10.8
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-#-- use custom binary ver 2.13.7
+#-- use custom binary ver 2.13.8
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
 if [ $? -eq 0 ]; then
     echo "luckyMakefile copied"
@@ -392,7 +392,7 @@ chng_ver=2024.11.17
 chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
 # echo chinadns-ng v$chng_ver sha256=$chng_SHA256
 sed -i '6 s/.*/PKG_VERSION:='"$chng_ver"'/g;12 s/.*/PKG_HASH:='"$chng_SHA256"'/g' package/diy/homeproxy/chinadns-ng/Makefile
-echo chinadns-ng v$chng_ver sha256=$chng_SHA
+echo chinadns-ng v$chng_ver sha256=$chng_SHA256
 # ## ---------------------------------------------------------
 
 # ## -------------- chinadns-ng ---------------------------

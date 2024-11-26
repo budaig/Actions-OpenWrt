@@ -151,7 +151,7 @@ sleep 1
 # lkver=2.10.8
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-#-- use custom binary ver 2.13.7
+#-- use custom binary ver 2.13.8
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
 if [ $? -eq 0 ]; then
     echo "luckyMakefile copied"
