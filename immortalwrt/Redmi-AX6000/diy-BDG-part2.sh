@@ -384,15 +384,15 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 # ## ---------------------------------------------------------
 
 # ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
-git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/homeproxy #(241125 chinadns-ng PKG_VERSION:=2024.07.21   immoralwrt23.05 chinadns-ng PKG_VERSION:=2024.10.14)
+git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/homeproxy #(241127 chinadns-ng PKG_VERSION:=2024.11.17 sing-box 1.10.2   immoralwrt23.05 chinadns-ng PKG_VERSION:=2024.10.14)
 
 rm -rf package/diy/homeproxy/luci-app-homeproxy
 
-chng_ver=2024.11.17
-chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
+# chng_ver=2024.11.17
+# chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
+# # echo chinadns-ng v$chng_ver sha256=$chng_SHA256
+# sed -i '6 s/.*/PKG_VERSION:='"$chng_ver"'/g;12 s/.*/PKG_HASH:='"$chng_SHA256"'/g' package/diy/homeproxy/chinadns-ng/Makefile
 # echo chinadns-ng v$chng_ver sha256=$chng_SHA256
-sed -i '6 s/.*/PKG_VERSION:='"$chng_ver"'/g;12 s/.*/PKG_HASH:='"$chng_SHA256"'/g' package/diy/homeproxy/chinadns-ng/Makefile
-echo chinadns-ng v$chng_ver sha256=$chng_SHA256
 # ## ---------------------------------------------------------
 
 # ## -------------- chinadns-ng ---------------------------
@@ -582,25 +582,25 @@ curl -sL -m 30 --retry 2 "$urlrejlist" -o package/diy/luci-app-smartdns/root/etc
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 ## 若不安装 v2raya 则借用 smartdns / mosdns 配置文件夹安装 xrayconfig
-# mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xray.init package/diy/luci-app-smartdns/root/etc/init.d/xray
-# mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
+mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xray.init package/diy/luci-app-smartdns/root/etc/init.d/xray
+mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
 # or
-#mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
+#mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/init.d || echo "Failed to create /luci-app-mosdns/root/etc/init.d"
 #cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xray.init package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
-#if [ $? -eq 0 ]; then
-#    echo "xrayint copied"
-#else
-#    echo "xrayint copy failed"
-#fi
-# # 2305 需要0755权限
-# chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
+if [ $? -eq 0 ]; then
+   echo "xrayint copied"
+else
+   echo "xrayint copy failed"
+fi
+# 2305 需要0755权限
+chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/xray
 
 #mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
 #cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
 # or
-# mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
+# mkdir -p package/diy/mosdns/luci-app-mosdns/root/etc/xray || echo "Failed to create /luci-app-mosdns/root/etc/xray"
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycfg.cst package/diy/mosdns/luci-app-mosdns/root/etc/xray/xraycfg.json
 #if [ $? -eq 0 ]; then
 #    echo "xraycfg copied"
@@ -609,22 +609,22 @@ curl -sL -m 30 --retry 2 "$urlrejlist" -o package/diy/luci-app-smartdns/root/etc
 #fi
 
 ## 借用 smartdns / mosdns 配置文件夹安装 nft 自启
-# mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2nft/nft package/diy/luci-app-smartdns/root/etc/init.d/nft
-# if [ $? -eq 0 ]; then
-    # echo "nft copied"
-# else
-    # echo "nft copy failed"
-# fi
-# chmod +x package/diy/luci-app-smartdns/root/etc/init.d/nft
+mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2nft/nft package/diy/luci-app-smartdns/root/etc/init.d/nft
+if [ $? -eq 0 ]; then
+    echo "nft copied"
+else
+    echo "nft copy failed"
+fi
+chmod +x package/diy/luci-app-smartdns/root/etc/init.d/nft
 
-# mkdir -p package/diy/luci-app-smartdns/root/etc/nftables.d || echo "Failed to create /luci-app-smartdns/root/etc/nftables.d"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2nft/openwrt-nft-ruleset.conf package/diy/luci-app-smartdns/root/etc/nftables.d/openwrt-nft-ruleset.conf
-# if [ $? -eq 0 ]; then
-    # echo "openwrt-nft-ruleset copied"
-# else
-    # echo "openwrt-nft-ruleset copy failed"
-# fi
+mkdir -p package/diy/luci-app-smartdns/root/etc/nftables.d || echo "Failed to create /luci-app-smartdns/root/etc/nftables.d"
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2nft/openwrt-nft-ruleset.conf package/diy/luci-app-smartdns/root/etc/nftables.d/openwrt-nft-ruleset.conf
+if [ $? -eq 0 ]; then
+    echo "openwrt-nft-ruleset copied"
+else
+    echo "openwrt-nft-ruleset copy failed"
+fi
 
 # ## ---------------------------------------------------------
 
