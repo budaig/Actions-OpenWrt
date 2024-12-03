@@ -151,19 +151,19 @@ sleep 1
 # lkver=2.10.8
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-#-- use custom binary ver 2.13.8
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
-if [ $? -eq 0 ]; then
-    echo "luckyMakefile copied"
-else
-    echo "luckyMakefile copy failed"
-fi
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/lucky package/diy/lucky/lucky/files/lucky
-if [ $? -eq 0 ]; then
-    echo "lucky bin copied"
-else
-    echo "lucky bin copy failed"
-fi
+#-- use custom binary ver 2.14.0
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "luckyMakefile copied"
+# else
+    # echo "luckyMakefile copy failed"
+# fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/lucky package/diy/lucky/lucky/files/lucky
+# if [ $? -eq 0 ]; then
+    # echo "lucky bin copied"
+# else
+    # echo "lucky bin copy failed"
+# fi
 
 # #/etc/lucky/lucky.conf   #@go1.22
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
@@ -206,7 +206,7 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
 sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
-qmver=0.5.37
+qmver=0.5.38
 sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
 sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
 echo qosmate v$qmver
