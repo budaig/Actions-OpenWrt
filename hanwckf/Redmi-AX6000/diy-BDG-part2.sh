@@ -184,7 +184,7 @@ sleep 1
 # ## ---------------------------------------------------------
 
 # ## add chatgpt-web
-# rm -rf feeds/packages/net/luci-app-chatgpt-web
+# rm -rf feeds/packages/net/chatgpt-web
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
 git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
@@ -202,11 +202,19 @@ git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/Op
 git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/parentcontrol
 # git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/diy/parentcontrol   #(已删)
 
+# ## -------------- msd_lite (immortalwrt 已包含)------------------------------
+# only luci
+# rm -rf feeds/luci/applications/luci-app-msd_lite
+# git clone -b main https://github.com/hejiadong0608/luci-app-msd_lite package/diy/luci-app-msd_lite
+# Or app and luci
+# rm -rf feeds/packages/net/msd_lite
+# git clone -b main https://github.com/bigtan/luci-app-msd_lite  package/diy/msd_lite
+
 # ## -------------- qosmate ------------------------------
 git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
 sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
-qmver=0.5.38
+qmver=0.5.40
 sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
 sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
 echo qosmate v$qmver
