@@ -251,6 +251,15 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 # ttimasdf xray xapp ---------------
 # ## ---------------------------------------------------------
 
+# ## -------------- Dae   内核 >= 5.17 (immortalwrt 已包含) #As a successor of v2rayA, dae abandoned v2ray-core to meet the needs of users more freely.# ---------------------------
+# OpenWrt Official 23.05/SNAPSHOT
+# git clone -b main https://github.com/sbwml/luci-app-dae package/dae
+# git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+
+# OpenWrt official 24.10/SnapShots
+# git clone -b master https://github.com/QiuSimons/luci-app-daed package/dae
+# ## ---------------------------------------------------------
+
 # ## -------------- v2raya ---------------------------
 # nl feeds/packages/net/v2raya/Makefile   #23.05 org ver2.2.5.7
 rm -rf feeds/packages/net/v2raya
@@ -612,7 +621,7 @@ else
    echo "xrayint copy failed"
 fi
 # 2305 需要0755权限
-chmod +x package/diy/mosdns/luci-app-smartdns/root/etc/init.d/xray
+chmod +x package/diy/luci-app-smartdns/luci-app-smartdns/root/etc/init.d/xray
 
 mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycorecfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
