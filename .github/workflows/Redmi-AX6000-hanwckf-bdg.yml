@@ -165,10 +165,20 @@ jobs:
         echo "📥 固件下载" >> release.txt
         echo "status=success" >> $GITHUB_OUTPUT
 
+    # - name: 发布至release
+      # uses: softprops/action-gh-release@v2
+      # if: steps.tag.outputs.status == 'success' && !cancelled()
+      # env:
+        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # with:
+        # name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
+        # tag_name: ${{ steps.tag.outputs.release_tag }}
+        # body_path: release.txt
+        # files: ${{ env.FIRMWARE }}/*
+
     - name: 发布至release
-      uses: softprops/action-gh-release@master
-      # uses: ncipollo/release-action@v1
-      if: steps.tag.outputs.status == 'success' && !cancelled()
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -191,3 +201,9 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Delete Artifacts
+      uses: geekyeggo/delete-artifact@v1
+      with:
+        name: |
+          bin-archive

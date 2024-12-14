@@ -200,22 +200,30 @@ jobs:
         echo "status=success"
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: 发布至release
-      uses: softprops/action-gh-release@v2
-      # uses: ncipollo/release-action@v1
-      # if: startsWith(github.ref, 'refs/tags/')
-      # with:
-        # files: release.txt
+    # - name: 发布至release
+      # uses: softprops/action-gh-release@v2
+      # if: steps.tag.outputs.status == 'success' && !cancelled()
       # env:
         # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      if: steps.tag.outputs.status == 'success' && !cancelled()
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # with:
+        # name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
+        # tag_name: ${{ steps.tag.outputs.release_tag }}
+        # body_path: release.txt
+        # files: ${{ env.FIRMWARE }}/*
+
+    - name: 发布至release 02
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
+
+      # uses: ncipollo/release-action@v1
+      # with:
+        # artifacts: "release.tar.gz,foo/*.txt"
+        # bodyFile: "body.md"
 
     # - name: Delete workflow runs
       # uses: Mattraks/delete-workflow-runs@main
@@ -223,11 +231,17 @@ jobs:
         # retain_days: 0
         # keep_minimum_runs: 8
 
-    # - name: Remove old Releases
-      # uses: dev-drprasad/delete-older-releases@master
-      # if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      # with:
-        # keep_latest: 8
-        # delete_tags: true
-      # env:
-        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Remove old Releases
+      uses: dev-drprasad/delete-older-releases@master
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 8
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Delete Artifacts
+      uses: geekyeggo/delete-artifact@v1
+      with:
+        name: |
+          bin-archive
