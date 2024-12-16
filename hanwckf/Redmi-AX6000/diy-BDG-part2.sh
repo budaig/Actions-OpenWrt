@@ -237,10 +237,10 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
 # xrver=24.11.30
-xrver=24.12.15
-xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
-echo xray $xrver sha256=$xrsha256
-sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/openwrt-xray/Makefile
+# # xrver=24.12.15
+# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+# echo xray $xrver sha256=$xrsha256
+# sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/openwrt-xray/Makefile
 
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
@@ -383,11 +383,11 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 # ## ---------------------------------------------------------
 
 # ## -------------- chinadns-ng   wolfssl_noasm 是没有硬件加速指令的版本---------------------------
-rm -rf feeds/packages/net/chinadns-ng   #(241119 PKG_VERSION:=2023.10.28)
+rm -rf feeds/packages/net/chinadns-ng   #(241212  openwrt21.02 PKG_VERSION:=2023.10.28; openwrt23.05 PKG_VERSION:=2024.10.14; openwrt24.10 PKG_VERSION:=2024.10.14)
 rm -rf feeds/luci/applications/luci-app-chinadns-ng
 
-# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241126 PKG_VERSION:=2023.06.05)
-git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241119 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
+# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241216 PKG_VERSION:=2023.06.05)
+git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241216 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
 # chng_ver=2024.11.17
 # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl_noasm@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
 # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
@@ -395,8 +395,8 @@ git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chi
 # sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA256"'/g' package/diy/chinadns-ng/Makefile
 
 
-# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241126 PKG_VERSION:=2024.11.17   241119 PKG_VERSION:=2024.10.14)
-# git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241126 PKG_VERSION:=2024.10.14)
+# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241216 PKG_VERSION:=2024.11.17   241119 PKG_VERSION:=2024.10.14)
+# git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241216 PKG_VERSION:=2024.10.14)
 
 
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/ver2Makefile package/diy/chinadns-ng/Makefile
@@ -412,6 +412,7 @@ if [ $? -eq 0 ]; then
 else
     echo "chinadns-ng.init copy failed"
 fi
+chmod 644 package/diy/chinadns-ng/files/chinadns-ng.init
 
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconf.conf package/diy/chinadns-ng/files/defconfig.conf
 if [ $? -eq 0 ]; then
@@ -438,7 +439,7 @@ curl -sL -m 30 --retry 2 "$urlchnroutelist" -o package/diy/chinadns-ng/files/chn
 urlchnroute6list="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute6.txt"
 curl -sL -m 30 --retry 2 "$urlchnroute6list" -o package/diy/chinadns-ng/files/chnroute6.txt
 
-ls package/diy/chinadns-ng/files
+# ls package/diy/chinadns-ng/files
 # ## ---------------------------------------------------------
 
 # ## -------------- mosdns ---------------------------
