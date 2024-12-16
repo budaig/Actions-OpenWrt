@@ -16,7 +16,8 @@ name: Redmi-AX6000-hanwckf_bdg
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "*.*.*"
+      # - "v*.*.*"
   repository_dispatch:
   workflow_dispatch:
     inputs:
@@ -179,15 +180,6 @@ jobs:
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
 
-    - name: 发布至release
-      uses: softprops/action-gh-release@v2
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        # name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
-        tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
-        files: ${{ env.FIRMWARE }}/*
-
     # - name: Delete workflow runs
       # uses: Mattraks/delete-workflow-runs@main
       # with:
@@ -203,7 +195,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Delete Artifacts
-      uses: geekyeggo/delete-artifact@v5
-      with:
-        name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
+    # - name: Delete Artifacts
+      # uses: geekyeggo/delete-artifact@v5
+      # with:
+        # name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
