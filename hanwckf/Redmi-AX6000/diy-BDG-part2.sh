@@ -214,7 +214,7 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
 sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
-qmver=0.5.43
+qmver=0.5.44
 sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
 sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
 echo qosmate v$qmver
