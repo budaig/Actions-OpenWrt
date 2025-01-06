@@ -211,22 +211,23 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 # git clone -b main https://github.com/bigtan/luci-app-msd_lite  package/diy/msd_lite
 
 # ## -------------- qosmate ------------------------------
-git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
-git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
-sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
-qmver=0.5.44
-sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
-sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
-echo qosmate v$qmver
+# git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
+# git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
+# sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
+# qmver=0.5.43   #(v0.5.44 requires kmod-sched-red)
+# sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
+# sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
+# echo qosmate v$qmver
 
-# # https://github.com/LemonCrab666/luci-app-qosmate/blob/main/po/zh_Hans/qosmate.po
-mkdir -p package/diy/luci-app-qosmate/po/zh_Hans || echo "Failed to create zh-Hans po"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2qosmate/qosmate.po package/diy/luci-app-qosmate/po/zh_Hans/qosmate.po
-if [ $? -eq 0 ]; then
-    echo "qosmate.po copied"
-else
-    echo "qosmate.po copy failed"
-fi
+
+# # # https://github.com/LemonCrab666/luci-app-qosmate/blob/main/po/zh_Hans/qosmate.po
+# mkdir -p package/diy/luci-app-qosmate/po/zh_Hans || echo "Failed to create zh-Hans po"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2qosmate/qosmate.po package/diy/luci-app-qosmate/po/zh_Hans/qosmate.po
+# if [ $? -eq 0 ]; then
+    # echo "qosmate.po copied"
+# else
+    # echo "qosmate.po copy failed"
+# fi
 # ## ---------------------------------------------------------
 
 # ##  -------------- xray +  ---------------------------
