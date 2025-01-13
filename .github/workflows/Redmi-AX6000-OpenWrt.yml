@@ -11,7 +11,7 @@
 #
 
 ###############改名字##############
-name: Redmi-AX6000-OpenWrt2305
+name: Redmi-AX6000-OpenWrt
 
 on:
   push:
