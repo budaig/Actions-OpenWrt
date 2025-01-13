@@ -28,12 +28,6 @@ on:
 #  schedule:
 #    - cron: 0 16 * * *
 
-  contents: write
-  pages: write
-  id-token: write
-  issues: write
-  
-
 env:
   REPO_URL: https://github.com/openwrt/openwrt
   REPO_BRANCH: openwrt-23.05
