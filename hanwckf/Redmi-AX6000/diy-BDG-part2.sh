@@ -194,6 +194,9 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/c
 # ## add OpenAppFilter oaf
 git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
 
+# ## add droidmodem
+git clone -b master https://github.com/animegasan/luci-app-droidmodem package/diy/droidmodem
+
 # ## add eqosplus   需要安装eqosplus主题
 # git clone -b main https://github.com/sirpdboy/luci-app-eqosplus package/diy/eqosplus 
 
@@ -524,7 +527,7 @@ echo smartdns v$SMARTDNS_VER sha=$SMAERTDNS_SHA
 sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile
 sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/diy/smartdns/Makefile
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile
 
 ## add anti-ad data
