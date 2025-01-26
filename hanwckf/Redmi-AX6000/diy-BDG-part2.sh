@@ -195,8 +195,8 @@ git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/c
 git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
 
 # ## add droidmodem
-git clone -b master https://github.com/animegasan/luci-app-droidmodem package/diy/droidmodem
-# curl -s https://raw.githubusercontent.com/animegasan/luci-app-droidmodem/master/install | sh
+# git clone -b master https://github.com/animegasan/luci-app-droidmodem package/diy/droidmodem
+# # curl -s https://raw.githubusercontent.com/animegasan/luci-app-droidmodem/master/install | sh
 
 # ## add eqosplus   需要安装eqosplus主题
 # git clone -b main https://github.com/sirpdboy/luci-app-eqosplus package/diy/eqosplus 
