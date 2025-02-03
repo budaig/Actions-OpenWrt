@@ -140,30 +140,31 @@ rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 
 # #/etc/config/lucky.daji/lucky.conf
-git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
+# git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 sleep 1
 # ## customize lucky ver
-# # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
-# lkver=2.6.2
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/diy/lucky/lucky/Makefile
+# # # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
+# # wget https://6.666666.host:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
+# lkver=2.14.0
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/6.666666.host\:6\/files\//g' package/diy/lucky/lucky/Makefile
 
 # wget https://github.com/gdy666/lucky-files$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
 # lkver=2.10.8
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-#-- use custom binary ver 2.14.0
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
-# if [ $? -eq 0 ]; then
-    # echo "luckyMakefile copied"
-# else
-    # echo "luckyMakefile copy failed"
-# fi
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/lucky package/diy/lucky/lucky/files/lucky
-# if [ $? -eq 0 ]; then
-    # echo "lucky bin copied"
-# else
-    # echo "lucky bin copy failed"
-# fi
+#-- use custom binary ver 2.15.3 beta
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
+if [ $? -eq 0 ]; then
+    echo "luckyMakefile copied"
+else
+    echo "luckyMakefile copy failed"
+fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/lucky package/diy/lucky/lucky/files/lucky
+if [ $? -eq 0 ]; then
+    echo "lucky bin copied"
+else
+    echo "lucky bin copy failed"
+fi
 
 # #/etc/lucky/lucky.conf   #@go1.22
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
@@ -186,7 +187,10 @@ sleep 1
 # ## add chatgpt-web
 # rm -rf feeds/packages/net/chatgpt-web
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
-git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
+# git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
+
+# ## add deepseek
+git clone https://github.com/ywt114/luci-app-deepseek -b master package/diy/deepseek
 
 # ## add accesscontrolplus
 # git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
