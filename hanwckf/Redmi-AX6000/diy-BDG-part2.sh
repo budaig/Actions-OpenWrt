@@ -140,7 +140,7 @@ rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 
 # #/etc/config/lucky.daji/lucky.conf
-# git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
+git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 sleep 1
 # ## customize lucky ver
 # # # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
