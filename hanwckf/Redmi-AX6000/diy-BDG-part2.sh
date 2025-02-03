@@ -190,7 +190,7 @@ fi
 # git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
 # ## add deepseek
-git clone https://github.com/ywt114/luci-app-deepseek -b master package/diy/deepseek
+# git clone https://github.com/ywt114/luci-app-deepseek -b master package/diy/deepseek
 
 # ## add accesscontrolplus
 # git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
