@@ -196,7 +196,7 @@ fi
 # git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
 
 # ## add OpenAppFilter oaf
-git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
+# git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
 
 # ## add droidmodem
 # git clone -b master https://github.com/animegasan/luci-app-droidmodem package/diy/droidmodem
@@ -209,6 +209,9 @@ git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/Op
 # git clone -b main https://github.com/sirpdboy/luci-app-parentcontrol package/diy/parentcontrol
 git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/parentcontrol
 # git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/diy/parentcontrol   #(已删)
+
+# ## add tailscale
+# git clone b main https://github.com/asvow/luci-app-tailscale package/diy/luci-app-tailscale
 
 # ## -------------- msd_lite (immortalwrt 已包含)------------------------------
 # only luci
