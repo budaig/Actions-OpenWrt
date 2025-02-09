@@ -226,7 +226,7 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 # # git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate #(for 22.03 or newer)
 # git clone -b legacy https://github.com/hudra0/qosmate.git package/diy/qosmate  #(for 21.02 or lower)
 # sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
-# qmver=0.5.46   #(v0.5.44 requires kmod-sched-red)
+# qmver=0.5.48   #(v0.5.44 requires kmod-sched-red)
 # sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
 # sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
 # echo qosmate v$qmver
@@ -330,7 +330,7 @@ rm -rf package/diy/v2raya/xray-core
 
 ## customize v2raya ver
 sleep 1
-v2aver=2.2.6.4
+v2aver=2.2.6.6
 v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 echo v2raya v$v2aver sha256=$v2asha256
