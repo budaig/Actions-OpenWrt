@@ -153,7 +153,7 @@ sleep 1
 # lkver=2.10.8
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-#-- use custom binary ver 2.15.3 beta
+#-- use custom binary ver 2.15.6
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
 if [ $? -eq 0 ]; then
     echo "luckyMakefile copied"
@@ -206,10 +206,10 @@ fi
 # ## add eqosplus   需要安装eqosplus主题
 # git clone -b main https://github.com/sirpdboy/luci-app-eqosplus package/diy/eqosplus 
 
-# ## add ftp
-rm -rf feeds/packages/net/ftp
-rm -rf feeds/luci/applications/luci-app-ftp
-git clone -b main https://github.com/sbwml/package_new_ftp package/diy/netkitftp
+# ## add netkit ftp
+# rm -rf feeds/packages/net/ftp
+# rm -rf feeds/luci/applications/luci-app-ftp
+# git clone -b main https://github.com/sbwml/package_new_ftp package/diy/netkitftp
 
 # ## add parentcontrol
 # git clone -b main https://github.com/sirpdboy/luci-app-parentcontrol package/diy/parentcontrol

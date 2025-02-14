@@ -52,6 +52,8 @@ start_service() {
 	append_env_arg "config" "nftables_support" "auto"
 	append_env_arg "config" "log_level" "info"
 	append_env_arg "config" "log_max_days" "3"
+	# append_env_arg "config" "v2ray_bin"
+	# append_env_arg "config" "v2ray_confdir"
 	append_env_arg "config" "v2ray_bin" "/usr/bin/xray"
 	append_env_arg "config" "v2ray_confdir" "/etc/v2raya/xray"
 	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"
