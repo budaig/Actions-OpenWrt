@@ -85,6 +85,7 @@ rm -rf feeds/luci/applications/luci-app-alist
 # git clone https://github.com/lmq8267/luci-app-alist.git -b main package/diy/alist
 ## bin 和 luci
 git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
+# git clone https://github.com/lmq8267/luci-app-alist -b main package/diy/alist   # 需自己下载bin
 # git clone https://github.com/oppen321/luci-app-alist -b main package/diy/alist
 # mv package/diy/alist/alist feeds/packages/net/alist
 # mv package/diy/alist/luci-app-alist feeds/luci/applications/luci-app-alist
@@ -205,6 +206,11 @@ fi
 # ## add eqosplus   需要安装eqosplus主题
 # git clone -b main https://github.com/sirpdboy/luci-app-eqosplus package/diy/eqosplus 
 
+# ## add ftp
+rm -rf feeds/packages/net/ftp
+rm -rf feeds/luci/applications/luci-app-ftp
+git clone -b main https://github.com/sbwml/package_new_ftp package/diy/netkitftp
+
 # ## add parentcontrol
 # git clone -b main https://github.com/sirpdboy/luci-app-parentcontrol package/diy/parentcontrol
 git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/parentcontrol
@@ -313,7 +319,7 @@ rm -rf package/diy/v2raya/xray-core
 
 ## customize immortalwrt orig v2raya
 # nl feeds/packages/net/v2raya/Makefile
-# v2aver=2.2.6.2
+# v2aver=2.2.6.6
 # v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # echo v2raya v$v2aver sha256=$v2asha256
@@ -348,7 +354,8 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"
 # fi
 # chmod +x package/diy/v2raya/v2raya/files/v2raya.init
 # or 
-sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
+# # v2raya 2.2.6.6 包含 嗅探过滤 解决 mijia cloud
+# sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
 sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' package/diy/v2raya/v2raya/files/v2raya.init
 
 # # go 1.21.4
