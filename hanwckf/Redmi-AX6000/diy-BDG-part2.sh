@@ -256,7 +256,7 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
 # https://api.github.com/repos/XTLS/Xray-core/commits   https://codeload.github.com/XTLS/Xray-core/tar.gz/v25.2.9?/Xray-core-25.2.9.tar.gz
-xrver=25.1.30
+xrver=25.2.18
 # # xrver=25.1.30
 xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 echo xray $xrver sha256=$xrsha256
