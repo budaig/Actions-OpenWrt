@@ -161,11 +161,11 @@ else
     echo "luckyMakefile copy failed"
 fi
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/lucky package/diy/lucky/lucky/files/lucky
-# if [ $? -eq 0 ]; then
-    # echo "lucky bin copied"
-# else
-    # echo "lucky bin copy failed"
-# fi
+if [ $? -eq 0 ]; then
+    echo "lucky bin copied"
+else
+    echo "lucky bin copy failed"
+fi
 
 # #/etc/lucky/lucky.conf   #@go1.22
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
