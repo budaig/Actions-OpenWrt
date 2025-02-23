@@ -140,7 +140,7 @@ git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 
-# #/etc/config/lucky.daji/lucky.conf
+#-- #/etc/config/lucky.daji/lucky.conf
 git clone -b v2.15.7 --single-branch https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
 sleep 1
 # ## customize lucky ver
@@ -153,7 +153,7 @@ sleep 1
 # lkver=2.15.7
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-#-- use custom binary ver 2.15.7
+## use custom binary ver 2.15.7
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
 # if [ $? -eq 0 ]; then
     # echo "luckyMakefile copied"
@@ -167,7 +167,7 @@ sleep 1
     # echo "lucky bin copy failed"
 # fi
 
-# #/etc/lucky/lucky.conf   #@go1.22
+#-- #/etc/lucky/lucky.conf   #@go1.22
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
 # sleep 1
 # ## customize lucky ver
@@ -175,6 +175,10 @@ sleep 1
 # lkver=2.15.7
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g' package/diy/lucky/lucky/Makefile
 # sed -i '/PKG_SOURCE_VERSION:=/d' package/diy/lucky/lucky/Makefile
+##- change configdir to /etc/config/lucky.daji
+### a:
+# sed -i 's/\/etc\/lucky/\/etc\/config\/lucky.daji/g' package/diy/lucky/luci-app-lucky/root/etc/config/lucky
+### or b:
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/etcconfiglucky package/diy/lucky/luci-app-lucky/root/etc/config/lucky
 # if [ $? -eq 0 ]; then
 #     echo "etcconfiglucky copied"
@@ -197,7 +201,7 @@ sleep 1
 # git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
 
 # ## add OpenAppFilter oaf
-# git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
+git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
 
 # ## add droidmodem
 # git clone -b master https://github.com/animegasan/luci-app-droidmodem package/diy/droidmodem
@@ -256,7 +260,7 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
 # https://api.github.com/repos/XTLS/Xray-core/commits   https://codeload.github.com/XTLS/Xray-core/tar.gz/v25.2.9?/Xray-core-25.2.9.tar.gz
-# xrver=25.2.18
+# xrver=25.2.21
 # # # xrver=25.1.30
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
