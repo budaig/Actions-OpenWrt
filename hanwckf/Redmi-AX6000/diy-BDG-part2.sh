@@ -50,10 +50,10 @@ do
  echo "Deleted $cmd"
 done
 
-# ## update golang 20.x to 21.x
+# ## update golang 20.x to 23.x
 # nl feeds/packages/lang/golang/golang/Makefile   #21.02 org ver1.19
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 23.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 24.x feeds/packages/lang/golang
 # use
 # cp ${GITHUB_WORKSPACE}/_modFiles/2golang/golang-values.mk feeds/packages/lang/golang/golang-values.mk
 # 21.x to use 21.4
