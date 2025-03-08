@@ -85,6 +85,7 @@ rm -rf feeds/luci/applications/luci-app-alist
 # git clone https://github.com/lmq8267/luci-app-alist.git -b main package/diy/alist
 ## bin 和 luci
 git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
+# git clone https://github.com/sbwml/luci-app-alist.git -b v3.42.0 --single-branch package/diy/alist
 # git clone https://github.com/lmq8267/luci-app-alist -b main package/diy/alist   # 需自己下载bin
 # git clone https://github.com/oppen321/luci-app-alist -b main package/diy/alist
 # mv package/diy/alist/alist feeds/packages/net/alist
@@ -260,11 +261,11 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
 # https://api.github.com/repos/XTLS/Xray-core/commits   https://codeload.github.com/XTLS/Xray-core/tar.gz/v25.3.3?/Xray-core-25.3.3.tar.gz
-xrver=25.1.30
-# # xrver=25.1.30
-xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
-echo xray $xrver sha256=$xrsha256
-sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/openwrt-xray/Makefile
+# xrver=25.3.6
+# # # xrver=25.1.30
+# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
+# echo xray $xrver sha256=$xrsha256
+# sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/openwrt-xray/Makefile
 
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
