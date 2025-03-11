@@ -54,7 +54,7 @@ jobs:
 
     steps:
     - name: 检查项目分支
-      uses: actions/checkout@main
+      uses: actions/checkout@v4
       
     - name: Check space usage
       if: (!cancelled())
@@ -155,7 +155,8 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传固件到github
-      uses: actions/upload-artifact@main
+      uses: actions/upload-artifact@v4
+      # uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}

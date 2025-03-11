@@ -631,7 +631,7 @@ else
     echo "xrayint copy failed"
 fi
 # 2305 需要0755权限
-# chmod +x package/diy/mosdns/luci-app-smartdns/root/etc/init.d/xray
+# chmod +x package/diy/luci-app-smartdns/luci-app-smartdns/root/etc/init.d/xray
 
 mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycorecfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json

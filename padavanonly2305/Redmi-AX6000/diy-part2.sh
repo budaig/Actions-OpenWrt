@@ -52,7 +52,7 @@ done
 
 # ## update golang 20.x to 21.x
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 23.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 24.x feeds/packages/lang/golang
 
 # ## -------------- adguardhome ---------------------------
 rm -rf feeds/packages/net/adguardhome
@@ -92,13 +92,13 @@ mv package/diy/alist/luci-app-alist feeds/luci/applications/luci-app-alist
 
 # ## customize alist ver
 # # sleep 1
-# alver=3.38.0
-# alwebver=3.38.0
+# alver=3.42.0
+# alwebver=3.42.0
 # alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
 # alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
-# echo alist $alver sha256=$alsha256
-# echo alist-web $alver sha256=$alwebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' feeds/packages/net/alist/Makefile
+# echo alist v$alver sha256=$alsha256
+# echo alist-web v$alver sha256=$alwebsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
 
 # change default port: version 3.33.0 and up
 # sed -i 's/5244/5246/g' package/diy/alist/alist/files/alist.config
@@ -134,14 +134,14 @@ git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 # sleep 1
 ## customize lucky ver
 # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
-# lkver=2.6.2
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/diy/lucky/lucky/Makefile
+# lkver=2.15.7
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/6.666666.host\:6\/files\//g' package/diy/lucky/lucky/Makefile
 
 # wget https://github.com/gdy666/lucky-files$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
-# lkver=2.10.8
+# lkver=2.15.7
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-#-- use custom binary ver 2.14.0
+## use custom binary ver 2.15.7
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
 # if [ $? -eq 0 ]; then
     # echo "luckyMakefile copied"
@@ -155,14 +155,18 @@ git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
     # echo "lucky bin copy failed"
 # fi
 
-# #/etc/lucky/lucky.conf   #@go1.22
+#-- #/etc/lucky/lucky.conf   #@go1.22
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
 # sleep 1
 # ## customize lucky ver
 # # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
-# lkver=2.6.2
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/www.daji.it\:6\/files\//g' package/diy/lucky/lucky/Makefile
+# lkver=2.15.7
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g' package/diy/lucky/lucky/Makefile
 # sed -i '/PKG_SOURCE_VERSION:=/d' package/diy/lucky/lucky/Makefile
+##- change configdir to /etc/config/lucky.daji
+### a:
+# sed -i 's/\/etc\/lucky/\/etc\/config\/lucky.daji/g' package/diy/lucky/luci-app-lucky/root/etc/config/lucky
+### or b:
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/etcconfiglucky package/diy/lucky/luci-app-lucky/root/etc/config/lucky
 # if [ $? -eq 0 ]; then
 #     echo "etcconfiglucky copied"
@@ -193,22 +197,24 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 # git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/diy/parentcontrol   #(已删)
 
 # ## -------------- qosmate ------------------------------
-git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate 
 git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
-sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
-qmver=0.5.40
-sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
-sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
-echo qosmate v$qmver
+git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate #(for 22.03 or newer)
+# git clone -b legacy https://github.com/hudra0/qosmate.git package/diy/qosmate  #(for 21.02 or lower)
+# sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
+# qmver=0.5.48   #(v0.5.44 requires kmod-sched-red)
+# sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
+# sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
+# echo qosmate v$qmver
+
 
 # # https://github.com/LemonCrab666/luci-app-qosmate/blob/main/po/zh_Hans/qosmate.po
-mkdir -p package/diy/luci-app-qosmate/po/zh_Hans || echo "Failed to create zh-Hans po"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2qosmate/qosmate.po package/diy/luci-app-qosmate/po/zh_Hans/qosmate.po
-if [ $? -eq 0 ]; then
-    echo "qosmate.po copied"
-else
-    echo "qosmate.po copy failed"
-fi
+# mkdir -p package/diy/luci-app-qosmate/po/zh_Hans || echo "Failed to create zh-Hans po"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2qosmate/qosmate.po package/diy/luci-app-qosmate/po/zh_Hans/qosmate.po
+# if [ $? -eq 0 ]; then
+    # echo "qosmate.po copied"
+# else
+    # echo "qosmate.po copy failed"
+# fi
 # ## ---------------------------------------------------------
 
 # ##  -------------- xray +  ---------------------------
@@ -218,7 +224,8 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-# xrver=24.11.21
+# xrver=25.3.6
+# # # xrver=25.1.30
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/openwrt-xray/Makefile
@@ -278,7 +285,7 @@ rm -rf feeds/luci/applications/luci-app-v2raya
 # ls package/diy/v2raya
 
 ## method 2: clone then replace key files
-git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+# git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
@@ -291,7 +298,7 @@ rm -rf package/diy/v2raya/xray-core
 
 ## customize immortalwrt orig v2raya
 # nl feeds/packages/net/v2raya/Makefile
-# v2aver=2.2.6.2
+# v2aver=2.2.6.6
 # v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # echo v2raya v$v2aver sha256=$v2asha256
@@ -308,7 +315,7 @@ rm -rf package/diy/v2raya/xray-core
 
 ## customize v2raya ver
 sleep 1
-v2aver=2.2.6.3
+v2aver=2.2.6.6
 v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 echo v2raya v$v2aver sha256=$v2asha256
@@ -325,7 +332,8 @@ sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"
 # fi
 # chmod +x package/diy/v2raya/v2raya/files/v2raya.init
 # or 
-sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
+# # v2raya 2.2.6.6 包含 嗅探过滤 解决 mijia cloud
+# sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
 sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' package/diy/v2raya/v2raya/files/v2raya.init
 #or
 # curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya.init -o package/diy/v2raya/v2raya/files/v2raya.init
@@ -365,7 +373,7 @@ sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' pa
 # echo v2ray v$vrver sha256=$vrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
 
-# xrver=24.11.21
+# xrver=24.11.30
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray v$xrver sha256=$xrsha256
 # sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
@@ -445,6 +453,7 @@ rm -rf package/diy/homeproxy/luci-app-homeproxy
 rm -rf feeds/packages/net/v2ray-geodata
 rm -rf feeds/packages/net/mosdns
 rm -rf feeds/luci/applications/luci-app-mosdns
+
 ## gitclone sbwml/luci-app-mosdns
 # 1. gitclone + mod makfile   -  prefer 1.
 
@@ -475,6 +484,7 @@ rm -rf feeds/luci/applications/luci-app-mosdns
 # else
     # echo "mosdnsgeodataMakefile copy failed"
 # fi
+
 ## gitclone QiuSimons/openwrt-mos
 # 1. gitclone + mod makfile
 
@@ -499,6 +509,7 @@ rm -rf feeds/luci/applications/luci-app-mosdns
 # fi
 # chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
 # chmod +x package/diy/mosdns/
+
 # ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------
@@ -515,11 +526,11 @@ echo smartdns v$SMARTDNS_VER sha=$SMAERTDNS_SHA
 sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile   #feeds/packages/net/smartdns/Makefile
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile   #feeds/packages/net/smartdns/Makefile
 sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/diy/smartdns/Makefile   #feeds/packages/net/smartdns/Makefile
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile   #feeds/luci/applications/luci-app-smartdns/Makefile
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile   #feeds/luci/applications/luci-app-smartdns/Makefile
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile   #feeds/luci/applications/luci-app-smartdns/Makefile
 
 ## add anti-ad data
-mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns || echo "Failed to create /luci-app-smartdns/root/etc/smartdns"
+mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns/domain-set || echo "Failed to create /luci-app-smartdns/root/etc/smartdns/domain-set"
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/dns_rules_update.sh package/diy/luci-app-smartdns/root/etc/smartdns/dns_rules_update.sh
 if [ $? -eq 0 ]; then
     echo "dns_rules_update copied"
