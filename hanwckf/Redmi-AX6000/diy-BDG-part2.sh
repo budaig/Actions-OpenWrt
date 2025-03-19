@@ -203,6 +203,7 @@ sleep 1
 # git clone -b main https://github.com/CrazyPegasus/luci-app-accesscontrol-plus package/diy/accesscontrolplus
 
 # ## add OpenAppFilter oaf
+rm -rf feeds/luci/applications/luci-app-appfilter
 git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
 
 # ## add droidmodem
