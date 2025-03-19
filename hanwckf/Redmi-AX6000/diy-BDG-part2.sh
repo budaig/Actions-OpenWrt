@@ -204,6 +204,7 @@ sleep 1
 
 # ## add OpenAppFilter oaf
 rm -rf feeds/luci/applications/luci-app-appfilter
+rm -rf feeds/packages/net/open-app-filter
 git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
 
 # ## add droidmodem
