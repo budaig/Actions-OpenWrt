@@ -542,7 +542,7 @@ rm -rf feeds/packages/net/smartdns
 rm -rf feeds/luci/applications/luci-app-smartdns
 git clone https://github.com/pymumu/openwrt-smartdns -b master package/diy/smartdns
 git clone https://github.com/pymumu/luci-app-smartdns -b master package/diy/luci-app-smartdns
-git clone -b main https://github.com/pymumu/smartdns-webui package/diy/smartdns-webui
+#git clone -b main https://github.com/pymumu/smartdns-webui package/diy/smartdns-webui
 
 ## update to the newest
 SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
