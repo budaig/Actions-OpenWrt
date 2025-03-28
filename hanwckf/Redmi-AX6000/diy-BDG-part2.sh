@@ -344,7 +344,7 @@ rm -rf package/diy/v2raya/xray-core
 
 ## customize v2raya ver
 sleep 1
-v2aver=2.2.6.6
+v2aver=2.2.6.7
 v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 echo v2raya v$v2aver sha256=$v2asha256
@@ -419,13 +419,13 @@ rm -rf feeds/luci/applications/luci-app-chinadns-ng
 git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241216 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
 # # # chng_ver=2024.11.17
 # # # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl_noasm@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
-# chng_ver=2024.12.22
+# chng_ver=2025.03.27
 # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
 # echo chinadns-ng v$chng_ver sha256=$chng_SHA256
 # sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA256"'/g' package/diy/chinadns-ng/Makefile
 
 
-# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241216 PKG_VERSION:=2024.11.17   241119 PKG_VERSION:=2024.10.14)
+# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(250327 PKG_VERSION:=2024.12.22   241216 PKG_VERSION:=2024.11.17   241119 PKG_VERSION:=2024.10.14)
 # git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241216 PKG_VERSION:=2024.10.14)
 
 
