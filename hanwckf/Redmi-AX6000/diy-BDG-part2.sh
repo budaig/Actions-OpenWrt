@@ -544,6 +544,14 @@ git clone https://github.com/pymumu/openwrt-smartdns -b master package/diy/smart
 git clone https://github.com/pymumu/luci-app-smartdns -b master package/diy/luci-app-smartdns
 #git clone -b main https://github.com/pymumu/smartdns-webui package/diy/smartdns-webui
 
+
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/openwrtsmartdns46.Makefile package/diy/smartdns/Makefile
+if [ $? -eq 0 ]; then
+    echo "openwrtsmartdns46.Makefile copied"
+else
+    echo "openwrtsmartdns46.Makefile copy failed"
+fi
+
 ## update to the newest
 SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
 SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
