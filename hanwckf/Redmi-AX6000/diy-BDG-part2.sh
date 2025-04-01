@@ -544,13 +544,20 @@ git clone https://github.com/pymumu/openwrt-smartdns -b master package/diy/smart
 git clone https://github.com/pymumu/luci-app-smartdns -b master package/diy/luci-app-smartdns
 #git clone -b main https://github.com/pymumu/smartdns-webui package/diy/smartdns-webui
 
+## do not compile smartdns-ui
+# 1. clone mod makefile
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/openwrtsmartdns46.Makefile package/diy/smartdns/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "openwrtsmartdns46.Makefile copied"
+# else
+    # echo "openwrtsmartdns46.Makefile copy failed"
+# fi
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/openwrtsmartdns46.Makefile package/diy/smartdns/Makefile
-if [ $? -eq 0 ]; then
-    echo "openwrtsmartdns46.Makefile copied"
-else
-    echo "openwrtsmartdns46.Makefile copy failed"
-fi
+# 2. mod Openwrt-smartdns makefile   -  prefer 2.
+# # sed -i '/define Build\/Compile\/smartdns-ui/a\\t$(TAB)cargo install --force --locked bindgen-cli' feeds/packages/net/smartdns/Makefile
+sed -i '31 s/.*/ifneq ($(CONFIG_PACKAGE_smartdns-ui),)/g' package/diy/smartdns/Makefile
+sed -i '32 s/.*/PKG_BUILD_DEPENDS:=rust\/host/g' package/diy/smartdns/Makefile
+sed -i '34i \endif' package/diy/smartdns/Makefile
 
 ## update to the newest
 SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
