@@ -4,10 +4,10 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=lucky
-PKG_VERSION:=2.15.7
-# PKG_VERSION_OLD:=2.15.7
+PKG_VERSION:=2.16.1
+# PKG_VERSION_OLD:=2.15.10
 PKG_RELEASE:=1
-PKGARCH:=all 
+PKGARCH:=all
 
 ifeq ($(ARCH),mipsel)
 	LUCKY_ARCH:=mipsle_softfloat

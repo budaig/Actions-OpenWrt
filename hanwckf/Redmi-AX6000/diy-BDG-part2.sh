@@ -142,32 +142,32 @@ rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 
 #-- #/etc/config/lucky.daji/lucky.conf
-# git clone -b v2.15.7 --single-branch https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
+# git clone -b v2.15.8 --single-branch https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
 git clone -b main https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
 sleep 1
 # ## customize lucky ver
 # # # wget https://www.daji.it:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
 # # wget https://6.666666.host:6/files/$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
-# lkver=2.15.7
+# lkver=2.15.10
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/github.com\/gdy666\/lucky\/releases\/download\/v/6.666666.host\:6\/files\//g' package/diy/lucky/lucky/Makefile
 
 # wget https://github.com/gdy666/lucky-files$(PKG_VERSION)/$(PKG_NAME)_$(PKG_VERSION)_Linux_$(LUCKY_ARCH).tar.gz
-# lkver=2.15.7
+# lkver=2.15.10
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
-## use custom binary ver 2.15.7
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
-# if [ $? -eq 0 ]; then
-    # echo "luckyMakefile copied"
-# else
-    # echo "luckyMakefile copy failed"
-# fi
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/lucky package/diy/lucky/lucky/files/lucky
-# if [ $? -eq 0 ]; then
-    # echo "lucky bin copied"
-# else
-    # echo "lucky bin copy failed"
-# fi
+## use custom binary ver 2.16.1
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
+if [ $? -eq 0 ]; then
+    echo "luckyMakefile copied"
+else
+    echo "luckyMakefile copy failed"
+fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/lucky package/diy/lucky/lucky/files/lucky
+if [ $? -eq 0 ]; then
+    echo "lucky bin copied"
+else
+    echo "lucky bin copy failed"
+fi
 
 #-- #/etc/lucky/lucky.conf   #@go1.22
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
