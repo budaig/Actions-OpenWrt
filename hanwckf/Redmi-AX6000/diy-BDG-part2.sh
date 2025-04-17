@@ -155,6 +155,15 @@ sleep 1
 # lkver=2.15.10
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$lkver"'/g;s/lucky\/releases\/download\/v/lucky-files\/raw\/main\//g' package/diy/lucky/lucky/Makefile
 
+## fix 21.02 loading webpage error
+# # sed -i 's/admin\/services\/lucky/admin\/services\/lucky\/setting/g' package/diy/lucky/luci-app-lucky/root/usr/share/luci/menu.d/luci-app-lucky.json 
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luci-app-lucky.json package/diy/lucky/luci-app-lucky/root/usr/share/luci/menu.d/luci-app-lucky.json
+if [ $? -eq 0 ]; then
+    echo "luci-app-lucky.json copied"
+else
+    echo "luci-app-lucky.json copy failed"
+fi
+
 ## use custom binary ver 2.16.1
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
 if [ $? -eq 0 ]; then
