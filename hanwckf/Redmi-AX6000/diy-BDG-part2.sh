@@ -64,7 +64,7 @@ rm -rf feeds/packages/net/adguardhome
 rm -rf feeds/luci/applications/luci-app-adguardhome
 git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
 # sleep 1
-# aghver=0.107.52
+# aghver=0.107.61
 # aghsha256=($(curl -sL https://github.com/AdguardTeam/AdGuardHome/releases/download/v$aghver/AdGuardHome_linux_arm64.tar.gz | shasum -a 256))
 # echo adguardhome $aghver sha256=$aghsha256
 # sed -i '10 s/.*/PKG_VERSION:='"$aghver"'/g;17 s/.*/PKG_MIRROR_HASH:='"$aghsha256"'/g' package/diy/adguardhome/AdguardHome/Makefile
@@ -588,6 +588,13 @@ else
     echo "dns_rules_update copy failed"
 fi
 chmod +x package/diy/luci-app-smartdns/root/etc/smartdns/dns_rules_update.sh
+
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/sitefcm.dns package/diy/luci-app-smartdns/root/etc/smartdns/sitefcm.conf
+if [ $? -eq 0 ]; then
+    echo "sitefcm copied"
+else
+    echo "sitefcm copy failed"
+fi
 
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/blockADcooka.mos package/diy/luci-app-smartdns/root/etc/smartdns/blockADcooka.txt
 if [ $? -eq 0 ]; then
