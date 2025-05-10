@@ -203,7 +203,7 @@ fi
 # ## add chatgpt-web
 # rm -rf feeds/packages/net/chatgpt-web
 # rm -rf feeds/luci/applications/luci-app-chatgpt-web
-git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
+# git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
 # ## add deepseek
 # git clone https://github.com/ywt114/luci-app-deepseek -b master package/diy/deepseek
