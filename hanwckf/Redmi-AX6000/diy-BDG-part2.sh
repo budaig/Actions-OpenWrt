@@ -277,7 +277,14 @@ else
     echo "sing-box copy failed"
 fi
 
-sed -i '28i \	$(INSTALL_BIN) ./files/sing-box $(1)/usr/bin' package/diy/luci-singbox/Makefile
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2singbox/lucisingboxMakefile package/diy/luci-singbox/Makefile
+if [ $? -eq 0 ]; then
+    echo "lucisingboxMakefile copied"
+else
+    echo "lucisingboxMakefile copy failed"
+fi
+
+# sed -i '28i \	$(INSTALL_BIN) ./files/sing-box $(1)/usr/bin' package/diy/luci-singbox/Makefile
 
 # ## ---------------------------------------------------------
 
