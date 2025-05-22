@@ -265,6 +265,24 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 # fi
 # ## ---------------------------------------------------------
 
+
+# ##  -------------- sing-box +  ---------------------------
+git clone https://github.com/zaiyin/openwrt-luci-singbox -b main package/diy/luci-singbox
+
+
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2singbox/sing-box package/diy/luci-singbox/luci-app-singbox/files/sing-box
+if [ $? -eq 0 ]; then
+    echo "sing-box copied"
+else
+    echo "sing-box copy failed"
+fi
+
+sed -i '28i \	$(INSTALL_BIN) ./files/sing-box $(1)/usr/bin' package/diy/luci-singbox/Makefile
+
+# ## ---------------------------------------------------------
+
+
+
 # ##  -------------- xray +  ---------------------------
 ## geodata
 git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
