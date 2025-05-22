@@ -1,0 +1,20 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+STOP=15
+
+USE_PROCD=1
+PROG=/usr/bin/sing-box
+CONFIG=/etc/sing-box/config.json
+CONFIGDir=/usr/share/sing-box
+
+start_service() {
+    procd_open_instance
+    procd_set_param command "$PROG" run -c "$CONFIG" -D "$CONFIGdir"
+    procd_set_param respawn
+    procd_close_instance
+}
+
+stop_service() {
+    killall sing-box
+}

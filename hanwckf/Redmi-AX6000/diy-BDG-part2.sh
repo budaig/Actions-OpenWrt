@@ -266,25 +266,30 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 # ## ---------------------------------------------------------
 
 
-# ##  -------------- sing-box +  ---------------------------
-git clone https://github.com/zaiyin/openwrt-luci-singbox -b main package/diy/luci-singbox
+# ##  -------------- Passwall - sing-box ---------------------------
+rm -rf feeds/luci/applications/luci-app-passwall
+git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
 
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2singbox/sing-box package/diy/luci-singbox/luci-app-singbox/files/sing-box
-if [ $? -eq 0 ]; then
-    echo "sing-box copied"
-else
-    echo "sing-box copy failed"
-fi
+# # ##  -------------- sing-box +  ---------------------------
+# git clone https://github.com/zaiyin/openwrt-luci-singbox -b main package/diy/luci-singbox
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2singbox/lucisingboxMakefile package/diy/luci-singbox/Makefile
-if [ $? -eq 0 ]; then
-    echo "lucisingboxMakefile copied"
-else
-    echo "lucisingboxMakefile copy failed"
-fi
 
-# sed -i '28i \	$(INSTALL_BIN) ./files/sing-box $(1)/usr/bin' package/diy/luci-singbox/Makefile
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2singbox/sing-box package/diy/luci-singbox/luci-app-singbox/files/sing-box
+# if [ $? -eq 0 ]; then
+    # echo "sing-box copied"
+# else
+    # echo "sing-box copy failed"
+# fi
+
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2singbox/lucisingboxMakefile package/diy/luci-singbox/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "lucisingboxMakefile copied"
+# else
+    # echo "lucisingboxMakefile copy failed"
+# fi
+
+# # sed -i '28i \	$(INSTALL_BIN) ./files/sing-box $(1)/usr/bin' package/diy/luci-singbox/Makefile
 
 # ## ---------------------------------------------------------
 
