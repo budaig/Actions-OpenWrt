@@ -300,7 +300,7 @@ git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/pass
 #250522 git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
 ## core
-#250522 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
+git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
 # https://api.github.com/repos/XTLS/Xray-core/commits   https://codeload.github.com/XTLS/Xray-core/tar.gz/v25.3.3?/Xray-core-25.3.3.tar.gz
 # xrver=25.3.6
