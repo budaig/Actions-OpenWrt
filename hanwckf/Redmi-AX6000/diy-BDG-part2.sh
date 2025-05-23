@@ -297,10 +297,10 @@ git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/pass
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
-git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+#250522 git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
 ## core
-git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
+#250522 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
 # https://api.github.com/repos/XTLS/Xray-core/commits   https://codeload.github.com/XTLS/Xray-core/tar.gz/v25.3.3?/Xray-core-25.3.3.tar.gz
 # xrver=25.3.6
@@ -356,7 +356,7 @@ rm -rf feeds/luci/applications/luci-app-v2raya
 # ls package/diy/v2raya
 
 ## method 2: clone then replace key files
-git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+#250522 git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
@@ -403,7 +403,7 @@ rm -rf package/diy/v2raya/xray-core
 # or 
 # # v2raya 2.2.6.6 包含 嗅探过滤 解决 mijia cloud
 # sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
-sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' package/diy/v2raya/v2raya/files/v2raya.init
+#250522 sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' package/diy/v2raya/v2raya/files/v2raya.init
 
 # # go 1.21.4
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2v2raya/100-go-mod-ver.patch package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
