@@ -25,7 +25,7 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_BIN) ./luasrc/view/singbox/control.htm $(1)/usr/lib/lua/luci/view/singbox/control.htm
 
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/sing-box $(1)/usr/bin
+	$(INSTALL_BIN) ./files/sing-box $(1)/usr/bin/sing-box
 	$(INSTALL_BIN) ./files/singbox-init $(1)/etc/init.d/singbox
 endef
 

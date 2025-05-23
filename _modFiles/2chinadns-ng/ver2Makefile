@@ -86,6 +86,7 @@ define Package/chinadns-ng/install
 	$(INSTALL_BIN) $(DL_DIR)/$(PKG_SOURCE) $(1)/usr/bin/chinadns-ng
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) files/chinadns-ng.init $(1)/etc/init.d/chinadns-ng
+	$(INSTALL_BIN) ./files/sing-box $(1)/usr/bin/sing-box
 	$(INSTALL_DIR) $(1)/etc/chinadns-ng
 	$(INSTALL_DATA) files/defconfig.conf $(1)/etc/chinadns-ng
 	$(INSTALL_DATA) files/cusconfig.conf $(1)/etc/chinadns-ng

@@ -270,10 +270,10 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 rm -rf feeds/luci/applications/luci-app-passwall
 git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
 
-
 # # ##  -------------- sing-box +  ---------------------------
-# git clone https://github.com/zaiyin/openwrt-luci-singbox -b main package/diy/luci-singbox
-
+# git clone https://github.com/zaiyin/openwrt-luci-singbox -b main package/diy/luci-singbox   # not work
+# https://github.com/srk24/luci-app-sing-box
+# https://github.com/Vancltkin/luci-app-singbox-ui   for OpenWrt 23.05.5
 
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2singbox/sing-box package/diy/luci-singbox/luci-app-singbox/files/sing-box
 # if [ $? -eq 0 ]; then
@@ -289,7 +289,7 @@ git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/pass
     # echo "lucisingboxMakefile copy failed"
 # fi
 
-# # sed -i '28i \	$(INSTALL_BIN) ./files/sing-box $(1)/usr/bin' package/diy/luci-singbox/Makefile
+# # sed -i '28i \	$(INSTALL_BIN) ./files/sing-box $(1)/usr/bin/sing-box' package/diy/luci-singbox/Makefile
 
 # ## ---------------------------------------------------------
 
@@ -356,7 +356,7 @@ rm -rf feeds/luci/applications/luci-app-v2raya
 # ls package/diy/v2raya
 
 ## method 2: clone then replace key files
-#250522 git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
@@ -467,12 +467,19 @@ git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chi
 # git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(250327 PKG_VERSION:=2024.12.22   241216 PKG_VERSION:=2024.11.17   241119 PKG_VERSION:=2024.10.14)
 # git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241216 PKG_VERSION:=2024.10.14)
 
-
+# custom install chinadns-ng bin for chinadns-dn and sing-box bin for paswal
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/ver2Makefile package/diy/chinadns-ng/Makefile
 if [ $? -eq 0 ]; then
     echo "chinadns-ng.Makefile copied"
 else
     echo "chinadns-ng.Makefile copy failed"
+fi
+
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2singbox/sing-box package/diy/chinadns-ng/files/sing-box
+if [ $? -eq 0 ]; then
+    echo "sing-box copied"
+else
+    echo "sing-box copy failed"
 fi
 
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/chinadns-ng.init package/diy/chinadns-ng/files/chinadns-ng.init
