@@ -202,7 +202,7 @@ git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/pass
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
-git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+# git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
@@ -342,19 +342,21 @@ fi
 # fi
 # chmod 644 package/diy/chinadns-ng/files/chinadns-ng.init
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconf.conf package/diy/chinadns-ng/files/defconfig.conf
-if [ $? -eq 0 ]; then
-    echo "chinadns-ng config.conf copied"
-else
-    echo "chinadns-ng config.conf copy failed"
-fi
+# 250526 remove
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconf.conf package/diy/chinadns-ng/files/defconfig.conf
+# if [ $? -eq 0 ]; then
+    # echo "chinadns-ng config.conf copied"
+# else
+    # echo "chinadns-ng config.conf copy failed"
+# fi
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconfig.conf package/diy/chinadns-ng/files/cusconfig.conf
-if [ $? -eq 0 ]; then
-    echo "chinadns-ng cusconfig.conf copied"
-else
-    echo "chinadns-ng cusconfig.conf copy failed"
-fi
+# 250526 remove
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconfig.conf package/diy/chinadns-ng/files/cusconfig.conf
+# if [ $? -eq 0 ]; then
+    # echo "chinadns-ng cusconfig.conf copied"
+# else
+    # echo "chinadns-ng cusconfig.conf copy failed"
+# fi
 
 ## rv chnroute list
 rm package/diy/chinadns-ng/files/chnroute.txt
@@ -366,6 +368,11 @@ urlchnroutelist="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute
 curl -sL -m 30 --retry 2 "$urlchnroutelist" -o package/diy/chinadns-ng/files/chnroute.txt
 urlchnroute6list="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute6.txt"
 curl -sL -m 30 --retry 2 "$urlchnroute6list" -o package/diy/chinadns-ng/files/chnroute6.txt
+
+# 250526 remove
+rm package/diy/chinadns-ng/files/chinadns-ng.config
+rm package/diy/chinadns-ng/files/chinadns-ng-daily.sh
+rm package/diy/chinadns-ng/files/chinadns-ng.init
 
 # ls package/diy/chinadns-ng/files
 # ## ---------------------------------------------------------
@@ -449,12 +456,12 @@ curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc
 # curl -sL -m 30 --retry 2 "$urlncnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/siteproxy
 ## add china-list
 # https://raw.githubusercontent.com/pexcn/daily/gh-pages/chinalist/chinalist.txt
-# urlchnlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/china-list.txt"
-# curl -sL -m 30 --retry 2 "$urlchnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/chnlist
+urlchnlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/china-list.txt"
+curl -sL -m 30 --retry 2 "$urlchnlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/chnlist
 ## add gfw list
 # https://raw.githubusercontent.com/pexcn/daily/gh-pages/gfwlist/gfwlist.txt
-# urlgfwlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/gfw.txt"
-# curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/gfwlist
+urlgfwlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/gfw.txt"
+curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/gfwlist
 ## add 秋风广告规则-hosts
 # urladhosts="https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-hosts.txt"
 # curl -sL -m 30 --retry 2 "$urladhosts"  -o package/diy/luci-app-smartdns/root/etc/AWAvenueadshosts.txt

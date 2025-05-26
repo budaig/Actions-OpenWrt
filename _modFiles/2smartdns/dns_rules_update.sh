@@ -4,8 +4,8 @@ download_files() {
     # curl -o /etc/smartdns/smartdns.conf https://raw.githubusercontent.com/ixmu/smartdns-conf/main/smartdns.conf
     # curl -o /etc/smartdns/hosts.conf https://raw.githubusercontent.com/ixmu/smartdns-conf/main/hosts.conf
     # curl -o /etc/smartdns/blacklist-ip.conf https://raw.githubusercontent.com/ixmu/smartdns-conf/main/blacklist-ip.conf
-    # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/gfw.txt -o /etc/smartdns/gfwlist
-    # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/china-list.txt -o /etc/smartdns/chnlist
+    curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/gfw.txt -o /etc/smartdns/gfwlist
+    curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/china-list.txt -o /etc/smartdns/chnlist
     # curl -o /etc/smartdns/proxy-domain-list.conf https://raw.githubusercontent.com/ixmu/smartdns-conf/main/proxy-domain-list.conf
     # curl -sL -m 30 --retry 2 https://fastly.jsdelivr.net/gh/ixmu/smartdns-conf@main/proxy-domain-list.conf -o /etc/smartdns/siteproxy
     # curl -o /etc/smartdns/direct-domain-list.conf https://raw.githubusercontent.com/ixmu/smartdns-conf/main/direct-domain-list.conf
