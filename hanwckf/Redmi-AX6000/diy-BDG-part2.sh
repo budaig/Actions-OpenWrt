@@ -342,13 +342,12 @@ fi
 # fi
 # chmod 644 package/diy/chinadns-ng/files/chinadns-ng.init
 
-# 250526 remove
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconf.conf package/diy/chinadns-ng/files/defconfig.conf
-# if [ $? -eq 0 ]; then
-    # echo "chinadns-ng config.conf copied"
-# else
-    # echo "chinadns-ng config.conf copy failed"
-# fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconf.conf package/diy/chinadns-ng/files/defconfig.conf
+if [ $? -eq 0 ]; then
+    echo "chinadns-ng config.conf copied"
+else
+    echo "chinadns-ng config.conf copy failed"
+fi
 
 # 250526 remove
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconfig.conf package/diy/chinadns-ng/files/cusconfig.conf
@@ -370,9 +369,9 @@ urlchnroute6list="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnrout
 curl -sL -m 30 --retry 2 "$urlchnroute6list" -o package/diy/chinadns-ng/files/chnroute6.txt
 
 # 250526 remove
-rm package/diy/chinadns-ng/files/chinadns-ng.config
-rm package/diy/chinadns-ng/files/chinadns-ng-daily.sh
-rm package/diy/chinadns-ng/files/chinadns-ng.init
+# rm package/diy/chinadns-ng/files/chinadns-ng.config
+# rm package/diy/chinadns-ng/files/chinadns-ng-daily.sh
+# rm package/diy/chinadns-ng/files/chinadns-ng.init
 
 # ls package/diy/chinadns-ng/files
 # ## ---------------------------------------------------------
