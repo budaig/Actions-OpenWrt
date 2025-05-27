@@ -217,6 +217,8 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
+git clone https://github.com/honwen/luci-app-xray.git package/diy/luci-app-xray   #for openwrt 21.02 兼容SagerNet/v2ray-core
+
 ## or ttimasdf xray/service name xapp/ luci for 21.02 and up---------------
 # git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 19.07
 # git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 21.02 and up
@@ -229,6 +231,10 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
     # echo "xapp.conf copy failed"
 # fi
 # ttimasdf xray xapp ---------------
+
+## for OpenWrt 21.02.0 and later
+# git clone -b luci2 https://github.com/bi7prk/luci-app-xray.git package/diy/luci-app-xray   #for 21.02 and up
+
 # ## ---------------------------------------------------------
 
 
@@ -473,24 +479,24 @@ urlrejlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/rej
 curl -sL -m 30 --retry 2 "$urlrejlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitereject
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
-## 若不安装 v2raya 则借用 smartdns 配置文件夹安装 xrayconfig
-mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycore.init package/diy/luci-app-smartdns/root/etc/init.d/xray
-if [ $? -eq 0 ]; then
-    echo "xrayint copied"
-else
-    echo "xrayint copy failed"
-fi
+# ## 若不安装 v2raya 则借用 smartdns 配置文件夹安装 xrayconfig
+# mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycore.init package/diy/luci-app-smartdns/root/etc/init.d/xray
+# if [ $? -eq 0 ]; then
+    # echo "xrayint copied"
+# else
+    # echo "xrayint copy failed"
+# fi
 # 2305 需要0755权限
 # chmod +x package/diy/luci-app-smartdns/luci-app-smartdns/root/etc/init.d/xray
 
-mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycorecfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
-if [ $? -eq 0 ]; then
-    echo "xraycfg copied"
-else
-    echo "xraycfg copy failed"
-fi
+# mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycorecfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
+# if [ $? -eq 0 ]; then
+    # echo "xraycfg copied"
+# else
+    # echo "xraycfg copy failed"
+# fi
 
 # ## ---------------------------------------------------------
 
