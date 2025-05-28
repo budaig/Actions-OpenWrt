@@ -218,7 +218,9 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
 git clone -b master https://github.com/rafmilecki/luci-app-xjay package/diy/luci-app-xjay
+
 git clone -b main https://github.com/quanljh/luci-app-simple-xray package/diy/luci-app-simplexray
+sed -i '3i PKG_NAME:=luci-app-simple-xray\nPKG_VERSION:=0.1\nPKG_RELEASE:=1' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
 
 ## for OpenWrt 21.02.0 and later
 # git clone -b luci2 https://github.com/bi7prk/luci-app-xray.git package/diy/luci-app-xray   #for 21.02 and up
