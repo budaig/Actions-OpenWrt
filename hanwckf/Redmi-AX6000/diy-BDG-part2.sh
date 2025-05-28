@@ -202,7 +202,7 @@ git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/pass
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
-# git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
 ## core
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
@@ -217,7 +217,13 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
-git clone https://github.com/honwen/luci-app-xray.git package/diy/luci-app-xray   #for openwrt 21.02 兼容SagerNet/v2ray-core
+git clone -b master https://github.com/rafmilecki/luci-app-xjay package/diy/luci-app-xjay
+git clone -b main https://github.com/quanljh/luci-app-simple-xray package/diy/luci-app-simplexray
+
+## for OpenWrt 21.02.0 and later
+# git clone -b luci2 https://github.com/bi7prk/luci-app-xray.git package/diy/luci-app-xray   #for 21.02 and up
+
+# git clone https://github.com/honwen/luci-app-xray.git package/diy/luci-app-xray   #for openwrt 21.02 兼容SagerNet/v2ray-core
 
 ## or ttimasdf xray/service name xapp/ luci for 21.02 and up---------------
 # git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 19.07
@@ -231,9 +237,6 @@ git clone https://github.com/honwen/luci-app-xray.git package/diy/luci-app-xray 
     # echo "xapp.conf copy failed"
 # fi
 # ttimasdf xray xapp ---------------
-
-## for OpenWrt 21.02.0 and later
-# git clone -b luci2 https://github.com/bi7prk/luci-app-xray.git package/diy/luci-app-xray   #for 21.02 and up
 
 # ## ---------------------------------------------------------
 
