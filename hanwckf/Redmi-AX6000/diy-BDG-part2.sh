@@ -98,7 +98,7 @@ rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 
 #-- #/etc/config/lucky.daji/lucky.conf
-# git clone -b v2.15.8 --single-branch https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
+# git clone -b v2.17.8 --single-branch https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
 git clone -b main https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
 sleep 1
 
@@ -111,19 +111,19 @@ else
     echo "luci-app-lucky.json copy failed"
 fi
 
-## use custom binary ver 2.17.3
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
-if [ $? -eq 0 ]; then
-    echo "luckyMakefile copied"
-else
-    echo "luckyMakefile copy failed"
-fi
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/lucky package/diy/lucky/lucky/files/lucky
-if [ $? -eq 0 ]; then
-    echo "lucky bin copied"
-else
-    echo "lucky bin copy failed"
-fi
+# ## use custom binary ver 2.17.3
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "luckyMakefile copied"
+# else
+    # echo "luckyMakefile copy failed"
+# fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/lucky package/diy/lucky/lucky/files/lucky
+# if [ $? -eq 0 ]; then
+    # echo "lucky bin copied"
+# else
+    # echo "lucky bin copy failed"
+# fi
 
 #-- #/etc/lucky/lucky.conf   #@go1.22
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
