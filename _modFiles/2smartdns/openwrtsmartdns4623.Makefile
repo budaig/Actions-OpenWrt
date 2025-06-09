@@ -11,13 +11,13 @@ PKG_RELEASE:=3
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://www.github.com/pymumu/smartdns.git
-PKG_SOURCE_VERSION:=20f56745c4f2ad2a5a4e1fb927770b3cb8122a69
-PKG_MIRROR_HASH:=29b32ee0c275a4b845b28c53a2597b43f4d3f04676e04b9c53aae5ecaf3c6f94
+PKG_SOURCE_VERSION:=d9d274c0f62c24051671798802f28c76bda2ddfa
+PKG_MIRROR_HASH:=6415775cf0b109fb443d7ad46912c2dbc4f28bea423c6cca24f6a1fde9bf546d
 
 SMARTDNS_WEBUI_VERSION:=1.0.0
 SMAETDNS_WEBUI_SOURCE_PROTO:=git
 SMARTDNS_WEBUI_SOURCE_URL:=https://github.com/pymumu/smartdns-webui.git
-SMARTDNS_WEBUI_SOURCE_VERSION:=7bbd1a6f6a7038ecb6cfbf424615aa7831bc1cea
+SMARTDNS_WEBUI_SOURCE_VERSION:=35cbf4a1940f5dd32670c69bd5cc02437ad073e7
 SMARTDNS_WEBUI_FILE:=smartdns-webui-$(SMARTDNS_WEBUI_VERSION).tar.gz
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
@@ -28,12 +28,9 @@ PKG_BUILD_PARALLEL:=1
 
 # node compile is slow, so do not use it, doownload node manually.
 # PACKAGE_smartdns-ui:node/host
-
-ifneq ($(CONFIG_PACKAGE_smartdns-ui),)
 PKG_BUILD_DEPENDS:=PACKAGE_smartdns-ui:rust/host 
-include ../../lang/rust/rust-package.mk
-endif
 
+include ../../lang/rust/rust-package.mk
 include $(INCLUDE_DIR)/package.mk
 
 MAKE_VARS += VER=$(PKG_VERSION) 
@@ -49,7 +46,7 @@ endef
 define Package/smartdns
   $(Package/smartdns/default)
   TITLE:=smartdns server
-  DEPENDS:=+libpthread +libopenssl
+  DEPENDS:=+libpthread +libopenssl +libatomic
 endef
 
 define Package/smartdns/description

@@ -141,6 +141,9 @@ rm -rf feeds/luci/applications/luci-app-appfilter
 rm -rf feeds/packages/net/open-app-filter
 git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
 
+# ## add eqosplus   需要安装eqosplus主题
+# git clone -b main https://github.com/sirpdboy/luci-app-eqosplus package/diy/eqosplus 
+
 # ## add parentcontrol
 # git clone -b main https://github.com/sirpdboy/luci-app-parentcontrol package/diy/parentcontrol
 git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/parentcontrol
@@ -155,6 +158,7 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 # sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
 # sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
 # echo qosmate v$qmver
+
 
 # # https://github.com/LemonCrab666/luci-app-qosmate/blob/main/po/zh_Hans/qosmate.po
 # mkdir -p package/diy/luci-app-qosmate/po/zh_Hans || echo "Failed to create zh-Hans po"
@@ -183,25 +187,24 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
 ## yicha xray xstatus luci for 22.03 and up---------------
-git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
+# git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
 # # disable auto start
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
-if [ $? -eq 0 ]; then
-    echo "xstatus.conf copied"
-else
-    echo "xstatus.conf copy failed"
-fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
+# if [ $? -eq 0 ]; then
+    # echo "xstatus.conf copied"
+# else
+    # echo "xstatus.conf copy failed"
+# fi
 # yicha xray xstatus ---------------
-
 # ## ---------------------------------------------------------
 
 # ## -------------- Dae   内核 >= 5.17 (immortalwrt 已包含) #As a successor of v2rayA, dae abandoned v2ray-core to meet the needs of users more freely.# ---------------------------
 # OpenWrt Official 23.05/SNAPSHOT
-# git clone -b main https://github.com/sbwml/luci-app-dae package/dae
+git clone -b main https://github.com/sbwml/luci-app-dae package/dae
 # git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
 # OpenWrt official 24.10/SnapShots
-git clone -b master https://github.com/QiuSimons/luci-app-daed package/dae
+# git clone -b master https://github.com/QiuSimons/luci-app-daed package/dae
 # ## ---------------------------------------------------------
 
 # ## -------------- v2raya ---------------------------
@@ -460,10 +463,16 @@ SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/co
 SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
 echo smartdns v$SMARTDNS_VER sha=$SMAERTDNS_SHA
 
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/openwrtsmartdns45-bk.Makefile package/diy/smartdns/Makefile
+if [ $? -eq 0 ]; then
+    echo "smartdns45.Makefile copied"
+else
+    echo "smartdns45.Makefile copy failed"
+fi
+
 sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile   #feeds/packages/net/smartdns/Makefile
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile   #feeds/packages/net/smartdns/Makefile
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile   #feeds/packages/net/smartdns/Makefile
 sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/diy/smartdns/Makefile   #feeds/packages/net/smartdns/Makefile
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile   #feeds/luci/applications/luci-app-smartdns/Makefile
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile   #feeds/luci/applications/luci-app-smartdns/Makefile
 
 ## add anti-ad data
