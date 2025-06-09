@@ -172,10 +172,10 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
-git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+# git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
 ## core
-git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
+# git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
 # xrver=25.3.6
 # # # xrver=25.1.30
@@ -341,9 +341,19 @@ rm -rf package/diy/v2raya/xray-core
 # ## ---------------------------------------------------------
 
 # ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
-git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/homeproxy #(241127 chinadns-ng PKG_VERSION:=2024.11.17 sing-box 1.10.2   immoralwrt23.05 chinadns-ng PKG_VERSION:=2024.10.14)
 
-rm -rf package/diy/homeproxy/luci-app-homeproxy
+git clone https://github.com/immortalwrt/homeproxy -b main package/diy/homeproxy
+
+git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/singbox #(250609 chinadns-ng PKG_VERSION:=2025.03.27 sing-box 1.11.6   immoralwrt23.05 chinadns-ng PKG_VERSION:=2024.10.14)
+
+rm -rf package/diy/singbox/luci-app-homeproxy
+
+## customize singbox ver
+sleep 1
+sbxver=1.11.13
+sbxsha256=($(curl -sL =https://codeload.github.com/SagerNet/sing-box/tar.gz/v$sbxver | shasum -a 256))
+echo sing-box v$sbxver sha256=$sbxsha256
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$sbxver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$sbxsha256"'/g' package/diy/singbox/sing-box/Makefile
 
 # chng_ver=2024.11.17
 # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
