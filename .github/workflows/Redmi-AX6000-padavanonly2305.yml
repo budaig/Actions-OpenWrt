@@ -34,7 +34,7 @@ permissions:
 env:
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-23.05
   REPO_BRANCH: openwrt-23.05
-  FEEDS_CONF: feeds.conf.default
+  FEEDS_CONF: padavanonly2305/Redmi-AX6000/feeds.conf.default
   CONFIG_FILE: padavanonly2305/Redmi-AX6000/.config
   DIY_P1_SH: padavanonly2305/Redmi-AX6000/diy-part1.sh
   DIY_P2_SH: padavanonly2305/Redmi-AX6000/diy-part2.sh
@@ -48,7 +48,6 @@ env:
 
 jobs:
   build_firmware:
-    # runs-on: ubuntu-20.04
     runs-on: ubuntu-22.04
     # runs-on: ubuntu-latest
 
@@ -102,6 +101,7 @@ jobs:
       run: |
         cd openwrt
         ./scripts/feeds update -a
+        git clone -b master --single-branch https://github.com/immortalwrt/packages.git packages_master
         ./scripts/feeds install -a
 
     - name: 加载config & DIY_P2_SH
