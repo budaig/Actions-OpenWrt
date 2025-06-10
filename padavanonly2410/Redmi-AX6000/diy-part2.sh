@@ -619,7 +619,8 @@ fi
 # echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
 
 # CONFIG_TARGET_mediatek_filogic_DEVICE_xiaomi_redmi-router-ax6000=y
-grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+# grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_([^=]+)=y$/\1/' > DEVICE_NAME
 cat DEVICE_NAME
 # xiaomi_redmi-router-ax6000
 
