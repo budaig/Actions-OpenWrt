@@ -350,6 +350,8 @@ rm -rf package/diy/v2raya/xray-core
 
 # ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
 
+rm -rf feeds/packages/net/sing-box
+
 # git clone https://github.com/immortalwrt/homeproxy -b main package/diy/homeproxy
 
 git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/singbox #(250609 chinadns-ng PKG_VERSION:=2025.03.27 sing-box 1.11.6   immoralwrt23.05 chinadns-ng PKG_VERSION:=2024.10.14)
