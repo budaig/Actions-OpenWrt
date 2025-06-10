@@ -42,6 +42,7 @@ del_data="
 package/feeds/luci/luci-app-passwall
 package/feeds/luci/luci-app-ssr-plus
 package/feeds/luci/luci-app-vssr
+package/network/utils/fullconenat-nft
 feeds/packages/net/v2ray-geodata
 feeds/packages/net/v2ray-core
 feeds/packages/net/v2ray-plugin
@@ -340,6 +341,9 @@ rm -rf package/diy/v2raya/xray-core
 # # mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray/LoyalsoldierSite.dat >/dev/null 2>&1
 # ## ---------------------------------------------------------
 
+# rm -rf package/network/utils/fullconenat-nft
+git clone https://github.com/sbwml/nft-fullcone -b master package/diy/nftfullcone   #https://github.com/yyjeqhc/nft_fullcone
+
 # ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
 
 git clone https://github.com/immortalwrt/homeproxy -b main package/diy/homeproxy
@@ -590,8 +594,8 @@ fi
 # ## ---------------------------------------------------------
 
 # ## replace a theme
-# rm -rf ./feeds/luci/themes/luci-theme-argon
-# git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
+rm -rf ./feeds/luci/themes/luci-theme-argon
+git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 # replace theme bg
 rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
 cp ${GITHUB_WORKSPACE}/_modFiles/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
@@ -608,13 +612,13 @@ fi
 # echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
 
 # CONFIG_TARGET_mediatek_filogic_DEVICE_xiaomi_redmi-router-ax6000=y
-grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-cat DEVICE_NAME
+# grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+# cat DEVICE_NAME
 # xiaomi_redmi-router-ax6000
 
-grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
-cat TARGET_NAME
-# filogic
+# grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
+# cat TARGET_NAME
+# mtk7986
 
 # sleep 5
 
