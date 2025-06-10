@@ -170,7 +170,7 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 # git clone b main https://github.com/asvow/luci-app-tailscale package/diy/luci-app-tailscale
 
 
-# ##  -------------- Passwall - sing-box ---------------------------
+# ##  -------------- Passwall ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall
 git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
 

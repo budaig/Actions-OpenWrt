@@ -171,12 +171,16 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 # fi
 # ## ---------------------------------------------------------
 
+# ##  -------------- Passwall2 ---------------------------
+rm -rf feeds/luci/applications/luci-app-passwall2
+git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall
+
 # ##  -------------- xray +  ---------------------------
 ## geodata
-# git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
+git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
 ## core
-# git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
+git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
 # xrver=25.3.6
 # # # xrver=25.1.30
@@ -188,20 +192,20 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
 ## yicha xray xstatus luci for 22.03 and up---------------
-# git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
+git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
 # # disable auto start
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
-# if [ $? -eq 0 ]; then
-    # echo "xstatus.conf copied"
-# else
-    # echo "xstatus.conf copy failed"
-# fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
+if [ $? -eq 0 ]; then
+    echo "xstatus.conf copied"
+else
+    echo "xstatus.conf copy failed"
+fi
 # yicha xray xstatus ---------------
 # ## ---------------------------------------------------------
 
 # ## -------------- Dae   内核 >= 5.17 (immortalwrt 已包含) #As a successor of v2rayA, dae abandoned v2ray-core to meet the needs of users more freely.# ---------------------------
 # OpenWrt Official 23.05/SNAPSHOT
-git clone -b main https://github.com/sbwml/luci-app-dae package/dae
+# git clone -b main https://github.com/sbwml/luci-app-dae package/dae
 # git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
 # OpenWrt official 24.10/SnapShots
@@ -342,22 +346,23 @@ rm -rf package/diy/v2raya/xray-core
 # ## ---------------------------------------------------------
 
 # rm -rf package/network/utils/fullconenat-nft
-git clone https://github.com/sbwml/nft-fullcone -b master package/diy/nftfullcone   #https://github.com/yyjeqhc/nft_fullcone
+# git clone https://github.com/sbwml/nft-fullcone -b master package/diy/nftfullcone   #https://github.com/yyjeqhc/nft_fullcone
 
 # ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
 
-git clone https://github.com/immortalwrt/homeproxy -b main package/diy/homeproxy
+# git clone https://github.com/immortalwrt/homeproxy -b main package/diy/homeproxy
 
 git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/singbox #(250609 chinadns-ng PKG_VERSION:=2025.03.27 sing-box 1.11.6   immoralwrt23.05 chinadns-ng PKG_VERSION:=2024.10.14)
 
 rm -rf package/diy/singbox/luci-app-homeproxy
+rm -rf package/diy/singbox/sing-box
 
 ## customize singbox ver
-sleep 1
-sbxver=1.11.13
-sbxsha256=($(curl -sL =https://codeload.github.com/SagerNet/sing-box/tar.gz/v$sbxver | shasum -a 256))
-echo sing-box v$sbxver sha256=$sbxsha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$sbxver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$sbxsha256"'/g' package/diy/singbox/sing-box/Makefile
+# sleep 1
+# sbxver=1.11.13
+# sbxsha256=($(curl -sL =https://codeload.github.com/SagerNet/sing-box/tar.gz/v$sbxver | shasum -a 256))
+# echo sing-box v$sbxver sha256=$sbxsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$sbxver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$sbxsha256"'/g' package/diy/singbox/sing-box/Makefile
 
 # chng_ver=2024.11.17
 # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
