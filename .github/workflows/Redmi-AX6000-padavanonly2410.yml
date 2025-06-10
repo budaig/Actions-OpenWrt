@@ -144,6 +144,13 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
+    - name: 上传 bin 目录
+      uses: actions/upload-artifact@main
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      with:
+        name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        path: openwrt/bin
+
     - name: 整理文件并重命名
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
@@ -184,7 +191,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
+        # name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
