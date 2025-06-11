@@ -40,6 +40,7 @@ EOF
 
 del_data="
 package/feeds/luci/luci-app-passwall
+package/feeds/luci/luci-app-passwall2
 package/feeds/luci/luci-app-ssr-plus
 package/feeds/luci/luci-app-vssr
 package/network/utils/fullconenat-nft
@@ -192,14 +193,14 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
 ## yicha xray xstatus luci for 22.03 and up---------------
-git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
+# git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
 # # disable auto start
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
-if [ $? -eq 0 ]; then
-    echo "xstatus.conf copied"
-else
-    echo "xstatus.conf copy failed"
-fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
+# if [ $? -eq 0 ]; then
+    # echo "xstatus.conf copied"
+# else
+    # echo "xstatus.conf copy failed"
+# fi
 # yicha xray xstatus ---------------
 # ## ---------------------------------------------------------
 
@@ -210,6 +211,8 @@ fi
 
 # OpenWrt official 24.10/SnapShots
 git clone -b master https://github.com/QiuSimons/luci-app-daed package/dae
+
+
 # ## ---------------------------------------------------------
 
 # ## -------------- v2raya ---------------------------
@@ -408,70 +411,6 @@ rm -rf package/diy/singbox/sing-box
 
 # ## ---------------------------------------------------------
 
-# ## -------------- mosdns ---------------------------
-# ls feeds/packages/net/mosdns
-# nl feeds/packages/net/mosdns/Makefile   #ver5.1.3
-rm -rf feeds/packages/net/v2ray-geodata
-rm -rf feeds/packages/net/mosdns
-rm -rf feeds/luci/applications/luci-app-mosdns
-
-## gitclone sbwml/luci-app-mosdns
-# 1. gitclone + mod makfile   -  prefer 1.
-
-# git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
-# sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
-# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
-
-# 2. clone mod dir
-
-# customize to use 5.3.x (TODO:531 include both https://github.com/sbwml/v2ray-geodata and https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
-# mkdir -p package/diy/mosdns
-# cp -rf ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns/
-# mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns/
-# if [ $? -eq 0 ]; then
-    # echo "mosdns dir copied"
-# else
-    # echo "mosdns dir copy failed"
-# fi
-# chmod +x package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
-# chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
-# ls package/diy/mosdns
-
-# git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
-   #与 openwrt-xray geodat 相同
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2mosdns/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
-# if [ $? -eq 0 ]; then
-    # echo "mosdnsgeodataMakefile copied"
-# else
-    # echo "mosdnsgeodataMakefile copy failed"
-# fi
-
-## gitclone QiuSimons/openwrt-mos
-# 1. gitclone + mod makfile
-
-# git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
-# rm -rf package/diy/mosdns/v2ray-geodata
-# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config.yaml
-# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_new.yaml
-# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v4.yaml
-# sed -i 's/START=99/START=78/g' package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
-# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v5.yaml
-
-# 2. clone mod dir   -  prefer 2.
-# customize to use https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
-
-# mkdir -p package/diy/mosdns
-
-# mv -f ${GITHUB_WORKSPACE}/_modFiles/openwrt-mos-241005/* package/diy/mosdns/
-# if [ $? -eq 0 ]; then
-    # echo "mosdns dir copied"
-# else
-    # echo "mosdns dir copy failed"
-# fi
-# chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
-# chmod +x package/diy/mosdns/
-
-# ## ---------------------------------------------------------
 
 # ## -------------- smartdns ---------------------------
 rm -rf feeds/packages/net/smartdns
