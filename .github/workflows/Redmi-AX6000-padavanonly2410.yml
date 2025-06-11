@@ -35,7 +35,7 @@ env:
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-24.10
   REPO_BRANCH: 2410
   FEEDS_CONF: padavanonly2410/Redmi-AX6000/feeds.conf.default
-  CONFIG_FILE: padavanonly2410/Redmi-AX6000/.config
+  CONFIG_FILE: padavanonly2410/Redmi-AX6000/AX6Kpadavanonly2410.config
   DIY_P1_SH: padavanonly2410/Redmi-AX6000/diy-part1.sh
   DIY_P2_SH: padavanonly2410/Redmi-AX6000/diy-part2.sh
   SSH_ACTIONS: false
@@ -187,9 +187,9 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 发布至release
-      # uses: softprops/action-gh-release@master
+      uses: softprops/action-gh-release@v2
       # workaround for https://github.com/softprops/action-gh-release/issues/628
-      uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
+      # uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

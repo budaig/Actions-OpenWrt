@@ -35,7 +35,7 @@ env:
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-23.05
   REPO_BRANCH: openwrt-23.05
   FEEDS_CONF: padavanonly2305/Redmi-AX6000/feeds.conf.default
-  CONFIG_FILE: padavanonly2305/Redmi-AX6000/.config
+  CONFIG_FILE: padavanonly2305/Redmi-AX6000/AX6Kpadavanonly2305.config
   DIY_P1_SH: padavanonly2305/Redmi-AX6000/diy-part1.sh
   DIY_P2_SH: padavanonly2305/Redmi-AX6000/diy-part2.sh
   SSH_ACTIONS: false
