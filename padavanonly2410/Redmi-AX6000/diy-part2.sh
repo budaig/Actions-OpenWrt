@@ -173,7 +173,7 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 
 # ##  -------------- Passwall2 ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall2
-git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall
+git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
@@ -209,7 +209,7 @@ fi
 # git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
 # OpenWrt official 24.10/SnapShots
-# git clone -b master https://github.com/QiuSimons/luci-app-daed package/dae
+git clone -b master https://github.com/QiuSimons/luci-app-daed package/dae
 # ## ---------------------------------------------------------
 
 # ## -------------- v2raya ---------------------------
@@ -620,8 +620,8 @@ fi
 
 # CONFIG_TARGET_mediatek_filogic_DEVICE_xiaomi_redmi-router-ax6000=y
 # grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_([^=]+)=y$/\1/' > DEVICE_NAME
-cat DEVICE_NAME
+# grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_([^=]+)=y$/\1/' > DEVICE_NAME
+# cat DEVICE_NAME
 # xiaomi_redmi-router-ax6000
 
 # grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
