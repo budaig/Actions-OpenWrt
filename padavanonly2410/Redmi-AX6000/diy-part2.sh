@@ -175,6 +175,8 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 # ##  -------------- Passwall2 ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall2
 git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
+sed -i 's/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/	+geoview/g' package/diy/passwall2/luci-app-passwall2/Makefile
+
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
@@ -210,7 +212,8 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 # git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
 # OpenWrt official 24.10/SnapShots
-git clone -b master https://github.com/QiuSimons/luci-app-daed package/dae
+# git clone -b master https://github.com/QiuSimons/luci-app-daed package/dae
+# sed -i 's/    +kmod-veth +v2ray-geoip +v2ray-geosite/    +kmod-veth/g' package/diy/passwall2/luci-app-passwall2/Makefile
 
 
 # ## ---------------------------------------------------------
@@ -244,16 +247,6 @@ rm -rf package/diy/v2raya/xray-core
 # rm -rf package/diy/v2raya/luci-app-v2raya
 # rm -rf package/diy/v2raya/v2raya
 
-## customize immortalwrt orig v2raya
-# nl feeds/packages/net/v2raya/Makefile
-# v2aver=2.2.6.6
-# v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
-# v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-# echo v2raya v$v2aver sha256=$v2asha256
-# echo v2raya-web v$v2aver sha256=$v2awebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' feeds/packages/net/v2raya/Makefile
-# nl feeds/packages/net/v2raya/Makefile
-
 ## customize ca ver
 # caver=20241223
 # casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
@@ -261,91 +254,6 @@ rm -rf package/diy/v2raya/xray-core
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
 # nl feeds/packages/net/v2raya/Makefile
 
-## customize v2raya ver
-# sleep 1
-# v2aver=2.2.6.6
-# v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
-# v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-# echo v2raya v$v2aver sha256=$v2asha256
-# echo v2raya-web v$v2aver sha256=$v2awebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile   #feeds/packages/net/v2raya/Makefile
-
-# fix mijia cloud wrong dns (use xraycore)-------
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2v2raya/v2raya.init feeds/packages/net/v2raya/files/v2raya.init
-# #package/diy/v2raya/v2raya/files/v2raya.init   #
-# if [ $? -eq 0 ]; then
-    # echo "v2raya.init copied"
-# else
-    # echo "v2raya.init copy failed"
-# fi
-# chmod +x package/diy/v2raya/v2raya/files/v2raya.init
-# or 
-# # v2raya 2.2.6.6 包含 嗅探过滤 解决 mijia cloud
-# sed -i 's/v2ray_bin"/v2ray_bin" "\/usr\/bin\/xray"/g;s/v2ray_confdir"/v2ray_confdir" "\/etc\/v2raya\/xray"/g' package/diy/v2raya/v2raya/files/v2raya.init
-# sed -i '53i \	append_env_arg "config" "V2RAY_CONF_GEOLOADER=memconservative"' package/diy/v2raya/v2raya/files/v2raya.init
-#or
-# curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya.init -o package/diy/v2raya/v2raya/files/v2raya.init
-# mkdir -p feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"
-# #package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray || echo "Failed to create /luci-app-v2raya/root/etc/v2raya/xray"   #
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2v2raya/xrayconf.json feeds/luci/applications/luci-app-v2raya/root/etc/v2raya/xray/config.json
-# #package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json   #
-# if [ $? -eq 0 ]; then
-    # echo "xrayconf copied"
-# else
-    # echo "xrayconf copy failed"
-# fi
-# or
-# curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/xrayconfig.json -o package/diy/v2raya/luci-app-v2raya/root/etc/v2raya/xray/config.json
-# # go 1.21.4
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2v2raya/100-go-mod-ver.patch package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
-# if [ $? -eq 0 ]; then
-    # echo "100-go-mod-ver copied"
-# else
-    # echo "100-go-mod-ver copy failed"
-# fi
-# sed -i 's/1.21.7/1.21.9/g' package/diy/v2raya/xray-core/patches/100-go-mod-ver.patch
-
-# sleep 1
-# curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya-static-config.js -o package/diy/v2raya/luci-app-v2raya/htdocs/luci-static/resources/view/v2raya/config.js
-# curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/mijia-hook.sh -o package/diy/v2raya/luci-app-v2raya/root/usr/share/mijia-hook.sh
-# chmod +x package/diy/v2raya/luci-app-v2raya/root/usr/share/mijia-hook.sh
-# rm package/diy/v2raya/v2raya/files/v2raya.init
-# curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/v2raya02.init -o package/diy/v2raya/v2raya/files/v2raya.init
-# chmod +x package/diy/v2raya/v2raya/files/v2raya.init
-# fix mijia cloud ------------------------
-
-# use custom ver ----------------
-# sleep 1
-# vrver=5.22.0
-# vrsha256=($(curl -sL https://codeload.github.com/v2fly/v2ray-core/tar.gz/v$vrver | shasum -a 256))
-# echo v2ray v$vrver sha256=$vrsha256
-# sed -i '8 s/.*/PKG_VERSION:='"$vrver"'/g;13 s/.*/PKG_HASH:='"$vrsha256"'/g' package/diy/v2raya/v2ray-core/Makefile
-
-# xrver=24.11.30
-# xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
-# echo xray v$xrver sha256=$xrsha256
-# sed -i '8 s/.*/PKG_VERSION:='"$xrver"'/g;13 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/v2raya/xray-core/Makefile
-
-## 更新v2ra geoip geosite 数据库
-
-# datetime1=$(date +"%Y%m%d%H%M")
-# ipsha256=($(curl -sL https://github.com/v2fly/geoip/releases/latest/download/geoip.dat | shasum -a 256))
-# sed -i '15 s/.*/GEOIP_VER:='"$datetime1"'/g;18 s/.*/  URL:=https:\/\/github.com\/v2fly\/geoip\/releases\/latest\/download\//g;21 s/.*/  HASH:='"$ipsha256"'/g' package/diy/v2raya/v2fly-geodata/Makefile
-# # # https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
-
-# datetime2=$(date +"%Y%m%d%H%M%S")
-# sitesha256=($(curl -sL https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat | shasum -a 256))
-# sed -i '24 s/.*/GEOSITE_VER:='"$datetime2"'/g;27 s/.*/  URL:=https:\/\/github.com\/v2fly\/domain-list-community\/releases\/latest\/download\//g;30 s/.*/  HASH:='"$sitesha256"'/g' package/diy/v2raya/v2fly-geodata/Makefile
-
-# ## GeoSite-GFWlist4v2ra数据库 
-# curl -sL -m 30 --retry 2 https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -o /tmp/geosite.dat
-# sleep 1
-# mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/xray || echo "Failed to create /luci-app-v2raya/root/usr/share/xray"
-# # rm package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
-# mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat >/dev/null 2>&1
-# # mkdir -p package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray || echo "Failed to create /luci-app-v2raya/root/usr/share/v2ray"
-# # # rm package/diy/v2raya/luci-app-v2raya/root/usr/share/xray/LoyalsoldierSite.dat
-# # mv /tmp/geosite.dat package/diy/v2raya/luci-app-v2raya/root/usr/share/v2ray/LoyalsoldierSite.dat >/dev/null 2>&1
 # ## ---------------------------------------------------------
 
 # rm -rf package/network/utils/fullconenat-nft
