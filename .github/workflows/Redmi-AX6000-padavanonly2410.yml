@@ -111,11 +111,6 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_([^=]+)=y$/\1/' > DEVICE_NAME
-        [ -s "DEVICE_NAME" ] && echo "DEVICE_NAME<<EOF" >> "$GITHUB_ENV"
-        cat "DEVICE_NAME" >> "$GITHUB_ENV"
-        echo "EOF" >> "$GITHUB_ENV"
-        echo ${{ env.DEVICE_NAME }}
 
     # - name: SSH链接管理
       # uses: P3TERX/ssh2actions@v1.0.0
