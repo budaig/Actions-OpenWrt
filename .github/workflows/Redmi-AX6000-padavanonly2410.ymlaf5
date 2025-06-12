@@ -14,10 +14,6 @@
 name: Redmi-AX6000-padavanonly2410
 
 on:
-  push:
-    tags:
-      - "*.*.*"
-      # - "v*.*.*"
   repository_dispatch:
   #schedule:
   #  - cron: 30 22 * * *
@@ -27,12 +23,13 @@ on:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
-
+        
 permissions:
   contents: write
   pages: write
   id-token: write
   issues: write
+  
 
 env:
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-24.10
@@ -48,6 +45,8 @@ env:
   TZ: Asia/Shanghai
   ###############改名字##############
   OPENWRT_NAME: padavanonly2410
+  DEVICE_NAME: xiaomi_redmi-router-ax6000
+  TARGET_NAME: mt7986
 
 jobs:
   build_firmware:
@@ -137,13 +136,14 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
-        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_([^=]+)=y$/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        # grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_([^=]+)=y$/\1/' > DEVICE_NAME
         # [ -s "DEVICE_NAME" ] && echo "DEVICE_NAME<<EOF" >> "$GITHUB_ENV"
         # cat "DEVICE_NAME" >> "$GITHUB_ENV"
         # echo "EOF" >> "$GITHUB_ENV"
-        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
-        [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
+        # echo ${{ env.DEVICE_NAME }}
+        # grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
+        # [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
+        # echo ${{ env.TARGET_NAME }}
         echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
 
     - name: 查看磁盘使用情况
@@ -163,7 +163,7 @@ jobs:
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
-        #rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
+        rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
@@ -172,14 +172,14 @@ jobs:
       # uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
+        name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
     - name: 生成release标签
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}" >> $GITHUB_OUTPUT
+        echo "release_tag=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
         echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
         echo "The default IP address is 192.168.XXX.1" >> release.txt
@@ -210,16 +210,11 @@ jobs:
         # retain_days: 0
         # keep_minimum_runs: 8
 
-    - name: Remove old Releases
-      uses: dev-drprasad/delete-older-releases@master
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      with:
-        keep_latest: 3
-        delete_tags: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    # - name: Delete Artifacts
-      # uses: geekyeggo/delete-artifact@v5
+    # - name: Remove old Releases
+      # uses: dev-drprasad/delete-older-releases@master
+      # if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       # with:
-        # name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
+        # keep_latest: 8
+        # delete_tags: true
+      # env:
+        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
