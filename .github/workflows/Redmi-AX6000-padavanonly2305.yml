@@ -14,6 +14,10 @@
 name: Redmi-AX6000-padavanonly2305
 
 on:
+  push:
+    tags:
+      - "*.*.*"
+      # - "v*.*.*"
   repository_dispatch:
   #schedule:
   #  - cron: 30 22 * * *
@@ -29,7 +33,6 @@ permissions:
   pages: write
   id-token: write
   issues: write
-  
 
 env:
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-23.05
@@ -134,9 +137,12 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s || make -j1
         echo "status=success" >> $GITHUB_OUTPUT
-        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
+        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_([^=]+)=y$/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        # [ -s "DEVICE_NAME" ] && echo "DEVICE_NAME<<EOF" >> "$GITHUB_ENV"
+        # cat "DEVICE_NAME" >> "$GITHUB_ENV"
+        # echo "EOF" >> "$GITHUB_ENV"
+        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
         [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
 
@@ -195,11 +201,16 @@ jobs:
         # retain_days: 0
         # keep_minimum_runs: 8
 
-    # - name: Remove old Releases
-      # uses: dev-drprasad/delete-older-releases@master
-      # if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+    - name: Remove old Releases
+      uses: dev-drprasad/delete-older-releases@master
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 8
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # - name: Delete Artifacts
+      # uses: geekyeggo/delete-artifact@v5
       # with:
-        # keep_latest: 8
-        # delete_tags: true
-      # env:
-        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
