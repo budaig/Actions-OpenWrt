@@ -44,6 +44,8 @@ package/feeds/luci/luci-app-passwall2
 package/feeds/luci/luci-app-ssr-plus
 package/feeds/luci/luci-app-vssr
 package/network/utils/fullconenat-nft
+feeds/packages/net/geoview
+feeds/packages/net/sing-box
 feeds/packages/net/v2ray-geodata
 feeds/packages/net/v2ray-core
 feeds/packages/net/v2ray-plugin
@@ -73,14 +75,6 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 # aghsha256=($(curl -sL https://github.com/AdguardTeam/AdGuardHome/releases/download/v$aghver/AdGuardHome_linux_arm64.tar.gz | shasum -a 256))
 # echo adguardhome $aghver sha256=$aghsha256
 # sed -i '10 s/.*/PKG_VERSION:='"$aghver"'/g;17 s/.*/PKG_MIRROR_HASH:='"$aghsha256"'/g' package/diy/adguardhome/AdguardHome/Makefile
-
-# # mkdir -p package/diy/adguardhome/etc/config/adGuardConfig || echo "Failed to create /adguardhome/etc/config/adGuardConfig"
-# # curl -sL -m 30 --retry 2 https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_arm64.tar.gz -o /tmp/AdGuardHome_linux_arm64.tar.gz && tar -xzf /tmp/AdGuardHome_linux_arm64.tar.gz -C /tmp && mv /tmp/AdGuardHome/AdGuardHome package/diy/adguardhome/etc/config/adGuardConfig/AdGuardHome
-
-##
-# git clone https://github.com/oppen321/luci-app-adguardhome -b main package/diy/luci-adguardhome
-# git clone https://github.com/kongfl888/luci-app-adguardhome -b master package/diy/luci-adguardhome
-
 # ## ---------------------------------------------------------
 
 # ## -------------- alist ---------------------------
@@ -94,7 +88,6 @@ rm -rf feeds/luci/applications/luci-app-alist
 # git clone https://github.com/lmq8267/luci-app-alist.git -b main package/diy/alist
 ## bin 和 luci
 git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
-
 # ## ---------------------------------------------------------
 
 
@@ -133,44 +126,19 @@ fi
 # cat package/diy/lucky/lucky/Makefile
 # ## ---------------------------------------------------------
 
-# ## add chatgpt-web
-# rm -rf feeds/packages/net/luci-app-chatgpt-web
-# rm -rf feeds/luci/applications/luci-app-chatgpt-web
-# git clone https://github.com/sirpdboy/luci-app-chatgpt-web -b main package/diy/chatgpt-web
 
 # ## add OpenAppFilter oaf
 rm -rf feeds/luci/applications/luci-app-appfilter
 rm -rf feeds/packages/net/open-app-filter
 git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
 
-# ## add eqosplus   需要安装eqosplus主题
-# git clone -b main https://github.com/sirpdboy/luci-app-eqosplus package/diy/eqosplus 
 
 # ## add parentcontrol
 # git clone -b main https://github.com/sirpdboy/luci-app-parentcontrol package/diy/parentcontrol
 git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/parentcontrol
 # git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/diy/parentcontrol   #(已删)
-
-# ## -------------- qosmate ------------------------------
-# git clone -b main https://github.com/hudra0/luci-app-qosmate package/diy/luci-app-qosmate
-# git clone -b main https://github.com/hudra0/qosmate.git package/diy/qosmate #(for 22.03 or newer)
-# git clone -b legacy https://github.com/hudra0/qosmate.git package/diy/qosmate  #(for 21.02 or lower)
-# sed -i '2 s/.*/    option enabled '0'/g' package/diy/qosmate/etc/config/qosmate
-# qmver=0.5.48   #(v0.5.44 requires kmod-sched-red)
-# sed -i '4 s/.*/PKG_VERSION:='$qmver'/g' package/diy/qosmate/Makefile
-# sed -i '3 s/.*/VERSION='\"$qmver\"'/g' package/diy/qosmate/etc/qosmate.sh
-# echo qosmate v$qmver
-
-
-# # https://github.com/LemonCrab666/luci-app-qosmate/blob/main/po/zh_Hans/qosmate.po
-# mkdir -p package/diy/luci-app-qosmate/po/zh_Hans || echo "Failed to create zh-Hans po"
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2qosmate/qosmate.po package/diy/luci-app-qosmate/po/zh_Hans/qosmate.po
-# if [ $? -eq 0 ]; then
-    # echo "qosmate.po copied"
-# else
-    # echo "qosmate.po copy failed"
-# fi
 # ## ---------------------------------------------------------
+
 
 # ##  -------------- Passwall ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall
@@ -180,8 +148,10 @@ git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/pass
 # ##  -------------- Passwall2 ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall2
 git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
-sed -i 's/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/	+geoview/g' package/diy/passwall2/luci-app-passwall2/Makefile
-
+# 使用 openwrt-xray 不需要 +xray-core +geoview +v2ray-geoip +v2ray-geosite
+sed -i '/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/d'  package/diy/passwall2/luci-app-passwall2/Makefile
+# 使用 sing-box 需要 +geoview
+# sed -i 's/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/	+geoview/g' package/diy/passwall2/luci-app-passwall2/Makefile
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
@@ -211,6 +181,36 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 # yicha xray xstatus ---------------
 # ## ---------------------------------------------------------
 
+
+# ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
+# 使用 sing-box 需要 +geoview
+# rm -rf feeds/packages/net/geoview
+# git clone -b master https://github.com/snowie2000/geoview.git package/diy/geoview
+
+# rm -rf feeds/packages/net/sing-box
+
+# git clone https://github.com/immortalwrt/homeproxy -b main package/diy/homeproxy
+
+# git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/singbox #(250609 chinadns-ng PKG_VERSION:=2025.03.27 sing-box 1.11.6   immoralwrt23.05 chinadns-ng PKG_VERSION:=2024.10.14)
+
+# rm -rf package/diy/singbox/luci-app-homeproxy
+# rm -rf package/diy/singbox/sing-box
+
+## customize singbox ver
+# sleep 1
+# sbxver=1.11.13
+# sbxsha256=($(curl -sL =https://codeload.github.com/SagerNet/sing-box/tar.gz/v$sbxver | shasum -a 256))
+# echo sing-box v$sbxver sha256=$sbxsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$sbxver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$sbxsha256"'/g' package/diy/singbox/sing-box/Makefile
+
+# chng_ver=2024.11.17
+# chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
+# # echo chinadns-ng v$chng_ver sha256=$chng_SHA256
+# sed -i '6 s/.*/PKG_VERSION:='"$chng_ver"'/g;12 s/.*/PKG_HASH:='"$chng_SHA256"'/g' package/diy/homeproxy/chinadns-ng/Makefile
+# echo chinadns-ng v$chng_ver sha256=$chng_SHA256
+# ## ---------------------------------------------------------
+
+
 # ## -------------- Dae   内核 >= 5.17 (immortalwrt 已包含) #As a successor of v2rayA, dae abandoned v2ray-core to meet the needs of users more freely.# ---------------------------
 # OpenWrt Official 23.05/SNAPSHOT
 # git clone -b main https://github.com/sbwml/luci-app-dae package/dae
@@ -219,9 +219,8 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 # OpenWrt official 24.10/SnapShots
 # git clone -b master https://github.com/QiuSimons/luci-app-daed package/dae
 # sed -i 's/    +kmod-veth +v2ray-geoip +v2ray-geosite/    +kmod-veth/g' package/diy/passwall2/luci-app-passwall2/Makefile
-
-
 # ## ---------------------------------------------------------
+
 
 # ## -------------- v2raya ---------------------------
 # nl feeds/packages/net/v2raya/Makefile   #23.05 org ver2.2.5.7
@@ -241,7 +240,7 @@ rm -rf feeds/luci/applications/luci-app-v2raya
 # ls package/diy/v2raya
 
 ## method 2: clone then replace key files
-# git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
@@ -258,36 +257,11 @@ rm -rf package/diy/v2raya/xray-core
 # echo ca-certificates v$caver sha256=$casha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
 # nl feeds/packages/net/v2raya/Makefile
-
 # ## ---------------------------------------------------------
 
 # rm -rf package/network/utils/fullconenat-nft
 # git clone https://github.com/sbwml/nft-fullcone -b master package/diy/nftfullcone   #https://github.com/yyjeqhc/nft_fullcone
 
-# ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
-
-rm -rf feeds/packages/net/sing-box
-
-# git clone https://github.com/immortalwrt/homeproxy -b main package/diy/homeproxy
-
-git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/singbox #(250609 chinadns-ng PKG_VERSION:=2025.03.27 sing-box 1.11.6   immoralwrt23.05 chinadns-ng PKG_VERSION:=2024.10.14)
-
-rm -rf package/diy/singbox/luci-app-homeproxy
-rm -rf package/diy/singbox/sing-box
-
-## customize singbox ver
-# sleep 1
-# sbxver=1.11.13
-# sbxsha256=($(curl -sL =https://codeload.github.com/SagerNet/sing-box/tar.gz/v$sbxver | shasum -a 256))
-# echo sing-box v$sbxver sha256=$sbxsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$sbxver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$sbxsha256"'/g' package/diy/singbox/sing-box/Makefile
-
-# chng_ver=2024.11.17
-# chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
-# # echo chinadns-ng v$chng_ver sha256=$chng_SHA256
-# sed -i '6 s/.*/PKG_VERSION:='"$chng_ver"'/g;12 s/.*/PKG_HASH:='"$chng_SHA256"'/g' package/diy/homeproxy/chinadns-ng/Makefile
-# echo chinadns-ng v$chng_ver sha256=$chng_SHA256
-# ## ---------------------------------------------------------
 
 # ## -------------- chinadns-ng ---------------------------
 # rm -rf feeds/packages/net/chinadns-ng   #(241025 PKG_VERSION:=2023.10.28)
@@ -321,7 +295,6 @@ rm -rf package/diy/singbox/sing-box
 #else
 #    echo "chinadns-ng config.conf copy failed"
 #fi
-
 # ## ---------------------------------------------------------
 
 
