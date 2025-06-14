@@ -53,6 +53,11 @@ jobs:
       uses: actions/checkout@v4
       # uses: actions/checkout@main
 
+    - name: 检查并清理硬盘空间
+      if: (!cancelled())
+      run: df -hT
+      - uses: mkorje/free-disk-space-action@v1
+
     - name: 初始化编译环境
       env:
         DEBIAN_FRONTEND: noninteractive

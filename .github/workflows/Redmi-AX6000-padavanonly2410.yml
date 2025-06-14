@@ -58,15 +58,16 @@ jobs:
     - name: 检查项目分支
       uses: actions/checkout@v4
       
-    - name: Check space usage
+    - name: 检查并清理硬盘空间
       if: (!cancelled())
       run: df -hT
+      - uses: mkorje/free-disk-space-action@v1
 
     - name: 初始化编译环境
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
         sudo rm -rf "/usr/local/share/boost"
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
         sudo docker image prune --all --force
