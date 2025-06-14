@@ -62,8 +62,8 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
-    - name: 清理硬盘空间
-      uses: mkorje/free-disk-space-action@v1
+    # - name: 清理硬盘空间
+      # uses: mkorje/free-disk-space-action@v1
 
     - name: Free Disk Space (Ubuntu)
       uses: thiagokokada/free-disk-space@main
@@ -77,7 +77,7 @@ jobs:
         usrmisc: true
         usrlocal: true
         opt: true
-        varcache: true
+        varcache: false
         # this will run `du -h /* 2>/dev/null | sort -hr | head -n <N>` to show
         # the top N directories by size, it is mostly used by development/debug
         # and should not be used generally since it takes a while to calculate
@@ -87,9 +87,9 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
-        sudo rm -rf "/usr/local/share/boost"
-        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+        # sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+        # sudo rm -rf "/usr/local/share/boost"
+        # sudo rm -rf "$AGENT_TOOLSDIRECTORY"
         sudo docker image prune --all --force
         sudo -E apt-get -qq update
         # sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'

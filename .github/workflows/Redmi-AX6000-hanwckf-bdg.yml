@@ -60,23 +60,23 @@ jobs:
     - name: 清理硬盘空间
       uses: mkorje/free-disk-space-action@v1
 
-    - name: Free Disk Space (Ubuntu)
-      uses: thiagokokada/free-disk-space@main
-      with:
-        # this might remove tools that are actually needed, but is enabled by
-        # default
-        tool-cache: false
-        # possible dangerous options since they delete whole directories that
-        # are generally for third-party software or cache like /usr/local,
-        # /opt, /var/cache, only use them if you know what you're doing
-        usrmisc: true
-        usrlocal: true
-        opt: true
-        varcache: true
-        # this will run `du -h /* 2>/dev/null | sort -hr | head -n <N>` to show
-        # the top N directories by size, it is mostly used by development/debug
-        # and should not be used generally since it takes a while to calculate
-        debug: false
+    # - name: Free Disk Space (Ubuntu)
+      # uses: thiagokokada/free-disk-space@main
+      # with:
+        # # this might remove tools that are actually needed, but is enabled by
+        # # default
+        # tool-cache: false
+        # # possible dangerous options since they delete whole directories that
+        # # are generally for third-party software or cache like /usr/local,
+        # # /opt, /var/cache, only use them if you know what you're doing
+        # usrmisc: true
+        # usrlocal: true
+        # opt: true
+        # varcache: false
+        # # this will run `du -h /* 2>/dev/null | sort -hr | head -n <N>` to show
+        # # the top N directories by size, it is mostly used by development/debug
+        # # and should not be used generally since it takes a while to calculate
+        # debug: false
 
     - name: 初始化编译环境
       env:
