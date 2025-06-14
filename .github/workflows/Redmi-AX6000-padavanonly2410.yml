@@ -58,9 +58,11 @@ jobs:
     - name: 检查项目分支
       uses: actions/checkout@v4
       
-    - name: 检查并清理硬盘空间
+    - name: 检查硬盘空间
       if: (!cancelled())
       run: df -hT
+
+    - name: 清理硬盘空间
       uses: mkorje/free-disk-space-action@v1
 
     - name: 初始化编译环境
