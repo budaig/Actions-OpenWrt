@@ -144,7 +144,6 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 rm -rf feeds/luci/applications/luci-app-passwall
 git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
 
-
 # ##  -------------- Passwall2 ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall2
 git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
@@ -152,6 +151,7 @@ git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/pas
 sed -i '/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/d'  package/diy/passwall2/luci-app-passwall2/Makefile
 # 使用 sing-box 需要 +geoview
 # sed -i 's/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/	+geoview/g' package/diy/passwall2/luci-app-passwall2/Makefile
+
 
 # ##  -------------- xray +  ---------------------------
 ## geodata
