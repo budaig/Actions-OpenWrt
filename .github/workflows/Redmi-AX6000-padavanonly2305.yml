@@ -58,17 +58,38 @@ jobs:
     - name: 检查项目分支
       uses: actions/checkout@v4
       
-    - name: Check space usage
+    - name: 检查硬盘空间
       if: (!cancelled())
       run: df -hT
+
+    # - name: 清理硬盘空间
+      # uses: mkorje/free-disk-space-action@v1
+
+    - name: Free Disk Space (Ubuntu)
+      uses: thiagokokada/free-disk-space@main
+      with:
+        # this might remove tools that are actually needed, but is enabled by
+        # default
+        tool-cache: false
+        # possible dangerous options since they delete whole directories that
+        # are generally for third-party software or cache like /usr/local,
+        # /opt, /var/cache, only use them if you know what you're doing
+        usrmisc: true
+        usrlocal: true
+        opt: true
+        varcache: false
+        # this will run `du -h /* 2>/dev/null | sort -hr | head -n <N>` to show
+        # the top N directories by size, it is mostly used by development/debug
+        # and should not be used generally since it takes a while to calculate
+        debug: false
 
     - name: 初始化编译环境
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
-        sudo rm -rf "/usr/local/share/boost"
-        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+        # sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+        # sudo rm -rf "/usr/local/share/boost"
+        # sudo rm -rf "$AGENT_TOOLSDIRECTORY"
         sudo docker image prune --all --force
         sudo -E apt-get -qq update
         # sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
@@ -150,6 +171,13 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
+    #- name: 上传 bin 目录
+      #uses: actions/upload-artifact@main
+      #if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      #with:
+      #  name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+      #  path: openwrt/bin
+
     - name: 整理文件并重命名
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
@@ -186,6 +214,8 @@ jobs:
 
     - name: 发布至release
       uses: softprops/action-gh-release@v2
+      # workaround for https://github.com/softprops/action-gh-release/issues/628
+      # uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
