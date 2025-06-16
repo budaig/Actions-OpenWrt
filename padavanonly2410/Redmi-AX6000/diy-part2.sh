@@ -212,9 +212,13 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 
 
 # ## -------------- Dae   内核 >= 5.17 (immortalwrt 已包含) #As a successor of v2rayA, dae abandoned v2ray-core to meet the needs of users more freely.# ---------------------------
+
+rm -rf package/feeds/packages/daed
+rm -rf feeds/luci/applications/luci-app-daed
+
 # OpenWrt Official 23.05/SNAPSHOT
-# git clone -b main https://github.com/sbwml/luci-app-dae package/dae
-# git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+# git clone -b main https://github.com/sbwml/luci-app-dae package/diy/dae
+# git clone https://github.com/sbwml/v2ray-geodata package/diy/v2ray-geodata
 
 # OpenWrt official 24.10/SnapShots
 git clone -b master https://github.com/QiuSimons/luci-app-daed package/diy/dae
