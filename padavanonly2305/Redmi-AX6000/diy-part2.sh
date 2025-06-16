@@ -66,7 +66,7 @@ git clone https://github.com/sbwml/packages_lang_golang -b 24.x feeds/packages/l
 # ## -------------- adguardhome ---------------------------
 rm -rf feeds/packages/net/adguardhome
 rm -rf feeds/luci/applications/luci-app-adguardhome
-git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
+# git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
 # mv package/diy/adguardhome/AdGuardHome feeds/packages/net/adguardhome
 # mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app-adguardhome
 
