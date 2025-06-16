@@ -222,7 +222,7 @@ rm -rf feeds/luci/applications/luci-app-daed
 
 # OpenWrt official 24.10/SnapShots
 git clone -b master https://github.com/QiuSimons/luci-app-daed package/diy/dae
-sed -i 's/    +kmod-veth +v2ray-geoip +v2ray-geosite/    +kmod-veth/g' package/diy/daed/Makefile
+sed -i 's/    +kmod-veth +v2ray-geoip +v2ray-geosite/    +kmod-veth/g' package/diy/dae/daed/Makefile
 # ## ---------------------------------------------------------
 
 
