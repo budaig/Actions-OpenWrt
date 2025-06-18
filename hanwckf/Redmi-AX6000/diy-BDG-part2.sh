@@ -74,7 +74,7 @@ rm -rf feeds/luci/applications/luci-app-alist
 ## 无binary 需手动下载bin
 # git clone https://github.com/lmq8267/luci-app-alist.git -b main package/diy/alist
 ## bin 和 luci
-git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
+# git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 # git clone https://github.com/sbwml/luci-app-alist.git -b v3.42.0 --single-branch package/diy/alist
 # git clone https://github.com/lmq8267/luci-app-alist -b main package/diy/alist   # 需自己下载bin
 # git clone https://github.com/oppen321/luci-app-alist -b main package/diy/alist
@@ -90,6 +90,16 @@ git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
 # echo alist v$alver sha256=$alsha256
 # echo alist-web v$alver sha256=$alwebsha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
+
+# ## -------------- openlist ---------------------------
+rm -rf feeds/packages/net/openlist
+rm -rf feeds/luci/applications/luci-app-openlist
+git clone https://github.com/sbwml/luci-app-openlist -b main package/diy/openlist
+# or git clone https://github.com/sbwml/luci-app-openlist -b dev package/diy/openlist
+# 终端命令（TTYD）执行命令：
+# [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
+# 返回 Yes 表示支持，返回 No 表示不支持。
+
 # ## ---------------------------------------------------------
 
 

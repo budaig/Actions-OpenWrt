@@ -87,7 +87,18 @@ rm -rf feeds/luci/applications/luci-app-alist
 ## 无binary 需手动下载bin
 # git clone https://github.com/lmq8267/luci-app-alist.git -b main package/diy/alist
 ## bin 和 luci
-git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
+# git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
+
+
+# ## -------------- openlist ---------------------------
+rm -rf feeds/packages/net/openlist
+rm -rf feeds/luci/applications/luci-app-openlist
+git clone https://github.com/sbwml/luci-app-openlist -b main package/diy/openlist
+# or git clone https://github.com/sbwml/luci-app-openlist -b dev package/diy/openlist
+# 终端命令（TTYD）执行命令：
+# [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
+# 返回 Yes 表示支持，返回 No 表示不支持。
+
 # ## ---------------------------------------------------------
 
 
