@@ -91,6 +91,16 @@ rm -rf feeds/luci/applications/luci-app-alist
 # echo alist-web v$alver sha256=$alwebsha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
 
+
+## mv 21.02 luci-app-aria2 webpage from nas 2 services
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2aria2/luci-app-aria2.json feeds/luci/applications/luci-app-aria2/root/usr/share/luci/menu.d/luci-app-aria2.json
+if [ $? -eq 0 ]; then
+    echo "luci-app-aria2.json copied"
+else
+    echo "luci-app-aria2.json copy failed"
+fi
+
+
 # ## -------------- openlist ---------------------------
 rm -rf feeds/packages/net/openlist
 rm -rf feeds/luci/applications/luci-app-openlist
