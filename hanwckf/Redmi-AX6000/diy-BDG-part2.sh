@@ -31,6 +31,8 @@ EOF
 
 del_data="
 package/feeds/luci/luci-app-passwall
+package/feeds/luci/luci-app-shadowsocks-libev
+package/feeds/luci/luci-app-ssr-libev-server
 package/feeds/luci/luci-app-ssr-plus
 package/feeds/luci/luci-app-vssr
 feeds/packages/net/v2ray-geodata
@@ -38,6 +40,9 @@ feeds/packages/net/v2ray-core
 feeds/packages/net/v2ray-plugin
 feeds/packages/net/xray-plugin
 feeds/packages/net/xray-core
+feeds/packages/net/shadowsocks-libev
+feeds/packages/net/shadowsocks-rust
+feeds/packages/net/shadowsocksr-libev
 "
 
 for cmd in $del_data;
@@ -62,47 +67,6 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 # echo adguardhome $aghver sha256=$aghsha256
 # sed -i '10 s/.*/PKG_VERSION:='"$aghver"'/g;17 s/.*/PKG_MIRROR_HASH:='"$aghsha256"'/g' package/diy/adguardhome/AdguardHome/Makefile
 # ## ---------------------------------------------------------
-
-
-# ## -------------- alist ---------------------------
-# replace alist
-# nl feeds/packages/net/alist/Makefile   #21.02 org ver3.19.0
-rm -rf feeds/packages/net/alist
-rm -rf feeds/luci/applications/luci-app-alist
-# rm -rf luci-i18n-alist-zh-cn
-# alist 3.36 requires go 1.22
-## 无binary 需手动下载bin
-# git clone https://github.com/lmq8267/luci-app-alist.git -b main package/diy/alist
-## bin 和 luci
-# git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
-# git clone https://github.com/sbwml/luci-app-alist.git -b v3.42.0 --single-branch package/diy/alist
-# git clone https://github.com/lmq8267/luci-app-alist -b main package/diy/alist   # 需自己下载bin
-# git clone https://github.com/oppen321/luci-app-alist -b main package/diy/alist
-# mv package/diy/alist/alist feeds/packages/net/alist
-# mv package/diy/alist/luci-app-alist feeds/luci/applications/luci-app-alist
-
-## customize alist ver
-# sleep 1
-# alver=3.40.0
-# alwebver=3.40.0
-# alsha256=($(curl -sL https://codeload.github.com/alist-org/alist/tar.gz/v$alver | shasum -a 256))
-# alwebsha256=($(curl -sL https://github.com/alist-org/alist-web/releases/download/$alwebver/dist.tar.gz | shasum -a 256))
-# echo alist v$alver sha256=$alsha256
-# echo alist-web v$alver sha256=$alwebsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$alver"'/g;s/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$alwebver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$alsha256"'/g;26 s/  HASH:=.*/  HASH:='"$alwebsha256"'/g' package/diy/alist/alist/Makefile
-
-
-## mv 21.02 luci-app-aria2 webpage from nas 2 services
-# feeds/packages/net/aria2
-# feeds/packages/net/ariang
-# feeds/luci/applications/luci-app-aria2
-mkdir -p feeds/luci/applications/luci-app-aria2/root/usr/share/luci/menu.d
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2aria2/luci-app-aria2.json feeds/luci/applications/luci-app-aria2/root/usr/share/luci/menu.d/luci-app-aria2.json
-if [ $? -eq 0 ]; then
-    echo "luci-app-aria2.json copied"
-else
-    echo "luci-app-aria2.json copy failed"
-fi
 
 
 # ## -------------- openlist ---------------------------
@@ -217,6 +181,7 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 # # sed -i '28i \	$(INSTALL_BIN) ./files/sing-box $(1)/usr/bin/sing-box' package/diy/luci-singbox/Makefile
 ## mannual setup
 # ## ---------------------------------------------------------
+
 
 # ##  -------------- Passwall ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall
@@ -479,9 +444,8 @@ fi
 sleep 1
 ## add hululu1068 / anti-ad 广告smartdns规则
 # urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
-# urlreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/smart-dns.conf"
-# curl -sL -m 30 --retry 2 "$urlreject" -o /tmp/reject.conf
-# mv /tmp/reject.conf package/diy/luci-app-smartdns/root/etc/smartdns/reject.conf >/dev/null 2>&1
+urlreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/smart-dns.conf"
+curl -sL -m 30 --retry 2 "$urlreject" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitereject.conf
 ## add github hosts
 curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgithub.txt
 ## add githubhosts for smartdns
@@ -511,8 +475,8 @@ curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc
   # or 替换!为#
 #sed -i 's/!/#/g' package/diy/luci-app-smartdns/root/etc/AWAvenueadshosts.txt
 ## add reject-list
-urlrejlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/reject-list.txt"
-curl -sL -m 30 --retry 2 "$urlrejlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitereject
+# urlrejlist="https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/reject-list.txt"
+# curl -sL -m 30 --retry 2 "$urlrejlist" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitereject
 # ls -l package/diy/luci-app-smartdns/root/etc/smartdns
 
 # ## 若不安装 v2raya 则借用 smartdns 配置文件夹安装 xrayconfig
