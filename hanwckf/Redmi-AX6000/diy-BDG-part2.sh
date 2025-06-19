@@ -93,6 +93,10 @@ rm -rf feeds/luci/applications/luci-app-alist
 
 
 ## mv 21.02 luci-app-aria2 webpage from nas 2 services
+# feeds/packages/net/aria2
+# feeds/packages/net/ariang
+# feeds/luci/applications/luci-app-aria2
+mkdir -p feeds/luci/applications/luci-app-aria2/root/usr/share/luci/menu.d
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2aria2/luci-app-aria2.json feeds/luci/applications/luci-app-aria2/root/usr/share/luci/menu.d/luci-app-aria2.json
 if [ $? -eq 0 ]; then
     echo "luci-app-aria2.json copied"
