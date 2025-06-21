@@ -85,9 +85,15 @@ OpenList_date=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/Open
 OpenList_SHA=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/OpenList/commits | jq .[0].sha | sed 's/\"//g'`)
 echo openlist $OpenList_date sha="$OpenList_SHA"
 
+#--olfever tag: Pre-release
 olfrontendver=4.0.0-dce2182
-olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$(olfrontendver)/openlist-frontend-dist-v$(olfrontendver).tar.gz | shasum -a 256))
+olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/rolling/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256))
 echo openlist-frontend $olfrontendver sha256="$olfrontendsha256"
+
+#--olfever tag: Release
+# olfrontendver=4.0.0-rc.4
+# olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$olfrontendver/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256))
+# echo openlist-frontend $olfrontendver sha256="$olfrontendsha256"
 
 sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g' package/diy/openlist/openlist/Makefile
 sed -i 's/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g' package/diy/openlist/openlist/Makefile
