@@ -98,7 +98,7 @@ echo openlist-frontend $olfrontendver sha256="$olfrontendsha256"
 sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g' package/diy/openlist/openlist/Makefile
 sed -i 's/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g' package/diy/openlist/openlist/Makefile
 sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g' package/diy/openlist/openlist/Makefile
-sed -i '/PKG_MIRROR_HASH:=/d' package/diy/openlist/openlist/Makefile
+sed -i 's/PKG_MIRROR_HASH.*/PKG_MIRROR_HASH:=skip/g' package/diy/openlist/openlist/Makefile
 sed -i 's/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
 
 ## use release openlist
