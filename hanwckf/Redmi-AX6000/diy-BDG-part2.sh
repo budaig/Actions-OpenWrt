@@ -90,6 +90,8 @@ olfrontendver=4.0.0-dce2182
 olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/rolling/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256))
 echo openlist-frontend $olfrontendver sha256="$olfrontendsha256"
 
+sed -i 's/  download\/v$(PKG_WEB_VERSION)/download\/rolling/g' package/diy/openlist/openlist/Makefile
+
 #--olfever tag: Release
 # olfrontendver=4.0.0-rc.4
 # olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$olfrontendver/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256))
