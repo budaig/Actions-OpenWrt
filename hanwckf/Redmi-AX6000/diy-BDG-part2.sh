@@ -86,11 +86,14 @@ OpenList_SHA=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/OpenL
 echo openlist $OpenList_date sha="$OpenList_SHA"
 
 olfrontendver=4.0.0-dce2182
+olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$(olfrontendver)/openlist-frontend-dist-v$(olfrontendver).tar.gz | shasum -a 256))
+echo openlist-frontend $olfrontendver sha256="$olfrontendsha256"
 
 sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g' package/diy/openlist/openlist/Makefile
 sed -i 's/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g' package/diy/openlist/openlist/Makefile
 sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g' package/diy/openlist/openlist/Makefile
 sed -i '/PKG_MIRROR_HASH:=/d' package/diy/openlist/openlist/Makefile
+sed -i 's/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
 
 ## use release openlist
 
