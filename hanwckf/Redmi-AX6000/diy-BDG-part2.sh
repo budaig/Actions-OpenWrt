@@ -90,18 +90,14 @@ olfrontendver=4.0.0-dce2182
 olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/rolling/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256))
 echo openlist-frontend $olfrontendver sha256="$olfrontendsha256"
 
-sed -i 's/  download\/v$(PKG_WEB_VERSION)/download\/rolling/g' package/diy/openlist/openlist/Makefile
+sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g;s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g;s/PKG_MIRROR_HASH.*/PKG_MIRROR_HASH:=skip/g;s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g;s/download\/v$(PKG_WEB_VERSION)/download\/rolling/g' package/diy/openlist/openlist/Makefile
 
 #--olfever tag: Release
 # olfrontendver=4.0.0-rc.4
 # olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$olfrontendver/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256))
 # echo openlist-frontend $olfrontendver sha256="$olfrontendsha256"
 
-sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g' package/diy/openlist/openlist/Makefile
-sed -i 's/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g' package/diy/openlist/openlist/Makefile
-sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g' package/diy/openlist/openlist/Makefile
-sed -i 's/PKG_MIRROR_HASH.*/PKG_MIRROR_HASH:=skip/g' package/diy/openlist/openlist/Makefile
-sed -i 's/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
+# sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g;s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g;s/PKG_MIRROR_HASH.*/PKG_MIRROR_HASH:=skip/g;s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
 
 ## use release openlist
 
