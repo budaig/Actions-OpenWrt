@@ -78,6 +78,23 @@ git clone https://github.com/sbwml/luci-app-openlist -b main package/diy/openlis
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
 # 返回 Yes 表示支持，返回 No 表示不支持。
 
+## use latest openlist commit to build
+# sleep 1
+
+OpenList_date=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/OpenList/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
+OpenList_SHA=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/OpenList/commits | jq .[0].sha | sed 's/\"//g'`)
+echo openlist $OpenList_date sha="$OpenList_SHA"
+
+olfrontendver=4.0.0-dce2182
+
+sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g' package/diy/openlist/openlist/Makefile
+sed -i 's/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g' package/diy/openlist/openlist/Makefile
+sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g' package/diy/openlist/openlist/Makefile
+sed -i '/PKG_MIRROR_HASH:=/d' package/diy/openlist/openlist/Makefile
+
+## use release openlist
+
+cat package/diy/openlist/openlist/Makefile
 # ## ---------------------------------------------------------
 
 
