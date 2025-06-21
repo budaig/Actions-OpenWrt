@@ -78,21 +78,21 @@ git clone https://github.com/sbwml/luci-app-openlist -b main package/diy/openlis
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
 # 返回 Yes 表示支持，返回 No 表示不支持。
 
-## use latest openlist commit to build
+## use latest openlist commit to build - 4rc4ol.Makefile https://github.com/sbwml/luci-app-openlist/commit/0d089dffcedeba5371a606fc460b9c28b9f9c84e
 # sleep 1
 
-OpenList_date=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/OpenList/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
-OpenList_SHA=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/OpenList/commits | jq .[0].sha | sed 's/\"//g'`)
-echo openlist $OpenList_date sha="$OpenList_SHA"
+# OpenList_date=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/OpenList/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
+# OpenList_SHA=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/OpenList/commits | jq .[0].sha | sed 's/\"//g'`)
+# echo openlist $OpenList_date sha="$OpenList_SHA"
 
-#--olfever tag: Pre-release
-olfrontendver=4.0.0-dce2182
-olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/rolling/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256))
-echo openlist-frontend $olfrontendver sha256="$olfrontendsha256"
+# #--olfrontend ver tag: Pre-release
+# olfrontendver=4.0.0-dce2182
+# olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/rolling/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256))
+# echo openlist-frontend $olfrontendver sha256="$olfrontendsha256"
 
-sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g;s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g;s/PKG_MIRROR_HASH.*/PKG_MIRROR_HASH:=skip/g;s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g;s/download\/v$(PKG_WEB_VERSION)/download\/rolling/g' package/diy/openlist/openlist/Makefile
+# sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g;s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g;s/PKG_MIRROR_HASH.*/PKG_MIRROR_HASH:=skip/g;s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g;s/download\/v$(PKG_WEB_VERSION)/download\/rolling/g' package/diy/openlist/openlist/Makefile
 
-#--olfever tag: Release
+#--olfrontend ver tag: Release - 4rc4ol.Makefile https://github.com/sbwml/luci-app-openlist/commit/0d089dffcedeba5371a606fc460b9c28b9f9c84e
 # olfrontendver=4.0.0-rc.4
 # olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$olfrontendver/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256))
 # echo openlist-frontend $olfrontendver sha256="$olfrontendsha256"
@@ -101,7 +101,7 @@ sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;s/PKG_SOURCE
 
 ## use release openlist
 
-cat package/diy/openlist/openlist/Makefile
+# cat package/diy/openlist/openlist/Makefile
 # ## ---------------------------------------------------------
 
 
