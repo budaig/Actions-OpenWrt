@@ -23,7 +23,7 @@ PKG_MAINTAINER:=sbwml <admin@cooluc.com>
 
 define Download/openlist-frontend
   FILE:=openlist-frontend-dist-v$(PKG_WEB_VERSION).tar.gz
-  URL:=https://github.com/budaig/OpenList-Frontend/releases/download/$(PKG_WEB_VERSION)/
+  URL:=https://github.com/OpenListTeam/OpenList-Frontend/releases/download/$(PKG_WEB_VERSION)/
   HASH:=f28d15059918dbaf4a0da2f2d92b4a956b46019d321f567217ad4318076c2462
 endef
 
