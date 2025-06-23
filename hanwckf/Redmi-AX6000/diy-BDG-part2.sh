@@ -51,7 +51,7 @@ do
  echo "Deleted $cmd"
 done
 
-# ## update golang 20.x to 23.x
+# ## update golang 20.x to 24.x
 # nl feeds/packages/lang/golang/golang/Makefile   #21.02 org ver1.19
 rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 24.x feeds/packages/lang/golang
@@ -78,8 +78,19 @@ git clone https://github.com/sbwml/luci-app-openlist -b main package/diy/openlis
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
 # 返回 Yes 表示支持，返回 No 表示不支持。
 
-## use latest openlist commit to build - 4rc4ol.Makefile https://github.com/sbwml/luci-app-openlist/commit/0d089dffcedeba5371a606fc460b9c28b9f9c84e
+## ------------------- A. customize openlist & frontend ver
 # sleep 1
+# olver=4.0.1
+# olsha256=($(curl -sL https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$olver | shasum -a 256))
+# echo openlist v$olver sha256=$olsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$olver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$olsha256"'/g' package/diy/openlist/openlist/Makefile
+
+# olfrontendver=4.0.1
+# olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$olfrontendver/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256)) 
+# echo openlistfrontend v$olfrontendver sha256=$olfrontendsha256
+# sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;27 s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
+
+## ------------------- B.  use latest openlist commit to build - 4rc4ol.Makefile https://github.com/sbwml/luci-app-openlist/commit/0d089dffcedeba5371a606fc460b9c28b9f9c84e
 
 # OpenList_date=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/OpenList/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
 # OpenList_SHA=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/OpenList/commits | jq .[0].sha | sed 's/\"//g'`)
@@ -99,7 +110,18 @@ git clone https://github.com/sbwml/luci-app-openlist -b main package/diy/openlis
 
 # sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g;s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g;s/PKG_MIRROR_HASH.*/PKG_MIRROR_HASH:=skip/g;s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
 
-## use release openlist
+## -------------------. del flash *.swf file preview dir ruffle
+sed -i '83 i \	$(RM) -rf $(PKG_BUILD_DIR)/public/dist/static/ruffle' package/diy/openlist/openlist/Makefile
+
+# or
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2openlist/4mod.Makefile package/diy/openlist/openlist/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "4mod.Makefile copied"
+# else
+    # echo "4mod.Makefile copy failed"
+# fi
+
+## ------------------- 
 
 # cat package/diy/openlist/openlist/Makefile
 # ## ---------------------------------------------------------
