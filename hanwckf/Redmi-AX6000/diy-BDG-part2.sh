@@ -80,15 +80,15 @@ git clone https://github.com/sbwml/luci-app-openlist -b main package/diy/openlis
 
 ## ------------------- A. customize openlist & frontend ver
 # sleep 1
-olver=4.0.2
-olsha256=($(curl -sL https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$olver | shasum -a 256))
-echo openlist v$olver sha256=$olsha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$olver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$olsha256"'/g' package/diy/openlist/openlist/Makefile
+# olver=4.0.2
+# olsha256=($(curl -sL https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$olver | shasum -a 256))
+# echo openlist v$olver sha256=$olsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$olver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$olsha256"'/g' package/diy/openlist/openlist/Makefile
 
-olfrontendver=4.0.2
-olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/$olfrontendver/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256)) 
-echo openlistfrontend v$olfrontendver sha256=$olfrontendsha256
-sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;27 s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
+# olfrontendver=4.0.2
+# olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/$olfrontendver/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256)) 
+# echo openlistfrontend v$olfrontendver sha256=$olfrontendsha256
+# sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;27 s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
 
 ## ------------------- B.  use latest openlist commit to build - 4rc4ol.Makefile https://github.com/sbwml/luci-app-openlist/commit/0d089dffcedeba5371a606fc460b9c28b9f9c84e
 
@@ -111,15 +111,15 @@ sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;27 s/  HASH:
 # sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g;s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g;s/PKG_MIRROR_HASH.*/PKG_MIRROR_HASH:=skip/g;s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
 
 ## -------------------. del flash *.swf file preview dir ruffle
-sed -i '83 i \	$(RM) -rf $(PKG_BUILD_DIR)/public/dist/static/ruffle' package/diy/openlist/openlist/Makefile
+# sed -i '83 i \	$(RM) -rf $(PKG_BUILD_DIR)/public/dist/static/ruffle' package/diy/openlist/openlist/Makefile
 
 # or
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2openlist/4mod.Makefile package/diy/openlist/openlist/Makefile
-# if [ $? -eq 0 ]; then
-    # echo "4mod.Makefile copied"
-# else
-    # echo "4mod.Makefile copy failed"
-# fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2openlist/4mod.Makefile package/diy/openlist/openlist/Makefile
+if [ $? -eq 0 ]; then
+    echo "4mod.Makefile copied"
+else
+    echo "4mod.Makefile copy failed"
+fi
 
 ## ------------------- 
 
