@@ -112,7 +112,7 @@ git clone https://github.com/sbwml/luci-app-openlist -b main package/diy/openlis
 # sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g;s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g;s/PKG_MIRROR_HASH.*/PKG_MIRROR_HASH:=skip/g;s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
 
 ## -------------------. del flash *.swf file preview dir ruffle
-# sed -i '83 i \	$(RM) -rf $(PKG_BUILD_DIR)/public/dist/static/ruffle' package/diy/openlist/openlist/Makefile
+sed -i '83 i \	$(RM) -rf $(PKG_BUILD_DIR)/public/dist/static/ruffle' package/diy/openlist/openlist/Makefile
 
 # or
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2openlist/4mod.Makefile package/diy/openlist/openlist/Makefile
