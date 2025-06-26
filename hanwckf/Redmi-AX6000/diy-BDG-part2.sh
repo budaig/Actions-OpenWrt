@@ -355,10 +355,10 @@ rm -rf feeds/luci/applications/luci-app-chinadns-ng
 git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241216 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
 # # # chng_ver=2024.11.17
 # # # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl_noasm@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
-# chng_ver=2025.03.27
-# chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
-# echo chinadns-ng v$chng_ver sha256=$chng_SHA256
-# sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA256"'/g' package/diy/chinadns-ng/Makefile
+chng_ver=2025.06.20
+chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
+echo chinadns-ng v$chng_ver sha256=$chng_SHA256
+sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA256"'/g' package/diy/chinadns-ng/Makefile
 
 # git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(250327 PKG_VERSION:=2024.12.22   241216 PKG_VERSION:=2024.11.17   241119 PKG_VERSION:=2024.10.14)
 # git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241216 PKG_VERSION:=2024.10.14)
@@ -454,15 +454,15 @@ sed -i '32 s/.*/PKG_BUILD_DEPENDS:=rust\/host/g' package/diy/smartdns/Makefile
 sed -i '34i \endif' package/diy/smartdns/Makefile
 
 ## update to the newest
-SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
-SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
-echo smartdns v$SMARTDNS_VER sha=$SMAERTDNS_SHA
+# SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
+# SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
+# echo smartdns v$SMARTDNS_VER sha=$SMAERTDNS_SHA
 
-sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile
-sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/diy/smartdns/Makefile
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile
-sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile
+# sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile
+# sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/diy/smartdns/Makefile
+# # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile
+# sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile
 
 ## add anti-ad data
 mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns || echo "Failed to create /luci-app-smartdns/root/etc/smartdns"
@@ -489,15 +489,21 @@ else
 fi
 
 sleep 1
-## add hululu1068 / anti-ad 广告smartdns规则
-# urlreject="https://anti-ad.net/anti-ad-for-smartdns.conf"
-urlreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/smart-dns.conf"
-curl -sL -m 30 --retry 2 "$urlreject" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitereject.conf
 ## add github hosts
 curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgithub.txt
 ## add githubhosts for smartdns
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgithub.conf
+## add hululu1068 / 217heidai/adblockfilters hosts规则
+# urlhostsreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockhostslite.txt"
+urlhostsreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/main/rule/hosts.txt"
+curl -sL -m 30 --retry 2 "$urlhostsreject" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsreject
+
+## add hululu1068 / 217heidai/adblockfilters smartdns规则
+urlreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksmartdnslite.conf"
+# urlreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/smart-dns.conf"
+curl -sL -m 30 --retry 2 "$urlreject" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitereject.conf
+
 ## add direct-domain-list
 # https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/direct-list.txt
 # urlcnlist="https://raw.githubusercontent.com/ixmu/smartdns-conf/main/direct-domain-list.conf"
