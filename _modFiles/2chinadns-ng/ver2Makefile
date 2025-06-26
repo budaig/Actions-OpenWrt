@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=chinadns-ng
-PKG_VERSION:=2025.03.27
+PKG_VERSION:=2025.06.20
 PKG_RELEASE:=1
 
 #ifeq ($(ARCH),aarch64)
@@ -9,7 +9,7 @@ PKG_RELEASE:=1
 #  PKG_HASH:=b2e53d1fdc5d65b5f2a1dc26428bf15b86d84f51748ff1970d58bf301f69d2c0
 ifeq ($(ARCH),aarch64)
   PKG_SOURCE_URL_FILE:=$(PKG_NAME)+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto
-  PKG_HASH:=2b3f77f1526da452c1884119dd01176a7964e0d3544b9fc624f67b2a7760613d
+  PKG_HASH:=224494b4505ac8dd347a70b298b853b677c0e247887d6edcf46b08bb153de017
 else ifeq ($(ARCH),arm)
   # Referred to golang/golang-values.mk
   ARM_CPU_FEATURES:=$(word 2,$(subst +,$(space),$(call qstrip,$(CONFIG_CPU_TYPE))))
