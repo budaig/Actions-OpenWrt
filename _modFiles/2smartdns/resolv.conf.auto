@@ -1,0 +1,11 @@
+#/etc/smartdns/resolv.conf.auto
+# Interface Modem
+nameserver 192.168.0.1
+# Interface wan
+nameserver 223.5.5.5
+nameserver 119.29.29.29
+nameserver 111.8.14.18
+nameserver 211.142.211.124
+# Interface wan_6
+nameserver 2409:8050:2000::1
+nameserver 2409:8050:2000:1000::1

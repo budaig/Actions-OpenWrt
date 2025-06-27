@@ -231,8 +231,8 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 
 
 # ##  -------------- Passwall ---------------------------
-# rm -rf feeds/luci/applications/luci-app-passwall
-# git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
+rm -rf feeds/luci/applications/luci-app-passwall
+git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
 
 # ##  -------------- Passwall2 ---------------------------
 # rm -rf feeds/luci/applications/luci-app-passwall2
@@ -313,6 +313,7 @@ rm -rf package/diy/v2raya/v2fly-geodata
 rm -rf package/diy/v2raya/xray-core
 
 ## customize ca ver
+rm -rf package/system/ca-certificates
 # caver=20241223
 # casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
 # echo ca-certificates v$caver sha256=$casha256
@@ -487,6 +488,13 @@ if [ $? -eq 0 ]; then
     echo "blockADcooka copied"
 else
     echo "blockADcooka copy failed"
+fi
+
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/resolv.conf.auto package/diy/luci-app-smartdns/root/etc/smartdns/resolv.conf.auto
+if [ $? -eq 0 ]; then
+    echo "resolv.conf.auto copied"
+else
+    echo "resolv.conf.auto copy failed"
 fi
 
 sleep 1
