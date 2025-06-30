@@ -1,0 +1,95 @@
+##HOSTS广告屏蔽smartdns：
+#酷开创维
+#api.app.skysrt.com
+#api.upgrade.skysrt.com
+#update01.skyworth-cloud.com
+#update01.skyworth-cloud.com.wswebpic.com
+#api-upgrade.coocaa.wasu.tv
+#apk.sky.fs.skysrt.com
+#api.device.skysrt.com
+127.0.0.1      log.skysrt.com
+127.0.0.1      push.skysrt.com
+127.0.0.1      hoisin.coocaatv.com
+127.0.0.1      res.hoisin.coocaatv.com
+127.0.0.1      pfg.coocaa.wasu.tv127.0.0.1      data-hoisin.coocaa.wasu.tv
+127.0.0.1      umengacs.m.taobao.com127.0.0.1      amdcopen.m.taobao.com
+127.0.0.1      irs01.com
+127.0.0.1      s.jpush.cn
+127.0.0.1      alog.umeng.com
+127.0.0.1      uop.umeng.com
+127.0.0.1      sis.jpush.io
+127.0.0.1      p.tencentmind.com
+127.0.0.1      tracker.appadhoc.com
+127.0.0.1      admaster.com.cn
+127.0.0.1      vqq.admaster.com.cn
+127.0.0.1      taps.net
+127.0.0.1      stats.jpush.cn
+127.0.0.1      miaozhen.com
+127.0.0.1      ad.3.cn
+127.0.0.1      pl.cp31.OTT.cibntv.net
+127.0.0.1      v-play.coocaa.wasu.tv
+127.0.0.1      193.112.97.61
+127.0.0.1      175.178.207.92
+#优酷
+127.0.0.1    atm.youku.com
+127.0.0.1    Fvid.atm.youku.com
+127.0.0.1    html.atm.youku.com
+127.0.0.1    valb.atm.youku.com
+127.0.0.1    valf.atm.youku.com
+127.0.0.1    valo.atm.youku.com
+127.0.0.1    valp.atm.youku.com
+127.0.0.1    lstat.youku.com
+127.0.0.1    speed.Istat.youku.com
+127.0.0.1    urchin.Istat.youku.com
+127.0.0.1    stat.youku.com
+127.0.0.1    static.lstat.youku.com
+127.0.0.1    valc.atm.youku.com
+127.0.0.1    vid.atm.youku.com
+127.0.0.1    walp.atm.youku.com
+#爱奇艺
+127.0.0.1    afp.qiyi.com
+127.0.0.1    focusbaiduafp.allyes.com
+127.0.0.1    api.cupid.iqiyi
+127.0.0.1    msg.71.am
+127.0.0.1    msga.71.am
+127.0.0.1    afp.qiyi
+127.0.0.1    msg.video.qiyi
+127.0.0.1    msg2.video.qiyi
+127.0.0.1    track.cupid.qiyi
+127.0.0.1    a.ckm.iqiyi
+127.0.0.1    ad.m.iqiyi
+127.0.0.1    c.uaa.iqiyi
+127.0.0.1    cloudpush.iqiyi
+127.0.0.1    cmts.iqiyi
+127.0.0.1    data.store.iqiyi
+127.0.0.1    feedback.iqiyi
+127.0.0.1    l.rcd.iqiyi
+127.0.0.1    mbdapp.iqiyi
+127.0.0.1    mbdlog.iqiyi
+127.0.0.1    mixer.cupid.iqiyi
+127.0.0.1    msg.iqiyi
+127.0.0.1    nl.rcd.iqiyi
+127.0.0.1    store.iqiyi
+#腾讯视频
+127.0.0.1    adslvfile.qq.com
+127.0.0.1    adsfile.qq.com
+127.0.0.1    play.qq.com
+127.0.0.1    adslvfile.qq.com
+127.0.0.1    tj.video.qq.com
+127.0.0.1    vv.video.qq.com
+127.0.0.1    livep.l.qq.com
+127.0.0.1    rcgi.video.qq.com
+127.0.0.1    aid.video.qq.com
+127.0.0.1    pinghot.qq.com
+127.0.0.1    54kfqq.com
+127.0.0.1    qqbm.zhuiying.net
+127.0.0.1    qqbmad.mycode8.net
+127.0.0.1    vhotlxp.video.qq.com
+127.0.0.1    livem.l.qq.com
+#CNTV
+127.0.0.1    a.cctv.com
+127.0.0.1    a.cntv.cn
+127.0.0.1    ad.cctv.com
+127.0.0.1    d.cntv.cn
+127.0.0.1    adguanggao.eee114.com
+127.0.0.1    cctv.adsunion.com
