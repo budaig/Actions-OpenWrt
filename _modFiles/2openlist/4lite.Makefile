@@ -14,7 +14,7 @@ PKG_RELEASE:=1
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-lite.tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$(PKG_VERSION)?
 PKG_HASH:=c510e31d00868774b52429897c39789547756bbea76c501e2bcfbff1f4dc70b8
-PKG_BUILD_DIR:=$(BUILD_DIR)/OpenList-$(PKG_VERSION)
+PKG_BUILD_DIR:=$(BUILD_DIR)/OpenList-$(PKG_VERSION)-lite
 
 PKG_LICENSE:=GPL-3.0
 PKG_LICENSE_FILE:=LICENSE
@@ -37,8 +37,8 @@ GO_PKG_LDFLAGS:= \
 	-X '$(GO_PKG)/internal/conf.GoVersion=$(shell $(STAGING_DIR_HOSTPKG)/bin/go version | sed 's/go version //')' \
 	-X '$(GO_PKG)/internal/conf.GitAuthor=The OpenList Projects Contributors <noreply@openlist.team>' \
 	-X '$(GO_PKG)/internal/conf.GitCommit=tarball/$(shell echo $(PKG_HASH) | cut -c 1-7)' \
-	-X '$(GO_PKG)/internal/conf.Version=v$(PKG_VERSION) (OpenWrt $(ARCH_PACKAGES))' \
-	-X '$(GO_PKG)/internal/conf.WebVersion=v$(PKG_WEB_VERSION)'
+	-X '$(GO_PKG)/internal/conf.Version=v$(PKG_VERSION)-lite (OpenWrt $(ARCH_PACKAGES))' \
+	-X '$(GO_PKG)/internal/conf.WebVersion=v$(PKG_WEB_VERSION)-lite'
 ifneq ($(CONFIG_ARCH_64BIT),y)
   GO_PKG_EXCLUDES:=drivers/lark
 endif
