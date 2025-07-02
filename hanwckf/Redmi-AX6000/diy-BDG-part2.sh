@@ -88,13 +88,13 @@ git clone https://github.com/sbwml/luci-app-openlist -b main package/diy/openlis
 
 ## ------------------- A. customize openlist & frontend ver
 # sleep 1
-# olver=4.0.5
-# olsha256=($(curl -sL https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$olver | shasum -a 256))
-# echo openlist v$olver sha256=$olsha256
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$olver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$olsha256"'/g' package/diy/openlist/openlist/Makefile
+olver=4.0.7
+olsha256=($(curl -sL https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$olver | shasum -a 256))
+echo openlist v$olver sha256=$olsha256
+sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$olver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$olsha256"'/g' package/diy/openlist/openlist/Makefile
 
 # curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v4.0.2/openlist-frontend-dist-v4.0.2.tar.gz | shasum -a 256
-# olfrontendver=4.0.5
+# olfrontendver=4.0.7
 # olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$olfrontendver/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256)) 
 # echo openlistfrontend v$olfrontendver sha256=$olfrontendsha256
 # sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;27 s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
