@@ -79,12 +79,12 @@ git clone https://github.com/sbwml/luci-app-openlist -b main package/diy/openlis
 # 返回 Yes 表示支持，返回 No 表示不支持。
 
 ## ------------------- X. Lite openlist & frontend ver
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2openlist/4lite.Makefile package/diy/openlist/openlist/Makefile
-if [ $? -eq 0 ]; then
-    echo "4lite.Makefile copied"
-else
-    echo "4lite.Makefile copy failed"
-fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2openlist/4lite.Makefile package/diy/openlist/openlist/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "4lite.Makefile copied"
+# else
+    # echo "4lite.Makefile copy failed"
+# fi
 
 ## ------------------- A. customize openlist & frontend ver
 # sleep 1
