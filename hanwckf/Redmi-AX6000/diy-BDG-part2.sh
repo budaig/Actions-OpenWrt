@@ -462,7 +462,7 @@ sed -i '31 s/.*/ifneq ($(CONFIG_PACKAGE_smartdns-ui),)/g' package/diy/smartdns/M
 sed -i '32 s/.*/PKG_BUILD_DEPENDS:=rust\/host/g' package/diy/smartdns/Makefile
 sed -i '34i \endif' package/diy/smartdns/Makefile
 
-sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile
+# sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile
 
 ## update to the newest
 # SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
