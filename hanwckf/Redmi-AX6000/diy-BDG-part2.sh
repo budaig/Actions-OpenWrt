@@ -72,7 +72,8 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 # ## -------------- openlist ---------------------------
 rm -rf feeds/packages/net/openlist
 rm -rf feeds/luci/applications/luci-app-openlist
-git clone https://github.com/sbwml/luci-app-openlist -b main package/diy/openlist
+git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/openlist
+# git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
 # or git clone https://github.com/sbwml/luci-app-openlist -b dev package/diy/openlist
 # 终端命令（TTYD）执行命令：
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
