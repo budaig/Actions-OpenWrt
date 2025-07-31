@@ -80,16 +80,16 @@ git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/o
 # 返回 Yes 表示支持，返回 No 表示不支持。
 
 ## ------------------- X. Lite openlist & frontend ver
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2openlist/4lite.Makefile package/diy/openlist/openlist/Makefile
-# if [ $? -eq 0 ]; then
-    # echo "4lite.Makefile copied"
-# else
-    # echo "4lite.Makefile copy failed"
-# fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2openlist/4ollite.Makefile package/diy/openlist/openlist/Makefile
+if [ $? -eq 0 ]; then
+    echo "4ollite.Makefile copied"
+else
+    echo "4ollite.Makefile copy failed"
+fi
 
 ## ------------------- A. customize openlist & frontend ver
 # sleep 1
-# olver=4.0.8
+# olver=4.0.9-lite
 # olsha256=($(curl -sL https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$olver | shasum -a 256))
 # echo openlist v$olver sha256=$olsha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$olver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$olsha256"'/g' package/diy/openlist/openlist/Makefile
