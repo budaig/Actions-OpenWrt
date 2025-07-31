@@ -80,22 +80,22 @@ git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/o
 # 返回 Yes 表示支持，返回 No 表示不支持。
 
 ## ------------------- X. Lite openlist & frontend ver
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2openlist/4ollite.Makefile package/diy/openlist/openlist/Makefile
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2openlist/4ol.Makefile package/diy/openlist/openlist/Makefile
 if [ $? -eq 0 ]; then
-    echo "4ollite.Makefile copied"
+    echo "4ol.Makefile copied"
 else
-    echo "4ollite.Makefile copy failed"
+    echo "4ol.Makefile copy failed"
 fi
 
 ## ------------------- A. customize openlist & frontend ver
 # sleep 1
-# olver=4.0.9-lite
+# olver=4.0.9
 # olsha256=($(curl -sL https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$olver | shasum -a 256))
 # echo openlist v$olver sha256=$olsha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$olver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$olsha256"'/g' package/diy/openlist/openlist/Makefile
 
 # curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v4.0.2/openlist-frontend-dist-v4.0.2.tar.gz | shasum -a 256
-# olfrontendver=4.0.7
+# olfrontendver=4.0.9
 # olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$olfrontendver/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256)) 
 # echo openlistfrontend v$olfrontendver sha256=$olfrontendsha256
 # sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;27 s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
