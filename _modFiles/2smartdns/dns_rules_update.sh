@@ -22,7 +22,7 @@ download_files() {
     urlchnroute6list="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute6.txt"
     curl -sL -m 30 --retry 2 "$urlchnroute6list" -o /etc/chinadns-ng/chnroute6.txt
     ##adrules hosts list
-    # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@main/rule/hosts.txt -o /etc/smartdns/hostsreject.txt
+    curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@main/rule/hosts.txt -o /etc/smartdns/hostsreject.txt
     ##github hosts
     curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o /etc/smartdns/hostsgithub.txt
     ##github hosts for smartdns

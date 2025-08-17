@@ -357,20 +357,20 @@ rm -rf package/system/ca-certificates
 
 
 # ## -------------- chinadns-ng   wolfssl_noasm 是没有硬件加速指令的版本---------------------------
-rm -rf feeds/packages/net/chinadns-ng   #(241212  openwrt21.02 PKG_VERSION:=2023.10.28; openwrt23.05 PKG_VERSION:=2024.10.14; openwrt24.10 PKG_VERSION:=2024.10.14)
+rm -rf feeds/packages/net/chinadns-ng   #(250809  openwrt21.02 PKG_VERSION:=2023.10.28; openwrt23.05 PKG_VERSION:=2025.06.20; openwrt24.10 PKG_VERSION:=2025.06.20)
 rm -rf feeds/luci/applications/luci-app-chinadns-ng
 
-# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241216 PKG_VERSION:=2023.06.05)
-git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241216 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
+# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(250809 PKG_VERSION:=2023.06.05)
+git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(250809 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
 # # # chng_ver=2024.11.17
 # # # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl_noasm@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
-# chng_ver=2025.06.20
+# chng_ver=2025.08.09
 # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
 # echo chinadns-ng v$chng_ver sha256=$chng_SHA256
 # sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA256"'/g' package/diy/chinadns-ng/Makefile
 
-# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(250327 PKG_VERSION:=2024.12.22   241216 PKG_VERSION:=2024.11.17   241119 PKG_VERSION:=2024.10.14)
-# git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241216 PKG_VERSION:=2024.10.14)
+# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(250809 PKG_VERSION:=2024.12.22   241216 PKG_VERSION:=2024.11.17   241119 PKG_VERSION:=2024.10.14)
+# git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(250809 PKG_VERSION:=2024.10.14)
 
 # op1 start: custom install chinadns-ng bin for chinadns-dn and xray bin for paswal
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/ver2Makefile package/diy/chinadns-ng/Makefile
@@ -521,7 +521,7 @@ curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc
 ## add hululu1068 / 217heidai/adblockfilters hosts规则
 # urlhostsreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockhostslite.txt"
 urlhostsreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/main/rule/hosts.txt"
-curl -sL -m 30 --retry 2 "$urlhostsreject" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsreject
+curl -sL -m 30 --retry 2 "$urlhostsreject" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsreject.txt
 
 ## add hululu1068 / 217heidai/adblockfilters smartdns规则
 urlreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksmartdnslite.conf"
