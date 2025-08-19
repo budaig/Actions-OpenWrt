@@ -21,8 +21,16 @@ download_files() {
     curl -sL -m 30 --retry 2 "$urlchnroutelist" -o /etc/chinadns-ng/chnroute.txt
     urlchnroute6list="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute6.txt"
     curl -sL -m 30 --retry 2 "$urlchnroute6list" -o /etc/chinadns-ng/chnroute6.txt
+
     ##adrules hosts list
     curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@main/rule/hosts.txt -o /etc/smartdns/hostsreject.txt
+    ##10007 adblock hosts list
+    # curl -sL -m 30 --retry 2 https://raw.gitmirror.com/lingeringsound/10007/main/all -o /etc/smartdns/hostsreject.txt
+    # curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/lingeringsound/10007/main/all -o /etc/smartdns/hostsreject.txt
+    ##217heidai adblock hosts list
+    # curl -sL -m 30 --retry 2 https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockhosts.txt -o /etc/smartdns/hostsreject.txt
+    # curl -sL -m 30 --retry 2 https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockhostslite.txt -o /etc/smartdns/hostsreject.txt
+
     ##github hosts
     curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o /etc/smartdns/hostsgithub.txt
     ##github hosts for smartdns
