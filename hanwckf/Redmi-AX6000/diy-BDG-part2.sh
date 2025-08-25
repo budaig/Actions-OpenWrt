@@ -69,6 +69,13 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 # ## ---------------------------------------------------------
 
 
+# ## -------------- VNT ---------------------------
+rm -rf feeds/packages/net/vnt
+rm -rf feeds/luci/applications/luci-app-vnt
+git clone https://github.com/lmq8267/luci-app-vnt -b main package/diy/vnt
+# ## ---------------------------------------------------------
+
+
 # ## -------------- openlist ---------------------------
 rm -rf feeds/packages/net/openlist
 rm -rf feeds/luci/applications/luci-app-openlist
@@ -505,12 +512,12 @@ fi
     # echo "blockADcooka copy failed"
 # fi
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/resolv.conf.auto package/diy/luci-app-smartdns/root/etc/smartdns/resolv.conf.auto
-if [ $? -eq 0 ]; then
-    echo "resolv.conf.auto copied"
-else
-    echo "resolv.conf.auto copy failed"
-fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/resolv.conf.auto package/diy/luci-app-smartdns/root/etc/smartdns/resolv.conf.auto
+# if [ $? -eq 0 ]; then
+    # echo "resolv.conf.auto copied"
+# else
+    # echo "resolv.conf.auto copy failed"
+# fi
 
 sleep 1
 ## add github hosts
@@ -519,8 +526,8 @@ curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o package/diy/luci-a
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgithub.conf
 ## add hululu1068 / 217heidai/adblockfilters hosts规则
-# urlhostsreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockhostslite.txt"
-urlhostsreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/main/rule/hosts.txt"
+urlhostsreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockhosts.txt"
+# urlhostsreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/main/rule/hosts.txt"
 curl -sL -m 30 --retry 2 "$urlhostsreject" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsreject.txt
 
 ## add hululu1068 / 217heidai/adblockfilters smartdns规则

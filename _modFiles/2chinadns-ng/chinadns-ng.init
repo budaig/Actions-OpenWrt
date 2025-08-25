@@ -4,7 +4,9 @@ START=95
 USE_PROCD=1
 PROG=/usr/bin/chinadns-ng
 defconf=/etc/chinadns-ng/defconfig.conf
-cusconf=/etc/chinadns-ng/cusconfig.conf
+cusconf=/etc/chinadns-ng/configgfwlist.conf
+#cusconf=/etc/chinadns-ng/configchnlist.conf
+#cusconf=/etc/chinadns-ng/configchnroute.conf
 
 start_service(){
          procd_open_instance [chinadns-ng]
@@ -14,7 +16,7 @@ start_service(){
          procd_set_param respawn ${respawn_threshold:-3600} ${respawn_timeout:-5} ${respawn_retry:-5}
 
          procd_set_param limits core="unlimited"  # If you need to set ulimit for your process
-         procd_set_param file /etc/chinadns-ng/config.conf # /etc/init.d/your_service reload will restart the daemon if these files have changed
+         procd_set_param file $cusconf # /etc/init.d/your_service reload will restart the daemon if these files have changed
          procd_set_param stdout 1 # forward stdout of the command to logd
          procd_set_param stderr 1 # same for stderr
          procd_set_param user nobody # run service as user nobody
