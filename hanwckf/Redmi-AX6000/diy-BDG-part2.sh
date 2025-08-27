@@ -512,12 +512,12 @@ fi
     # echo "blockADcooka copy failed"
 # fi
 
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/resolv.conf.auto package/diy/luci-app-smartdns/root/etc/smartdns/resolv.conf.auto
-# if [ $? -eq 0 ]; then
-    # echo "resolv.conf.auto copied"
-# else
-    # echo "resolv.conf.auto copy failed"
-# fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/resolv.conf.auto package/diy/luci-app-smartdns/root/etc/smartdns/resolv.conf.auto
+if [ $? -eq 0 ]; then
+    echo "resolv.conf.auto copied"
+else
+    echo "resolv.conf.auto copy failed"
+fi
 
 sleep 1
 ## add github hosts
