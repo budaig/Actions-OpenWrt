@@ -54,7 +54,7 @@ done
 # ## update golang 20.x to 24.x
 # nl feeds/packages/lang/golang/golang/Makefile   #21.02 org ver1.19
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 24.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 25.x feeds/packages/lang/golang
 
 
 # ## -------------- adguardhome ---------------------------
