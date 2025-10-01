@@ -456,11 +456,11 @@ git clone https://github.com/pymumu/luci-app-smartdns -b master package/diy/luci
 
 ## do not compile smartdns-ui
 # 1. clone mod makefile
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/openwrtsmartdns46.Makefile package/diy/smartdns/Makefile
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/openwrtsmartdns47.Makefile package/diy/smartdns/Makefile
 # if [ $? -eq 0 ]; then
-    # echo "openwrtsmartdns46.Makefile copied"
+    # echo "openwrtsmartdns47.Makefile copied"
 # else
-    # echo "openwrtsmartdns46.Makefile copy failed"
+    # echo "openwrtsmartdns47.Makefile copy failed"
 # fi
 
 # 2. mod Openwrt-smartdns makefile   -  prefer 2.
