@@ -5,7 +5,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=lucky
 PKG_VERSION:=2.20.2
-PKG_VERSION_OLD:=2.19.5   #2.15.10
+PKG_VERSION_OLD:=2.19.5
 PKG_RELEASE:=1
 PKGARCH:=all
 LUCKY_CONF_DIR := /etc/config/lucky.daji
@@ -86,7 +86,10 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/etc/init.d/
 	$(INSTALL_DIR) $(1)/etc/config/
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/lucky $(1)/usr/bin/lucky
-	$(INSTALL_BIN) ./files/lucky $(1)/usr/bin   # use this when replace build bin with cus bin
+
+	# use this when replace build bin with cus bin
+	$(INSTALL_BIN) ./files/lucky $(1)/usr/bin
+
 	$(INSTALL_BIN) ./files/lucky.init $(1)/etc/init.d/lucky
 	$(INSTALL_CONF) $(CURDIR)/files/luckyuci $(1)/etc/config/lucky
 endef
