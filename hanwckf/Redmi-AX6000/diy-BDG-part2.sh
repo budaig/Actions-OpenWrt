@@ -161,19 +161,19 @@ else
     echo "luci-app-lucky.json copy failed"
 fi
 
-# ## use custom binary ver 2.17.3
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
-# if [ $? -eq 0 ]; then
-    # echo "luckyMakefile copied"
-# else
-    # echo "luckyMakefile copy failed"
-# fi
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/lucky package/diy/lucky/lucky/files/lucky
-# if [ $? -eq 0 ]; then
-    # echo "lucky bin copied"
-# else
-    # echo "lucky bin copy failed"
-# fi
+# ## use custom binary ver 2.20.2
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
+if [ $? -eq 0 ]; then
+    echo "luckyMakefile copied"
+else
+    echo "luckyMakefile copy failed"
+fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/lucky package/diy/lucky/lucky/files/lucky
+if [ $? -eq 0 ]; then
+    echo "lucky bin copied"
+else
+    echo "lucky bin copy failed"
+fi
 
 #-- #/etc/lucky/lucky.conf   #@go1.22
 # git clone https://github.com/sirpdboy/luci-app-lucky.git -b main package/diy/lucky
@@ -337,7 +337,7 @@ rm -rf package/system/ca-certificates
 
 ## customize v2raya ver
 # sleep 1
-# v2aver=2.2.7.1
+# v2aver=2.2.7.4
 # v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # echo v2raya v$v2aver sha256=$v2asha256
@@ -472,8 +472,12 @@ sed -i '34i \endif' package/diy/smartdns/Makefile
 # sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-smartdns/Makefile
 
 ## update to the newest
-SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
-SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
+# SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
+# SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
+# echo smartdns v$SMARTDNS_VER sha=$SMAERTDNS_SHA
+
+SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq '.[0].commit.committer.date' | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
+SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq ‘.[0].sha’ | sed 's/\"//g'`)
 echo smartdns v$SMARTDNS_VER sha=$SMAERTDNS_SHA
 
 sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile

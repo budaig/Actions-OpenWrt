@@ -4,8 +4,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=lucky
-PKG_VERSION:=2.17.3
-PKG_VERSION_OLD:=2.15.10
+PKG_VERSION:=2.20.2
+PKG_VERSION_OLD:=2.19.5   #2.15.10
 PKG_RELEASE:=1
 PKGARCH:=all
 LUCKY_CONF_DIR := /etc/config/lucky.daji
