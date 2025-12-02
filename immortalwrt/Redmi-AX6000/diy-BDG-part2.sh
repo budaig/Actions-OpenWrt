@@ -121,8 +121,6 @@ rm -rf feeds/luci/applications/luci-app-lucky
 # #/etc/config/lucky.daji/lucky.conf
 git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
 
-fi
-
 # ## use custom binary ver 2.20.2
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
 # if [ $? -eq 0 ]; then
