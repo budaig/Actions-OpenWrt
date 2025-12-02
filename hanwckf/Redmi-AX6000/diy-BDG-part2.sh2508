@@ -10,10 +10,6 @@
 # See /LICENSE for more information.
 #
 
-# ## TIME y "更换内核"
-#sed -i 's/KERNEL_PATCHVER:=5.4/KERNEL_PATCHVER:=4.19/g' ./target/linux/mediatek/Makefile
-#sed -i 's/KERNEL_TESTING_PATCHVER:=5.4/KERNEL_TESTING_PATCHVER:=4.19/g' ./target/linux/mediatek/Makefile
-#TIME y "更换内核结束"
 
 # ## Modify default IP
 # package/base-files/files/bin/config_generate
@@ -32,11 +28,6 @@ cat > package/base-files/files/etc/banner << EOF
  %D %V, %C
  -----------------------------------------------------
 EOF
-
-# pushd feeds/packages/net/xray-core/tools/po2lmo
-# make && sudo make install
-# popd
-# sleep 3
 
 del_data="
 package/feeds/luci/luci-app-passwall
@@ -70,22 +61,18 @@ git clone https://github.com/sbwml/packages_lang_golang -b 25.x feeds/packages/l
 rm -rf feeds/packages/net/adguardhome
 rm -rf feeds/luci/applications/luci-app-adguardhome
 git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/diy/adguardhome
-# mv package/diy/adguardhome/AdGuardHome feeds/packages/net/adguardhome
-# mv package/diy/adguardhome/luci-app-adguardhome feeds/luci/applications/luci-app-adguardhome
-
 # sleep 1
-# aghver=0.107.52
+# aghver=0.107.61
 # aghsha256=($(curl -sL https://github.com/AdguardTeam/AdGuardHome/releases/download/v$aghver/AdGuardHome_linux_arm64.tar.gz | shasum -a 256))
 # echo adguardhome $aghver sha256=$aghsha256
 # sed -i '10 s/.*/PKG_VERSION:='"$aghver"'/g;17 s/.*/PKG_MIRROR_HASH:='"$aghsha256"'/g' package/diy/adguardhome/AdguardHome/Makefile
+# ## ---------------------------------------------------------
 
-# # mkdir -p package/diy/adguardhome/etc/config/adGuardConfig || echo "Failed to create /adguardhome/etc/config/adGuardConfig"
-# # curl -sL -m 30 --retry 2 https://github.com/AdguardTeam/AdGuardHome/releases/latest/download/AdGuardHome_linux_arm64.tar.gz -o /tmp/AdGuardHome_linux_arm64.tar.gz && tar -xzf /tmp/AdGuardHome_linux_arm64.tar.gz -C /tmp && mv /tmp/AdGuardHome/AdGuardHome package/diy/adguardhome/etc/config/adGuardConfig/AdGuardHome
 
-##
-# git clone https://github.com/oppen321/luci-app-adguardhome -b main package/diy/luci-adguardhome
-# git clone https://github.com/kongfl888/luci-app-adguardhome -b master package/diy/luci-adguardhome
-
+# ## -------------- VNT ---------------------------
+rm -rf feeds/packages/net/vnt
+rm -rf feeds/luci/applications/luci-app-vnt
+git clone https://github.com/lmq8267/luci-app-vnt -b main package/diy/vnt
 # ## ---------------------------------------------------------
 
 
@@ -97,20 +84,62 @@ git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openli
 # 终端命令（TTYD）执行命令：
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
 # 返回 Yes 表示支持，返回 No 表示不支持。
-# ## ---------------------------------------------------------
 
-# ## -------------- ikoolproxy ---------------------------
-# git clone -b main https://github.com/ilxp/luci-app-ikoolproxy.git package/diy/luci-app-ikoolproxy
-## add video rule
+## ------------------- X. Lite openlist & frontend ver
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2openlist/4ol.Makefile package/diy/openlist/openlist/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "4ol.Makefile copied"
+# else
+    # echo "4ol.Makefile copy failed"
+# fi
+
+## ------------------- A. customize openlist & frontend ver
 # sleep 1
-# sed -i 's/-traditional -aes256/-aes256/g' package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/gen_ca.sh
-# curl -sL -m 30 --retry 2 https://gitlab.com/budaig/budaig.gitlab.io/-/raw/source/source/foto/kpupdate -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/kpupdate
-# urlkp="https://cdn.jsdelivr.net/gh/ilxp/koolproxy@main/rules/koolproxy.txt"
-# curl -sL -m 30 --retry 2 "$urlkp" -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/koolproxy.txt >/dev/null 2>&1
-# urldl="https://cdn.jsdelivr.net/gh/ilxp/koolproxy@main/rules/daily.txt"
-# curl -sL -m 30 --retry 2 "$urldl" -o package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/daily.txt >/dev/null 2>&1
-# curl -sL -m 30 --retry 2 "$urlkpdat" -o /tmp/kp.dat
-# mv /tmp/kp.dat package/diy/luci-app-ikoolproxy/root/usr/share/koolproxy/data/rules/kp.dat >/dev/null 2>&1
+# olver=4.1.0
+# olsha256=($(curl -sL https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$olver | shasum -a 256))
+# echo openlist v$olver sha256=$olsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$olver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$olsha256"'/g' package/diy/openlist/openlist/Makefile
+
+# curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v4.0.2/openlist-frontend-dist-v4.0.2.tar.gz | shasum -a 256
+# olfrontendver=4.1.0
+# olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$olfrontendver/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256)) 
+# echo openlistfrontend v$olfrontendver sha256=$olfrontendsha256
+# sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;27 s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
+
+## ------------------- B.  use latest openlist commit to build - 4rc4ol.Makefile https://github.com/sbwml/luci-app-openlist/commit/0d089dffcedeba5371a606fc460b9c28b9f9c84e
+
+# OpenList_date=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/OpenList/commits | jq .[0].commit.committer.date | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
+# OpenList_SHA=$(echo -n `curl -sL https://api.github.com/repos/OpenListTeam/OpenList/commits | jq .[0].sha | sed 's/\"//g'`)
+# echo openlist $OpenList_date sha="$OpenList_SHA"
+
+# #--olfrontend ver tag: Pre-release
+# olfrontendver=4.0.0-dce2182
+# olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/rolling/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256))
+# echo openlist-frontend $olfrontendver sha256="$olfrontendsha256"
+
+# sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g;s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g;s/PKG_MIRROR_HASH.*/PKG_MIRROR_HASH:=skip/g;s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g;s/download\/v$(PKG_WEB_VERSION)/download\/rolling/g' package/diy/openlist/openlist/Makefile
+
+#--olfrontend ver tag: Release - 4rc4ol.Makefile https://github.com/sbwml/luci-app-openlist/commit/0d089dffcedeba5371a606fc460b9c28b9f9c84e
+# olfrontendver=4.0.0-rc.4
+# olfrontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$olfrontendver/openlist-frontend-dist-v$olfrontendver.tar.gz | shasum -a 256))
+# echo openlist-frontend $olfrontendver sha256="$olfrontendsha256"
+
+# sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$olfrontendver"'/g;s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:='"$OpenList_date"'/g;s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$OpenList_SHA"'/g;s/PKG_MIRROR_HASH.*/PKG_MIRROR_HASH:=skip/g;s/  HASH:=.*/  HASH:='"$olfrontendsha256"'/g' package/diy/openlist/openlist/Makefile
+
+## -------------------. del flash *.swf file preview dir ruffle
+# sed -i '83 i \	$(RM) -rf $(PKG_BUILD_DIR)/public/dist/static/ruffle' package/diy/openlist/openlist/Makefile
+
+# or
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2openlist/4mod.Makefile package/diy/openlist/openlist/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "4mod.Makefile copied"
+# else
+    # echo "4mod.Makefile copy failed"
+# fi
+
+## ------------------- 
+
+# cat package/diy/openlist/openlist/Makefile
 # ## ---------------------------------------------------------
 
 
@@ -118,9 +147,18 @@ git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openli
 rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 
-# #/etc/config/lucky.daji/lucky.conf
-git clone https://github.com/gdy666/luci-app-lucky.git -b main package/diy/lucky
+#-- #/etc/config/lucky.daji/lucky.conf
+# git clone -b v2.17.8 --single-branch https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
+git clone -b main https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
+sleep 1
 
+## fix 21.02 loading webpage error
+# # sed -i 's/admin\/services\/lucky/admin\/services\/lucky\/setting/g' package/diy/lucky/luci-app-lucky/root/usr/share/luci/menu.d/luci-app-lucky.json 
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luci-app-lucky.json package/diy/lucky/luci-app-lucky/root/usr/share/luci/menu.d/luci-app-lucky.json
+if [ $? -eq 0 ]; then
+    echo "luci-app-lucky.json copied"
+else
+    echo "luci-app-lucky.json copy failed"
 fi
 
 # ## use custom binary ver 2.20.2
@@ -171,13 +209,53 @@ rm -rf feeds/luci/applications/luci-app-appfilter
 rm -rf feeds/packages/net/open-app-filter
 git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/OpenAppFilter
 
-# ## add eqosplus   需要安装eqosplus主题
-# git clone -b main https://github.com/sirpdboy/luci-app-eqosplus package/diy/eqosplus 
 
 # ## add parentcontrol
 # git clone -b main https://github.com/sirpdboy/luci-app-parentcontrol package/diy/parentcontrol
 git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/parentcontrol
 # git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/diy/parentcontrol   #(已删)
+
+
+# ## add tailscale
+# git clone b main https://github.com/asvow/luci-app-tailscale package/diy/luci-app-tailscale
+
+
+# # ##  -------------- sing-box +  ---------------------------
+# git clone https://github.com/zaiyin/openwrt-luci-singbox -b main package/diy/luci-singbox   # not work
+# https://github.com/srk24/luci-app-sing-box
+# https://github.com/Vancltkin/luci-app-singbox-ui   for OpenWrt 23.05.5
+
+## mannual setup
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2singbox/sing-box package/diy/luci-singbox/luci-app-singbox/files/sing-box
+# if [ $? -eq 0 ]; then
+    # echo "sing-box copied"
+# else
+    # echo "sing-box copy failed"
+# fi
+
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2singbox/lucisingboxMakefile package/diy/luci-singbox/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "lucisingboxMakefile copied"
+# else
+    # echo "lucisingboxMakefile copy failed"
+# fi
+
+# # sed -i '28i \	$(INSTALL_BIN) ./files/sing-box $(1)/usr/bin/sing-box' package/diy/luci-singbox/Makefile
+## mannual setup
+# ## ---------------------------------------------------------
+
+
+# ##  -------------- Passwall ---------------------------
+rm -rf feeds/luci/applications/luci-app-passwall
+git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
+
+# ##  -------------- Passwall2 ---------------------------
+# rm -rf feeds/luci/applications/luci-app-passwall2
+# git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
+# # 使用 openwrt-xray 不需要 +xray-core +geoview +v2ray-geoip +v2ray-geosite
+# sed -i '/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/d'  package/diy/passwall2/luci-app-passwall2/Makefile
+# 使用 sing-box 需要 +geoview
+# sed -i 's/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/	+geoview/g' package/diy/passwall2/luci-app-passwall2/Makefile
 
 
 # ##  -------------- xray +  ---------------------------
@@ -197,21 +275,20 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
-## yicha xray xstatus luci for 22.03 and up---------------
-# git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
-# # disable auto start
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
-# if [ $? -eq 0 ]; then
-    # echo "xstatus.conf copied"
-# else
-    # echo "xstatus.conf copy failed"
-# fi
-# yicha xray xstatus ---------------
+git clone -b master https://github.com/rafmilecki/luci-app-xjay package/diy/luci-app-xjay
+
+# git clone -b main https://github.com/quanljh/luci-app-simple-xray package/diy/luci-app-simplexray
+# sed -i '3i PKG_NAME:=luci-app-simple-xray\nPKG_VERSION:=0.1\nPKG_RELEASE:=1' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
+
+## for OpenWrt 21.02.0 and later
+# git clone -b luci2 https://github.com/bi7prk/luci-app-xray.git package/diy/luci-app-xray   #for 21.02 and up
+
+# git clone https://github.com/honwen/luci-app-xray.git package/diy/luci-app-xray   #for openwrt 21.02 兼容SagerNet/v2ray-core
 
 ## or ttimasdf xray/service name xapp/ luci for 21.02 and up---------------
 # git clone https://github.com/ttimasdf/luci-app-xray -b master package/diy/luci-app-xapp   #for 19.07
 # git clone https://github.com/ttimasdf/luci-app-xray -b main package/diy/luci-app-xapp   #for 21.02 and up
-# git clone https://github.com/xiechangan123/luci-i18n-xray-zh-cn -b main package/diy/luci-i18n-xray-zh-cn
+
 # disable auto start
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxapp.conf package/diy/luci-app-xapp/root/etc/config/xapp
 # if [ $? -eq 0 ]; then
@@ -220,10 +297,12 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
     # echo "xapp.conf copy failed"
 # fi
 # ttimasdf xray xapp ---------------
+
 # ## ---------------------------------------------------------
 
+
 # ## -------------- v2raya ---------------------------
-# nl feeds/packages/net/v2raya/Makefile   #23.05 org ver2.2.5.7
+# nl feeds/packages/net/v2raya/Makefile   #21.02 org ver2.1.0
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
 
@@ -266,8 +345,9 @@ rm -rf package/system/ca-certificates
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile   #feeds/packages/net/v2raya/Makefile
 
 # fix mijia cloud wrong dns (use xraycore)-------
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2v2raya/v2raya.init feeds/packages/net/v2raya/files/v2raya.init
-# #package/diy/v2raya/v2raya/files/v2raya.init   #
+# rm feeds/packages/net/v2raya/files/v2raya.init || echo "feeds/packages/net/v2raya/files/v2raya.init"
+# rm package/diy/v2raya/v2raya/files/v2raya.init || echo "package/diy/v2raya/v2raya/files/v2raya.init"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2v2raya/v2raya.init package/diy/v2raya/v2raya/files/v2raya.init
 # if [ $? -eq 0 ]; then
     # echo "v2raya.init copied"
 # else
@@ -282,113 +362,88 @@ rm -rf package/system/ca-certificates
 # fix mijia cloud ------------------------
 # ## ---------------------------------------------------------
 
-# ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
-git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/homeproxy #(241127 chinadns-ng PKG_VERSION:=2024.11.17 sing-box 1.10.2   immoralwrt23.05 chinadns-ng PKG_VERSION:=2024.10.14)
 
-rm -rf package/diy/homeproxy/luci-app-homeproxy
+# ## -------------- chinadns-ng   wolfssl_noasm 是没有硬件加速指令的版本---------------------------
+rm -rf feeds/packages/net/chinadns-ng   #(250809  openwrt21.02 PKG_VERSION:=2023.10.28; openwrt23.05 PKG_VERSION:=2025.06.20; openwrt24.10 PKG_VERSION:=2025.06.20)
+rm -rf feeds/luci/applications/luci-app-chinadns-ng
 
+# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(250809 PKG_VERSION:=2023.06.05)
+git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(250809 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
+# # # chng_ver=2024.11.17
+# # # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl_noasm@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
 # chng_ver=2025.08.09
 # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
-# # echo chinadns-ng v$chng_ver sha256=$chng_SHA256
-# sed -i '6 s/.*/PKG_VERSION:='"$chng_ver"'/g;12 s/.*/PKG_HASH:='"$chng_SHA256"'/g' package/diy/homeproxy/chinadns-ng/Makefile
 # echo chinadns-ng v$chng_ver sha256=$chng_SHA256
-# ## ---------------------------------------------------------
+# sed -i '4 s/.*/PKG_VERSION:='"$chng_ver"'/g;9 s/.*/PKG_SOURCE_VERSION:='"$chng_SHA256"'/g' package/diy/chinadns-ng/Makefile
 
-# ## -------------- chinadns-ng ---------------------------
-# rm -rf feeds/packages/net/chinadns-ng   #(241025 PKG_VERSION:=2023.10.28)
-# rm -rf feeds/luci/applications/luci-app-chinadns-ng 
+# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(250809 PKG_VERSION:=2024.12.22   241216 PKG_VERSION:=2024.11.17   241119 PKG_VERSION:=2024.10.14)
+# git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(250809 PKG_VERSION:=2024.10.14)
 
-# git clone https://github.com/izilzty/luci-app-chinadns-ng -b master package/diy/luci-app-chinadns-ng
-# git clone https://github.com/pexcn/openwrt-chinadns-ng -b luci package/diy/luci-app-chinadns-ng  #(241025 未适配 2.0 的新功能)
+# op1 start: custom install chinadns-ng bin for chinadns-dn and xray bin for paswal
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/ver2Makefile package/diy/chinadns-ng/Makefile
+if [ $? -eq 0 ]; then
+    echo "chinadns-ng.Makefile copied"
+else
+    echo "chinadns-ng.Makefile copy failed"
+fi
+# op1 end
 
-# git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(241025 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
+# op2 start: custom install chinadns-ng bin for chinadns-dn and sing-box bin for paswal
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/ver2Makefilewsingbox package/diy/chinadns-ng/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "chinadns-ng.Makefile copied"
+# else
+    # echo "chinadns-ng.Makefile copy failed"
+# fi
 
-# git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2023.06.05)
-# git clone https://github.com/xiechangan123/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2024.10.14)
-# git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(241025 PKG_VERSION:=2024.10.14)
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2singbox/sing-box package/diy/chinadns-ng/files/sing-box
+# if [ $? -eq 0 ]; then
+    # echo "sing-box copied"
+# else
+    # echo "sing-box copy failed"
+# fi
+# op2 end
 
-#cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/ver2Makefile package/diy/chinadns-ng/Makefile
-#if [ $? -eq 0 ]; then
-#    echo "chinadns-ng.Makefile copied"
-#else
-#    echo "chinadns-ng.Makefile copy failed"
-#fi
-#cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/chinadns-ng.init package/diy/chinadns-ng/files/chinadns-ng.init
-#if [ $? -eq 0 ]; then
-#    echo "chinadns-ng.init copied"
-#else
-#    echo "chinadns-ng.init copy failed"
-#fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/chinadns-ng.init package/diy/chinadns-ng/files/chinadns-ng.init
+# if [ $? -eq 0 ]; then
+    # echo "chinadns-ng.init copied"
+# else
+    # echo "chinadns-ng.init copy failed"
+# fi
+# chmod 644 package/diy/chinadns-ng/files/chinadns-ng.init
+
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconf.conf package/diy/chinadns-ng/files/defconfig.conf
+if [ $? -eq 0 ]; then
+    echo "chinadns-ng config.conf copied"
+else
+    echo "chinadns-ng config.conf copy failed"
+fi
+
+# 250526 remove
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconfig.conf package/diy/chinadns-ng/files/cusconfig.conf
+# if [ $? -eq 0 ]; then
+    # echo "chinadns-ng cusconfig.conf copied"
+# else
+    # echo "chinadns-ng cusconfig.conf copy failed"
+# fi
+
+## rv chnroute list
+rm package/diy/chinadns-ng/files/chnroute.txt
+rm package/diy/chinadns-ng/files/chnroute6.txt
+rm package/diy/chinadns-ng/files/chinalist.txt
+rm package/diy/chinadns-ng/files/gfwlist.txt
+
+urlchnroutelist="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute.txt"
+curl -sL -m 30 --retry 2 "$urlchnroutelist" -o package/diy/chinadns-ng/files/chnroute.txt
+urlchnroute6list="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute6.txt"
+curl -sL -m 30 --retry 2 "$urlchnroute6list" -o package/diy/chinadns-ng/files/chnroute6.txt
+
+# 250526 remove
+# rm package/diy/chinadns-ng/files/chinadns-ng.config
+# rm package/diy/chinadns-ng/files/chinadns-ng-daily.sh
 # rm package/diy/chinadns-ng/files/chinadns-ng.init
-#cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/etcchinadnsconfig.conf package/diy/chinadns-ng/files/config.conf
-#if [ $? -eq 0 ]; then
-#    echo "chinadns-ng config.conf copied"
-#else
-#    echo "chinadns-ng config.conf copy failed"
-#fi
 
-# ## ---------------------------------------------------------
-
-# ## -------------- mosdns ---------------------------
-# ls feeds/packages/net/mosdns
-# nl feeds/packages/net/mosdns/Makefile   #ver5.1.3
-rm -rf feeds/packages/net/v2ray-geodata
-rm -rf feeds/packages/net/mosdns
-rm -rf feeds/luci/applications/luci-app-mosdns
-## gitclone sbwml/luci-app-mosdns
-# 1. gitclone + mod makfile   -  prefer 1.
-
-# git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/diy/mosdns
-# sed -i '9 s/.*/LUCI_DEPENDS:=+mosdns +jsonfilter +curl +v2dat/g' package/diy/mosdns/luci-app-mosdns/Makefile
-# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
-
-# 2. clone mod dir
-
-# customize to use 5.3.x (TODO:531 include both https://github.com/sbwml/v2ray-geodata and https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
-# mkdir -p package/diy/mosdns
-# cp -rf ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns/
-# mv -f ${GITHUB_WORKSPACE}/_modFiles/mosdns533/* package/diy/mosdns/
-# if [ $? -eq 0 ]; then
-    # echo "mosdns dir copied"
-# else
-    # echo "mosdns dir copy failed"
-# fi
-# chmod +x package/diy/mosdns/luci-app-mosdns/root/usr/share/mosdns/mosdns.sh
-# chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
-# ls package/diy/mosdns
-
-# git clone https://github.com/sbwml/v2ray-geodata -b master package/diy/v2ray-geodata
-   #与 openwrt-xray geodat 相同
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2mosdns/mosdnsgeodataMakefile package/diy/v2ray-geodata/Makefile
-# if [ $? -eq 0 ]; then
-    # echo "mosdnsgeodataMakefile copied"
-# else
-    # echo "mosdnsgeodataMakefile copy failed"
-# fi
-## gitclone QiuSimons/openwrt-mos
-# 1. gitclone + mod makfile
-
-# git clone https://github.com/QiuSimons/openwrt-mos -b master package/diy/mosdns
-# rm -rf package/diy/mosdns/v2ray-geodata
-# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config.yaml
-# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_new.yaml
-# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v4.yaml
-# sed -i 's/START=99/START=78/g' package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
-# sed -i 's/share\/v2ray/share\/xray/g' package/diy/mosdns/dat/def_config_v5.yaml
-
-# 2. clone mod dir   -  prefer 2.
-# customize to use https://github.com/yichya/openwrt-xray-geodata-cut Makefile)
-
-# mkdir -p package/diy/mosdns
-
-# mv -f ${GITHUB_WORKSPACE}/_modFiles/openwrt-mos-241005/* package/diy/mosdns/
-# if [ $? -eq 0 ]; then
-    # echo "mosdns dir copied"
-# else
-    # echo "mosdns dir copy failed"
-# fi
-# chmod +x package/diy/mosdns/luci-app-mosdns/root/etc/init.d/mosdns
-# chmod +x package/diy/mosdns/
+# ls package/diy/chinadns-ng/files
 # ## ---------------------------------------------------------
 
 
@@ -523,23 +578,13 @@ curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc
 # 2305 需要0755权限
 # chmod +x package/diy/luci-app-smartdns/luci-app-smartdns/root/etc/init.d/xray
 
-## 借用 smartdns / mosdns 配置文件夹安装 nft 自启
-mkdir -p package/diy/luci-app-smartdns/root/etc/init.d || echo "Failed to create /luci-app-smartdns/root/etc/init.d"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2nft/nft package/diy/luci-app-smartdns/root/etc/init.d/nft
-if [ $? -eq 0 ]; then
-    echo "nft copied"
-else
-    echo "nft copy failed"
-fi
-chmod +x package/diy/luci-app-smartdns/root/etc/init.d/nft
-
-mkdir -p package/diy/luci-app-smartdns/root/etc/nftables.d || echo "Failed to create /luci-app-smartdns/root/etc/nftables.d"
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2nft/openwrt-nft-ruleset.conf package/diy/luci-app-smartdns/root/etc/nftables.d/openwrt-nft-ruleset.conf
-if [ $? -eq 0 ]; then
-    echo "openwrt-nft-ruleset copied"
-else
-    echo "openwrt-nft-ruleset copy failed"
-fi
+# mkdir -p package/diy/luci-app-smartdns/root/etc/xray || echo "Failed to create /luci-app-smartdns/root/etc/xray"
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/xraycorecfg.cst package/diy/luci-app-smartdns/root/etc/xray/xraycfg.json
+# if [ $? -eq 0 ]; then
+    # echo "xraycfg copied"
+# else
+    # echo "xraycfg copy failed"
+# fi
 
 # ## ---------------------------------------------------------
 
@@ -561,20 +606,3 @@ fi
 
 # ## Enable Cache
 # echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config
-
-# CONFIG_TARGET_mediatek_filogic_DEVICE_xiaomi_redmi-router-ax6000=y
-grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-cat DEVICE_NAME
-# xiaomi_redmi-router-ax6000
-
-grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
-cat TARGET_NAME
-# filogic
-
-# sleep 5
-
-# ls -al tmp/
-# ls -al tmp/info/
-
-# rm -rf tmp/info/.packageinfo*
-# ls -al tmp/info/
