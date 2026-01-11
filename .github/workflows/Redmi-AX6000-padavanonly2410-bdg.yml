@@ -11,7 +11,7 @@
 #
 
 ###############改名字##############
-name: Redmi-AX6000-OpenWrt
+name: Redmi-AX6000-padavanonly2410_bdg
 
 on:
   push:
@@ -19,53 +19,88 @@ on:
       - "*.*.*"
       # - "v*.*.*"
   repository_dispatch:
+  #schedule:
+  #  - cron: 30 22 * * *
   workflow_dispatch:
     inputs:
       ssh:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
-#  schedule:
-#    - cron: 0 16 * * *
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  issues: write
 
 env:
-  REPO_URL: https://github.com/openwrt/openwrt
-  REPO_BRANCH: openwrt-23.05
-  FEEDS_CONF: OpenWrt_feeds.conf.default
-  CONFIG_FILE: OpenWrt/Redmi-AX6000/BDG.config
-  DIY_P1_SH: OpenWrt/Redmi-AX6000/diy-BDG-part1.sh
-  DIY_P2_SH: OpenWrt/Redmi-AX6000/diy-BDG-part2.sh
+  REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-6.6
+  REPO_BRANCH: 2410
+  FEEDS_CONF: padavanonly2410/Redmi-AX6000/feeds.conf.default
+  CONFIG_FILE: padavanonly2410/Redmi-AX6000/BDG.config
+  DIY_P1_SH: padavanonly2410/Redmi-AX6000/diy-BDG-part1.sh
+  DIY_P2_SH: padavanonly2410/Redmi-AX6000/diy-BDG-part2.sh
   SSH_ACTIONS: false
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
   ###############改名字##############
-  OPENWRT_NAME: openwrt
+  OPENWRT_NAME: padavanonly2410_bdg
 
 jobs:
   build_firmware:
-    # runs-on: ubuntu-20.04
     runs-on: ubuntu-22.04
     # runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@main
+    - name: 检查项目分支
+      uses: actions/checkout@v5
       
-    - name: Check space usage
+    - name: 检查硬盘空间
       if: (!cancelled())
       run: df -hT
+
+    - name: 清理硬盘空间
+      uses: mkorje/free-disk-space-action@v1
+
+    # - name: Free Disk Space (Ubuntu)
+      # uses: thiagokokada/free-disk-space@main
+      # with:
+        # # this might remove tools that are actually needed, but is enabled by
+        # # default
+        # tool-cache: false
+        # # possible dangerous options since they delete whole directories that
+        # # are generally for third-party software or cache like /usr/local,
+        # # /opt, /var/cache, only use them if you know what you're doing
+        # usrmisc: true
+        # usrlocal: true
+        # opt: true
+        # varcache: false
+        # # this will run `du -h /* 2>/dev/null | sort -hr | head -n <N>` to show
+        # # the top N directories by size, it is mostly used by development/debug
+        # # and should not be used generally since it takes a while to calculate
+        # debug: false
 
     - name: 初始化编译环境
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+        sudo rm -rf "/usr/local/share/boost"
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
         sudo docker image prune --all --force
         sudo -E apt-get -qq update
-        sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
-        sudo -E apt-get -qq install rename
+        # 4 install dae
+        # sudo apt-get install -y clang-15 llvm-15 npm
+        # sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
+        sudo -E apt-get -qq install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libfuse-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool lrzsz mkisofs msmtp ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pyelftools python3-setuptools qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev libfuse-dev rename
+        sudo -E apt-get -qq install gettext   #po2lmo
+        # sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-2004)
+        #install lib32gcc1
+        # sudo -E apt-get -qq install libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5
+        # add libfuse
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
@@ -86,11 +121,12 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
 
-    - name: 更新 feeds
-      run: cd openwrt && ./scripts/feeds update -a
-
-    - name: 安装 feeds
-      run: cd openwrt && ./scripts/feeds install -a
+    - name: 更新 & 安装 feeds
+      run: |
+        cd openwrt
+        ./scripts/feeds update -a
+        # git clone -b master --single-branch https://github.com/immortalwrt/packages.git packages_master
+        ./scripts/feeds install -a
 
     - name: 加载config & DIY_P2_SH
       run: |
@@ -110,9 +146,6 @@ jobs:
       id: package
       run: |
         cd openwrt
-        # ./scripts/feeds update -i
-        # ./scripts/feeds update -a
-        # ./scripts/feeds install -a
         make defconfig
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
@@ -123,17 +156,26 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 V=s || make -j1
-        echo "status=success" >> $GITHUB_OUTPUT
-        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
+        make -j$(nproc) || make -j1 || make -j1 V=s
+        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
         [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
+        cat TARGET_NAME
+        echo $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
+        echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 查看磁盘使用情况
       if: (!cancelled())
       run: df -hT
+
+    #- name: 上传 bin 目录
+      #uses: actions/upload-artifact@main
+      #if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      #with:
+      #  name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+      #  path: openwrt/bin
 
     - name: 整理文件并重命名
       id: organize
@@ -144,13 +186,8 @@ jobs:
         rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
-
-    # - name: Upload bin directory
-      # uses: actions/upload-artifact@main
-      # if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
-      # with:
-        # name: OpenWrt_bin-${{ github.workflow }}-${{ env.DEVICE_NAME }}_${{ env.FILE_DATE }}
-        # path: openwrt/bin
+        echo $GITHUB_ENV
+        echo $GITHUB_OUTPUT
 
     - name: 上传固件到github
       uses: actions/upload-artifact@v4
@@ -168,7 +205,7 @@ jobs:
         touch release.txt
         echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
         echo "The default IP address is 192.168.XXX.1" >> release.txt
-        echo "## OpenWrt-23.05 uboot layout " >> release.txt
+        echo "## padavanonly-24.10 uboot layout " >> release.txt
         echo "------" >> release.txt
         useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
         echo "$useVersionInfo" >> release.txt
@@ -178,6 +215,8 @@ jobs:
 
     - name: 发布至release
       uses: softprops/action-gh-release@v2
+      # workaround for https://github.com/softprops/action-gh-release/issues/628
+      # uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -186,6 +225,12 @@ jobs:
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
+
+    # - name: Delete workflow runs
+      # uses: Mattraks/delete-workflow-runs@main
+      # with:
+        # retain_days: 0
+        # keep_minimum_runs: 8
 
     - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@master
