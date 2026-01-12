@@ -251,7 +251,7 @@ git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/pass
 
 # ##  -------------- Passwall2 ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall2
-# git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
+git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
 # 不安装 Haproxy
 sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy/d' package/diy/passwall2/luci-app-passwall2/Makefile
 # sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Hysteria/d' package/diy/passwall2/luci-app-passwall2/Makefile
