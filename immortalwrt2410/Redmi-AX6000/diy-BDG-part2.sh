@@ -165,6 +165,17 @@ git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/pass
 # ##  -------------- Passwall2 ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall2
 git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
+# 不安装 Haproxy
+sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Hysteria/d' package/diy/passwall2/luci-app-passwall2/Makefile
+sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
+sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
+sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Rust_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
+sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Rust_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
+sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Libev_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
+sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Libev_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
+sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Simple_Obfs/d' package/diy/passwall2/luci-app-passwall2/Makefile
+sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_SingBox/d' package/diy/passwall2/luci-app-passwall2/Makefile
 # 使用 openwrt-xray 不需要 +xray-core +geoview +v2ray-geoip +v2ray-geosite
 sed -i '/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/d'  package/diy/passwall2/luci-app-passwall2/Makefile
 # 使用 sing-box 需要 +geoview
