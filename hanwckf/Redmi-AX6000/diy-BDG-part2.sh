@@ -148,8 +148,11 @@ rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 
 #-- #/etc/config/lucky.daji/lucky.conf
-# git clone -b v2.17.8 --single-branch https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
-git clone -b main https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
+# To clone the latest tag, you can use a combination of git commands to sort and retrieve the latest tag name, then use it to clone:
+# git clone --branch $(git ls-remote --tags --sort="v:refname" https://github.com/example/repo.git | tail -n1 | sed 's/.*\///; s/\^{}//') --single-branch https://github.com/example/repo.git
+
+git clone -b v2.19.5 --single-branch https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
+# git clone -b main https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
 sleep 1
 
 ## fix 21.02 loading webpage error
@@ -161,7 +164,7 @@ else
     echo "luci-app-lucky.json copy failed"
 fi
 
-# ## use custom binary ver 2.20.2
+# ## use custom binary ver 2.24.0
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
 # if [ $? -eq 0 ]; then
     # echo "luckyMakefile copied"
@@ -247,24 +250,24 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 
 # ##  -------------- Passwall ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall
-git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
+# git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
 
 # ##  -------------- Passwall2 ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall2
-git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
-# 不安装 Haproxy
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy/d' package/diy/passwall2/luci-app-passwall2/Makefile
-# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Hysteria/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Rust_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Rust_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Libev_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Libev_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Simple_Obfs/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_SingBox/d' package/diy/passwall2/luci-app-passwall2/Makefile
-# 使用 openwrt-xray 不需要 +xray-core +geoview +v2ray-geoip +v2ray-geosite
-sed -i '/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/d'  package/diy/passwall2/luci-app-passwall2/Makefile
+# git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
+# # 不安装 Haproxy
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# # sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Hysteria/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Rust_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Rust_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Libev_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Libev_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Simple_Obfs/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_SingBox/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# # 使用 openwrt-xray 不需要 +xray-core +geoview +v2ray-geoip +v2ray-geosite
+# sed -i '/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/d'  package/diy/passwall2/luci-app-passwall2/Makefile
 # 使用 sing-box 需要 +geoview
 # sed -i 's/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/	+geoview/g' package/diy/passwall2/luci-app-passwall2/Makefile
 
@@ -286,13 +289,13 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
-git clone -b master https://github.com/rafmilecki/luci-app-xjay package/diy/luci-app-xjay
+# git clone -b master https://github.com/rafmilecki/luci-app-xjay package/diy/luci-app-xjay
 
-# git clone -b main https://github.com/quanljh/luci-app-simple-xray package/diy/luci-app-simplexray
-# sed -i '3i PKG_NAME:=luci-app-simple-xray\nPKG_VERSION:=0.1\nPKG_RELEASE:=1' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
+git clone -b main https://github.com/quanljh/luci-app-simple-xray package/diy/luci-app-simplexray
+sed -i '3i PKG_NAME:=luci-app-simple-xray\nPKG_VERSION:=0.1\nPKG_RELEASE:=1' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
 
 ## for OpenWrt 21.02.0 and later
-# git clone -b luci2 https://github.com/bi7prk/luci-app-xray.git package/diy/luci-app-xray   #for 21.02 and up
+git clone -b luci2 https://github.com/bi7prk/luci-app-xray.git package/diy/luci-app-xray   #for 21.02 and up
 
 # git clone https://github.com/honwen/luci-app-xray.git package/diy/luci-app-xray   #for openwrt 21.02 兼容SagerNet/v2ray-core
 
