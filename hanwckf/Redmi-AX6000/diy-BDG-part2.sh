@@ -292,10 +292,11 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 git clone -b master https://github.com/rafmilecki/luci-app-xjay package/diy/luci-app-xjay
 sed -i '526 s/true/false/' package/diy/luci-app-xjay/files/luci/outbound.js
 
-git clone https://github.com/honwen/luci-app-xray.git package/diy/luci-app-xray   #for openwrt 21.02 兼容SagerNet/v2ray-core   服务器
+# git clone https://github.com/honwen/luci-app-xray.git package/diy/luci-app-xray   #for openwrt 21.02 兼容SagerNet/v2ray-core   无vmess
 
-# git clone -b main https://github.com/quanljh/luci-app-simple-xray package/diy/luci-app-simplexray   安装不上
-# sed -i '3i PKG_NAME:=luci-app-simple-xray\nPKG_VERSION:=0.1\nPKG_RELEASE:=1' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
+git clone -b main https://github.com/quanljh/luci-app-simple-xray package/diy/luci-app-simplexray   安装不上
+sed -i '3i PKG_NAME:=luci-app-simple-xray\nPKG_VERSION:=0.1\nPKG_RELEASE:=1' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
+sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
 
 ## for OpenWrt 21.02.0 and later
 # git clone -b luci2 https://github.com/bi7prk/luci-app-xray.git package/diy/luci-app-xray   #for 21.02 and up   安装不上
