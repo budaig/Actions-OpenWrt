@@ -289,23 +289,23 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
-git clone -b master https://github.com/rafmilecki/luci-app-xjay package/diy/luci-app-xjay
-sed -i '526 s/true/false/' package/diy/luci-app-xjay/files/luci/outbound.js
+# git clone -b master https://github.com/rafmilecki/luci-app-xjay package/diy/luci-app-xjay
+# sed -i '526 s/true/false/' package/diy/luci-app-xjay/files/luci/outbound.js
 
 # # simple-xray method 1: replace whole dir # 
-mkdir -p package/diy/simplexray
-mv -f ${GITHUB_WORKSPACE}/_modFiles/2simplexray/* package/diy/simplexray/
-if [ $? -eq 0 ]; then
-    echo "simplexray dir copied"
-else
-    echo "simplexray dir copy failed"
-fi
-chmod +x package/diy/simplexray/
-ls package/diy/simplexray
+# mkdir -p package/diy/simplexray
+# mv -f ${GITHUB_WORKSPACE}/_modFiles/2simplexray/* package/diy/simplexray/
+# if [ $? -eq 0 ]; then
+    # echo "simplexray dir copied"
+# else
+    # echo "simplexray dir copy failed"
+# fi
+# chmod +x package/diy/simplexray/
+# ls package/diy/simplexray
 
 # # simple-xray method 2:  clone then replace key files #
-# git clone -b main https://github.com/quanljh/luci-app-simple-xray package/diy/luci-app-simplexray
-# sed -i '3i PKG_NAME:=luci-app-simple-xray\nPKG_VERSION:=0.1\nPKG_RELEASE:=1' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
+git clone -b main https://github.com/quanljh/luci-app-simple-xray package/diy/luci-app-simplexray
+sed -i '3i PKG_NAME:=luci-app-simple-xray\nPKG_VERSION:=0.1\nPKG_RELEASE:=3' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
 # sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
 # sed -i 's/etc\/xray\/config.json/etc\/simplexray\/config.json/g' package/diy/luci-app-simplexray/luci-app-simple-xray/root/etc/uci-defaults/80_simple-xray
 # sed -i 's/etc\/xray\/config.json/etc\/simplexray\/config.json/g' package/diy/luci-app-simplexray/luci-app-simple-xray/root/etc/init.d/simple-xray
