@@ -1,0 +1,56 @@
+#!/bin/sh /etc/rc.common
+
+# Indicates that this service will be managed by procd, OpenWrt’s process management daemon. Setting this to 1 tells the system to use procd functions (like respawning and limits).
+USE_PROCD=1
+# Defines the startup order priority. Here, the service starts late (order 99) relative to other services with lower numbers.
+START=99
+
+CONF="simple-xray"
+PROG="/usr/bin/xray"
+
+start_service() {
+    # Loads the UCI configuration for "xray". This makes all configuration options available for querying via the subsequent config_get* calls.
+	config_load "$CONF"
+
+	local enabled
+    # Reads a boolean value from the UCI config. It looks in the section named "config" for the option "enabled".
+	config_get_bool enabled "config" "enabled" "0"
+	[ "$enabled" -eq "1" ] || return 1
+
+	local config_file
+
+    # Reads a string value from the UCI config. It looks in the section named "config" for the option "config_file". If the option is not found, it uses the default value "/etc/simplexray/config.json".
+	config_get config_file "config" "config_file" "/etc/simplexray/config.json"
+
+    # Begins a new instance for managing the service with procd, using the configuration name "xray". This call initializes the process setup.
+	procd_open_instance "$CONF"
+    # Sets the command that will be executed by procd. Here it tells procd to run the program (/usr/bin/xray) with the argument run.
+	procd_set_param command "$PROG" run
+
+	[ -n "$config_file" ] && procd_append_param command -c "$config_file"
+
+    # Registers the files listed in conffiles with procd. If any of these files change, procd may trigger a restart of the service.
+	[ -n "$config_file" ] && procd_set_param file $config_file
+
+    # Removes limits on the size of core dumps (setting them to "unlimited").
+	procd_set_param limits core="unlimited"
+    # Sets both the soft and hard limits for the number of open files to 1,000,000. This helps in scenarios where many files need to be opened concurrently.
+	procd_set_param limits nofile="1000000 1000000"
+    # These lines tell procd to capture standard output (stdout) and standard error (stderr) of the process. The parameter 1 usually indicates that logging is enabled.
+	procd_set_param stdout 1
+	procd_set_param stderr 1
+    # Tells procd to automatically restart the service if it crashes or exits unexpectedly.
+	procd_set_param respawn
+
+    # Finalizes the procd instance configuration. After this call, procd takes over managing the service using the parameters defined above.
+	procd_close_instance
+}
+
+reload_service() {
+	stop
+	start
+}
+
+service_triggers() {
+	procd_add_reload_trigger "$CONF"
+}

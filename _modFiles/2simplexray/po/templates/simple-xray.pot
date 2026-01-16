@@ -1,0 +1,73 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/settings.js:48
+#: applications/luci-app-simple-xray/root/usr/share/rpcd/acl.d/luci-app-simple-xray.json:3
+msgid "A simple luci interface for xray."
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/settings.js:65
+msgid "Basic Setting"
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/log.js:40
+msgid "Clear Log"
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/settings.js:61
+msgid "Collecting data…"
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/config.js:12
+#: applications/luci-app-simple-xray/root/usr/share/luci/menu.d/luci-app-simple-xray.json:26
+msgid "Config"
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/settings.js:68
+msgid "Configuration File"
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/settings.js:67
+msgid "Enabled"
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/log.js:10
+msgid "Log file not found."
+msgstr ""
+
+#: applications/luci-app-simple-xray/root/usr/share/luci/menu.d/luci-app-simple-xray.json:35
+msgid "Logs"
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/settings.js:35
+msgid "NOT RUNNING"
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/settings.js:33
+msgid "RUNNING"
+msgstr ""
+
+#: applications/luci-app-simple-xray/root/usr/share/luci/menu.d/luci-app-simple-xray.json:17
+msgid "Settings"
+msgstr ""
+
+#: applications/luci-app-simple-xray/root/usr/share/luci/menu.d/luci-app-simple-xray.json:3
+msgid "Simple Xray"
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/log.js:12
+msgid "Unknown error: %s"
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/config.js:12
+msgid "Xray configuration."
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/settings.js:48
+msgid "simple-xray"
+msgstr ""
+
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/settings.js:33
+#: applications/luci-app-simple-xray/htdocs/luci-static/resources/view/simple-xray/settings.js:35
+msgid "xray"
+msgstr ""

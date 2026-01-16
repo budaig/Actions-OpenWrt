@@ -1,0 +1,42 @@
+{
+  "admin/services/simple-xray": {
+    "title": "Simple Xray",
+    "action": {
+      "type": "firstchild"
+    },
+    "depends": {
+      "acl": [ "luci-app-simple-xray" ],
+      "fs": {
+        "/usr/bin/xray": "executable",
+        "uci": { "xray": true }
+      }
+    }
+  },
+
+  "admin/services/simple-xray/settings": {
+    "title": "Settings",
+    "order": 1,
+    "action": {
+      "type": "view",
+      "path": "simple-xray/settings"
+    }
+  },
+
+  "admin/services/simple-xray/config": {
+    "title": "Config",
+    "order": 2,
+    "action": {
+      "type": "view",
+      "path": "simple-xray/config"
+    }
+  },
+
+  "admin/services/simple-xray/log": {
+    "title": "Logs",
+    "order": 3,
+    "action": {
+      "type": "view",
+      "path": "simple-xray/log"
+    }
+  }
+}

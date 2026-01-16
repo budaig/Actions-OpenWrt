@@ -1,0 +1,30 @@
+{
+  "luci-app-simple-xray": {
+    "description": "A simple luci interface for xray.",
+    "read": {
+      "file": {
+        "/usr/bin/xray": [ "read" ],
+        "/etc/simplexray/config.json": [ "read" ],
+        "/etc/simplexray/config.json.example": [ "read" ],
+        "/var/log/simplexray.log": [ "read" ],
+        "/etc/init.d/simple-xray restart": [ "exec"]
+      },
+      "ubus": {
+				"service": [ "list" ]
+			},
+      "uci": [
+        "simple-xray"
+      ]
+    },
+    "write": {
+      "file": {
+				"/etc/simplexray/config.json": [ "write" ],
+        "/var/log/simplexray.log": [ "write" ],
+        "/bin/sh /usr/share/simple-xray/clear_log.sh": [ "exec" ]
+			},
+      "uci": [
+        "simple-xray"
+      ]
+    }
+  }
+}

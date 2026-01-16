@@ -1,0 +1,12 @@
+#!/bin/sh
+
+touch /etc/config/simple-xray
+uci set simple-xray.config=simple-xray
+uci set simple-xray.config.enabled='0'
+uci set simple-xray.config.config_file='/etc/simplexray/config.json'
+uci commit simple-xray
+
+chmod +x /etc/init.d/simple-xray
+chmod +x /usr/share/simple-xray/clear_log.sh
+
+return 0
