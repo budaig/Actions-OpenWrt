@@ -280,8 +280,8 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
 git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
 # https://api.github.com/repos/XTLS/Xray-core/commits   https://codeload.github.com/XTLS/Xray-core/tar.gz/v25.3.3?/Xray-core-25.3.3.tar.gz
-# xrver=25.3.6
-# # # xrver=25.1.30
+# xrver=25.12.8
+# # # xrver=25.3.6
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/openwrt-xray/Makefile
@@ -289,8 +289,12 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
-# git clone -b master https://github.com/rafmilecki/luci-app-xjay package/diy/luci-app-xjay
-# sed -i '526 s/true/false/' package/diy/luci-app-xjay/files/luci/outbound.js
+git clone -b master https://github.com/rafmilecki/luci-app-xjay package/diy/luci-app-xjay
+sed -i '526 s/true/false/' package/diy/luci-app-xjay/files/luci/outbound.js
+# 21.02 or older set iptables default on
+sed -i '35 s/n/y/' package/diy/luci-app-xjay/Makefile
+# 22.03 or newer set nftables default on
+# sed -i '42 s/n/y/' package/diy/luci-app-xjay/Makefile
 
 # # simple-xray method 1: replace whole dir # 
 # mkdir -p package/diy/simplexray
@@ -306,7 +310,7 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 # # simple-xray method 2:  clone then replace key files #
 git clone -b main https://github.com/quanljh/luci-app-simple-xray package/diy/luci-app-simplexray
 sed -i '3i PKG_NAME:=luci-app-simple-xray\nPKG_VERSION:=0.1\nPKG_RELEASE:=3' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
-# sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
+sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
 # sed -i 's/etc\/xray\/config.json/etc\/simplexray\/config.json/g' package/diy/luci-app-simplexray/luci-app-simple-xray/root/etc/uci-defaults/80_simple-xray
 # sed -i 's/etc\/xray\/config.json/etc\/simplexray\/config.json/g' package/diy/luci-app-simplexray/luci-app-simple-xray/root/etc/init.d/simple-xray
 # sed -i 's/etc\/xray\/config.json/etc\/simplexray\/config.json/g' package/diy/luci-app-simplexray/luci-app-simple-xray/root/usr/share/rpcd/acl.d/luci-app-simple-xray.json
