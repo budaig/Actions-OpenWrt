@@ -294,7 +294,7 @@ sed -i '526 s/true/false/' package/diy/luci-app-xjay/files/luci/outbound.js
 
 # git clone https://github.com/honwen/luci-app-xray.git package/diy/luci-app-xray   #for openwrt 21.02 兼容SagerNet/v2ray-core   无vmess
 
-git clone -b main https://github.com/quanljh/luci-app-simple-xray package/diy/luci-app-simplexray   安装不上
+git clone -b main https://github.com/quanljh/luci-app-simple-xray package/diy/luci-app-simplexray
 sed -i '3i PKG_NAME:=luci-app-simple-xray\nPKG_VERSION:=0.1\nPKG_RELEASE:=1' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/diy/luci-app-simplexray/luci-app-simple-xray/Makefile
 
