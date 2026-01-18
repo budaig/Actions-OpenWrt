@@ -218,6 +218,8 @@ git clone -b master https://github.com/destan19/OpenAppFilter.git package/diy/Op
 git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/parentcontrol
 # git clone -b main https://github.com/dsadaskwq/luci-app-parentcontrol package/diy/parentcontrol   #(已删)
 
+# ## add timecontrol for nftables
+# git clone -b main https://github.com/sirpdboy/luci-app-timecontrol package/diy/timecontrol
 
 # ## add tailscale
 # git clone b main https://github.com/asvow/luci-app-tailscale package/diy/luci-app-tailscale
@@ -250,11 +252,13 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 
 # ##  -------------- Passwall ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall
-git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
+git clone https://github.com/Openwrt-Passwall/openwrt-passwall -b main package/diy/passwall
+# 原repo: git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
 
 # ##  -------------- Passwall2 ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall2
-# git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
+git clone https://github.com/Openwrt-Passwall/openwrt-passwall2 -b main package/diy/passwall
+# 原repo: git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
 # # 不安装 Haproxy
 # sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy/d' package/diy/passwall2/luci-app-passwall2/Makefile
 # # sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Hysteria/d' package/diy/passwall2/luci-app-passwall2/Makefile
