@@ -377,7 +377,7 @@ rm -rf package/system/ca-certificates
 
 ## customize v2raya ver
 # sleep 1
-# v2aver=2.2.7.4
+# v2aver=2.2.7.5
 # v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 # v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 # echo v2raya v$v2aver sha256=$v2asha256
