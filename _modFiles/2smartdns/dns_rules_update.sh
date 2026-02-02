@@ -14,7 +14,7 @@ download_files() {
     # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/reject-list.txt -o /etc/smartdns/sitereject
     # curl -sL -m 30 --retry 2 https://anti-ad.net/anti-ad-for-smartdns.conf -o /etc/smartdns/reject.conf
     #or
-    # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@adrules/smart-dns.conf -o /etc/smartdns/reject.conf
+    # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@adrules/smart-dns.conf -o /etc/smartdns/sitereject.conf
     curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@adrules/rules/github-hosts.conf -o /etc/smartdns/hostsgithub.conf
     ##chnroute ip for chinadns-ng
     urlchnroutelist="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute.txt"
@@ -23,16 +23,16 @@ download_files() {
     curl -sL -m 30 --retry 2 "$urlchnroute6list" -o /etc/chinadns-ng/chnroute6.txt
 
     ##adrules hosts list
-    # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@main/rule/hosts.txt -o /etc/smartdns/hostsreject.txt
+    curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@main/rule/hosts.txt -o /etc/smartdns/hostsreject.txt
     ##10007 adblock hosts list
     # curl -sL -m 30 --retry 2 https://raw.gitmirror.com/lingeringsound/10007/main/all -o /etc/smartdns/hostsreject.txt
     # curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/lingeringsound/10007/main/all -o /etc/smartdns/hostsreject.txt
     ##217heidai adblock hosts list
-    curl -sL -m 30 --retry 2 https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockhosts.txt -o /etc/smartdns/hostsreject.txt
+    # curl -sL -m 30 --retry 2 https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockhosts.txt -o /etc/smartdns/hostsreject.txt
     # curl -sL -m 30 --retry 2 https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockhostslite.txt -o /etc/smartdns/hostsreject.txt
 
     ##fcm hosts
-    curl -sL -m 30 --retry 2 "https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsfcm.txt
+    curl -sL -m 30 --retry 2 "https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts" -o /etc/smartdns/hostsfcm.txt
     ##github hosts
     curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o /etc/smartdns/hostsgithub.txt
     ##github hosts for smartdns

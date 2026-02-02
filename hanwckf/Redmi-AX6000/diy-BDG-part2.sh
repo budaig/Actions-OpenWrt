@@ -536,12 +536,13 @@ curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o package/diy/luci-a
 ## add githubhosts for smartdns
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgithub.conf
-## add hululu1068 / 217heidai/adblockfilters hosts规则
-urlhostsreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockhosts.txt"
+## add hululu1068 / adguardDNS / 217heidai adblockfilters | hosts规则 三选一
+# urlhostsreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockhosts.txt"
 # urlhostsreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/main/rule/hosts.txt"
+urlhostsreject="https://raw.githubusercontent.com/r-a-y/mobile-hosts/master/AdguardDNS.txt"
 curl -sL -m 30 --retry 2 "$urlhostsreject" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsreject.txt
 
-## add hululu1068 / 217heidai/adblockfilters smartdns规则
+## add hululu1068 / 217heidai/adblockfilters | smartdns规则 二选一
 urlreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksmartdnslite.conf"
 # urlreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/smart-dns.conf"
 curl -sL -m 30 --retry 2 "$urlreject" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitereject.conf
