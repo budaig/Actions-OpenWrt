@@ -31,6 +31,8 @@ download_files() {
     curl -sL -m 30 --retry 2 https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockhosts.txt -o /etc/smartdns/hostsreject.txt
     # curl -sL -m 30 --retry 2 https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockhostslite.txt -o /etc/smartdns/hostsreject.txt
 
+    ##fcm hosts
+    curl -sL -m 30 --retry 2 "https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsfcm.txt
     ##github hosts
     curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o /etc/smartdns/hostsgithub.txt
     ##github hosts for smartdns
