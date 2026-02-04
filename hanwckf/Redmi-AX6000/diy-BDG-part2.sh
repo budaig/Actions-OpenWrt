@@ -80,12 +80,13 @@ git clone https://github.com/lmq8267/luci-app-vnt -b main package/diy/vnt
 rm -rf feeds/packages/net/openlist
 rm -rf feeds/luci/applications/luci-app-openlist
 # git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/openlist
-git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
+# git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
 # 终端命令（TTYD）执行命令：
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
 # 返回 Yes 表示支持，返回 No 表示不支持。
 
 # custom Lite openlist & frontend ver
+git clone -b v4.1.8 --single-branch https://github.com/sbwml/luci-app-openlist2 package/diy/openlist2
 # sleep 1
 # ol2ver=4.1.10
 # ol2sha256=($(curl -sL https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$ol2ver | shasum -a 256))
@@ -244,11 +245,12 @@ rm -rf feeds/luci/applications/luci-app-passwall2
 git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
 ## core
-git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
+# git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
+git clone -b v25.12.8 --single-branch https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
 # https://api.github.com/repos/XTLS/Xray-core/commits   https://codeload.github.com/XTLS/Xray-core/tar.gz/v25.3.3?/Xray-core-25.3.3.tar.gz
+# # or xrver=26.1.23
 # xrver=25.12.8
-# # # xrver=25.3.6
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/openwrt-xray/Makefile
@@ -256,10 +258,10 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 ##  -------------- luci app xray ---------------------------
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
-git clone -b master https://github.com/rafmilecki/luci-app-xjay package/diy/luci-app-xjay
-sed -i '526 s/true/false/' package/diy/luci-app-xjay/files/luci/outbound.js
-# 21.02 or older set iptables default on
-sed -i '35 s/n/y/' package/diy/luci-app-xjay/Makefile
+# git clone -b master https://github.com/rafmilecki/luci-app-xjay package/diy/luci-app-xjay
+# sed -i '526 s/true/false/' package/diy/luci-app-xjay/files/luci/outbound.js
+# # 21.02 or older set iptables default on
+# sed -i '35 s/n/y/' package/diy/luci-app-xjay/Makefile
 # 22.03 or newer set nftables default on
 # sed -i '42 s/n/y/' package/diy/luci-app-xjay/Makefile
 
