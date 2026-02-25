@@ -4,8 +4,8 @@ download_files() {
     # curl -o /etc/smartdns/smartdns.conf https://raw.githubusercontent.com/ixmu/smartdns-conf/main/smartdns.conf
     # curl -o /etc/smartdns/hosts.conf https://raw.githubusercontent.com/ixmu/smartdns-conf/main/hosts.conf
     # curl -o /etc/smartdns/blacklist-ip.conf https://raw.githubusercontent.com/ixmu/smartdns-conf/main/blacklist-ip.conf
-    curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/gfw.txt -o /etc/smartdns/gfwlist
-    curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/china-list.txt -o /etc/smartdns/chnlist
+    # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/gfw.txt -o /etc/smartdns/gfwlist
+    # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/china-list.txt -o /etc/smartdns/chnlist
     # curl -o /etc/smartdns/proxy-domain-list.conf https://raw.githubusercontent.com/ixmu/smartdns-conf/main/proxy-domain-list.conf
     # curl -sL -m 30 --retry 2 https://fastly.jsdelivr.net/gh/ixmu/smartdns-conf@main/proxy-domain-list.conf -o /etc/smartdns/siteproxy
     # curl -o /etc/smartdns/direct-domain-list.conf https://raw.githubusercontent.com/ixmu/smartdns-conf/main/direct-domain-list.conf
@@ -15,12 +15,11 @@ download_files() {
     # curl -sL -m 30 --retry 2 https://anti-ad.net/anti-ad-for-smartdns.conf -o /etc/smartdns/reject.conf
     #or
     # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@adrules/smart-dns.conf -o /etc/smartdns/sitereject.conf
-    curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@adrules/rules/github-hosts.conf -o /etc/smartdns/hostsgithub.conf
     ##chnroute ip for chinadns-ng
-    urlchnroutelist="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute.txt"
-    curl -sL -m 30 --retry 2 "$urlchnroutelist" -o /etc/chinadns-ng/chnroute.txt
-    urlchnroute6list="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute6.txt"
-    curl -sL -m 30 --retry 2 "$urlchnroute6list" -o /etc/chinadns-ng/chnroute6.txt
+    # urlchnroutelist="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute.txt"
+    # curl -sL -m 30 --retry 2 "$urlchnroutelist" -o /etc/chinadns-ng/chnroute.txt
+    # urlchnroute6list="https://raw.githubusercontent.com/pexcn/daily/gh-pages/chnroute/chnroute6.txt"
+    # curl -sL -m 30 --retry 2 "$urlchnroute6list" -o /etc/chinadns-ng/chnroute6.txt
 
     ##adrules hosts list
     curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@main/rule/hosts.txt -o /etc/smartdns/hostsreject.txt
@@ -31,11 +30,16 @@ download_files() {
     # curl -sL -m 30 --retry 2 https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockhosts.txt -o /etc/smartdns/hostsreject.txt
     # curl -sL -m 30 --retry 2 https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockhostslite.txt -o /etc/smartdns/hostsreject.txt
 
+    ## add github & fcm hosts
+    # curl -sL -m 30 --retry 2 "https://raw.githubusercontent.com/budaig/hostsgitfcm/refs/heads/master/hosts" -o /etc/smartdns/hostsgitfcm.txt
+
     ##fcm hosts
     curl -sL -m 30 --retry 2 "https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts" -o /etc/smartdns/hostsfcm.txt
     ##github hosts
     curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o /etc/smartdns/hostsgithub.txt
     ##github hosts for smartdns
+    # # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@adrules/rules/github-hosts.conf -o /etc/smartdns/hostsgithub.conf
+    # curl -sL -m 30 --retry 2 "https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/rules/github-hosts.conf" -o /etc/smartdns/hostsgithub.conf
     ##TG-Twilight ads hosts
     # curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-hosts.txt -o /etc/AWAvenueadshosts.txt
     ## IP: google fastly telegram twitter
@@ -55,9 +59,24 @@ download_files() {
 # # 转化 for mosdns
 # curl -s "$url" | grep -v "^\s*#\|^\s*$" | awk '{print ""$2" "$1}' >> /tmp/gthosts.txt
 # mv /tmp/gthosts.txt /etc/smartdns/hostsghmos.txt
+
+# # fcm hosts链接地址 for smartdns
+echo "# Title: fcm Hosts" >> /tmp/fcmhosts.txt
+echo "# Update: $(TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S')(GMT+8)" >> /tmp/fcmhosts.txt
+url="https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts"
+curl -sL "$url" | awk '!/^#/ && !/^$/ {print "address /"$2"/"$1}' >> /tmp/fcmhosts.txt
+mv /tmp/fcmhosts.txt /etc/smartdns/hostsfcm.conf
+# # or 
+# echo "# Title: fcm Hosts" >> /tmp/fcmhosts.txt
+# echo "# Update: $(TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S')(GMT+8)" >> /tmp/fcmhosts.txt
+# cat /etc/smartdns/hostsfcm.txt | awk '!/^#/ && !/^$/ {print "address /"$2"/"$1}' >> /tmp/fcmhosts.txt
+# mv /tmp/fcmhosts.txt /etc/smartdns/hostsfcm.conf
 }
 
-restart_smartdns() {
+restart_dns() {
+    echo "正在重启 dnsmasq 服务..."
+    /etc/init.d/dnsmasq restart
+    echo "正在重启 smartdns 服务..."
     /etc/init.d/smartdns restart
 }
 
@@ -65,7 +84,7 @@ while true; do
     download_files
 
     if [ $? -eq 0 ]; then
-        restart_smartdns
+        restart_dns
         break
     else
         echo "Download failed. Retrying in 30 seconds..."

@@ -1,0 +1,41 @@
+#!/bin/bash
+
+download_files() {
+    # 下载fcm hosts
+    if ! curl -sL -m 30 --retry 2 "https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts" -o /etc/smartdns/hostsfcm.txt; then
+        return 1
+    fi
+
+    # 下载github hosts
+    if ! curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o /etc/smartdns/hostsgithub.txt; then
+        return 1
+    fi
+
+    # 处理fcm hosts内容，添加头信息
+    local tmp_fcm="/tmp/fcmhosts.txt"
+    > "$tmp_fcm"  # 清空临时文件
+    echo "# Title: fcm Hosts" >> "$tmp_fcm"
+    echo "# Update: $(TZ=Asia/Shanghai date +'%Y-%m-%d %H:%M:%S')(GMT+8)" >> "$tmp_fcm"
+
+    local url="https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts"
+    curl -sL "$url" | awk '!/^#/ && !/^$/ {print "address /"$2"/"$1}' >> "$tmp_fcm"
+
+    # 移动临时文件到配置目录
+    mv "$tmp_fcm" /etc/smartdns/hostsfcm.conf
+
+    return 0
+}
+
+restart_dns() {
+    /etc/init.d/dnsmasq restart
+}
+
+while true; do
+    if download_files; then
+        restart_dns
+        break
+    else
+        echo "Download failed. Retrying in 30 seconds..."
+        sleep 30
+    fi
+done

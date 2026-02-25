@@ -500,12 +500,19 @@ else
 fi
 chmod +x package/diy/luci-app-smartdns/root/etc/smartdns/dns_rules_update.sh
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/sitefcm.dns package/diy/luci-app-smartdns/root/etc/smartdns/sitefcm.conf
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/hostsfcm package/diy/luci-app-smartdns/root/etc/smartdns/hostsfcm.conf
 if [ $? -eq 0 ]; then
-    echo "sitefcm copied"
+    echo "hostsfcm copied"
 else
-    echo "sitefcm copy failed"
+    echo "hostsfcm copy failed"
 fi
+
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/sitefcm.dns package/diy/luci-app-smartdns/root/etc/smartdns/sitefcm.conf
+# if [ $? -eq 0 ]; then
+    # echo "sitefcm copied"
+# else
+    # echo "sitefcm copy failed"
+# fi
 
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/hostsblockcustom package/diy/luci-app-smartdns/root/etc/smartdns/hostsblockcustom
 if [ $? -eq 0 ]; then
@@ -529,6 +536,11 @@ else
 fi
 
 sleep 1
+
+## add github & fcm hosts
+# urlgitfcmhosts="https://raw.githubusercontent.com/budaig/hostsgitfcm/refs/heads/master/hosts"
+# curl -sL -m 30 --retry 2 "$urlgitfcmhosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgitfcm.txt
+
 ## add fcm hosts
 urlfcmhosts="https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts" 
 curl -sL -m 30 --retry 2 "$urlfcmhosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsfcm.txt
@@ -538,10 +550,11 @@ curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o package/diy/luci-a
 ## add githubhosts for smartdns
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgithub.conf
+
 ## add hululu1068 / adguardDNS / 217heidai adblockfilters | hosts规则 三选一
 # urlhostsreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockhosts.txt"
-# urlhostsreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/main/rule/hosts.txt"
-urlhostsreject="https://raw.githubusercontent.com/r-a-y/mobile-hosts/master/AdguardDNS.txt"
+# urlhostsreject="https://raw.githubusercontent.com/r-a-y/mobile-hosts/master/AdguardDNS.txt"
+urlhostsreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/main/rule/hosts.txt"
 curl -sL -m 30 --retry 2 "$urlhostsreject" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsreject.txt
 
 ## add hululu1068 / 217heidai/adblockfilters | smartdns规则 二选一
