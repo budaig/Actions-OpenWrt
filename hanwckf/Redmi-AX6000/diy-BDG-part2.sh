@@ -539,7 +539,8 @@ sleep 1
 
 ## add github & fcm hosts
 # urlgitfcmhosts="https://raw.githubusercontent.com/budaig/hostsgitfcm/refs/heads/master/hosts"
-# curl -sL -m 30 --retry 2 "$urlgitfcmhosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgitfcm.txt
+urlgitfcmhosts="https://raw.githubusercontent.com/budaig/hostsgthfcm/refs/heads/main/hosts"
+curl -sL -m 30 --retry 2 "$urlgitfcmhosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgitfcm.txt
 
 ## add fcm hosts
 urlfcmhosts="https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts" 

@@ -22,7 +22,7 @@ download_files() {
     # curl -sL -m 30 --retry 2 "$urlchnroute6list" -o /etc/chinadns-ng/chnroute6.txt
 
     ##adrules hosts list
-    curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@main/rule/hosts.txt -o /etc/smartdns/hostsreject.txt
+    # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@main/rule/hosts.txt -o /etc/smartdns/hostsreject.txt
     ##10007 adblock hosts list
     # curl -sL -m 30 --retry 2 https://raw.gitmirror.com/lingeringsound/10007/main/all -o /etc/smartdns/hostsreject.txt
     # curl -sL -m 30 --retry 2 https://raw.githubusercontent.com/lingeringsound/10007/main/all -o /etc/smartdns/hostsreject.txt
@@ -31,12 +31,12 @@ download_files() {
     # curl -sL -m 30 --retry 2 https://gcore.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockhostslite.txt -o /etc/smartdns/hostsreject.txt
 
     ## add github & fcm hosts
-    # curl -sL -m 30 --retry 2 "https://raw.githubusercontent.com/budaig/hostsgitfcm/refs/heads/master/hosts" -o /etc/smartdns/hostsgitfcm.txt
+    curl -sL -m 30 --retry 2 "https://raw.githubusercontent.com/budaig/hostsgthfcm/refs/heads/main/hosts" -o /etc/smartdns/hostsgitfcm.txt
 
     ##fcm hosts
-    curl -sL -m 30 --retry 2 "https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts" -o /etc/smartdns/hostsfcm.txt
+    # curl -sL -m 30 --retry 2 "https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts" -o /etc/smartdns/hostsfcm.txt
     ##github hosts
-    curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o /etc/smartdns/hostsgithub.txt
+    # curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o /etc/smartdns/hostsgithub.txt
     ##github hosts for smartdns
     # # curl -sL -m 30 --retry 2 https://cdn.jsdelivr.net/gh/hululu1068/AdGuard-Rule@adrules/rules/github-hosts.conf -o /etc/smartdns/hostsgithub.conf
     # curl -sL -m 30 --retry 2 "https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/rules/github-hosts.conf" -o /etc/smartdns/hostsgithub.conf
@@ -60,12 +60,25 @@ download_files() {
 # curl -s "$url" | grep -v "^\s*#\|^\s*$" | awk '{print ""$2" "$1}' >> /tmp/gthosts.txt
 # mv /tmp/gthosts.txt /etc/smartdns/hostsghmos.txt
 
+# # github & fcm hosts链接地址 for smartdns
+echo "# Title: fcm Hosts" >> /tmp/gitfcmhosts.txt
+echo "# Update: $(TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S')(GMT+8)" >> /tmp/gitfcmhosts.txt
+urlgf="https://raw.githubusercontent.com/budaig/hostsgthfcm/refs/heads/main/hosts"
+# urlgf="https://raw.githubusercontent.com/budaig/hostsgthfcm/refs/heads/master/hosts"
+curl -sL "$urlgf" | awk '!/^#/ && !/^$/ {print "address /"$2"/"$1}' >> /tmp/gitfcmhosts.txt
+mv /tmp/gitfcmhosts.txt /etc/smartdns/hostsgitfcm.conf
+# # or 
+# echo "# Title: fcm Hosts" >> /tmp/gitfcmhosts.txt
+# echo "# Update: $(TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S')(GMT+8)" >> /tmp/gitfcmhosts.txt
+# cat /etc/smartdns/hostsgitfcm.txt | awk '!/^#/ && !/^$/ {print "address /"$2"/"$1}' >> /tmp/gitfcmhosts.txt
+# mv /tmp/gitfcmhosts.txt /etc/smartdns/hostsgitfcm.conf
+
 # # fcm hosts链接地址 for smartdns
-echo "# Title: fcm Hosts" >> /tmp/fcmhosts.txt
-echo "# Update: $(TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S')(GMT+8)" >> /tmp/fcmhosts.txt
-url="https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts"
-curl -sL "$url" | awk '!/^#/ && !/^$/ {print "address /"$2"/"$1}' >> /tmp/fcmhosts.txt
-mv /tmp/fcmhosts.txt /etc/smartdns/hostsfcm.conf
+# echo "# Title: fcm Hosts" >> /tmp/fcmhosts.txt
+# echo "# Update: $(TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S')(GMT+8)" >> /tmp/fcmhosts.txt
+# url="https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts"
+# curl -sL "$url" | awk '!/^#/ && !/^$/ {print "address /"$2"/"$1}' >> /tmp/fcmhosts.txt
+# mv /tmp/fcmhosts.txt /etc/smartdns/hostsfcm.conf
 # # or 
 # echo "# Title: fcm Hosts" >> /tmp/fcmhosts.txt
 # echo "# Update: $(TZ=UTC-8 date +'%Y-%m-%d %H:%M:%S')(GMT+8)" >> /tmp/fcmhosts.txt
