@@ -69,10 +69,16 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 # ## ---------------------------------------------------------
 
 
+# ## -------------- clonemac ---------------------------
+# rm -rf feeds/luci/applications/luci-app-mac
+# git clone https://github.com/pkq66882/luci-app-mac -b main package/diy/clonemac
+# ## ---------------------------------------------------------
+
+
 # ## -------------- VNT ---------------------------
-rm -rf feeds/packages/net/vnt
-rm -rf feeds/luci/applications/luci-app-vnt
-git clone https://github.com/lmq8267/luci-app-vnt -b main package/diy/vnt
+# rm -rf feeds/packages/net/vnt
+# rm -rf feeds/luci/applications/luci-app-vnt
+# git clone https://github.com/lmq8267/luci-app-vnt -b main package/diy/vnt
 # ## ---------------------------------------------------------
 
 
