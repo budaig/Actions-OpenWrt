@@ -17,7 +17,7 @@
 
 # ## Modify default IP
 # package/base-files/files/bin/config_generate
-sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.6.1/192.168.8.1/g' package/base-files/files/bin/config_generate
 
 #  ## Modify hostname
 #sed -i 's/OpenWrt/budairt/g' package/base-files/files/bin/config_generate
@@ -101,10 +101,12 @@ rm -rf feeds/luci/applications/luci-app-alist
 rm -rf feeds/packages/net/openlist
 rm -rf feeds/luci/applications/luci-app-openlist
 # git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/openlist
-git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
+# git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
 # 终端命令（TTYD）执行命令：
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
 # 返回 Yes 表示支持，返回 No 表示不支持。
+
+git clone -b v4.1.8 --single-branch https://github.com/sbwml/luci-app-openlist2 package/diy/openlist2
 
 # ## ---------------------------------------------------------
 
@@ -114,8 +116,11 @@ rm -rf feeds/packages/net/lucky
 rm -rf feeds/luci/applications/luci-app-lucky
 
 #-- #/etc/config/lucky.daji/lucky.conf
-# git clone -b v2.17.8 --single-branch https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
-git clone -b main https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
+# To clone the latest tag, you can use a combination of git commands to sort and retrieve the latest tag name, then use it to clone:
+# git clone --branch $(git ls-remote --tags --sort="v:refname" https://github.com/example/repo.git | tail -n1 | sed 's/.*\///; s/\^{}//') --single-branch https://github.com/example/repo.git
+
+git clone -b v2.19.5 --single-branch https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
+# git clone -b main https://github.com/gdy666/luci-app-lucky.git package/diy/lucky
 sleep 1
 
 ## fix 21.02 loading webpage error
@@ -127,7 +132,7 @@ else
     echo "luci-app-lucky.json copy failed"
 fi
 
-# ## use custom binary ver 2.20.2
+# ## use custom binary ver 2.24.0
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2lucky/luckyMakefile package/diy/lucky/lucky/Makefile
 # if [ $? -eq 0 ]; then
     # echo "luckyMakefile copied"
@@ -160,24 +165,26 @@ git clone -b main https://github.com/budaig/luci-app-parentcontrol package/diy/p
 
 # ##  -------------- Passwall ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall
-git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
+git clone https://github.com/Openwrt-Passwall/openwrt-passwall -b main package/diy/passwall
+# 原repo: git clone https://github.com/xiaorouji/openwrt-passwall -b main package/diy/passwall
 
 # ##  -------------- Passwall2 ---------------------------
 rm -rf feeds/luci/applications/luci-app-passwall2
-git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
-# 不安装 Haproxy
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy/d' package/diy/passwall2/luci-app-passwall2/Makefile
-# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Hysteria/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Rust_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Rust_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Libev_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Libev_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Simple_Obfs/d' package/diy/passwall2/luci-app-passwall2/Makefile
-sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_SingBox/d' package/diy/passwall2/luci-app-passwall2/Makefile
-# 使用 openwrt-xray 不需要 +xray-core +geoview +v2ray-geoip +v2ray-geosite
-sed -i '/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/d'  package/diy/passwall2/luci-app-passwall2/Makefile
+# git clone https://github.com/Openwrt-Passwall/openwrt-passwall2 -b main package/diy/passwall2
+# 原repo: git clone https://github.com/xiaorouji/openwrt-passwall2 -b main package/diy/passwall2
+# # 不安装 Haproxy
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Haproxy/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# # sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Hysteria/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Libev_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Rust_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Rust_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Libev_Client/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Libev_Server/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Simple_Obfs/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# sed -i '/	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_SingBox/d' package/diy/passwall2/luci-app-passwall2/Makefile
+# # 使用 openwrt-xray 不需要 +xray-core +geoview +v2ray-geoip +v2ray-geosite
+# sed -i '/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/d'  package/diy/passwall2/luci-app-passwall2/Makefile
 # 使用 sing-box 需要 +geoview
 # sed -i 's/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/	+geoview/g' package/diy/passwall2/luci-app-passwall2/Makefile
 
@@ -187,10 +194,12 @@ sed -i '/	+xray-core +geoview +v2ray-geoip +v2ray-geosite/d'  package/diy/passwa
 git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
 ## core
-git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
+# git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-# xrver=25.3.6
-# # # xrver=25.1.30
+git clone -b v25.12.8 --single-branch https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
+# https://api.github.com/repos/XTLS/Xray-core/commits   https://codeload.github.com/XTLS/Xray-core/tar.gz/v25.3.3?/Xray-core-25.3.3.tar.gz
+# # or xrver=26.1.23
+# xrver=25.12.8
 # xrsha256=($(curl -sL https://codeload.github.com/XTLS/Xray-core/tar.gz/v$xrver | shasum -a 256))
 # echo xray $xrver sha256=$xrsha256
 # sed -i '4 s/.*/PKG_VERSION:='"$xrver"'/g;12 s/.*/PKG_HASH:='"$xrsha256"'/g' package/diy/openwrt-xray/Makefile
@@ -199,14 +208,14 @@ git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-x
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
 ## yicha xray xstatus luci for 22.03 and up---------------
-# git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
+git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
 # # disable auto start
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
-# if [ $? -eq 0 ]; then
-    # echo "xstatus.conf copied"
-# else
-    # echo "xstatus.conf copy failed"
-# fi
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
+ if [ $? -eq 0 ]; then
+     echo "xstatus.conf copied"
+ else
+     echo "xstatus.conf copy failed"
+ fi
 # yicha xray xstatus ---------------
 # ## ---------------------------------------------------------
 
@@ -273,7 +282,7 @@ rm -rf feeds/luci/applications/luci-app-v2raya
 # ls package/diy/v2raya
 
 ## method 2: clone then replace key files
-git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+#git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
@@ -396,12 +405,19 @@ else
 fi
 chmod +x package/diy/luci-app-smartdns/root/etc/smartdns/dns_rules_update.sh
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/sitefcm.dns package/diy/luci-app-smartdns/root/etc/smartdns/sitefcm.conf
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/hostsfcm package/diy/luci-app-smartdns/root/etc/smartdns/hostsfcm.conf
 if [ $? -eq 0 ]; then
-    echo "sitefcm copied"
+    echo "hostsfcm copied"
 else
-    echo "sitefcm copy failed"
+    echo "hostsfcm copy failed"
 fi
+
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/sitefcm.dns package/diy/luci-app-smartdns/root/etc/smartdns/sitefcm.conf
+# if [ $? -eq 0 ]; then
+    # echo "sitefcm copied"
+# else
+    # echo "sitefcm copy failed"
+# fi
 
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/hostsblockcustom package/diy/luci-app-smartdns/root/etc/smartdns/hostsblockcustom
 if [ $? -eq 0 ]; then
@@ -425,17 +441,29 @@ else
 fi
 
 sleep 1
+
+## add github & fcm hosts
+# urlgitfcmhosts="https://raw.githubusercontent.com/budaig/hostsgitfcm/refs/heads/master/hosts"
+urlgitfcmhosts="https://raw.githubusercontent.com/budaig/hostsgthfcm/refs/heads/main/hosts"
+curl -sL -m 30 --retry 2 "$urlgitfcmhosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgitfcm.txt
+
+## add fcm hosts
+urlfcmhosts="https://raw.githubusercontent.com/yangFenTuoZi/fcm-hosts/refs/heads/master/hosts" 
+curl -sL -m 30 --retry 2 "$urlfcmhosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsfcm.txt
+
 ## add github hosts
 curl -sL -m 30 --retry 2 https://raw.hellogithub.com/hosts -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgithub.txt
 ## add githubhosts for smartdns
 urlgthosts="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/rules/github-hosts.conf"
 curl -sL -m 30 --retry 2 "$urlgthosts" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsgithub.conf
-## add hululu1068 / 217heidai/adblockfilters hosts规则
-urlhostsreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockhosts.txt"
-# urlhostsreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/main/rule/hosts.txt"
+
+## add hululu1068 / adguardDNS / 217heidai adblockfilters | hosts规则 三选一
+# urlhostsreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockhosts.txt"
+# urlhostsreject="https://raw.githubusercontent.com/r-a-y/mobile-hosts/master/AdguardDNS.txt"
+urlhostsreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/main/rule/hosts.txt"
 curl -sL -m 30 --retry 2 "$urlhostsreject" -o package/diy/luci-app-smartdns/root/etc/smartdns/hostsreject.txt
 
-## add hululu1068 / 217heidai/adblockfilters smartdns规则
+## add hululu1068 / 217heidai/adblockfilters | smartdns规则 二选一
 urlreject="https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksmartdnslite.conf"
 # urlreject="https://raw.githubusercontent.com/hululu1068/AdGuard-Rule/adrules/smart-dns.conf"
 curl -sL -m 30 --retry 2 "$urlreject" -o package/diy/luci-app-smartdns/root/etc/smartdns/sitereject.conf

@@ -17,7 +17,7 @@
 
 # ## Modify default IP
 # package/base-files/files/bin/config_generate
-sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.6.1/192.168.8.1/g' package/base-files/files/bin/config_generate
 
 #  ## Modify hostname
 #sed -i 's/OpenWrt/budairt/g' package/base-files/files/bin/config_generate
