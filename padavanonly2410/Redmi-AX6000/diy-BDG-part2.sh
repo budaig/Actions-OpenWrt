@@ -208,14 +208,14 @@ git clone -b v25.12.8 --single-branch https://github.com/yichya/openwrt-xray pac
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
 ## yicha xray xstatus luci for 22.03 and up---------------
-# git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
-# # disable auto start
-# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
-# if [ $? -eq 0 ]; then
-    # echo "xstatus.conf copied"
-# else
-    # echo "xstatus.conf copy failed"
-# fi
+git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
+# disable auto start
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
+if [ $? -eq 0 ]; then
+    echo "xstatus.conf copied"
+else
+    echo "xstatus.conf copy failed"
+fi
 # yicha xray xstatus ---------------
 # ## ---------------------------------------------------------
 
