@@ -101,12 +101,12 @@ rm -rf feeds/luci/applications/luci-app-alist
 rm -rf feeds/packages/net/openlist
 rm -rf feeds/luci/applications/luci-app-openlist
 # git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/openlist
-# git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
+git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
 # 终端命令（TTYD）执行命令：
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
 # 返回 Yes 表示支持，返回 No 表示不支持。
 
-git clone -b v4.1.8 --single-branch https://github.com/sbwml/luci-app-openlist2 package/diy/openlist2
+# git clone -b v4.1.8 --single-branch https://github.com/sbwml/luci-app-openlist2 package/diy/openlist2
 
 # ## ---------------------------------------------------------
 
@@ -209,6 +209,7 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 
 ## yicha xray xstatus luci for 22.03 and up---------------
 git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
+rm -rf package/diy/luci-app-xstatus/geodata
 # disable auto start
 cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
 if [ $? -eq 0 ]; then
