@@ -84,17 +84,17 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 # ## ---------------------------------------------------------
 
 
-# ## -------------- alist ---------------------------
-# replace alist
-# nl feeds/packages/net/alist/Makefile   #21.02 org ver3.19.0
-rm -rf feeds/packages/net/alist
-rm -rf feeds/luci/applications/luci-app-alist
-# rm -rf luci-i18n-alist-zh-cn
-# alist 3.36 requires go 1.22
-## 无binary 需手动下载bin
-# git clone https://github.com/lmq8267/luci-app-alist.git -b main package/diy/alist
-## bin 和 luci
-# git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
+# ## -------------- clonemac ---------------------------
+# rm -rf feeds/luci/applications/luci-app-mac
+# git clone https://github.com/pkq66882/luci-app-mac -b main package/diy/clonemac
+# ## ---------------------------------------------------------
+
+
+# ## -------------- VNT ---------------------------
+# rm -rf feeds/packages/net/vnt
+# rm -rf feeds/luci/applications/luci-app-vnt
+# git clone https://github.com/lmq8267/luci-app-vnt -b main package/diy/vnt
+# ## ---------------------------------------------------------
 
 
 # ## -------------- openlist ---------------------------
@@ -520,8 +520,8 @@ curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc
 
 
 # ## replace a theme
-# rm -rf ./feeds/luci/themes/luci-theme-argon
-# git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
+rm -rf ./feeds/luci/themes/luci-theme-argon
+git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 # replace theme bg
 rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
 cp ${GITHUB_WORKSPACE}/_modFiles/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg

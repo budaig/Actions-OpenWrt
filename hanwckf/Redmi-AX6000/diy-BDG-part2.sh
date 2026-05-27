@@ -86,13 +86,13 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 rm -rf feeds/packages/net/openlist
 rm -rf feeds/luci/applications/luci-app-openlist
 # git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/openlist
-# git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
+git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
 # 终端命令（TTYD）执行命令：
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
 # 返回 Yes 表示支持，返回 No 表示不支持。
 
 # custom Lite openlist & frontend ver
-git clone -b v4.1.8 --single-branch https://github.com/sbwml/luci-app-openlist2 package/diy/openlist2
+# git clone -b v4.1.8 --single-branch https://github.com/sbwml/luci-app-openlist2 package/diy/openlist2
 # sleep 1
 # ol2ver=4.1.10
 # ol2sha256=($(curl -sL https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$ol2ver | shasum -a 256))
