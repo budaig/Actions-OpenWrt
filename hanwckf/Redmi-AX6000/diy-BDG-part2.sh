@@ -269,7 +269,8 @@ fi
 #####   or   direct download dat
 # mkdir -p package/diy/openwrt-geodata/root/usr/share/xray
 urlgeosite="https://github.com/vrichv/better-geosite/raw/refs/heads/release/geosite.dat"
-curl -sL -m 30 --retry 2 " $urlgeosite" -o package/diy/openwrt-geodata/geosite.dat || echo "Failed to download better geosite.dat"
+# urlgeosite="https://github.com/vrichv/better-geosite/blob/release/geosite.dat"
+curl -sL -m 30 --retry 2 "$urlgeosite" -o package/diy/openwrt-geodata/geosite.dat || echo "Failed to download better geosite.dat"
 
 ## core
 # git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
