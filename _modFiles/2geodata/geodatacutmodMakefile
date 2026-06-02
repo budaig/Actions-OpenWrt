@@ -110,10 +110,10 @@ endef
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/share/xray
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/geoip.dat $(1)/usr/share/xray/	
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/geosite.dat $(1)/usr/share/xray/	
+	#$(INSTALL_DATA) $(PKG_BUILD_DIR)/geosite.dat $(1)/usr/share/xray/	
 
 	# use this when replace build cut geosite.dat with better geosite
-	$(INSTALL_DIR) ./geosite.dat $(1)/usr/share/xray/	
+	$(INSTALL_BIN) ./geosite.dat $(1)/usr/share/xray	
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
