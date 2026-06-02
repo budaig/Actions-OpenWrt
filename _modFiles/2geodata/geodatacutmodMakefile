@@ -103,17 +103,17 @@ ifdef CONFIG_PACKAGE_OPENWRT_XRAY_GEODATA_CUT_GEOSITE
 	$(PROXYCHAINS) wget https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -O $(PKG_BUILD_DIR)/geosite_in.dat
 	$(PKG_INSTALL_DIR)/bin/xray-geodata-cut -type geosite -in $(PKG_BUILD_DIR)/geosite_in.dat -keep $(CONFIG_PACKAGE_OPENWRT_XRAY_GEODATA_CUT_GEOSITE_KEEP) -out $(PKG_BUILD_DIR)/geosite.dat
 else
-	$(PROXYCHAINS) wget https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -O $(PKG_BUILD_DIR)/geosite.dat
+	# $(PROXYCHAINS) wget https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -O $(PKG_BUILD_DIR)/geosite.dat
+	$(PROXYCHAINS) wget https://github.com/vrichv/better-geosite/raw/refs/heads/release/geosite.dat -O $(PKG_BUILD_DIR)/geosite.dat
 endif
 endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/share/xray
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/geoip.dat $(1)/usr/share/xray/	
-	#$(INSTALL_DATA) $(PKG_BUILD_DIR)/geosite.dat $(1)/usr/share/xray/	
-
-	# use this when replace build cut geosite.dat with better geosite
-	$(INSTALL_BIN) ./geosite.dat $(1)/usr/share/xray	
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/geosite.dat $(1)/usr/share/xray/	
+	## use this when replace build cut geosite.dat with better geosite
+	# $(INSTALL_DATA) ./geosite.dat $(1)/usr/share/xray	
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
