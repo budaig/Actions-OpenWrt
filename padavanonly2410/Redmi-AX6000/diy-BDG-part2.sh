@@ -195,7 +195,7 @@ git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/d
    #与 mosdns geodata 相同
 ### replace cut geosite.dat with bettergeosite
 #### use custom geosite.dat
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2geodata/geodatacutmodMakefile package/diy/geodatacutmodMakefile/Makefile
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2geodata/geodatacutmodMakefile package/diy/openwrt-geodata/Makefile
 if [ $? -eq 0 ]; then
     echo "geodatacutmodMakefile copied"
 else
