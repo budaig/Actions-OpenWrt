@@ -250,6 +250,27 @@ rm -rf feeds/luci/applications/luci-app-passwall2
 ## geodata
 git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
+### replace cut geosite.dat with bettergeosite
+#### use custom geosite.dat
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2geodata/geodatacutmodMakefile package/diy/geodatacutmodMakefile/Makefile
+if [ $? -eq 0 ]; then
+    echo "geodatacutmodMakefile copied"
+else
+    echo "geodatacutmodMakefile copy failed"
+fi
+
+#### cp dat
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2geodata/geosite.dat package/diy/openwrt-geodata/geosite.dat
+# if [ $? -eq 0 ]; then
+    # echo "better geosite.dat copied"
+# else
+    # echo "better geosite.dat copy failed"
+# fi
+####   or   direct download dat
+# mkdir -p package/diy/openwrt-geodata/root/usr/share/xray
+urlgeosite="https://github.com/vrichv/better-geosite/raw/refs/heads/release/geosite.dat"
+curl -sL -m 30 --retry 2 " $urlgeosite" -o package/diy/openwrt-geodata/geosite.dat
+
 ## core
 # git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
