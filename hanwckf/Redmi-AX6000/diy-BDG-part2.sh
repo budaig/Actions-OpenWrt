@@ -259,15 +259,15 @@ else
     echo "geodatacutmodMakefile copy failed"
 fi
 
-#### cp dat
+##### cp dat
 # cp -f ${GITHUB_WORKSPACE}/_modFiles/2geodata/geosite.dat package/diy/openwrt-geodata/geosite.dat
 # if [ $? -eq 0 ]; then
     # echo "better geosite.dat copied"
 # else
     # echo "better geosite.dat copy failed"
 # fi
-####   or   direct download dat
-# mkdir -p package/diy/openwrt-geodata/root/usr/share/xray
+#####   or   direct download dat
+mkdir -p package/diy/openwrt-geodata/root/usr/share/xray
 urlgeosite="https://github.com/vrichv/better-geosite/raw/refs/heads/release/geosite.dat"
 curl -sL -m 30 --retry 2 " $urlgeosite" -o package/diy/openwrt-geodata/geosite.dat
 
