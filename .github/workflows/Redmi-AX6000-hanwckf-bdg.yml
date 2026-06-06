@@ -50,7 +50,7 @@ jobs:
 
     steps:
     - name: 检查项目分支
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       # uses: actions/checkout@main
 
     - name: 检查硬盘空间
@@ -172,8 +172,8 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传固件到github
-      uses: actions/upload-artifact@v4
-      # uses: actions/upload-artifact@main
+      # uses: actions/upload-artifact@v7   #https://github.com/actions/upload-artifact
+      uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
@@ -195,7 +195,7 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 发布至release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3   #https://github.com/softprops/action-gh-release
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -206,13 +206,14 @@ jobs:
         files: ${{ env.FIRMWARE }}/*
 
     # - name: Delete workflow runs
-      # uses: Mattraks/delete-workflow-runs@main
+      # uses: Mattraks/delete-workflow-runs@main   #https://github.com/Mattraks/delete-workflow-runs
       # with:
         # retain_days: 0
         # keep_minimum_runs: 8
 
     - name: Remove old Releases
-      uses: dev-drprasad/delete-older-releases@master
+      # uses: dev-drprasad/delete-older-releases@master   #https://github.com/dev-drprasad/delete-older-releases
+      uses: ui86/delete-older-releases@v1   #https://github.com/ui86/delete-older-releases
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         keep_latest: 8
@@ -221,6 +222,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # - name: Delete Artifacts
-      # uses: geekyeggo/delete-artifact@v5
+      # uses: geekyeggo/delete-artifact@v6   #https://github.com/GeekyEggo/delete-artifact
       # with:
         # name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
