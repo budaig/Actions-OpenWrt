@@ -149,6 +149,10 @@ fi
 # cat package/diy/lucky/lucky/Makefile
 # ## ---------------------------------------------------------
 
+# ## add quiclfile-go
+rm -rf feeds/luci/applications/luci-app-quickfile
+rm -rf feeds/packages/net/quickfile
+git clone -b main https://github.com/home16668/luci-app-quickfile-go  package/diy/quickfile-go
 
 # ## add OpenAppFilter oaf
 rm -rf feeds/luci/applications/luci-app-appfilter
