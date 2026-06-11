@@ -153,12 +153,21 @@ fi
 rm -rf feeds/luci/applications/luci-app-quickfile
 rm -rf feeds/packages/net/quickfile
 git clone -b main https://github.com/home16668/luci-app-quickfile-go  package/diy/quickfile-go
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2quickfilego/quickfile-go package/diy/quickfile-go/luci-app-quickfile-go/htdocs/luci-static/resources/view/quickfile-go.js
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2quickfilego/quickfile-go package/diy/quickfile-go/luci-app-quickfile-go/htdocs/luci-static/resources/view/quickfile-go.js
+# if [ $? -eq 0 ]; then
+    # echo "quickfile-go.js copied"
+# else
+    # echo "quickfile-go.js copy failed"
+# fi
+
+rm -f package/diy/quickfile-go/*
+mv -f  ${GITHUB_WORKSPACE}/_modFiles/2quickfilego/luci-app-quickfile-go/* package/diy/quickfile-go/
 if [ $? -eq 0 ]; then
-    echo "quickfile-go.js copied"
+    echo "quickfile-go folder copied"
 else
-    echo "quickfile-go.js copy failed"
+    echo "quickfile-go folder copy failed"
 fi
+chmod +x package/diy/quickfile-go/
 
 # ## add OpenAppFilter oaf
 rm -rf feeds/luci/applications/luci-app-appfilter
