@@ -160,7 +160,7 @@ git clone -b main https://github.com/home16668/luci-app-quickfile-go  package/di
     # echo "quickfile-go.js copy failed"
 # fi
 
-rm -f package/diy/quickfile-go/*
+rm -rf package/diy/quickfile-go/luci-app-quickfile-go
 mv -f  ${GITHUB_WORKSPACE}/_modFiles/2quickfilego/luci-app-quickfile-go/* package/diy/quickfile-go/
 if [ $? -eq 0 ]; then
     echo "quickfile-go folder copied"
@@ -168,6 +168,7 @@ else
     echo "quickfile-go folder copy failed"
 fi
 chmod +x package/diy/quickfile-go/
+ls -al package/diy/quickfile-go/
 
 # ## add OpenAppFilter oaf
 rm -rf feeds/luci/applications/luci-app-appfilter
