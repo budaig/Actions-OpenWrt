@@ -64,9 +64,9 @@ do
  echo "Deleted $cmd"
 done
 
-# ## update golang 20.x to 25.x
+# ## update golang 20.x to 26.x
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 25.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/lang/golang
 
 
 # ## -------------- adguardhome ---------------------------
@@ -267,10 +267,10 @@ fi
 
 # ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
 # 使用 sing-box 需要 +geoview
-# rm -rf feeds/packages/net/geoview
+rm -rf feeds/packages/net/geoview
 # git clone -b master https://github.com/snowie2000/geoview.git package/diy/geoview
 
-# rm -rf feeds/packages/net/sing-box
+rm -rf feeds/packages/net/sing-box
 
 # git clone https://github.com/immortalwrt/homeproxy -b main package/diy/homeproxy
 
@@ -296,16 +296,19 @@ fi
 
 # ## -------------- Dae   内核 >= 5.17 (immortalwrt 已包含) #As a successor of v2rayA, dae abandoned v2ray-core to meet the needs of users more freely.# ---------------------------
 
-# rm -rf package/feeds/packages/daed
-# rm -rf feeds/luci/applications/luci-app-daed
+rm -rf package/feeds/packages/dae
+rm -rf feeds/luci/applications/luci-app-dae
+rm -rf package/feeds/packages/daed
+rm -rf feeds/luci/applications/luci-app-daed
 
 # OpenWrt Official 23.05/SNAPSHOT
 # git clone -b main https://github.com/sbwml/luci-app-dae package/diy/dae
 # git clone https://github.com/sbwml/v2ray-geodata package/diy/v2ray-geodata
 
 # OpenWrt official 24.10/SnapShots
-# git clone -b master https://github.com/QiuSimons/luci-app-daed package/diy/dae
-# sed -i 's/    +kmod-veth +v2ray-geoip +v2ray-geosite/    +kmod-veth/g' package/diy/dae/daed/Makefile
+# git clone -b kix https://github.com/QiuSimons/luci-app-dae package/diy/dae
+# git clone -b kix https://github.com/QiuSimons/luci-app-daed package/diy/daed
+# sed -i 's/    +kmod-veth +v2ray-geoip +v2ray-geosite/    +kmod-veth/g' package/diy/daed/daed/Makefile
 # ## ---------------------------------------------------------
 
 
