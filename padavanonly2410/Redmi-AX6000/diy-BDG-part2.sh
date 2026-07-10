@@ -100,13 +100,13 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 # ## -------------- openlist ---------------------------
 rm -rf feeds/packages/net/openlist
 rm -rf feeds/luci/applications/luci-app-openlist
-# # git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/openlist
-# git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
-# # 终端命令（TTYD）执行命令：
-# # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
-# # 返回 Yes 表示支持，返回 No 表示不支持。
+# git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/openlist
+git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
+# 终端命令（TTYD）执行命令：
+# [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
+# 返回 Yes 表示支持，返回 No 表示不支持。
 
-# # git clone -b v4.1.8 --single-branch https://github.com/sbwml/luci-app-openlist2 package/diy/openlist2
+# git clone -b v4.1.8 --single-branch https://github.com/sbwml/luci-app-openlist2 package/diy/openlist2
 
 # ## ---------------------------------------------------------
 
@@ -346,13 +346,13 @@ rm -rf package/diy/v2raya/xray-core
 # nl feeds/packages/net/v2raya/Makefile
 
 ## customize v2raya ver
-sleep 1
-v2aver=2.4.7
-v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
-v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
-echo v2raya v$v2aver sha256=$v2asha256
-echo v2raya-web v$v2aver sha256=$v2awebsha256
-sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile
+# sleep 1
+# v2aver=2.4.7
+# v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
+# v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+# echo v2raya v$v2aver sha256=$v2asha256
+# echo v2raya-web v$v2aver sha256=$v2awebsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile
 
 # ## ---------------------------------------------------------
 
