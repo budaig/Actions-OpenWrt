@@ -54,7 +54,7 @@ done
 # ## update golang 20.x to 25.x
 # nl feeds/packages/lang/golang/golang/Makefile   #21.02 org ver1.19
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 25.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/lang/golang
 
 
 # ## -------------- adguardhome ---------------------------
@@ -371,7 +371,7 @@ rm -rf package/system/ca-certificates
 
 ## customize v2raya ver
 sleep 1
-v2aver=2.4.7
+v2aver=2.4.8
 v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 echo v2raya v$v2aver sha256=$v2asha256
@@ -557,7 +557,7 @@ fi
     # echo "blockADcooka copy failed"
 # fi
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/resolv.conf.auto package/diy/luci-app-smartdns/root/etc/smartdns/resolv.conf.auto
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/resolv.conf.auto package/diy/luci-app-smartdns/root/etc/resolv.conf.auto
 if [ $? -eq 0 ]; then
     echo "resolv.conf.auto copied"
 else
