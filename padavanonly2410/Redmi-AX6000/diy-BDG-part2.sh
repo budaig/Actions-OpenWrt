@@ -240,7 +240,7 @@ fi
 ## core
 # git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-git clone -b v25.12.8 --single-branch https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
+git clone -b v26.3.27 --single-branch https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
 # https://api.github.com/repos/XTLS/Xray-core/commits   https://codeload.github.com/XTLS/Xray-core/tar.gz/v25.3.3?/Xray-core-25.3.3.tar.gz
 # # or xrver=26.1.23
 # xrver=25.12.8
@@ -339,7 +339,8 @@ rm -rf package/diy/v2raya/v2fly-geodata
 rm -rf package/diy/v2raya/xray-core
 
 ## customize ca ver
-# caver=20241223
+rm -rf package/system/ca-certificates
+# caver=20250419
 # casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
 # echo ca-certificates v$caver sha256=$casha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile

@@ -363,7 +363,7 @@ rm -rf package/diy/v2raya/xray-core
 
 ## customize ca ver
 rm -rf package/system/ca-certificates
-# caver=20241223
+# caver=20250419
 # casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
 # echo ca-certificates v$caver sha256=$casha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
@@ -371,7 +371,7 @@ rm -rf package/system/ca-certificates
 
 ## customize v2raya ver
 sleep 1
-v2aver=2.4.8
+v2aver=2.4.9
 v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
 v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
 echo v2raya v$v2aver sha256=$v2asha256
