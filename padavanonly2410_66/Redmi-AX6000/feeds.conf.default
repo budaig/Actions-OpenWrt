@@ -1,4 +1,4 @@
-#openwrt-24.10
+#openwrt-24.10-6.6
 src-git packages https://github.com/immortalwrt/packages.git;openwrt-24.10
 src-git luci https://github.com/immortalwrt/luci.git;openwrt-24.10
 src-git routing https://git.openwrt.org/feed/routing.git;openwrt-24.10

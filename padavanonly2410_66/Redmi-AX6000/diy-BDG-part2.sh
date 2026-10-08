@@ -64,9 +64,9 @@ do
  echo "Deleted $cmd"
 done
 
-# ## update golang 20.x to 25.x
+# ## update golang 20.x to 26.x
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 25.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/lang/golang
 
 
 # ## -------------- adguardhome ---------------------------
@@ -84,29 +84,29 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 # ## ---------------------------------------------------------
 
 
-# ## -------------- alist ---------------------------
-# replace alist
-# nl feeds/packages/net/alist/Makefile   #21.02 org ver3.19.0
-rm -rf feeds/packages/net/alist
-rm -rf feeds/luci/applications/luci-app-alist
-# rm -rf luci-i18n-alist-zh-cn
-# alist 3.36 requires go 1.22
-## 无binary 需手动下载bin
-# git clone https://github.com/lmq8267/luci-app-alist.git -b main package/diy/alist
-## bin 和 luci
-# git clone https://github.com/sbwml/luci-app-alist.git -b main package/diy/alist
+# ## -------------- clonemac ---------------------------
+# rm -rf feeds/luci/applications/luci-app-mac
+# git clone https://github.com/pkq66882/luci-app-mac -b main package/diy/clonemac
+# ## ---------------------------------------------------------
+
+
+# ## -------------- VNT ---------------------------
+# rm -rf feeds/packages/net/vnt
+# rm -rf feeds/luci/applications/luci-app-vnt
+# git clone https://github.com/lmq8267/luci-app-vnt -b main package/diy/vnt
+# ## ---------------------------------------------------------
 
 
 # ## -------------- openlist ---------------------------
 rm -rf feeds/packages/net/openlist
 rm -rf feeds/luci/applications/luci-app-openlist
 # git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/openlist
-# git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
+git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
 # 终端命令（TTYD）执行命令：
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
 # 返回 Yes 表示支持，返回 No 表示不支持。
 
-git clone -b v4.1.8 --single-branch https://github.com/sbwml/luci-app-openlist2 package/diy/openlist2
+# git clone -b v4.1.8 --single-branch https://github.com/sbwml/luci-app-openlist2 package/diy/openlist2
 
 # ## ---------------------------------------------------------
 
@@ -149,6 +149,26 @@ fi
 # cat package/diy/lucky/lucky/Makefile
 # ## ---------------------------------------------------------
 
+# ## add quiclfile-go
+rm -rf feeds/luci/applications/luci-app-quickfile
+rm -rf feeds/packages/net/quickfile
+git clone -b main https://github.com/home16668/luci-app-quickfile-go  package/diy/quickfile-go
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2quickfilego/quickfile-go package/diy/quickfile-go/luci-app-quickfile-go/htdocs/luci-static/resources/view/quickfile-go.js
+# if [ $? -eq 0 ]; then
+    # echo "quickfile-go.js copied"
+# else
+    # echo "quickfile-go.js copy failed"
+# fi
+
+rm -rf package/diy/quickfile-go/luci-app-quickfile-go
+mv -f  ${GITHUB_WORKSPACE}/_modFiles/2quickfilego/luci-app-quickfile-go/* package/diy/quickfile-go/
+if [ $? -eq 0 ]; then
+    echo "quickfile-go folder copied"
+else
+    echo "quickfile-go folder copy failed"
+fi
+chmod +x package/diy/quickfile-go/
+ls -al package/diy/quickfile-go/
 
 # ## add OpenAppFilter oaf
 rm -rf feeds/luci/applications/luci-app-appfilter
@@ -193,10 +213,34 @@ rm -rf feeds/luci/applications/luci-app-passwall2
 ## geodata
 git clone https://github.com/yichya/openwrt-xray-geodata-cut -b master package/diy/openwrt-geodata
    #与 mosdns geodata 相同
+### replace cut geosite.dat with bettergeosite
+#### use custom geosite.dat
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2geodata/geodatacutmodMakefile package/diy/openwrt-geodata/Makefile
+if [ $? -eq 0 ]; then
+    echo "geodatacutmodMakefile copied"
+else
+    echo "geodatacutmodMakefile copy failed"
+fi
+
+##### cp dat
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2geodata/geosite.dat package/diy/openwrt-geodata/geosite.dat
+# if [ $? -eq 0 ]; then
+    # echo "better geosite.dat copied"
+# else
+    # echo "better geosite.dat copy failed"
+# fi
+#####   or   direct download dat
+# mkdir -p package/diy/openwrt-geodata/root/usr/share/xray
+# urlgeosite="https://github.com/vrichv/better-geosite/raw/refs/heads/release/geosite.dat"
+# # urlgeosite="https://github.com/vrichv/better-geosite/blob/release/geosite.dat"
+# curl -sL -m 30 --retry 2 "$urlgeosite" -o package/diy/openwrt-geodata/geosite.dat || echo "Failed to download better geosite.dat"
+
+# chmod +x package/diy/openwrt-geodata/geosite.dat
+
 ## core
 # git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-git clone -b v25.12.8 --single-branch https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
+git clone -b v26.3.27 --single-branch https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
 # https://api.github.com/repos/XTLS/Xray-core/commits   https://codeload.github.com/XTLS/Xray-core/tar.gz/v25.3.3?/Xray-core-25.3.3.tar.gz
 # # or xrver=26.1.23
 # xrver=25.12.8
@@ -208,24 +252,25 @@ git clone -b v25.12.8 --single-branch https://github.com/yichya/openwrt-xray pac
 rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app-xray"
 
 ## yicha xray xstatus luci for 22.03 and up---------------
-git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
+# git clone https://github.com/yichya/luci-app-xray -b master package/diy/luci-app-xstatus
+# rm -rf package/diy/luci-app-xstatus/geodata
 # # disable auto start
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
- if [ $? -eq 0 ]; then
-     echo "xstatus.conf copied"
- else
-     echo "xstatus.conf copy failed"
- fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/diy/luci-app-xstatus/core/root/etc/config/xray_core
+# if [ $? -eq 0 ]; then
+    # echo "xstatus.conf copied"
+# else
+    # echo "xstatus.conf copy failed"
+# fi
 # yicha xray xstatus ---------------
 # ## ---------------------------------------------------------
 
 
 # ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
 # 使用 sing-box 需要 +geoview
-# rm -rf feeds/packages/net/geoview
+rm -rf feeds/packages/net/geoview
 # git clone -b master https://github.com/snowie2000/geoview.git package/diy/geoview
 
-# rm -rf feeds/packages/net/sing-box
+rm -rf feeds/packages/net/sing-box
 
 # git clone https://github.com/immortalwrt/homeproxy -b main package/diy/homeproxy
 
@@ -251,21 +296,24 @@ cp -f ${GITHUB_WORKSPACE}/_modFiles/2xapp-xstatus/etcconfigxstatus.conf package/
 
 # ## -------------- Dae   内核 >= 5.17 (immortalwrt 已包含) #As a successor of v2rayA, dae abandoned v2ray-core to meet the needs of users more freely.# ---------------------------
 
-# rm -rf package/feeds/packages/daed
-# rm -rf feeds/luci/applications/luci-app-daed
+rm -rf package/feeds/packages/dae
+rm -rf feeds/luci/applications/luci-app-dae
+rm -rf package/feeds/packages/daed
+rm -rf feeds/luci/applications/luci-app-daed
 
 # OpenWrt Official 23.05/SNAPSHOT
 # git clone -b main https://github.com/sbwml/luci-app-dae package/diy/dae
 # git clone https://github.com/sbwml/v2ray-geodata package/diy/v2ray-geodata
 
 # OpenWrt official 24.10/SnapShots
-# git clone -b master https://github.com/QiuSimons/luci-app-daed package/diy/dae
-# sed -i 's/    +kmod-veth +v2ray-geoip +v2ray-geosite/    +kmod-veth/g' package/diy/dae/daed/Makefile
+# git clone -b kix https://github.com/QiuSimons/luci-app-dae package/diy/dae
+# git clone -b kix https://github.com/QiuSimons/luci-app-daed package/diy/daed
+# sed -i 's/    +kmod-veth +v2ray-geoip +v2ray-geosite/    +kmod-veth/g' package/diy/daed/daed/Makefile
 # ## ---------------------------------------------------------
 
 
 # ## -------------- v2raya ---------------------------
-# nl feeds/packages/net/v2raya/Makefile   #23.05 org ver2.2.5.7
+# nl feeds/packages/net/v2raya/Makefile   #24.10 org ver2.2.7.3
 rm -rf feeds/packages/net/v2raya
 rm -rf feeds/luci/applications/luci-app-v2raya
 
@@ -282,7 +330,7 @@ rm -rf feeds/luci/applications/luci-app-v2raya
 # ls package/diy/v2raya
 
 ## method 2: clone then replace key files
-#git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
@@ -291,11 +339,22 @@ rm -rf package/diy/v2raya/v2fly-geodata
 rm -rf package/diy/v2raya/xray-core
 
 ## customize ca ver
-# caver=20241223
+rm -rf package/system/ca-certificates
+# caver=20250419
 # casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
 # echo ca-certificates v$caver sha256=$casha256
 # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$caver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$casha256"'/g' package/diy/v2raya/ca-certificates/Makefile
 # nl feeds/packages/net/v2raya/Makefile
+
+## customize v2raya ver
+# sleep 1
+# v2aver=2.4.8
+# v2asha256=($(curl -sL https://codeload.github.com/v2rayA/v2rayA/tar.gz/v$v2aver | shasum -a 256))
+# v2awebsha256=($(curl -sL https://github.com/v2rayA/v2rayA/releases/download/v$v2aver/web.tar.gz | shasum -a 256))
+# echo v2raya v$v2aver sha256=$v2asha256
+# echo v2raya-web v$v2aver sha256=$v2awebsha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$v2aver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$v2asha256"'/g;59 s/	HASH:=.*/	HASH:='"$v2awebsha256"'/g' package/diy/v2raya/v2raya/Makefile
+
 # ## ---------------------------------------------------------
 
 # rm -rf package/network/utils/fullconenat-nft
@@ -386,14 +445,14 @@ sed -i '34i \endif' package/diy/smartdns/Makefile
 # SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq .[0].sha | sed 's/\"//g'`)
 # echo smartdns v$SMARTDNS_VER sha=$SMAERTDNS_SHA
 
-SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq '.[0].commit.committer.date' | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
-SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq '.[0].sha' | sed 's/\"//g'`)
-echo smartdns v$SMARTDNS_VER sha=$SMAERTDNS_SHA
+# SMARTDNS_VER=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq '.[0].commit.committer.date' | awk -F "T" '{print $1}' | sed 's/\"//g' | sed 's/\-/\./g'`)
+# SMAERTDNS_SHA=$(echo -n `curl -sL https://api.github.com/repos/pymumu/smartdns/commits | jq '.[0].sha' | sed 's/\"//g'`)
+# echo smartdns v$SMARTDNS_VER sha=$SMAERTDNS_SHA
 
-sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile
-sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/diy/smartdns/Makefile
-# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile
+# sed -i '/PKG_MIRROR_HASH:=/d' package/diy/smartdns/Makefile
+# # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/smartdns/Makefile
+# sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:='"$SMAERTDNS_SHA"'/g' package/diy/smartdns/Makefile
+# # sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$SMARTDNS_VER"'/g' package/diy/luci-app-smartdns/Makefile
 
 ## add anti-ad data
 mkdir -p package/diy/luci-app-smartdns/root/etc/smartdns || echo "Failed to create /luci-app-smartdns/root/etc/smartdns"
@@ -433,7 +492,7 @@ fi
     # echo "blockADcooka copy failed"
 # fi
 
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/resolv.conf.auto package/diy/luci-app-smartdns/root/etc/smartdns/resolv.conf.auto
+cp -f ${GITHUB_WORKSPACE}/_modFiles/2smartdns/resolv.conf.auto package/diy/luci-app-smartdns/root/etc/resolv.conf.auto
 if [ $? -eq 0 ]; then
     echo "resolv.conf.auto copied"
 else
@@ -519,8 +578,8 @@ curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc
 
 
 # ## replace a theme
-# rm -rf ./feeds/luci/themes/luci-theme-argon
-# git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
+rm -rf ./feeds/luci/themes/luci-theme-argon
+git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 # replace theme bg
 rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
 cp ${GITHUB_WORKSPACE}/_modFiles/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
