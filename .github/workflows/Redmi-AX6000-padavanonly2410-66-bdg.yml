@@ -1,0 +1,248 @@
+#
+# https://github.com/P3TERX/Actions-OpenWrt
+#
+# File: .github/workflows/openwrt-bulder.yml
+# Description: Build OpenWrt using GitHub Actions
+#
+# Copyright (c) 2019-2024 P3TERX <https://p3terx.com>
+#
+# This is free software, licensed under the MIT License.
+# See /LICENSE for more information.
+#
+
+###############改名字##############
+name: Redmi-AX6000-padavanonly2410_66_bdg
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+      # - "v*.*.*"
+  repository_dispatch:
+  #schedule:
+  #  - cron: 30 22 * * *
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  issues: write
+
+env:
+  REPO_URL: https://github.com/Yuzhii0718/immortalwrt-mt798x-6.6-padavanonly
+  REPO_BRANCH: openwrt-24.10-6.6
+  FEEDS_CONF: padavanonly2410_66/Redmi-AX6000/feeds.conf.default
+  CONFIG_FILE: padavanonly2410_66/Redmi-AX6000/BDG.config
+  DIY_P1_SH: padavanonly2410_66/Redmi-AX6000/diy-BDG-part1.sh
+  DIY_P2_SH: padavanonly2410_66/Redmi-AX6000/diy-BDG-part2.sh
+  SSH_ACTIONS: false
+  UPLOAD_BIN_DIR: false
+  UPLOAD_FIRMWARE: true
+  UPLOAD_RELEASE: true
+  TZ: Asia/Shanghai
+  ###############改名字##############
+  OPENWRT_NAME: padavanonly2410_66_bdg
+
+jobs:
+  build_firmware:
+    runs-on: ubuntu-22.04
+    # runs-on: ubuntu-latest
+
+    steps:
+    - name: 检查项目分支
+      uses: actions/checkout@main   #https://github.com/actions/checkout
+      
+    - name: 检查硬盘空间
+      if: (!cancelled())
+      run: df -hT
+
+    - name: 清理硬盘空间
+      uses: mkorje/free-disk-space-action@v1
+
+    # - name: Free Disk Space (Ubuntu)
+      # uses: thiagokokada/free-disk-space@main
+      # with:
+        # # this might remove tools that are actually needed, but is enabled by
+        # # default
+        # tool-cache: false
+        # # possible dangerous options since they delete whole directories that
+        # # are generally for third-party software or cache like /usr/local,
+        # # /opt, /var/cache, only use them if you know what you're doing
+        # usrmisc: true
+        # usrlocal: true
+        # opt: true
+        # varcache: false
+        # # this will run `du -h /* 2>/dev/null | sort -hr | head -n <N>` to show
+        # # the top N directories by size, it is mostly used by development/debug
+        # # and should not be used generally since it takes a while to calculate
+        # debug: false
+
+    - name: 初始化编译环境
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+        sudo rm -rf "/usr/local/share/boost"
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+        sudo docker image prune --all --force
+        sudo -E apt-get -qq update
+        # 4 install dae
+        # sudo apt-get install -y clang-15 llvm-15 npm
+        # sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
+        sudo -E apt-get -qq install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libfuse-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool lrzsz mkisofs msmtp ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pyelftools python3-setuptools qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev libfuse-dev rename
+        sudo -E apt-get -qq install gettext   #po2lmo
+        # sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-2004)
+        #install lib32gcc1
+        # sudo -E apt-get -qq install libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5
+        # add libfuse
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+        sudo timedatectl set-timezone "$TZ"
+        sudo mkdir -p /workdir
+        sudo chown $USER:$GROUPS /workdir
+
+    - name: 下载固件源码
+      working-directory: /workdir
+      run: |
+        df -hT $PWD
+        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+
+    - name: 加载feeds.conf.default & DIY_P1_SH
+      run: |
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P1_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P1_SH
+
+    - name: 更新 & 安装 feeds
+      run: |
+        cd openwrt
+        ./scripts/feeds update -a
+        # git clone -b master --single-branch https://github.com/immortalwrt/packages.git packages_master
+        ./scripts/feeds install -a
+
+    - name: 加载config & DIY_P2_SH
+      run: |
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        chmod +x $DIY_P2_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P2_SH
+
+    # - name: SSH链接管理
+      # uses: P3TERX/ssh2actions@v1.0.0
+      # if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+      # env:
+        # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+    - name: 下载安装包
+      id: package
+      run: |
+        cd openwrt
+        make defconfig
+        make download -j$(nproc)
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+
+    - name: 编译固件
+      id: compile
+      run: |
+        cd openwrt
+        echo -e "$(nproc) thread compile"
+        make -j$(nproc) || make -j1 || make -j1 V=s
+        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
+        [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
+        cat TARGET_NAME
+        echo $GITHUB_ENV
+        echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
+        echo "status=success" >> $GITHUB_OUTPUT
+
+    - name: 查看磁盘使用情况
+      if: (!cancelled())
+      run: df -hT
+
+    #- name: 上传 bin 目录
+      #uses: actions/upload-artifact@main
+      #if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      #with:
+      #  name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+      #  path: openwrt/bin
+
+    - name: 整理文件并重命名
+      id: organize
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      run: |
+        cd openwrt/bin/targets/*/*
+        rm -rf packages
+        rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        echo "status=success" >> $GITHUB_OUTPUT
+        echo $GITHUB_ENV
+        echo $GITHUB_OUTPUT
+
+    - name: 上传固件到github
+      uses: actions/upload-artifact@v7   #https://github.com/actions/upload-artifact
+      # uses: actions/upload-artifact@main
+      if: steps.organize.outputs.status == 'success' && !cancelled()
+      with:
+        name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
+        path: ${{ env.FIRMWARE }}
+
+    - name: 生成release标签
+      id: tag
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      run: |
+        echo "release_tag=${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}" >> $GITHUB_OUTPUT
+        touch release.txt
+        echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
+        echo "The default IP address is 192.168.XXX.1" >> release.txt
+        echo "## padavanonly-24.10 uboot layout " >> release.txt
+        echo "------" >> release.txt
+        useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
+        echo "$useVersionInfo" >> release.txt
+        echo "📥 固件下载" >> release.txt
+        echo "status=success"
+        echo "status=success" >> $GITHUB_OUTPUT
+
+    - name: 发布至release
+      uses: softprops/action-gh-release@v3   #https://github.com/softprops/action-gh-release
+      # workaround for https://github.com/softprops/action-gh-release/issues/628
+      # uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
+      if: steps.tag.outputs.status == 'success' && !cancelled()
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
+        tag_name: ${{ steps.tag.outputs.release_tag }}
+        body_path: release.txt
+        files: ${{ env.FIRMWARE }}/*
+
+    # - name: Delete workflow runs
+      # uses: Mattraks/delete-workflow-runs@main   #https://github.com/Mattraks/delete-workflow-runs
+      # with:
+        # retain_days: 0
+        # keep_minimum_runs: 8
+
+    - name: Remove old Releases
+      # uses: dev-drprasad/delete-older-releases@master   #https://github.com/dev-drprasad/delete-older-releases
+      uses: ui86/delete-older-releases@v1   #https://github.com/ui86/delete-older-releases
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 8
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # - name: Delete Artifacts
+      # uses: geekyeggo/delete-artifact@v6   #https://github.com/GeekyEggo/delete-artifact
+      # with:
+        # name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
