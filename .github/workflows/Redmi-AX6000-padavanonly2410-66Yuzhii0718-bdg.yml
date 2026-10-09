@@ -11,7 +11,7 @@
 #
 
 ###############改名字##############
-name: Redmi-AX6000-padavanonly2410_66_bdg
+name: Redmi-AX6000-padavanonly2410_66Yuzhii0718_bdg
 
 on:
   push:
@@ -35,7 +35,7 @@ permissions:
   issues: write
 
 env:
-  REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-6.6
+  REPO_URL: https://github.com/Yuzhii0718/immortalwrt-mt798x-6.6-padavanonly
   REPO_BRANCH: openwrt-24.10-6.6
   FEEDS_CONF: padavanonly2410_66/Redmi-AX6000/feeds.conf.default
   # FEEDS_CONF: feeds.conf.default
@@ -48,7 +48,7 @@ env:
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
   ###############改名字##############
-  OPENWRT_NAME: padavanonly2410_66_bdg
+  OPENWRT_NAME: padavanonly2410_66Yuzhii0718_bdg
 
 jobs:
   build_firmware:
