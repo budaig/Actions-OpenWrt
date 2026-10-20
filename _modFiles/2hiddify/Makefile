@@ -17,7 +17,7 @@ PKG_BUILD_PARALLEL:=1
 PKG_BUILD_FLAGS:=no-mips16
 
 GO_PKG:=github.com/hiddify/hiddify-core
-GO_PKG_BUILD_PKG:=$(GO_PKG)/cli
+GO_PKG_BUILD_PKG:=$(GO_PKG)/core
 
 GO_PKG_LDFLAGS_X:=$(GO_PKG)/constant.Version=$(PKG_VERSION)
 
@@ -49,7 +49,7 @@ endef
 define Package/hiddify-core/install
 
 	$(INSTALL_DIR) $(1)/usr/bin/
-	$(INSTALL_BIN) $(GO_PKG_BUILD_BIN_DIR)/cli $(1)/usr/bin/hiddify-cli
+	$(INSTALL_BIN) $(GO_PKG_BUILD_BIN_DIR)/core $(1)/usr/bin/hiddify-core
 
 	$(INSTALL_DIR) $(1)/etc/hiddify
 	$(INSTALL_DATA) ./files/hiddify.json $(1)/etc/hiddify/appconfig.json
