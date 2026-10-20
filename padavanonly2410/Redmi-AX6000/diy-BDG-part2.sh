@@ -101,7 +101,7 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 rm -rf feeds/packages/net/openlist
 rm -rf feeds/luci/applications/luci-app-openlist
 # git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/openlist
-git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
+#   git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
 # 终端命令（TTYD）执行命令：
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
 # 返回 Yes 表示支持，返回 No 表示不支持。
@@ -240,7 +240,7 @@ fi
 ## core
 # git clone https://github.com/yichya/openwrt-xray -b master package/diy/openwrt-xray
 # custom ver
-git clone -b v26.3.27 --single-branch https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
+git clone -b v25.12.8 --single-branch https://github.com/yichya/openwrt-xray package/diy/openwrt-xray
 # https://api.github.com/repos/XTLS/Xray-core/commits   https://codeload.github.com/XTLS/Xray-core/tar.gz/v25.3.3?/Xray-core-25.3.3.tar.gz
 # # or xrver=26.1.23
 # xrver=25.12.8
@@ -311,6 +311,19 @@ rm -rf feeds/luci/applications/luci-app-daed
 # sed -i 's/    +kmod-veth +v2ray-geoip +v2ray-geosite/    +kmod-veth/g' package/diy/daed/daed/Makefile
 # ## ---------------------------------------------------------
 
+# ## -------------- Hiddify ---------------------------
+# method 1: replace whole dir
+mkdir -p package/diy/hiddify
+mv -f ${GITHUB_WORKSPACE}/_modFiles/2hiddify/* package/diy/hiddify/
+if [ $? -eq 0 ]; then
+    echo "hiddify dir copied"
+else
+    echo "hiddify dir copy failed"
+fi
+chmod +x package/diy/hiddify/files/hiddify.init
+chmod +x package/diy/hiddify/files/hiddify.conf
+chmod +x package/diy/hiddify/
+ls package/diy/hiddify
 
 # ## -------------- v2raya ---------------------------
 # nl feeds/packages/net/v2raya/Makefile   #24.10 org ver2.2.7.3
@@ -330,7 +343,7 @@ rm -rf feeds/luci/applications/luci-app-v2raya
 # ls package/diy/v2raya
 
 ## method 2: clone then replace key files
-git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
+# git clone https://github.com/v2rayA/v2raya-openwrt -b master package/diy/v2raya
 # mv package/diy/v2raya/v2raya feeds/packages/net/v2raya
 # mv package/diy/v2raya/luci-app-v2raya feeds/luci/applications/luci-app-v2raya
 
