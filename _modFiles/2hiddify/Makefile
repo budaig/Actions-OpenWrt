@@ -16,10 +16,10 @@ PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
 PKG_BUILD_FLAGS:=no-mips16
 
-GO_PKG:=github.com/hiddify/hiddify-core
-GO_PKG_BUILD_PKG:=$(GO_PKG)/cli
+# GO_PKG:=github.com/hiddify/hiddify-core
+# GO_PKG_BUILD_PKG:=$(GO_PKG)/cli
 
-GO_PKG_LDFLAGS_X:=$(GO_PKG)/constant.Version=$(PKG_VERSION)
+# GO_PKG_LDFLAGS_X:=$(GO_PKG)/constant.Version=$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 include ../../lang/golang/golang-package.mk
@@ -29,7 +29,8 @@ define Package/hiddify-core
   SECTION:=net
   CATEGORY:=Network
   URL:=https://hiddify.com/
-  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle +kmod-inet-diag +kmod-tun
+  # DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle +kmod-inet-diag +kmod-tun
+  DEPENDS:=+ca-bundle +kmod-inet-diag +kmod-tun
   USERID:=hiddify=15566:hiddify=15566
 endef
 
@@ -38,7 +39,7 @@ define Package/hiddify-core/description
   ShadowTLS, Tor, trojan, VLess, VMess, WireGuard and so on.
 endef
 
-GO_PKG_TAGS:=with_gvisor,with_quic,with_wireguard,with_ech,with_utls,with_clash_api,with_grpc,with_low_memory,with_conntrack
+# GO_PKG_TAGS:=with_gvisor,with_quic,with_wireguard,with_ech,with_utls,with_clash_api,with_grpc,with_low_memory,with_conntrack
 
 define Package/hiddify-core/conffiles
 /etc/config/hiddify

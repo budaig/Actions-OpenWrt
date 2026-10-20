@@ -64,9 +64,9 @@ do
  echo "Deleted $cmd"
 done
 
-# ## update golang 20.x to 26.x
+# ## update golang 20.x to 27.x
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 27.x feeds/packages/lang/golang
 
 
 # ## -------------- adguardhome ---------------------------
