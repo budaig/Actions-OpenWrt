@@ -355,7 +355,7 @@ rm -rf package/diy/v2raya/v2fly-geodata
 rm -rf package/diy/v2raya/xray-core
 
 ## customize ca ver
-rm -rf package/system/ca-certificates
+# rm -rf package/system/ca-certificates
 # caver=20250419
 # casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
 # echo ca-certificates v$caver sha256=$casha256

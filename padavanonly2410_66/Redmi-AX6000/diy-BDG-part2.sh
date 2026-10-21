@@ -46,16 +46,16 @@ package/feeds/luci/luci-app-ssr-libev-server
 package/feeds/luci/luci-app-ssr-plus
 package/feeds/luci/luci-app-vssr
 #package/network/utils/fullconenat-nft
-feeds/packages/net/geoview
-feeds/packages/net/sing-box
-feeds/packages/net/v2ray-geodata
-feeds/packages/net/v2ray-core
-feeds/packages/net/v2ray-plugin
-feeds/packages/net/xray-plugin
-feeds/packages/net/xray-core
-feeds/packages/net/shadowsocks-libev
-feeds/packages/net/shadowsocks-rust
-feeds/packages/net/shadowsocksr-libev
+# feeds/packages/net/geoview
+# feeds/packages/net/sing-box
+# feeds/packages/net/v2ray-geodata
+# feeds/packages/net/v2ray-core
+# feeds/packages/net/v2ray-plugin
+# feeds/packages/net/xray-plugin
+# feeds/packages/net/xray-core
+# feeds/packages/net/shadowsocks-libev
+# feeds/packages/net/shadowsocks-rust
+# feeds/packages/net/shadowsocksr-libev
 "
 
 for cmd in $del_data;
@@ -355,7 +355,7 @@ rm -rf package/diy/v2raya/v2fly-geodata
 rm -rf package/diy/v2raya/xray-core
 
 ## customize ca ver
-rm -rf package/system/ca-certificates
+# rm -rf package/system/ca-certificates
 # caver=20250419
 # casha256=($(curl -sL https://ftp.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_$caver.tar.xz | shasum -a 256))
 # echo ca-certificates v$caver sha256=$casha256
