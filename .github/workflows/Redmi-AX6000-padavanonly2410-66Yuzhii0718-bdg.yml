@@ -105,36 +105,96 @@ jobs:
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
-        sudo mkdir -p /workdir
-        sudo chown $USER:$GROUPS /workdir
+        sudo mkdir -p /builder
+        sudo chown $USER:$GROUPS /builder
 
     - name: 下载固件源码
-      working-directory: /workdir
+      working-directory: /builder
       run: |
         df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH openwrt
-        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        git clone -b $REPO_BRANCH --single-branch --filter=blob:none $REPO_URL openwrt || { echo 'Git clone failed!'; exit 1; }
 
     - name: 加载feeds.conf.default & DIY_P1_SH
+      working-directory: /builder
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
+        $DIY_P1_SH
+
+       # ========= 添加 immortalwrt 110m 大分区代码 =========
+    - name: Apply AX6000 110M Layout Modifications
+      working-directory: /builder/openwrt
+      run: |
+        # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
+        cat << 'EOF' >> target/linux/mediatek/image/filogic.mk
+
+        define Device/xiaomi_redmi-router-ax6000-110m
+          $(Device/xiaomi_redmi-router-ax6000-stock)
+          DEVICE_VARIANT := (hanwckf 110M layout)
+          DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-110m
+          SUPPORTED_DEVICES := xiaomi,redmi-router-ax6000
+          IMAGE_SIZE := 112640k
+          KERNEL_IN_UBI := 1
+          IMAGES := factory.bin sysupgrade.bin
+          IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+          IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+        endef
+        TARGET_DEVICES += xiaomi_redmi-router-ax6000-110m
+        EOF
+
+        # 2. 创建全新的 immortalwrt 110m大分区 DTS 设备树文件
+        cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-110m.dts
+        // SPDX-License-Identifier: (GPL-2.0 OR MIT)
+
+        /dts-v1/;
+        #include "mt7986a-xiaomi-redmi-router-ax6000.dtsi"
+
+        / {
+        	model = "Xiaomi Redmi Router AX6000 (hanwckf 110M layout)";
+        	compatible = "xiaomi,redmi-router-ax6000", "mediatek,mt7986a";
+        };
+
+        &spi_nand_flash {
+        	mediatek,nmbm;
+        	mediatek,bmt-max-ratio = <1>;
+        	mediatek,bmt-max-reserved-blocks = <64>;
+        };
+
+        &partitions {
+        	partition@580000 {
+        		label = "crash";
+        		reg = <0x580000 0x40000>;
+        		read-only;
+        	};
+
+        	partition@5c0000 {
+        		label = "crash_log";
+        		reg = <0x5c0000 0x40000>;
+        		read-only;
+        	};
+
+        	partition@600000 {
+        		label = "ubi";
+        		reg = <0x600000 0x6e00000>;
+        	};
+        };
+        EOF
+
+        echo "✅ AX6000 110M 大分区适配代码补丁应用成功！"
 
     - name: 更新 & 安装 feeds
+      working-directory: /builder/openwrt
       run: |
-        cd openwrt
         ./scripts/feeds update -a
         # git clone -b master --single-branch https://github.com/immortalwrt/packages.git packages_master
         ./scripts/feeds install -a
 
     - name: 加载config & DIY_P2_SH
+      working-directory: /builder/openwrt
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE /.config
         chmod +x $DIY_P2_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P2_SH
+        $DIY_P2_SH
 
     # - name: SSH链接管理
       # uses: P3TERX/ssh2actions@v1.0.0
@@ -145,8 +205,8 @@ jobs:
 
     - name: 下载安装包
       id: package
+      working-directory: /builder/openwrt
       run: |
-        cd openwrt
         make defconfig
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
@@ -154,59 +214,41 @@ jobs:
 
     - name: 编译固件
       id: compile
+      working-directory: /builder/openwrt
       run: |
-        cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 || make -j1 V=s
-        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
-        [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
-        cat TARGET_NAME
-        echo $GITHUB_ENV
-        echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
-        echo "status=success" >> $GITHUB_OUTPUT
+        make -j$(nproc) || make -j1 V=s
+        # grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        # [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        # grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
+        # [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
+        # cat TARGET_NAME
+        # echo $GITHUB_ENV
+        # echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
+        # echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 查看磁盘使用情况
       if: (!cancelled())
       run: df -hT
-
-    #- name: 上传 bin 目录
-      #uses: actions/upload-artifact@main
-      #if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
-      #with:
-      #  name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
-      #  path: openwrt/bin
-
-    - name: 整理文件并重命名
-      id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
-      run: |
-        cd openwrt/bin/targets/*/*
-        rm -rf packages
-        rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
-        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        echo "status=success" >> $GITHUB_OUTPUT
-        echo $GITHUB_ENV
-        echo $GITHUB_OUTPUT
 
     - name: 上传固件到github
       uses: actions/upload-artifact@v7   #https://github.com/actions/upload-artifact
       # uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
-        path: ${{ env.FIRMWARE }}
+        name: $OPENWRT_NAME
+        path: /builder/openwrt/bin
 
     - name: 生成release标签
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}" >> $GITHUB_OUTPUT
+        echo "FILE_DATE=$(TZ=Asia/Shanghai date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
+        echo "release_tag=${{ env.FILE_DATE }}_$OPENWRT_NAME_${{ github.run_id }}" >> $GITHUB_OUTPUT
         touch release.txt
         echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
         echo "The default IP address is 192.168.XXX.1" >> release.txt
-        echo "## padavanonly-24.10 uboot layout " >> release.txt
+        echo "## padavanonly-24.10 6.6 uboot layout " >> release.txt
         echo "------" >> release.txt
         useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
         echo "$useVersionInfo" >> release.txt
@@ -222,16 +264,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
+        name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}}
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
-
-    # - name: Delete workflow runs
-      # uses: Mattraks/delete-workflow-runs@main   #https://github.com/Mattraks/delete-workflow-runs
-      # with:
-        # retain_days: 0
-        # keep_minimum_runs: 8
 
     - name: Remove old Releases
       # uses: dev-drprasad/delete-older-releases@master   #https://github.com/dev-drprasad/delete-older-releases
