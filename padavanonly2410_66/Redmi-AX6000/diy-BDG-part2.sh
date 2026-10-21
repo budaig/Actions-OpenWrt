@@ -270,10 +270,10 @@ git clone -b main https://github.com/kenzok8/openwrt-clashoo package/diy/clashoo
 
 # ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
 # 使用 sing-box 需要 +geoview
-rm -rf feeds/packages/net/geoview
+# rm -rf feeds/packages/net/geoview
 # git clone -b master https://github.com/snowie2000/geoview.git package/diy/geoview
 
-rm -rf feeds/packages/net/sing-box
+# rm -rf feeds/packages/net/sing-box
 
 # git clone https://github.com/immortalwrt/homeproxy -b main package/diy/homeproxy
 

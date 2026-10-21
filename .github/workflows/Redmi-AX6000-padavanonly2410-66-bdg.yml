@@ -251,7 +251,7 @@ jobs:
     - name: 上传固件到github
       uses: actions/upload-artifact@v7   #https://github.com/actions/upload-artifact
       # uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      # if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: $OPENWRT_NAME
         path: /builder/openwrt/bin
