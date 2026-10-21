@@ -118,10 +118,25 @@ jobs:
     - name: 加载feeds.conf.default & DIY_P1_SH
       working-directory: /builder
       run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $DIY_P1_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
+        echo "===== DEBUG ====="
+        echo "WORKSPACE=$GITHUB_WORKSPACE"
+        pwd
+
+         echo "===== FILE LIST ====="
+         find $GITHUB_WORKSPACE -type f | sort
+
+         [ -f "$FEEDS_CONF" ] && mv "$FEEDS_CONF" openwrt/feeds.conf.default
+
+         if [ ! -f "$GITHUB_WORKSPACE/$DIY_P1_SH" ]; then
+           echo "ERROR: File not found:"
+           echo "$GITHUB_WORKSPACE/$DIY_P1_SH"
+           exit 1
+         fi
+
+         chmod +x "$GITHUB_WORKSPACE/$DIY_P1_SH"
+
+         cd openwrt
+         bash "$GITHUB_WORKSPACE/$DIY_P1_SH"
 
        # ========= 添加 immortalwrt 110m 大分区代码 =========
     - name: Apply AX6000 110M Layout Modifications
@@ -194,9 +209,9 @@ jobs:
     - name: 加载config & DIY_P2_SH
       working-directory: /builder/openwrt
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE /.config
-        chmod +x $DIY_P2_SH
-        $GITHUB_WORKSPACE/$DIY_P2_SH
+        [ -f "$GITHUB_WORKSPACE/$CONFIG_FILE" ] && cp "$GITHUB_WORKSPACE/$CONFIG_FILE" .config
+        chmod +x "$GITHUB_WORKSPACE/$DIY_P2_SH"
+        bash "$GITHUB_WORKSPACE/$DIY_P2_SH"
 
     # - name: SSH链接管理
       # uses: P3TERX/ssh2actions@v1.0.0
