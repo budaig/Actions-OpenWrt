@@ -48,7 +48,7 @@ env:
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
   ###############改名字##############
-  OPENWRT_NAME: padavanonly2410_66Yuzhii0718_bdg
+  OPENWRT_NAME: padavanonly2410_66Yuzhii0718
 
 jobs:
   build_firmware:
@@ -253,7 +253,7 @@ jobs:
       # uses: actions/upload-artifact@main
       # if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: $OPENWRT_NAME
+        name: ${{ env.OPENWRT_NAME }}
         path: /builder/openwrt/bin
 
     - name: 生成release标签
@@ -261,29 +261,29 @@ jobs:
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
         echo "FILE_DATE=$(TZ=Asia/Shanghai date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
-        echo "release_tag=${{ env.FILE_DATE }}_$OPENWRT_NAME_${{ github.run_id }}" >> $GITHUB_OUTPUT
-        touch release.txt
-        echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
-        echo "The default IP address is 192.168.XXX.1" >> release.txt
-        echo "## padavanonly-24.10 6.6 uboot layout " >> release.txt
-        echo "------" >> release.txt
-        useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
-        echo "$useVersionInfo" >> release.txt
-        echo "📥 固件下载" >> release.txt
-        echo "status=success"
-        echo "status=success" >> $GITHUB_OUTPUT
+        # echo "release_tag=${{ env.FILE_DATE }}_$OPENWRT_NAME_${{ github.run_id }}" >> $GITHUB_OUTPUT
+        # touch release.txt
+        # echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
+        # echo "The default IP address is 192.168.XXX.1" >> release.txt
+        # echo "## padavanonly-24.10 6.6 uboot layout " >> release.txt
+        # echo "------" >> release.txt
+        # useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
+        # echo "$useVersionInfo" >> release.txt
+        # echo "📥 固件下载" >> release.txt
+        # echo "status=success"
+        # echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: 发布至release
+    - name: 发布至release、
+      if: success()
       uses: softprops/action-gh-release@v3   #https://github.com/softprops/action-gh-release
       # workaround for https://github.com/softprops/action-gh-release/issues/628
       # uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
-      if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}
-        tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
+        tag_name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ github.run_id }}
+        generate_release_notes: true
         files: |
           # /builder/openwrt/bin/targets/mediatek/filogic/*xiaomi_redmi-router-ax6000*-squashfs-sysupgrade.bin
           # /builder/openwrt/bin/targets/mediatek/filogic/*xiaomi_redmi-router-ax6000*-initramfs-kernel.bin
