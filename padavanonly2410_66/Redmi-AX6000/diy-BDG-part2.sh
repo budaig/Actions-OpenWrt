@@ -101,7 +101,7 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 rm -rf feeds/packages/net/openlist
 rm -rf feeds/luci/applications/luci-app-openlist
 # git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/openlist
-#   git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
+git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
 # 终端命令（TTYD）执行命令：
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
 # 返回 Yes 表示支持，返回 No 表示不支持。
@@ -316,17 +316,17 @@ rm -rf feeds/luci/applications/luci-app-daed
 
 # ## -------------- Hiddify ---------------------------
 # # method 1: replace whole dir
-mkdir -p package/diy/hiddify
-mv -f ${GITHUB_WORKSPACE}/_modFiles/2hiddify/* package/diy/hiddify/
-if [ $? -eq 0 ]; then
-    echo "hiddify dir copied"
-else
-    echo "hiddify dir copy failed"
-fi
-chmod +x package/diy/hiddify/files/hiddify.init
-chmod +x package/diy/hiddify/files/hiddify.conf
-chmod +x package/diy/hiddify/
-ls package/diy/hiddify
+# mkdir -p package/diy/hiddify
+# mv -f ${GITHUB_WORKSPACE}/_modFiles/2hiddify/* package/diy/hiddify/
+# if [ $? -eq 0 ]; then
+    # echo "hiddify dir copied"
+# else
+    # echo "hiddify dir copy failed"
+# fi
+# chmod +x package/diy/hiddify/files/hiddify.init
+# chmod +x package/diy/hiddify/files/hiddify.conf
+# chmod +x package/diy/hiddify/
+# ls package/diy/hiddify
 
 # ## -------------- v2raya ---------------------------
 # nl feeds/packages/net/v2raya/Makefile   #24.10 org ver2.2.7.3
@@ -598,7 +598,9 @@ rm -rf ./feeds/luci/themes/luci-theme-argon
 git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 # replace theme bg
 rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
-cp ${GITHUB_WORKSPACE}/_modFiles/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
+rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.webp
+cp ${GITHUB_WORKSPACE}/_modFiles/bg1.webp feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.webp
+# cp ${GITHUB_WORKSPACE}/_modFiles/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background/bg1.jpg
 if [ $? -eq 0 ]; then
     echo "bg1 copied"
 else
