@@ -287,8 +287,8 @@ jobs:
         files: |
           # /builder/openwrt/bin/targets/mediatek/filogic/*xiaomi_redmi-router-ax6000*-squashfs-sysupgrade.bin
           # /builder/openwrt/bin/targets/mediatek/filogic/*xiaomi_redmi-router-ax6000*-initramfs-kernel.bin
-          - /builder/openwrt/bin/targets/mediatek/filogic/*.*
-          - release.txt
+          /builder/openwrt/bin/targets/mediatek/filogic/*.*
+          release.txt
 
     - name: Remove old Releases
       # uses: dev-drprasad/delete-older-releases@master   #https://github.com/dev-drprasad/delete-older-releases

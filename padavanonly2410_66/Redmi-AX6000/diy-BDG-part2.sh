@@ -265,7 +265,7 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 # ## ---------------------------------------------------------
 
 # ## --------------- clashoo = sing-box + mihomo (clash meta) -----------------------------
-git clone -b main https://github.com/kenzok8/openwrt-clashoo package/diy/clashoo
+# git clone -b main https://github.com/kenzok8/openwrt-clashoo package/diy/clashoo
 
 
 # ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
@@ -316,17 +316,17 @@ rm -rf feeds/luci/applications/luci-app-daed
 
 # ## -------------- Hiddify ---------------------------
 # # method 1: replace whole dir
-# mkdir -p package/diy/hiddify
-# mv -f ${GITHUB_WORKSPACE}/_modFiles/2hiddify/* package/diy/hiddify/
-# if [ $? -eq 0 ]; then
-    # echo "hiddify dir copied"
-# else
-    # echo "hiddify dir copy failed"
-# fi
-# chmod +x package/diy/hiddify/files/hiddify.init
-# chmod +x package/diy/hiddify/files/hiddify.conf
-# chmod +x package/diy/hiddify/
-# ls package/diy/hiddify
+mkdir -p package/diy/hiddify
+mv -f ${GITHUB_WORKSPACE}/_modFiles/2hiddify/* package/diy/hiddify/
+if [ $? -eq 0 ]; then
+    echo "hiddify dir copied"
+else
+    echo "hiddify dir copy failed"
+fi
+chmod +x package/diy/hiddify/files/hiddify.init
+chmod +x package/diy/hiddify/files/hiddify.conf
+chmod +x package/diy/hiddify/
+ls package/diy/hiddify
 
 # ## -------------- v2raya ---------------------------
 # nl feeds/packages/net/v2raya/Makefile   #24.10 org ver2.2.7.3
