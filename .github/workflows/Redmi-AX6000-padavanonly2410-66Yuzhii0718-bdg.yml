@@ -11,7 +11,7 @@
 #
 
 ###############改名字##############
-name: Redmi-AX6000-padavanonly2410_66Yuzhii0718_bdg
+name: Redmi-AX6000-padavanonly2410_66Yuzhii0718
 
 on:
   push:
@@ -121,20 +121,15 @@ jobs:
         echo "===== DEBUG ====="
         echo "WORKSPACE=$GITHUB_WORKSPACE"
         pwd
-
          echo "===== FILE LIST ====="
          find $GITHUB_WORKSPACE -type f | sort
-
          [ -f "$FEEDS_CONF" ] && mv "$FEEDS_CONF" openwrt/feeds.conf.default
-
          if [ ! -f "$GITHUB_WORKSPACE/$DIY_P1_SH" ]; then
            echo "ERROR: File not found:"
            echo "$GITHUB_WORKSPACE/$DIY_P1_SH"
            exit 1
          fi
-
          chmod +x "$GITHUB_WORKSPACE/$DIY_P1_SH"
-
          cd openwrt
          bash "$GITHUB_WORKSPACE/$DIY_P1_SH"
 
@@ -162,41 +157,34 @@ jobs:
         # 2. 创建全新的 immortalwrt 110m大分区 DTS 设备树文件
         cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-110m.dts
         // SPDX-License-Identifier: (GPL-2.0 OR MIT)
-
         /dts-v1/;
         #include "mt7986a-xiaomi-redmi-router-ax6000.dtsi"
-
         / {
         	model = "Xiaomi Redmi Router AX6000 (hanwckf 110M layout)";
         	compatible = "xiaomi,redmi-router-ax6000", "mediatek,mt7986a";
         };
-
         &spi_nand_flash {
         	mediatek,nmbm;
         	mediatek,bmt-max-ratio = <1>;
         	mediatek,bmt-max-reserved-blocks = <64>;
         };
-
         &partitions {
         	partition@580000 {
         		label = "crash";
         		reg = <0x580000 0x40000>;
         		read-only;
         	};
-
         	partition@5c0000 {
         		label = "crash_log";
         		reg = <0x5c0000 0x40000>;
         		read-only;
         	};
-
         	partition@600000 {
         		label = "ubi";
         		reg = <0x600000 0x6e00000>;
         	};
         };
         EOF
-
         echo "✅ AX6000 110M 大分区适配代码补丁应用成功！"
 
     - name: 更新 & 安装 feeds
@@ -248,12 +236,24 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
+    - name: 整理文件并重命名
+      id: organize
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      run: |
+        cd openwrt/bin/targets/*/*
+        rm -rf packages
+        rename 's/.*mediatek_filogic/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        echo "status=success" >> $GITHUB_OUTPUT
+        echo $GITHUB_ENV
+        echo $GITHUB_OUTPUT
+
     - name: 上传固件到github
       uses: actions/upload-artifact@v7   #https://github.com/actions/upload-artifact
       # uses: actions/upload-artifact@main
-      # if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: ${{ env.OPENWRT_NAME }}
+        name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}
         path: /builder/openwrt/bin
 
     - name: 生成release标签
@@ -265,7 +265,7 @@ jobs:
         # touch release.txt
         # echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
         # echo "The default IP address is 192.168.XXX.1" >> release.txt
-        # echo "## padavanonly-24.10 6.6 uboot layout " >> release.txt
+        # echo "## padavanonly-24.10 6.6 110m layout " >> release.txt
         # echo "------" >> release.txt
         # useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
         # echo "$useVersionInfo" >> release.txt
