@@ -168,7 +168,7 @@ jobs:
 
         / {
         	model = "Xiaomi Redmi Router AX6000 (hanwckf 110M layout)";
-        	compatible = "xiaomi,redmi-router-ax6000", "mediatek,mt7986a";
+        	compatible = "xiaomi,redmi-router-ax6000-110m", "mediatek,mt7986a";
         };
 
         &spi_nand_flash {

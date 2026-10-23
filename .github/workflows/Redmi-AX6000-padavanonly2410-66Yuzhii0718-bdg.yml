@@ -132,59 +132,69 @@ jobs:
          cd openwrt
          bash "$GITHUB_WORKSPACE/$DIY_P1_SH"
 
-       # ========= 添加 immortalwrt 110m 大分区代码 =========
-    - name: Apply AX6000 110M Layout Modifications
+       # ========= 添加 immortalwrt hanwckf 110M / MTK U-Boot 大分区代码 =========
+    - name: Apply AX6000 hanwckf 110M / MTK U-Boot Layout Modifications
       working-directory: /builder/openwrt
       run: |
-        # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
+        # 1. 在 filogic.mk  末尾追加          endefDevice（红米AX6000 设备定义）
         cat << 'EOF' >> target/linux/mediatek/image/filogic.mk
 
-        define Device/xiaomi_redmi-router-ax6000-110m
-          $(Device/xiaomi_redmi-router-ax6000-stock)
-          DEVICE_VARIANT := (hanwckf 110M layout)
-          DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-110m
+        define Device/xiaomi_redmi-router-ax6000-mtkuboot
+          DEVICE_VENDOR := Xiaomi
+          DEVICE_MODEL := Redmi Router AX6000
+          DEVICE_VARIANT := (hanwckf 110M / MTK U-Boot layout)
+          DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-mtkuboot
           SUPPORTED_DEVICES := xiaomi,redmi-router-ax6000
+          BLOCKSIZE := 128k
+          PAGESIZE := 2048
           IMAGE_SIZE := 112640k
           KERNEL_IN_UBI := 1
           IMAGES := factory.bin sysupgrade.bin
           IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
           IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
         endef
-        TARGET_DEVICES += xiaomi_redmi-router-ax6000-110m
+        TARGET_DEVICES += xiaomi_redmi-router-ax6000-mtkuboot
         EOF
 
         # 2. 创建全新的 immortalwrt 110m大分区 DTS 设备树文件
-        cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-110m.dts
+        cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
         // SPDX-License-Identifier: (GPL-2.0 OR MIT)
+
         /dts-v1/;
         #include "mt7986a-xiaomi-redmi-router-ax6000.dtsi"
+
         / {
-        	model = "Xiaomi Redmi Router AX6000 (hanwckf 110M layout)";
-        	compatible = "xiaomi,redmi-router-ax6000", "mediatek,mt7986a";
+        	model = "Xiaomi Redmi Router AX6000 (hanwckf 110M / MTK U-Boot layout)";
+        	compatible = "xiaomi,redmi-router-ax6000-mtkuboot", "mediatek,mt7986a";
         };
+
         &spi_nand_flash {
         	mediatek,nmbm;
         	mediatek,bmt-max-ratio = <1>;
         	mediatek,bmt-max-reserved-blocks = <64>;
         };
+
         &partitions {
         	partition@580000 {
         		label = "crash";
         		reg = <0x580000 0x40000>;
         		read-only;
         	};
+
         	partition@5c0000 {
         		label = "crash_log";
         		reg = <0x5c0000 0x40000>;
         		read-only;
         	};
+
         	partition@600000 {
         		label = "ubi";
         		reg = <0x600000 0x6e00000>;
         	};
         };
         EOF
-        echo "✅ AX6000 110M 大分区适配代码补丁应用成功！"
+
+        echo "✅ AX6000 hanwckf 110M / MTK U-Boot layout 大分区适配代码补丁应用成功！"
 
     - name: 更新 & 安装 feeds
       working-directory: /builder/openwrt
