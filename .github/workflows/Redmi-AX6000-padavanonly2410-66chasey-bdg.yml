@@ -120,15 +120,20 @@ jobs:
         echo "===== DEBUG ====="
         echo "WORKSPACE=$GITHUB_WORKSPACE"
         pwd
+
          echo "===== FILE LIST ====="
          find $GITHUB_WORKSPACE -type f | sort
+
          [ -f "$FEEDS_CONF" ] && mv "$FEEDS_CONF" openwrt/feeds.conf.default
+
          if [ ! -f "$GITHUB_WORKSPACE/$DIY_P1_SH" ]; then
            echo "ERROR: File not found:"
            echo "$GITHUB_WORKSPACE/$DIY_P1_SH"
            exit 1
          fi
+
          chmod +x "$GITHUB_WORKSPACE/$DIY_P1_SH"
+
          cd openwrt
          bash "$GITHUB_WORKSPACE/$DIY_P1_SH"
 
@@ -142,7 +147,7 @@ jobs:
         define Device/xiaomi_redmi-router-ax6000-mtkuboot
           DEVICE_VENDOR := Xiaomi
           DEVICE_MODEL := Redmi Router AX6000
-          DEVICE_VARIANT := (hanwckf 110M / MTK U-Boot layout)
+          DEVICE_VARIANT := (MTK U-Boot layout)
           DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-mtkuboot
           SUPPORTED_DEVICES := xiaomi,redmi-router-ax6000
           BLOCKSIZE := 128k
@@ -285,7 +290,7 @@ jobs:
         touch release.txt
         echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
         echo "The default IP address is 192.168.XXX.1" >> release.txt
-        echo "## Yuzhii0718-24.10 6.6 MTK Uboot layout" >> release.txt
+        echo "## hanwckf 110M / MTK U-Boot layout" >> release.txt
         echo "------" >> release.txt
         useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
         echo "$useVersionInfo" >> release.txt

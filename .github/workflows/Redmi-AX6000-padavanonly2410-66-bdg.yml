@@ -38,7 +38,6 @@ env:
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-6.6
   REPO_BRANCH: openwrt-24.10-6.6
   FEEDS_CONF: padavanonly2410_66/Redmi-AX6000/feeds.conf.default
-  # FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: padavanonly2410_66/Redmi-AX6000/BDG.config
   DIY_P1_SH: padavanonly2410_66/Redmi-AX6000/diy-BDG-part1.sh
   DIY_P2_SH: padavanonly2410_66/Redmi-AX6000/diy-BDG-part2.sh
@@ -139,16 +138,16 @@ jobs:
          bash "$GITHUB_WORKSPACE/$DIY_P1_SH"
 
        # ========= 添加 immortalwrt 110m 大分区代码 =========
-    - name: Apply AX6000 110M Layout Modifications
+    - name: Apply AX6000 hanwckf 110M / MTK U-Boot Layout Modifications
       working-directory: /builder/openwrt
       run: |
         # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
         cat << 'EOF' >> target/linux/mediatek/image/filogic.mk
 
-        define Device/xiaomi_redmi-router-ax6000-110m
-          $(Device/xiaomi_redmi-router-ax6000-stock)
-          DEVICE_VARIANT := (hanwckf 110M layout)
-          DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-110m
+        define Device/xiaomi_redmi-router-ax6000-mtkuboot
+          $(Device/xiaomi_redmi-router-ax6000)
+          DEVICE_VARIANT := (MTK U-Boot layout)
+          DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-mtkuboot
           SUPPORTED_DEVICES := xiaomi,redmi-router-ax6000
           IMAGE_SIZE := 112640k
           KERNEL_IN_UBI := 1
@@ -156,19 +155,19 @@ jobs:
           IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
           IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
         endef
-        TARGET_DEVICES += xiaomi_redmi-router-ax6000-110m
+        TARGET_DEVICES += xiaomi_redmi-router-ax6000-mtkuboot
         EOF
 
         # 2. 创建全新的 immortalwrt 110m大分区 DTS 设备树文件
-        cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-110m.dts
+        cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
         // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 
         /dts-v1/;
         #include "mt7986a-xiaomi-redmi-router-ax6000.dtsi"
 
         / {
-        	model = "Xiaomi Redmi Router AX6000 (hanwckf 110M layout)";
-        	compatible = "xiaomi,redmi-router-ax6000-110m", "mediatek,mt7986a";
+        	model = "Xiaomi Redmi Router AX6000 (MTK U-Boot layout)";
+        	compatible = "xiaomi,redmi-router-ax6000-mtkuboot", "mediatek,mt7986a";
         };
 
         &spi_nand_flash {
@@ -197,7 +196,7 @@ jobs:
         };
         EOF
 
-        echo "✅ AX6000 110M 大分区适配代码补丁应用成功！"
+        echo "✅ AX6000 hanwckf 110M / MTK U-Boot layout 大分区适配代码补丁应用成功！"
 
     - name: 更新 & 安装 feeds
       working-directory: /builder/openwrt
@@ -288,7 +287,7 @@ jobs:
         touch release.txt
         echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
         echo "The default IP address is 192.168.XXX.1" >> release.txt
-        echo "## padavanonly-24.10 6.6 MTK Uboot layout" >> release.txt
+        echo "## hanwckf 110M / MTK U-Boot layout" >> release.txt
         echo "------" >> release.txt
         useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
         echo "$useVersionInfo" >> release.txt
