@@ -161,7 +161,7 @@ jobs:
         TARGET_DEVICES += xiaomi_redmi-router-ax6000-mtkuboot
         EOF
 
-        # 2. 创建全新的 immortalwrt 110m大分区 DTS 设备树文件
+        # 2. 创建全新的 immortalwrt hanwckf 110M / MTK U-Boot layout 大分区 DTS 设备树文件
         cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
         // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 
