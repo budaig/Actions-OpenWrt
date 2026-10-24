@@ -150,8 +150,6 @@ jobs:
           DEVICE_VARIANT := (MTK U-Boot layout)
           DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-mtkuboot
           SUPPORTED_DEVICES := xiaomi,redmi-router-ax6000
-          BLOCKSIZE := 128k
-          PAGESIZE := 2048
           IMAGE_SIZE := 112640k
           KERNEL_IN_UBI := 1
           IMAGES := factory.bin sysupgrade.bin
@@ -238,20 +236,18 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
 
-         grep '^CONFIG_TARGET_.*_DEVICE_.*=y' .config | sed -r 's/^CONFIG_TARGET_.*_DEVICE_(.*)=y/\1/' > DEVICE_NAME
-         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
-         
-         # DEVICE_NAME=$(grep '^CONFIG_TARGET_.*_DEVICE_.*=y' .config | sed -r 's/^CONFIG_TARGET_.*_DEVICE_(.*)=y/\1/')
-         # echo "DEVICE_NAME=$DEVICE_NAME" >> "$GITHUB_ENV"
-         
-         grep '^CONFIG_TARGET_.*_DEVICE_.*=y' .config | sed -r 's/^CONFIG_TARGET_([^_]+)_([^_]+)_DEVICE_.*=y/\2/' > TARGET_NAME
-         [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
+         grep '^CONFIG_TARGET_DEVICE_.*_DEVICE_.*=y' .config \
+         | sed -r 's/^CONFIG_TARGET_DEVICE_.*_DEVICE_(.*)=y/\1/' > DEVICE_NAME
 
-         # TARGET_NAME=$(grep '^CONFIG_TARGET_.*_DEVICE_.*=y' .config | sed -r 's/^CONFIG_TARGET_[^_]+_([^_]+)_DEVICE_.*=y/\1/')
-         # echo "TARGET_NAME=$TARGET_NAME" >> "$GITHUB_ENV"
+         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> "$GITHUB_ENV"
 
-         echo "$DEVICE_NAME"
-         echo "$TARGET_NAME"
+         grep '^CONFIG_TARGET_DEVICE_.*_DEVICE_.*=y' .config \
+         | sed -r 's/^CONFIG_TARGET_DEVICE_[^_]+_([^_]+)_DEVICE_.*=y/\1/' > TARGET_NAME
+
+         [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> "$GITHUB_ENV"
+
+         echo "DEVICE_NAME=$(cat DEVICE_NAME)"
+         echo "TARGET_NAME=$(cat TARGET_NAME)"
 
          echo $GITHUB_ENV
          echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
