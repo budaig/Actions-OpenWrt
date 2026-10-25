@@ -28,12 +28,6 @@ on:
         required: false
         default: 'false'
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-  issues: write
-
 env:
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-6.6
   REPO_BRANCH: openwrt-24.10-6.6
@@ -57,7 +51,7 @@ jobs:
     steps:
     - name: 检查项目分支
       uses: actions/checkout@main   #https://github.com/actions/checkout
-      
+
     - name: 检查硬盘空间
       if: (!cancelled())
       run: df -hT
@@ -119,10 +113,10 @@ jobs:
         cat << 'EOF' >> target/linux/mediatek/image/filogic.mk
 
         define Device/xiaomi_redmi-router-ax6000-mtkuboot
-          $(Device/xiaomi_redmi-router-ax6000-stock)
+          $(Device/xiaomi_redmi-router-ax6000)
           DEVICE_VARIANT := (MTK U-Boot layout)
           DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-mtkuboot
-          SUPPORTED_DEVICES := xiaomi,redmi-router-ax6000
+          SUPPORTED_DEVICES := xiaomi,redmi-router-ax6000-mtkuboot
           IMAGE_SIZE := 112640k
           KERNEL_IN_UBI := 1
           IMAGES := factory.bin sysupgrade.bin
@@ -178,6 +172,17 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
+    - name: 恢复 Ccache 缓存
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.ccache
+          /builder/openwrt/.ccache  # 根据你的编译目录调整，部分项目直接放在源码目录下
+        key: ccache-${{ runner.os }}-${{ env.REPO_BRANCH }}-${{ github.sha }}
+        restore-keys: |
+          ccache-${{ runner.os }}-${{ env.REPO_BRANCH }}-
+          ccache-${{ runner.os }}-
+
     - name: 加载config & DIY_P2_SH
       working-directory: /builder/openwrt
       run: |
@@ -198,8 +203,14 @@ jobs:
       id: compile
       working-directory: /builder/openwrt
       run: |
+      # 配置 ccache 最大占用空间（例如 5GB 或 10GB）
+        export CCACHE_DIR="/builder/openwrt/.ccache" # 如果你把 ccache 设在源码内
+        # 或者如果你用的是系统的 ~/.ccache，可以 export CCACHE_DIR="$HOME/.ccache"
+        ccache -M 8G
+        ccache -s
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
+        ccache -s  # 编译完成后再次打印状态，检查命中率
         echo "status=success" >> $GITHUB_OUTPUT
         # 1. 精准提取 DEVICE_NAME（取最后一个下划线后面的设备代号）
         grep '^CONFIG_TARGET_DEVICE.*_DEVICE_.*=y' .config | sed -E 's/.*_DEVICE_(.*)=y/\1/' > DEVICE_NAME
@@ -218,16 +229,27 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
+        ROOT_DIR=$(pwd)
+        RELEASE_DIR="$ROOT_DIR/release_firmware"
+        mkdir -p "$RELEASE_DIR"
         cd openwrt/bin/targets/*/*
         rm -rf packages
-        rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
-        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        TAG_PREFIX="${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}"
+        for file *; do
+          if [ -f "$file" ]; then
+               echo "Processing: $file"
+               # 将每个固件/文件重命名为: 标签名_原文件名
+               cp "$file" "$RELEASE_DIR/${TAG_PREFIX}_${file}"
+          fi
+        done
+        echo "FIRMWARE=$RELEASE_DIR" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
-        echo $GITHUB_ENV
-        echo $GITHUB_OUTPUT
+
+         echo "=== Output files for Release ==="
+         ls -lh ${{ env.FIRMWARE }}
 
     - name: 上传固件到github
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
@@ -250,7 +272,7 @@ jobs:
 
     - name: 发布至release
       if: steps.tag.outputs.status == 'success' && !cancelled()
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
