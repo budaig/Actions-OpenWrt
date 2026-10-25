@@ -235,7 +235,7 @@ jobs:
         cd openwrt/bin/targets/*/*
         rm -rf packages
         TAG_PREFIX="${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}"
-        for file *; do
+        for file in *; do
           if [ -f "$file" ]; then
                echo "Processing: $file"
                # 将每个固件/文件重命名为: 标签名_原文件名
