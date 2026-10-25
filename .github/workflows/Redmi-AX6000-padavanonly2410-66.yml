@@ -28,6 +28,12 @@ on:
         required: false
         default: 'false'
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  issues: write
+
 env:
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-6.6
   REPO_BRANCH: openwrt-24.10-6.6
@@ -68,15 +74,8 @@ jobs:
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
         sudo docker image prune --all --force
         sudo -E apt-get -qq update
-        # 4 install dae
-        # sudo apt-get install -y clang-15 llvm-15 npm
-        # sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
         sudo -E apt-get -qq install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib git gperf haveged help2man intltool libc6-dev-i386 libelf-dev libfuse-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses5-dev libncursesw5-dev libpython3-dev libreadline-dev libssl-dev libtool lrzsz mkisofs msmtp ninja-build p7zip p7zip-full patch pkgconf python2.7 python3 python3-pyelftools python3-setuptools qemu-utils rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev libfuse-dev rename
         sudo -E apt-get -qq install gettext   #po2lmo
-        # sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-2004)
-        #install lib32gcc1
-        # sudo -E apt-get -qq install libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5
-        # add libfuse
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
@@ -91,23 +90,38 @@ jobs:
         ln -sf /builder/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: 加载feeds.conf.default & DIY_P1_SH
+      working-directory: /builder
       run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $DIY_P1_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
+        echo "===== DEBUG ====="
+        echo "WORKSPACE=$GITHUB_WORKSPACE"
+        pwd
+        echo "===== FILE LIST ====="
+        find $GITHUB_WORKSPACE -type f | sort
 
-       # ========= 添加 immortalwrt hanwckf 110M / MTK U-Boot 大分区代码 =========
+        [ -f "$FEEDS_CONF" ] && mv "$FEEDS_CONF" openwrt/feeds.conf.default
+
+        if [ ! -f "$GITHUB_WORKSPACE/$DIY_P1_SH" ]; then
+          echo "ERROR: File not found:"
+          echo "$GITHUB_WORKSPACE/$DIY_P1_SH"
+          exit 1
+        fi
+
+        chmod +x "$GITHUB_WORKSPACE/$DIY_P1_SH"
+
+        cd openwrt
+        bash "$GITHUB_WORKSPACE/$DIY_P1_SH"
+
+       # ========= 添加 immortalwrt 110m 大分区代码 =========
     - name: Apply AX6000 hanwckf 110M / MTK U-Boot Layout Modifications
       working-directory: /builder/openwrt
       run: |
-        # 1. 在 filogic.mk  末尾追加          endefDevice（红米AX6000 设备定义）
+        # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
         cat << 'EOF' >> target/linux/mediatek/image/filogic.mk
 
-        define Device/xiaomi_redmi-router-ax6000-110m
+        define Device/xiaomi_redmi-router-ax6000-mtkuboot
           $(Device/xiaomi_redmi-router-ax6000-stock)
-          DEVICE_VARIANT := (hanwckf 110M layout)
-          DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-110m
+          DEVICE_VARIANT := (MTK U-Boot layout)
+          DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-mtkuboot
           SUPPORTED_DEVICES := xiaomi,redmi-router-ax6000
           IMAGE_SIZE := 112640k
           KERNEL_IN_UBI := 1
@@ -115,19 +129,19 @@ jobs:
           IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
           IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
         endef
-        TARGET_DEVICES += xiaomi_redmi-router-ax6000-110m
+        TARGET_DEVICES += xiaomi_redmi-router-ax6000-mtkuboot
         EOF
 
-        # 2. 创建全新的 immortalwrt hanwckf 110M / MTK U-Boot layout 大分区 DTS 设备树文件
-        cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-110m.dts
+        # 2. 创建全新的 immortalwrt 110m大分区 DTS 设备树文件
+        cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
         // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 
         /dts-v1/;
         #include "mt7986a-xiaomi-redmi-router-ax6000.dtsi"
 
         / {
-        	model = "Xiaomi Redmi Router AX6000 (hanwckf 110M layout)";
-        	compatible = "xiaomi,redmi-router-ax6000-110m", "mediatek,mt7986a";
+        	model = "Xiaomi Redmi Router AX6000 (MTK U-Boot layout)";
+        	compatible = "xiaomi,redmi-router-ax6000-mtkuboot", "mediatek,mt7986a";
         };
 
         &spi_nand_flash {
@@ -158,23 +172,23 @@ jobs:
 
         echo "✅ AX6000 hanwckf 110M / MTK U-Boot layout 大分区适配代码补丁应用成功！"
 
-    - name: 更新 feeds
-      run: cd openwrt && ./scripts/feeds update -a
-
-    - name: 安装 feeds
-      run: cd openwrt && ./scripts/feeds install -a
+    - name: 更新 & 安装 feeds
+      working-directory: /builder/openwrt
+      run: |
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
 
     - name: 加载config & DIY_P2_SH
+      working-directory: /builder/openwrt
       run: |
         [ -f "$GITHUB_WORKSPACE/$CONFIG_FILE" ] && cp "$GITHUB_WORKSPACE/$CONFIG_FILE" .config
         chmod +x "$GITHUB_WORKSPACE/$DIY_P2_SH"
-        cd openwrt
         bash "$GITHUB_WORKSPACE/$DIY_P2_SH"
 
     - name: 下载安装包
       id: package
+      working-directory: /builder/openwrt
       run: |
-        cd openwrt
         make defconfig
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
@@ -182,14 +196,17 @@ jobs:
 
     - name: 编译固件
       id: compile
+      working-directory: /builder/openwrt
       run: |
-        cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
-        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        # 1. 精准提取 DEVICE_NAME（取最后一个下划线后面的设备代号）
+        grep '^CONFIG_TARGET_DEVICE.*_DEVICE_.*=y' .config | sed -E 's/.*_DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' > TARGET_NAME
+        # 2. 精准提取 TARGET_NAME（在 mediatek_ 架构下，通常子目标是 filogic）
+        # 如果你的 subtarget 是 filogic，可以直接通过正则提取 target 和 subtarget 之间的名字
+        grep '^CONFIG_TARGET_.*_DEVICE_.*=y' .config | sed -E 's/^CONFIG_TARGET_[^_]+_([^_]+)_DEVICE_.*/\1/' > TARGET_NAME
         [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
 
@@ -206,10 +223,11 @@ jobs:
         rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
+        echo $GITHUB_ENV
+        echo $GITHUB_OUTPUT
 
     - name: 上传固件到github
-      uses: actions/upload-artifact@v4   #https://github.com/actions/upload-artifact
-      # uses: actions/upload-artifact@main
+      uses: actions/upload-artifact@v4
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
@@ -223,16 +241,16 @@ jobs:
         touch release.txt
         echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
         echo "The default IP address is 192.168.XXX.1" >> release.txt
-        echo "## hanwckf 110M / MTK Uboot layout" >> release.txt
+        echo "## padavanonly-24.10 6.6 MTK Uboot layout" >> release.txt
         echo "------" >> release.txt
-        useVersionInfo=$(git show -s --date=short --format="date: %cd<br/>commit: %s<br/>commit hash: %H")
+        useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
         echo "$useVersionInfo" >> release.txt
         echo "📥 固件下载" >> release.txt
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 发布至release
       if: steps.tag.outputs.status == 'success' && !cancelled()
-      uses: softprops/action-gh-release@master   #https://github.com/softprops/action-gh-release
+      uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -242,7 +260,7 @@ jobs:
         files: ${{ env.FIRMWARE }}/*
 
     - name: Remove old Releases
-      uses: ui86/delete-older-releases@v1   #https://github.com/ui86/delete-older-releases
+      uses: ui86/delete-older-releases@v1
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         keep_latest: 8

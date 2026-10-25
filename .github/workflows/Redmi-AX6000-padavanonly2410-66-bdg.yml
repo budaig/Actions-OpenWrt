@@ -11,7 +11,7 @@
 #
 
 ###############改名字##############
-name: Redmi-AX6000-padavanonly2410_66
+name: Redmi-AX6000-padavanonly2410_66_bdg
 
 on:
   push:
@@ -47,7 +47,7 @@ env:
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
   ###############改名字##############
-  OPENWRT_NAME: padavanonly2410_66
+  OPENWRT_NAME: padavanonly2410_66_bdg
 
 jobs:
   build_firmware:
