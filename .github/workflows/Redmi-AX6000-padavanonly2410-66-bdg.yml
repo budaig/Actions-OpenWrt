@@ -290,6 +290,7 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
+        ROOT_DIR=$(pwd)
         # 1. 创建用于存放准备上传到 Release 的文件夹
         mkdir -p release_firmware
         # 2. 进入 OpenWrt 编译生成的 bin 目录
@@ -301,7 +302,7 @@ jobs:
         for file in *; do
           if [ -f "$file" ]; then
                echo "Processing: $file"
-               cp "$file" "../../../release_firmware/${PREFIX}_${file}"
+               cp "$file" "$ROOT_DIR/release_firmware/${PREFIX}_${file}"
           fi
         # # 4. 遍历并按规则重命名复制到 release_firmware 目录
         # # 这里包含了常见的固件格式 (.bin, .tar.gz, .img.gz, .manifest, .buildinfo 等)
@@ -310,14 +311,14 @@ jobs:
               # *sysupgrade.bin|*factory.bin|*factory.ubi|*.img.gz|*manifest|*buildinfo|*.tar.gz|*profile.json|*sha256sums)
                 # echo "Processing: $file"
                 # # 重新拼接名称：FILE_DATE_OPENWRT_NAME_原文件名
-                # cp "$file" "../../../release_firmware/${PREFIX}_${file}"
+                # cp "$file" "$ROOT_DIR/release_firmware/${PREFIX}_${file}"
                 # ;;
             # esac
           # fi
         done
         # 5. 查看整理重命名后的文件列表（便于在 Actions 日志中确认）
         echo "=== Output files for Release ==="
-        ls -lh ../../../release_firmware/
+        ls -lh $ROOT_DIR/release_firmware/
 
     - name: 上传固件到github
       uses: actions/upload-artifact@v7   #https://github.com/actions/upload-artifact
