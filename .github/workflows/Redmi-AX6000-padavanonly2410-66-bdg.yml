@@ -290,28 +290,46 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
+        # 1. 创建用于存放准备上传到 Release 的文件夹
+        mkdir -p release_firmware
+        # 2. 进入 OpenWrt 编译生成的 bin 目录
         cd openwrt/bin/targets/*/*
         rm -rf packages
-        rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
-        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        echo "status=success" >> $GITHUB_OUTPUT
-        echo $GITHUB_ENV
-        echo $GITHUB_OUTPUT
+        # 3. 提取并定义前缀
+        PREFIX="${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}"
+        # 4. 遍历并按规则重命名复制到 release_firmware 目录
+        # 这里包含了常见的固件格式 (.bin, .tar.gz, .img.gz, .manifest, .buildinfo 等)
+        for file in *; do
+          if [ -f "$file" ]; then
+            case "$file" in
+              *sysupgrade.bin|*factory.bin|*factory.ubi|*.img.gz|*manifest|config.buildinfo|*.tar.gz|*profile.json|sha256sums)
+                echo "Processing: $file"
+                # 重新拼接名称：FILE_DATE_OPENWRT_NAME_原文件名
+                cp "$file" "../../../release_firmware/${PREFIX}_${file}"
+                ;;
+            esac
+          fi
+        done
+        # 5. 查看整理重命名后的文件列表（便于在 Actions 日志中确认）
+        echo "=== Output files for Release ==="
+        ls -lh ../../../release_firmware/
 
     - name: 上传固件到github
       uses: actions/upload-artifact@v7   #https://github.com/actions/upload-artifact
       # uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      # if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
         path: ${{ env.FIRMWARE }}
-        # path: /builder/openwrt/bin
+         # path: /builder/openwrt/bin
 
     - name: 生成release标签
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}" >> $GITHUB_OUTPUT
+        TAG_NAME="${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}"
+        echo "release_tag=$TAG_NAME" >> $GITHUB_OUTPUT
+        echo "RELEASE_TAG=$TAG_NAME" >> $GITHUB_ENV  # 关键修复：写入环境变量
         touch release.txt
         echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
         echo "The default IP address is 192.168.XXX.1" >> release.txt
@@ -320,21 +338,20 @@ jobs:
         useVersionInfo=$(git show -s --date=short --format="Author: %an<br/>date: %cd<br/>commit: %s<br/>commit hash: %H")
         echo "$useVersionInfo" >> release.txt
         echo "📥 固件下载" >> release.txt
-        echo "status=success"
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 发布至release
-      if: steps.tag.outputs.status == 'success' && !cancelled()
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       uses: softprops/action-gh-release@v3   #https://github.com/softprops/action-gh-release
       # workaround for https://github.com/softprops/action-gh-release/issues/628
       # uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
-        tag_name: ${{ steps.tag.outputs.release_tag }}
+        tag_name: ${{ env.RELEASE_TAG }}
         body_path: release.txt
-        files: ${{ env.FIRMWARE }}/*
+        files: |
+          release_firmware/*
 
         # name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}
         # tag_name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ github.run_id }}
