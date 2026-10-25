@@ -297,18 +297,24 @@ jobs:
         rm -rf packages
         # 3. 提取并定义前缀
         PREFIX="${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}"
-        # 4. 遍历并按规则重命名复制到 release_firmware 目录
-        # 这里包含了常见的固件格式 (.bin, .tar.gz, .img.gz, .manifest, .buildinfo 等)
+        # 4. 遍历并重命名复制目录下所有的文件（排除子目录）
         for file in *; do
           if [ -f "$file" ]; then
-            case "$file" in
-              *sysupgrade.bin|*factory.bin|*factory.ubi|*.img.gz|*manifest|config.buildinfo|*.tar.gz|*profile.json|sha256sums)
-                echo "Processing: $file"
-                # 重新拼接名称：FILE_DATE_OPENWRT_NAME_原文件名
-                cp "$file" "../../../release_firmware/${PREFIX}_${file}"
-                ;;
-            esac
+               echo "Processing: $file"
+               cp "$file" "../../../release_firmware/${PREFIX}_${file}"
+                 ;;
           fi
+        # # 4. 遍历并按规则重命名复制到 release_firmware 目录
+        # # 这里包含了常见的固件格式 (.bin, .tar.gz, .img.gz, .manifest, .buildinfo 等)
+          # if [ -f "$file" ]; then
+            # case "$file" in
+              # *sysupgrade.bin|*factory.bin|*factory.ubi|*.img.gz|*manifest|*buildinfo|*.tar.gz|*profile.json|*sha256sums)
+                # echo "Processing: $file"
+                # # 重新拼接名称：FILE_DATE_OPENWRT_NAME_原文件名
+                # cp "$file" "../../../release_firmware/${PREFIX}_${file}"
+                # ;;
+            # esac
+          # fi
         done
         # 5. 查看整理重命名后的文件列表（便于在 Actions 日志中确认）
         echo "=== Output files for Release ==="
@@ -320,7 +326,7 @@ jobs:
       # if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
-        path: ${{ env.FIRMWARE }}
+        path: release_firmware/
          # path: /builder/openwrt/bin
 
     - name: 生成release标签
