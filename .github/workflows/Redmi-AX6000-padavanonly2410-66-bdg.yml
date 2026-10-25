@@ -302,7 +302,6 @@ jobs:
           if [ -f "$file" ]; then
                echo "Processing: $file"
                cp "$file" "../../../release_firmware/${PREFIX}_${file}"
-                 ;;
           fi
         # # 4. 遍历并按规则重命名复制到 release_firmware 目录
         # # 这里包含了常见的固件格式 (.bin, .tar.gz, .img.gz, .manifest, .buildinfo 等)
