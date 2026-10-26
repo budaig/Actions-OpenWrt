@@ -87,15 +87,6 @@ jobs:
         git clone -b $REPO_BRANCH --single-branch --filter=blob:none $REPO_URL openwrt || { echo 'Git clone failed!'; exit 1; }
         ln -sf /builder/openwrt $GITHUB_WORKSPACE/openwrt
 
-    # - name: 加载feeds.conf.default
-      # run: |
-        # echo "===== DEBUG ====="
-        # echo "WORKSPACE=$GITHUB_WORKSPACE"
-        # pwd
-        # echo "===== FILE LIST ====="
-        # find $GITHUB_WORKSPACE -type f | sort
-        # [ -f "$FEEDS_CONF" ] && mv "$FEEDS_CONF" openwrt/feeds.conf.default
-
     - name: 加载 DIY_P1_SH
       working-directory: /builder
       run: |
@@ -108,7 +99,7 @@ jobs:
         cd openwrt
         bash "$GITHUB_WORKSPACE/$DIY_P1_SH"
 
-       # ========= 添加 immortalwrt 110m 大分区代码 =========
+    # ========= 添加 immortalwrt 110m 大分区代码 =========
     - name: Apply AX6000 hanwckf 110M / MTK U-Boot Layout Modifications
       working-directory: /builder/openwrt
       run: |
@@ -131,6 +122,7 @@ jobs:
          EOF
 
          # 2. 创建全新的 immortalwrt 110m大分区 DTS 设备树文件
+         mkdir -p target/linux/mediatek/dts
          cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
          // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 
@@ -177,11 +169,11 @@ jobs:
         ./scripts/feeds install -a
         
     - name: 恢复 Ccache 缓存
-      uses: actions/cache@v4
+      uses: actions/cache@v6   #https://github.com/actions/cache
       with:
         path: |
           ~/.ccache
-          /builder/openwrt/.ccache  # 根据你的编译目录调整，部分项目直接放在源码目录下
+          /builder/openwrt/.ccache
         key: ccache-${{ runner.os }}-${{ env.REPO_BRANCH }}-${{ github.sha }}
         restore-keys: |
           ccache-${{ runner.os }}-${{ env.REPO_BRANCH }}-
@@ -196,8 +188,6 @@ jobs:
           exit 1
         fi
         cp "$GITHUB_WORKSPACE/$CONFIG_FILE" .config
-        #echo "===== CONFIG LOADED ====="
-        #ls -lh .config
 
     - name: 加载 DIY_P2_SH
       working-directory: /builder/openwrt
@@ -223,15 +213,12 @@ jobs:
       id: compile
       working-directory: /builder/openwrt
       run: |
-        # 配置 ccache 最大占用空间（例如 5GB 或 10GB）
-        export CCACHE_DIR="/builder/openwrt/.ccache" # 如果你把 ccache 设在源码内
-        # 或者如果你用的是系统的 ~/.ccache，可以 export CCACHE_DIR="$HOME/.ccache"
+        export CCACHE_DIR="/builder/openwrt/.ccache"
         ccache -M 10G
         ccache -s
-        # 编译固件
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 V=s
-        ccache -s  # 编译完成后再次打印状态，检查命中率
+        make -j$(nproc) || make -j1 V=s || exit 1
+        ccache -s
         echo "status=success" >> $GITHUB_OUTPUT
         CONFIG_LINE=$(grep '^CONFIG_TARGET_DEVICE_.*_DEVICE_.*=y' .config | head -n1)
         DEVICE_NAME=$(echo "$CONFIG_LINE" | sed -E 's/^CONFIG_TARGET_DEVICE_.*_DEVICE_(.*)=y$/\1/')
@@ -249,11 +236,16 @@ jobs:
     - name: 整理文件并重命名
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      working-directory: /builder/openwrt
       run: |
-        cd openwrt/bin/targets/*/*
+        # 修复路径：由于已经在 working-directory 指定了 /builder/openwrt，直接进入 bin 目录
+        cd bin/targets/*/*
         rm -rf packages
         echo "=== Before Rename ==="
         ls -lh
+        RELEASE_DIR="/builder/openwrt/release_firmware"
+        mkdir -p "$RELEASE_DIR"
+        
         for file in *; do
           [ -f "$file" ] || continue
           case "$file" in
@@ -288,11 +280,11 @@ jobs:
           NEW_NAME="${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}_${TYPE}"
           echo "$file"
           echo " -> $NEW_NAME"
-          mv "$file" "$NEW_NAME"
+          cp "$file" "$RELEASE_DIR/$NEW_NAME"
         done
         echo "=== After Rename ==="
-        ls -lh
-        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        ls -lh "$RELEASE_DIR"
+        echo "FIRMWARE=$RELEASE_DIR" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: 上传固件到github
