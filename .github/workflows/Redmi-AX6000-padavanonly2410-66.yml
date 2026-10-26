@@ -83,18 +83,9 @@ jobs:
         sudo chown $USER:$GROUPS /builder
 
     - name: 下载固件源码
-      working-directory: /builder
       run: |
         df -hT $PWD
-        git clone -b $REPO_BRANCH --single-branch --filter=blob:none $REPO_URL openwrt || { echo 'Git clone failed!'; exit 1; }
-        ln -sf /builder/openwrt $GITHUB_WORKSPACE/openwrt
-
-    - name: 加载feeds.conf.default & DIY_P1_SH
-      run: |
-        [ -f "$FEEDS_CONF" ] && mv "$FEEDS_CONF" openwrt/feeds.conf.default
-        chmod +x "$DIY_P1_SH"
-        cd openwrt
-        bash "$GITHUB_WORKSPACE/$DIY_P1_SH"
+        git clone -b $REPO_BRANCH --single-branch --filter=blob:none $REPO_URL /builder/openwrt || { echo 'Git clone failed!'; exit 1; }
 
        # ========= 添加 hanwckf 110M / MTK U-Boot 大分区代码 =========
     - name: Apply AX6000 hanwckf 110M / MTK U-Boot Layout Modifications
@@ -159,9 +150,10 @@ jobs:
         echo "✅ AX6000 hanwckf 110M / MTK U-Boot layout 大分区适配代码补丁应用成功！"
 
     - name: 更新 & 安装 feeds
+      working-directory: /builder/openwrt
       run: |
-        cd openwrt
         ./scripts/feeds update -a
+        ./scripts/feeds install -a
         ./scripts/feeds install -a
 
     # - name: 恢复 Ccache 缓存   #https://github.com/actions/cache
@@ -175,12 +167,19 @@ jobs:
           # ccache-${{ runner.os }}-${{ env.REPO_BRANCH }}-
           # ccache-${{ runner.os }}-
 
+    - name: 加载feeds.conf.default & DIY_P1_SH
+      run: |
+        [ -e "$FEEDS_CONF" ] && mv "$FEEDS_CONF"  /builder/openwrt/feeds.conf.default
+        chmod +x "$DIY_P1_SH"
+        cd /builder/openwrt
+        bash "$DIY_P1_SH"
+
     - name: 加载config & DIY_P2_SH
       run: |
-        [ -f "$GITHUB_WORKSPACE/$CONFIG_FILE" ] && cp "$GITHUB_WORKSPACE/$CONFIG_FILE" .config
-        chmod +x "$GITHUB_WORKSPACE/$DIY_P2_SH"
-        cd openwrt
-        bash "$GITHUB_WORKSPACE/$DIY_P2_SH"
+        [ -e "$CONFIG_FILE" ] && cp "$CONFIG_FILE"  /builder/openwrt/.config
+        chmod +x "$DIY_P2_SH"
+        cd /builder/openwrt
+        bash "$DIY_P2_SH"
 
     - name: 下载安装包
       id: package
@@ -221,24 +220,11 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        ROOT_DIR=$(pwd)
-        RELEASE_DIR="$ROOT_DIR/release_firmware"
-        mkdir -p "$RELEASE_DIR"
         cd openwrt/bin/targets/*/*
         rm -rf packages
-        TAG_PREFIX="${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}"
-        for file in *; do
-          if [ -f "$file" ]; then
-               echo "Processing: $file"
-               # 将每个固件/文件重命名为: 标签名_原文件名
-               cp "$file" "$RELEASE_DIR/${TAG_PREFIX}_${file}"
-          fi
-        done
-        echo "FIRMWARE=$RELEASE_DIR" >> $GITHUB_ENV
+        rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
-
-        #echo "=== Output files for Release ==="
-        #ls -lh ${{ env.FIRMWARE }}
 
     - name: 上传固件到github
       uses: actions/upload-artifact@v7
