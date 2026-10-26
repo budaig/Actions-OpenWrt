@@ -90,7 +90,6 @@ jobs:
         ln -sf /builder/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: 加载feeds.conf.default
-      working-directory: /builder
       run: |
         echo "===== DEBUG ====="
         echo "WORKSPACE=$GITHUB_WORKSPACE"
