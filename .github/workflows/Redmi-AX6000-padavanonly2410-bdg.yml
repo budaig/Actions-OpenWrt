@@ -57,7 +57,7 @@ jobs:
     steps:
     - name: 检查项目分支
       uses: actions/checkout@main   #https://github.com/actions/checkout
-      
+
     - name: 检查硬盘空间
       if: (!cancelled())
       run: df -hT

@@ -83,11 +83,38 @@ jobs:
         sudo chown $USER:$GROUPS /builder
 
     - name: 下载固件源码
+      working-directory: /builder
       run: |
         df -hT $PWD
-        git clone -b $REPO_BRANCH --single-branch --filter=blob:none $REPO_URL /builder/openwrt || { echo 'Git clone failed!'; exit 1; }
+        git clone -b $REPO_BRANCH --single-branch --filter=blob:none $REPO_URL openwrt || { echo 'Git clone failed!'; exit 1; }
+        ln -sf /builder/openwrt $GITHUB_WORKSPACE/openwrt
 
-       # ========= 添加 hanwckf 110M / MTK U-Boot 大分区代码 =========
+    - name: 加载feeds.conf.default
+      working-directory: /builder
+      run: |
+        echo "===== DEBUG ====="
+        echo "WORKSPACE=$GITHUB_WORKSPACE"
+        pwd
+        echo "===== FILE LIST ====="
+        find $GITHUB_WORKSPACE -type f | sort
+
+        [ -f "$FEEDS_CONF" ] && mv "$FEEDS_CONF" openwrt/feeds.conf.default
+
+    - name: 加载 DIY_P1_SH
+      working-directory: /builder
+      run: |
+        if [ ! -f "$GITHUB_WORKSPACE/$DIY_P1_SH" ]; then
+          echo "ERROR: File not found:"
+          echo "$GITHUB_WORKSPACE/$DIY_P1_SH"
+          exit 1
+        fi
+
+        chmod +x "$GITHUB_WORKSPACE/$DIY_P1_SH"
+
+        cd openwrt
+        bash "$GITHUB_WORKSPACE/$DIY_P1_SH"
+
+       # ========= 添加 immortalwrt 110m 大分区代码 =========
     - name: Apply AX6000 hanwckf 110M / MTK U-Boot Layout Modifications
       working-directory: /builder/openwrt
       run: |
@@ -109,7 +136,7 @@ jobs:
         TARGET_DEVICES += xiaomi_redmi-router-ax6000-mtkuboot
         EOF
 
-        # 2. 创建全新的 hanwckf 110M / MTK U-Boot 大分区 DTS 设备树文件
+        # 2. 创建全新的 immortalwrt 110m大分区 DTS 设备树文件
         cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
         // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 
@@ -154,32 +181,43 @@ jobs:
       run: |
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        ./scripts/feeds install -a
+        
+    - name: 恢复 Ccache 缓存
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.ccache
+          /builder/openwrt/.ccache  # 根据你的编译目录调整，部分项目直接放在源码目录下
+        key: ccache-${{ runner.os }}-${{ env.REPO_BRANCH }}-${{ github.sha }}
+        restore-keys: |
+          ccache-${{ runner.os }}-${{ env.REPO_BRANCH }}-
+          ccache-${{ runner.os }}-
 
-    # - name: 恢复 Ccache 缓存   #https://github.com/actions/cache
-      # uses: actions/cache@v6
-      # with:
-        # path: |
-          # ~/.ccache
-          # /builder/openwrt/.ccache  # 根据你的编译目录调整，部分项目直接放在源码目录下
-        # key: ccache-${{ runner.os }}-${{ env.REPO_BRANCH }}-${{ github.sha }}
-        # restore-keys: |
-          # ccache-${{ runner.os }}-${{ env.REPO_BRANCH }}-
-          # ccache-${{ runner.os }}-
-
-    - name: 加载feeds.conf.default & DIY_P1_SH
+    - name: 加载config
+      working-directory: /builder/openwrt
       run: |
-        [ -e "$FEEDS_CONF" ] && mv "$FEEDS_CONF"  /builder/openwrt/feeds.conf.default
-        chmod +x "$DIY_P1_SH"
-        cd /builder/openwrt
-        bash "$DIY_P1_SH"
+        if [ ! -f "$GITHUB_WORKSPACE/$CONFIG_FILE" ]; then
+          echo "ERROR: Config file not found:"
+          echo "$GITHUB_WORKSPACE/$CONFIG_FILE"
+          exit 1
+        fi
 
-    - name: 加载config & DIY_P2_SH
+        cp "$GITHUB_WORKSPACE/$CONFIG_FILE" .config
+
+        #echo "===== CONFIG LOADED ====="
+        #ls -lh .config
+
+    - name: 加载 DIY_P2_SH
+      working-directory: /builder/openwrt
       run: |
-        [ -e "$CONFIG_FILE" ] && cp "$CONFIG_FILE"  /builder/openwrt/.config
-        chmod +x "$DIY_P2_SH"
-        cd /builder/openwrt
-        bash "$DIY_P2_SH"
+        if [ ! -f "$GITHUB_WORKSPACE/$DIY_P2_SH" ]; then
+          echo "ERROR: File not found:"
+          echo "$GITHUB_WORKSPACE/$DIY_P2_SH"
+          exit 1
+        fi
+
+        chmod +x "$GITHUB_WORKSPACE/$DIY_P2_SH"
+        bash "$GITHUB_WORKSPACE/$DIY_P2_SH"
 
     - name: 下载安装包
       id: package
@@ -194,23 +232,28 @@ jobs:
       id: compile
       working-directory: /builder/openwrt
       run: |
-        # # 配置 ccache 最大占用空间（例如 5GB 或 10GB）
-        # export CCACHE_DIR="/builder/openwrt/.ccache" # 如果你把 ccache 设在源码内
-        # # 或者如果你用的是系统的 ~/.ccache，可以 export CCACHE_DIR="$HOME/.ccache"
-        # ccache -M 10G
-        # ccache -s
+      # 配置 ccache 最大占用空间（例如 5GB 或 10GB）
+        export CCACHE_DIR="/builder/openwrt/.ccache" # 如果你把 ccache 设在源码内
+        # 或者如果你用的是系统的 ~/.ccache，可以 export CCACHE_DIR="$HOME/.ccache"
+        ccache -M 10G
+        ccache -s
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
-        # ccache -s  # 编译完成后再次打印状态，检查命中率
+        ccache -s  # 编译完成后再次打印状态，检查命中率
         echo "status=success" >> $GITHUB_OUTPUT
-        # 1. 精准提取 DEVICE_NAME（取最后一个下划线后面的设备代号）
-        grep '^CONFIG_TARGET_DEVICE.*_DEVICE_.*=y' .config | sed -E 's/.*_DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        # 2. 精准提取 TARGET_NAME（在 mediatek_ 架构下，通常子目标是 filogic）
-        # 如果你的 subtarget 是 filogic，可以直接通过正则提取 target 和 subtarget 之间的名字
-        grep '^CONFIG_TARGET_.*_DEVICE_.*=y' .config | sed -E 's/^CONFIG_TARGET_[^_]+_([^_]+)_DEVICE_.*/\1/' > TARGET_NAME
-        [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
+
+        CONFIG_LINE=$(grep '^CONFIG_TARGET_DEVICE_.*_DEVICE_.*=y' .config | head -n1)
+
+        DEVICE_NAME=$(echo "$CONFIG_LINE" | sed -E 's/^CONFIG_TARGET_DEVICE_.*_DEVICE_(.*)=y$/\1/')
+
+        TARGET_NAME="filogic"
+
+        echo "DEVICE_NAME=$DEVICE_NAME" >> $GITHUB_ENV
+        echo "TARGET_NAME=$TARGET_NAME" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
+
+        echo "DEVICE_NAME=$DEVICE_NAME"
+        echo "TARGET_NAME=$TARGET_NAME"
 
     - name: 查看磁盘使用情况
       if: (!cancelled())
@@ -221,8 +264,56 @@ jobs:
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd openwrt/bin/targets/*/*
+
         rm -rf packages
-        rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
+
+        echo "=== Before Rename ==="
+        ls -lh
+
+        for file in *; do
+          [ -f "$file" ] || continue
+
+          case "$file" in
+            *sysupgrade*.bin)
+              TYPE="sysupgrade.bin"
+              ;;
+            *factory*.bin)
+              TYPE="factory.bin"
+              ;;
+            *factory*.ubi)
+              TYPE="factory.ubi"
+              ;;
+            *.itb)
+              TYPE="itb"
+              ;;
+            *.manifest)
+              TYPE="manifest"
+              ;;
+            *.buildinfo)
+              TYPE="buildinfo"
+              ;;
+            *.packages)
+              TYPE="packages"
+              ;;
+            *.json)
+              TYPE="json"
+              ;;
+            *)
+              continue
+              ;;
+          esac
+
+          NEW_NAME="${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}_${TYPE}"
+
+          echo "$file"
+          echo " -> $NEW_NAME"
+
+          mv "$file" "$NEW_NAME"
+        done
+
+        echo "=== After Rename ==="
+        ls -lh
+
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
