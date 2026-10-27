@@ -190,8 +190,7 @@ jobs:
       run: |
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        ./scripts/feeds install -a
-        
+
     - name: 恢复 Ccache 缓存
       uses: actions/cache@v6   #https://github.com/actions/cache
       with:
@@ -277,14 +276,18 @@ jobs:
       id: compile
       working-directory: /builder/openwrt
       run: |
+        echo "ARCH=$ARCH_NAME TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
         set -euo pipefail
         export CCACHE_DIR="/builder/openwrt/.ccache"
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
+        ccache -s
         echo "status=success" >> $GITHUB_OUTPUT
+        echo "ARCH=$ARCH_NAME TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
+        ls -l "bin/targets/$ARCH_NAME/$TARGET_NAME" || true
 
     - name: ccache 命中率报告
-      if: always()
+      if: ${{ always() }}
       working-directory: /builder/openwrt
       run: |
         set -euo pipefail
@@ -295,32 +298,72 @@ jobs:
         du -sh "$CCACHE_DIR" || true
 
     - name: 查看磁盘使用情况
-      if: (!cancelled())
+      if: ${{ !cancelled() }}
       run: df -hT
 
     - name: 整理文件并重命名
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
-      working-directory: /builder/openwrt
+      if: ${{ env.UPLOAD_FIRMWARE == 'true' && !cancelled() }}
       run: |
-        cd bin/targets/*/*
+        set -euo pipefail
+        cd openwrt/bin/targets/*/*
         rm -rf packages
-        rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
-        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        echo "status=success" >> $GITHUB_OUTPUT
+        echo "=== Before Rename ==="
+        ls -lh
+        for file in *; do
+          [ -f "$file" ] || continue
+          case "$file" in
+            *sysupgrade*.bin)
+              TYPE="sysupgrade.bin"
+              ;;
+            *factory*.bin)
+              TYPE="factory.bin"
+              ;;
+            *factory*.ubi)
+              TYPE="factory.ubi"
+              ;;
+            *.itb)
+              TYPE="itb"
+              ;;
+            *.manifest)
+              TYPE="manifest"
+              ;;
+            *.buildinfo)
+              TYPE="buildinfo"
+              ;;
+            *.packages)
+              TYPE="packages"
+              ;;
+            *.json)
+              TYPE="json"
+              ;;
+            *)
+              continue
+              ;;
+          esac
+          NEW_NAME="${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}_${TYPE}"
+          echo "$file"
+          echo " -> $NEW_NAME"
+          mv "$file" "$NEW_NAME"
+        done
+        echo "=== After Rename ==="
+        ls -lh
+        echo "FIRMWARE=$PWD" >> "$GITHUB_ENV"
+        echo "status=success" >> "$GITHUB_OUTPUT"
 
     - name: 上传固件到 github
       uses: actions/upload-artifact@v7
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: ${{ steps.organize.outputs.status == 'success' && !cancelled() }}
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
         path: ${{ env.FIRMWARE }}
 
     - name: 生成 release 标签
       id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: ${{ env.UPLOAD_RELEASE == 'true' && !cancelled() }}
       run: |
-        echo "release_tag=${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}" >> $GITHUB_OUTPUT
+        set -euo pipefail
+        echo "release_tag=${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}" >> "$GITHUB_OUTPUT"
         touch release.txt
         echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
         echo "The default IP address is 192.168.XXX.1" >> release.txt
@@ -329,7 +372,7 @@ jobs:
         useVersionInfo=$(git show -s --date=short --format="date: %cd<br/>commit: %s<br/>commit hash: %H")
         echo "$useVersionInfo" >> release.txt
         echo "📥 固件下载" >> release.txt
-        echo "status=success" >> $GITHUB_OUTPUT
+        echo "status=success" >> "$GITHUB_OUTPUT"
 
     - name: 发布至 release
       if: steps.tag.outputs.status == 'success' && !cancelled()
@@ -344,7 +387,7 @@ jobs:
 
     - name: Remove old Releases
       uses: ui86/delete-older-releases@v1
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: ${{ env.UPLOAD_RELEASE == 'true' && !cancelled() }}
       with:
         keep_latest: 8
         delete_tags: true
