@@ -113,8 +113,14 @@ jobs:
     - name: Apply AX6000 hanwckf 110M / MTK U-Boot Layout Modifications
       working-directory: /builder/openwrt
       run: |
-        # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
-        cat << 'MK_EOF' >> target/linux/mediatek/image/filogic.mk
+        set -euo pipefail
+
+         # 防 CRLF 自检
+         if grep -q $'\r' "$0" 2>/dev/null; then
+           echo "ERROR: script contains CRLF line endings" >&2; exit 1
+         fi
+         # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
+         cat << 'MK_EOF' >> target/linux/mediatek/image/filogic.mk
 
          define Device/xiaomi_redmi-router-ax6000-mtkuboot
            DEVICE_VENDOR := Xiaomi
