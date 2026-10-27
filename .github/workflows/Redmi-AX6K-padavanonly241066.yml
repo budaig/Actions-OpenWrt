@@ -44,7 +44,7 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
-  DTS_FILE: padavanonly2410_66/Redmi-AX6000/BDG.config
+  DTS_FILE: padavanonly2410_66/Redmi-AX6000/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
   ###############改名字##############
   OPENWRT_NAME: padavanonly241066
 
@@ -109,7 +109,7 @@ jobs:
         cd openwrt
         bash "$GITHUB_WORKSPACE/$DIY_P1_SH"
 
-       # ========= 添加 hanwckf 110M / MTK U-Boot layout 大分区代码 =========
+         # ========= 添加 hanwckf 110M / MTK U-Boot layout 大分区代码 =========
     - name: Apply AX6000 hanwckf 110M / MTK U-Boot Layout Modifications
       working-directory: /builder/openwrt
       run: |
