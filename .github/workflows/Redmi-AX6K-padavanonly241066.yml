@@ -131,6 +131,7 @@ jobs:
          TARGET_DEVICES += xiaomi_redmi-router-ax6000-mtkuboot
          EOF
 
+         echo "filogic.mk done"
          # 2. 创建全新的 hanwckf 110M / MTK U-Boot layout 大分区 DTS 设备树文件
          cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
         // SPDX-License-Identifier: (GPL-2.0 OR MIT)
@@ -168,7 +169,7 @@ jobs:
          	};
          };
          EOF
-
+         echo "dts done"
          echo "✅ AX6000 hanwckf 110M / MTK U-Boot layout 大分区适配代码补丁应用成功！"
 
     - name: 更新 & 安装 feeds
