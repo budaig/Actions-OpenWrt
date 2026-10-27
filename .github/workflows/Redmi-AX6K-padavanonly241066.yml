@@ -243,11 +243,20 @@ jobs:
         make -j$(nproc) || make -j1 V=s || exit 1
         ccache -s
         echo "status=success" >> $GITHUB_OUTPUT
-        CONFIG_LINE=$(grep '^CONFIG_TARGET_DEVICE_.*_DEVICE_.*=y' .config | head -n1)
-        DEVICE_NAME=$(echo "$CONFIG_LINE" | sed -E 's/^CONFIG_TARGET_DEVICE_.*_DEVICE_(.*)=y$/\1/')
-        TARGET_NAME="filogic"
-        echo "DEVICE_NAME=$DEVICE_NAME" >> $GITHUB_ENV
-        echo "TARGET_NAME=$TARGET_NAME" >> $GITHUB_ENV
+
+        # 1. 精准提取 DEVICE_NAME（取最后一个下划线后面的设备代号）
+        grep '^CONFIG_TARGET_DEVICE.*_DEVICE_.*=y' .config | sed -E 's/.*_DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        # 2. 精准提取 TARGET_NAME（在 mediatek_ 架构下，通常子目标是 filogic）
+        # 如果你的 subtarget 是 filogic，可以直接通过正则提取 target 和 subtarget 之间的名字
+        grep '^CONFIG_TARGET_.*_DEVICE_.*=y' .config | sed -E 's/^CONFIG_TARGET_[^_]+_([^_]+)_DEVICE_.*/\1/' > TARGET_NAME
+        [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
+
+        #CONFIG_LINE=$(grep '^CONFIG_TARGET_DEVICE_.*_DEVICE_.*=y' .config | head -n1)
+        #DEVICE_NAME=$(echo "$CONFIG_LINE" | sed -E 's/^CONFIG_TARGET_DEVICE_.*_DEVICE_(.*)=y$/\1/')
+        #TARGET_NAME="filogic"
+        #echo "DEVICE_NAME=$DEVICE_NAME" >> $GITHUB_ENV
+        #echo "TARGET_NAME=$TARGET_NAME" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
         echo "DEVICE_NAME=$DEVICE_NAME"
         echo "TARGET_NAME=$TARGET_NAME"
