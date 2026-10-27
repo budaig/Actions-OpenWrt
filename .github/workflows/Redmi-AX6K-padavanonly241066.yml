@@ -30,6 +30,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
   issues: write
 
 env:
@@ -115,73 +117,73 @@ jobs:
       run: |
         set -euo pipefail
 
-         # 防 CRLF 自检
-         if grep -q $'\r' "$0" 2>/dev/null; then
-           echo "ERROR: script contains CRLF line endings" >&2; exit 1
-         fi
-         # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
-         cat << 'MK_EOF' >> target/linux/mediatek/image/filogic.mk
+        # 防 CRLF 自检
+        if grep -q $'\r' "$0" 2>/dev/null; then
+          echo "ERROR: script contains CRLF line endings" >&2; exit 1
+        fi
+        # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
+        cat << 'EOF' >> target/linux/mediatek/image/filogic.mk
 
-         define Device/xiaomi_redmi-router-ax6000-mtkuboot
-           DEVICE_VENDOR := Xiaomi
-           DEVICE_MODEL := Redmi Router AX6000
-           DEVICE_VARIANT := (MTK U-Boot layout)
-           DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-mtkuboot
-           DEVICE_DTS_DIR := ../dts
-           IMAGE_SIZE := 112640k
-           KERNEL_IN_UBI := 1
-           IMAGES := factory.bin sysupgrade.bin
-           IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
-           IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
-         endef
-         TARGET_DEVICES += xiaomi_redmi-router-ax6000-mtkuboot
-         MK_EOF
+        define Device/xiaomi_redmi-router-ax6000-mtkuboot
+          DEVICE_VENDOR := Xiaomi
+          DEVICE_MODEL := Redmi Router AX6000
+          DEVICE_VARIANT := (MTK U-Boot layout)
+          DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-mtkuboot
+          DEVICE_DTS_DIR := ../dts
+          IMAGE_SIZE := 112640k
+          KERNEL_IN_UBI := 1
+          IMAGES := factory.bin sysupgrade.bin
+          IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+          IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+        endef
+        TARGET_DEVICES += xiaomi_redmi-router-ax6000-mtkuboot
+        EOF
 
-         echo "filogic.mk done"
-         # 2. 创建全新的 hanwckf 110M / MTK U-Boot layout 大分区 DTS 设备树文件
-         cat << 'DTS_EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
+        echo "filogic.mk done"
+        # 2. 创建全新的 hanwckf 110M / MTK U-Boot layout 大分区 DTS 设备树文件
+        cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
         // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 
-         /dts-v1/;
-         #include "mt7986a-xiaomi-redmi-router-ax6000.dtsi"
+        /dts-v1/;
+        #include "mt7986a-xiaomi-redmi-router-ax6000.dtsi"
 
-         / {
-         	model = "Xiaomi Redmi Router AX6000 (MTK U-Boot layout)";
-         	compatible = "xiaomi,redmi-router-ax6000-mtkuboot", "mediatek,mt7986a";
-         };
+        / {
+        	model = "Xiaomi Redmi Router AX6000 (MTK U-Boot layout)";
+        	compatible = "xiaomi,redmi-router-ax6000-mtkuboot", "mediatek,mt7986a";
+        };
 
-         &spi_nand_flash {
-         	mediatek,nmbm;
-         	mediatek,bmt-max-ratio = <1>;
-         	mediatek,bmt-max-reserved-blocks = <64>;
-         };
+        &spi_nand_flash {
+        	mediatek,nmbm;
+        	mediatek,bmt-max-ratio = <1>;
+        	mediatek,bmt-max-reserved-blocks = <64>;
+        };
 
-         &partitions {
-         	partition@580000 {
-         		label = "crash";
-         		reg = <0x580000 0x40000>;
-         		read-only;
-         	};
+        &partitions {
+        	partition@580000 {
+        		label = "crash";
+        		reg = <0x580000 0x40000>;
+        		read-only;
+        	};
 
-         	partition@5c0000 {
-         		label = "crash_log";
-         		reg = <0x5c0000 0x40000>;
-         		read-only;
-         	};
+        	partition@5c0000 {
+        		label = "crash_log";
+        		reg = <0x5c0000 0x40000>;
+        		read-only;
+        	};
 
-         	partition@600000 {
-         		label = "ubi";
-         		reg = <0x600000 0x6e00000>;
-         	};
-         };
-         DTS_EOF
-         echo "dts done"
-         # 写入校验：失败立刻报错，不再静默通过
-         grep -q 'xiaomi_redmi-router-ax6000-mtkuboot' target/linux/mediatek/image/filogic.mk
-         test -s target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
-         ls -l target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000.dtsi
+        	partition@600000 {
+        		label = "ubi";
+        		reg = <0x600000 0x6e00000>;
+        	};
+        };
+        EOF
+        echo "dts done"
+        # 写入校验：失败立刻报错，不再静默通过
+        grep -q 'xiaomi_redmi-router-ax6000-mtkuboot' target/linux/mediatek/image/filogic.mk
+        test -s target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
+        ls -l target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000.dtsi
 
-         echo "✅ AX6000 hanwckf 110M / MTK U-Boot layout 大分区适配代码补丁应用成功！"
+        echo "✅ AX6000 hanwckf 110M / MTK U-Boot layout 大分区适配代码补丁应用成功！"
 
     - name: 更新 & 安装 feeds
       working-directory: /builder/openwrt
