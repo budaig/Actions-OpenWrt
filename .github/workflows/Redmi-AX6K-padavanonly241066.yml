@@ -232,16 +232,36 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
+    - name: 配置 ccache
+      id: ccache_setup
+      working-directory: /builder/openwrt
+      run: |
+        set -euo pipefail
+        export CCACHE_DIR="/builder/openwrt/.ccache"
+        mkdir -p "$CCACHE_DIR"
+
+        echo "=== ccache 版本与配置 ==="
+        ccache -V
+        which ccache
+
+        ccache --set-config=max_size=10G
+        ccache --set-config=compiler_check=content
+        # 交叉编译下减少无谓 miss
+        ccache --set-config=sloppiness=file_macro,locale,time_macros
+        ccache --set-config=base_dir=/builder/openwrt
+
+        echo "=== 编译前统计（已清零） ==="
+        ccache -z          # 清零，让后面的统计只反映本次构建
+        ccache -s
     - name: 编译固件
       id: compile
       working-directory: /builder/openwrt
       run: |
+        set -euo pipefail
         export CCACHE_DIR="/builder/openwrt/.ccache"
-        ccache -M 10G
-        ccache -s
+
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s || exit 1
-        ccache -s
         echo "status=success" >> $GITHUB_OUTPUT
 
         # 1. 精准提取 DEVICE_NAME（取最后一个下划线后面的设备代号）
@@ -260,6 +280,17 @@ jobs:
         echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
         echo "DEVICE_NAME=$DEVICE_NAME"
         echo "TARGET_NAME=$TARGET_NAME"
+
+    - name: ccache 命中率报告
+      if: always()
+      working-directory: /builder/openwrt
+      run: |
+        set -euo pipefail
+        export CCACHE_DIR="/builder/openwrt/.ccache"
+        echo "=== 编译后 ccache 统计 ==="
+        ccache -s
+        echo "=== 缓存目录大小 ==="
+        du -sh "$CCACHE_DIR" || true
 
     - name: 查看磁盘使用情况
       if: (!cancelled())
