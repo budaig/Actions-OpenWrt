@@ -90,7 +90,7 @@ jobs:
         git clone -b $REPO_BRANCH --single-branch --filter=blob:none $REPO_URL openwrt || { echo 'Git clone failed!'; exit 1; }
         ln -sf /builder/openwrt $GITHUB_WORKSPACE/openwrt
 
-    - name: 加载feeds.conf.default
+    - name: 加载 feeds.conf.default
       run: |
         echo "===== DEBUG ====="
         echo "WORKSPACE=$GITHUB_WORKSPACE"
@@ -203,7 +203,7 @@ jobs:
           ccache-${{ runner.os }}-${{ env.REPO_BRANCH }}-
           ccache-${{ runner.os }}-
 
-    - name: 加载config
+    - name: 加载 config
       working-directory: /builder/openwrt
       run: |
         if [ ! -f "$GITHUB_WORKSPACE/$CONFIG_FILE" ]; then
@@ -212,18 +212,24 @@ jobs:
           exit 1
         fi
         cp "$GITHUB_WORKSPACE/$CONFIG_FILE" .config
-
-        # 设备名
-        grep '^CONFIG_TARGET_.*_DEVICE_.*=y' .config | head -n1 \
-          | sed -E 's/^CONFIG_TARGET_.*_DEVICE_(.*)=y$/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] || { echo "ERROR: DEVICE_NAME empty"; grep CONFIG_TARGET .config; exit 1; }
-        # 子目标（filogic）
-        grep '^CONFIG_TARGET_.*_DEVICE_.*=y' .config | head -n1 \
-          | sed -E 's/^CONFIG_TARGET_([^_]+)_([^_]+)_DEVICE_.*/\2/' > TARGET_NAME
-        [ -s TARGET_NAME ] || { echo "ERROR: TARGET_NAME empty"; exit 1; }
-        echo "FILE_DATE=$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_ENV
-        echo "DEVICE_NAME=$DEVICE_NAME"
-        echo "TARGET_NAME=$TARGET_NAME"
+                # ---- 提取设备信息（兼容两种 .config 命名格式）----
+        DEV_LINE=$(grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1)
+        DEVICE_NAME=$(printf '%s\n' "$DEV_LINE" | sed -E 's/.*_DEVICE_(.*)=y$/\1/')
+        ARCH_NAME=$(printf '%s\n' "$DEV_LINE"   | sed -E 's/^CONFIG_TARGET_(DEVICE_)?([^_]+)_([^_]+)_DEVICE_.*/\2/')
+        TARGET_NAME=$(printf '%s\n' "$DEV_LINE" | sed -E 's/^CONFIG_TARGET_(DEVICE_)?([^_]+)_([^_]+)_DEVICE_.*/\3/')
+        [ -n "$DEVICE_NAME" ] || { echo "ERROR: DEVICE_NAME 提取失败" >&2; grep CONFIG_TARGET .config >&2; exit 1; }
+        [ -n "$TARGET_NAME" ] || { echo "ERROR: TARGET_NAME 提取失败" >&2; exit 1; }
+        # ---- 用实际产物目录校正 ----
+        if [ -d "bin/targets/$ARCH_NAME" ]; then
+          REAL_TARGET=$(ls "bin/targets/$ARCH_NAME" | grep -v '^packages$' | head -n1)
+          [ -n "$REAL_TARGET" ] && TARGET_NAME="$REAL_TARGET"
+        fi
+        echo "DEVICE_NAME=$DEVICE_NAME" >> "$GITHUB_ENV"
+        echo "TARGET_NAME=$TARGET_NAME" >> "$GITHUB_ENV"
+        echo "ARCH_NAME=$ARCH_NAME"     >> "$GITHUB_ENV"
+        echo "FILE_DATE=$(date +'%Y.%m.%d-%H%M')" >> "$GITHUB_ENV"
+        echo "ARCH=$ARCH_NAME TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
+        ls -l "bin/targets/$ARCH_NAME/$TARGET_NAME" || true
 
     - name: 加载 DIY_P2_SH
       working-directory: /builder/openwrt
@@ -303,14 +309,14 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: 上传固件到github
+    - name: 上传固件到 github
       uses: actions/upload-artifact@v7
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
         path: ${{ env.FIRMWARE }}
 
-    - name: 生成release标签
+    - name: 生成 release 标签
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
@@ -325,7 +331,7 @@ jobs:
         echo "📥 固件下载" >> release.txt
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: 发布至release
+    - name: 发布至 release
       if: steps.tag.outputs.status == 'success' && !cancelled()
       uses: softprops/action-gh-release@v3
       env:
