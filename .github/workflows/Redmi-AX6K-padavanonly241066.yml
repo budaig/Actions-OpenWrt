@@ -114,7 +114,7 @@ jobs:
       working-directory: /builder/openwrt
       run: |
         # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
-        cat << 'EOF' >> target/linux/mediatek/image/filogic.mk
+        cat << 'MK_EOF' >> target/linux/mediatek/image/filogic.mk
 
          define Device/xiaomi_redmi-router-ax6000-mtkuboot
            DEVICE_VENDOR := Xiaomi
@@ -129,11 +129,11 @@ jobs:
            IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
          endef
          TARGET_DEVICES += xiaomi_redmi-router-ax6000-mtkuboot
-         EOF
+         MK_EOF
 
          echo "filogic.mk done"
          # 2. 创建全新的 hanwckf 110M / MTK U-Boot layout 大分区 DTS 设备树文件
-         cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
+         cat << 'DTS_EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
         // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 
          /dts-v1/;
@@ -168,8 +168,13 @@ jobs:
          		reg = <0x600000 0x6e00000>;
          	};
          };
-         EOF
+         DTS_EOF
          echo "dts done"
+         # 写入校验：失败立刻报错，不再静默通过
+         grep -q 'xiaomi_redmi-router-ax6000-mtkuboot' target/linux/mediatek/image/filogic.mk
+         test -s target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
+         ls -l target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000.dtsi
+
          echo "✅ AX6000 hanwckf 110M / MTK U-Boot layout 大分区适配代码补丁应用成功！"
 
     - name: 更新 & 安装 feeds
