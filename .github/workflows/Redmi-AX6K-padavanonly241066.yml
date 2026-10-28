@@ -46,7 +46,7 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
-  DTS_FILE: padavanonly2410_66/Redmi-AX6000/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
+  # DTS_FILE: padavanonly2410_66/Redmi-AX6000/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
   ###############改名字##############
   OPENWRT_NAME: padavanonly241066
 
@@ -93,7 +93,14 @@ jobs:
     - name: 加载 feeds.conf.default
       working-directory: /builder
       run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        set -e
+        if [ ! -f "$GITHUB_WORKSPACE/$FEEDS_CONF" ]; then
+          echo "feeds.conf.default not found:"
+          echo "$GITHUB_WORKSPACE/$FEEDS_CONF"
+          exit 1
+        fi
+        cp "$GITHUB_WORKSPACE/$FEEDS_CONF" \
+          openwrt/feeds.conf.default
 
     - name: 加载 DIY_P1_SH
       working-directory: /builder
@@ -214,18 +221,25 @@ jobs:
     - name: 加载 config
       working-directory: /builder
       run: |
-        [ -f "$GITHUB_WORKSPACE/$CONFIG_FILE" ] && cp "$GITHUB_WORKSPACE/$CONFIG_FILE" openwrt/.config
+        set -e
+        if [ ! -f "$GITHUB_WORKSPACE/$CONFIG_FILE" ]; then
+          echo "Config file not found:"
+          echo "$GITHUB_WORKSPACE/$CONFIG_FILE"
+          exit 1
+        fi
+        cp "$GITHUB_WORKSPACE/$CONFIG_FILE" openwrt/.config
                 # ---- 提取设备信息（兼容两种 .config 命名格式）----
         cd openwrt
         make defconfig
         grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1 \
           | sed -E 's/.*_DEVICE_(.*)=y$/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | head -n1 \
-          | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' | tr '_' '/' > TARGET_NAME
-        [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
+        echo "TARGET=mediatek" >> $GITHUB_ENV
+        echo "SUBTARGET=filogic" >> $GITHUB_ENV
         # ---- 用实际产物目录校正 ----
-        echo "TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
+        echo "DEVICE_NAME=$DEVICE_NAME"
+        echo "TARGET=mediatek"
+        echo "SUBTARGET=filogic"
         echo "FILE_DATE=$(date +'%Y.%m.%d-%H%M')" >> "$GITHUB_ENV"
 
     - name: 下载安装包
@@ -260,15 +274,17 @@ jobs:
       id: compile
       working-directory: /builder
       run: |
-        cd openwrt
-        echo "TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
         set -euo pipefail
+        cd openwrt
+        echo "TARGET=$TARGET"
+        echo "SUBTARGET=$SUBTARGET"
+        echo "DEVICE_NAME=$DEVICE_NAME"
         export CCACHE_DIR="/builder/openwrt/.ccache"
         echo -e "$(nproc) thread compile"
         make -j$(nproc) 2>&1 | tee build.log || { tail -n 200 build.log; exit 1; }
         ccache -s
         echo "status=success" >> $GITHUB_OUTPUT
-        ls -l "bin/targets/$TARGET_NAME" || true
+        ls -lh bin/targets/${TARGET}/${SUBTARGET}
 
     - name: ccache 命中率报告
       if: ${{ always() }}
@@ -291,7 +307,7 @@ jobs:
       working-directory: /builder
       run: |
         set -euo pipefail
-        cd openwrt/bin/targets/*/*
+        cd openwrt/bin/targets/${TARGET}/${SUBTARGET}
         rm -rf packages
         echo "=== Before Rename ==="
         ls -lh
