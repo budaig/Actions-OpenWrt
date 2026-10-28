@@ -124,7 +124,7 @@ jobs:
         if grep -q $'\r' "$0" 2>/dev/null; then
           echo "ERROR: script contains CRLF line endings" >&2; exit 1
         fi
-        # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）padavanonly 为码头986
+        # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
         cat << 'EOF' >> target/linux/mediatek/image/filogic.mk
 
         define Device/xiaomi_redmi-router-ax6000-mtkuboot
@@ -236,7 +236,12 @@ jobs:
 
         echo "===== Device Before Defconfig ====="
         grep "_DEVICE_" .config || true
+        echo "===== AX6000 in Original Config ====="
+        grep "AX6000" .config || true
 
+        echo
+        echo "===== Device lines before defconfig ====="
+        grep "_DEVICE_" .config || true
         echo "===== Run Defconfig ====="
         make defconfig
 
