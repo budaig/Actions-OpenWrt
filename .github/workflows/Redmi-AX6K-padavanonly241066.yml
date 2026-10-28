@@ -35,8 +35,10 @@ permissions:
   issues: write
 
 env:
-  REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-6.6
-  REPO_BRANCH: openwrt-24.10-6.6
+  REPO_URL: https://github.com/chasey-dev/immortalwrt-mt798x-rebase
+  REPO_BRANCH: rework-24.10
+  # REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-6.6
+  # REPO_BRANCH: openwrt-24.10-6.6
   FEEDS_CONF: padavanonly2410_66/Redmi-AX6000/feeds.conf.default
   CONFIG_FILE: padavanonly2410_66/Redmi-AX6000/BDG.config
   DIY_P1_SH: padavanonly2410_66/Redmi-AX6000/diy-BDG-part1.sh
