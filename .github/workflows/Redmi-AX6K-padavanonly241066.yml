@@ -203,9 +203,13 @@ jobs:
           ccache-${{ runner.os }}-
 
     - name: 加载 config
-      working-directory: /builder
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        echo "===== DEBUG ====="
+        echo "WORKSPACE=$GITHUB_WORKSPACE"
+        pwd
+        echo "===== FILE LIST ====="
+        find $GITHUB_WORKSPACE -type f | sort
+        [ -f "$CONFIG_FILE" ] && mv "$CONFIG_FILE" openwrt/.config
                 # ---- 提取设备信息（兼容两种 .config 命名格式）----
         DEVICE_NAME=$(grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' openwrt/.config | head -n1 \
           | sed -E 's/.*_DEVICE_(.*)=y$/\1/')
