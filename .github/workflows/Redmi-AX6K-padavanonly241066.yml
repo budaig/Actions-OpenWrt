@@ -124,7 +124,7 @@ jobs:
         if grep -q $'\r' "$0" 2>/dev/null; then
           echo "ERROR: script contains CRLF line endings" >&2; exit 1
         fi
-        # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
+        # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）padavanonly 为码头986
         cat << 'EOF' >> target/linux/mediatek/image/filogic.mk
 
         define Device/xiaomi_redmi-router-ax6000-mtkuboot
@@ -221,27 +221,71 @@ jobs:
     - name: 加载 config
       working-directory: /builder
       run: |
-        set -e
+        set -euo pipefail
+
+        echo "===== Check Config ====="
+
         if [ ! -f "$GITHUB_WORKSPACE/$CONFIG_FILE" ]; then
-          echo "Config file not found:"
+          echo "ERROR: Config file not found"
           echo "$GITHUB_WORKSPACE/$CONFIG_FILE"
           exit 1
         fi
+
         cp "$GITHUB_WORKSPACE/$CONFIG_FILE" openwrt/.config
-                # ---- 提取设备信息（兼容两种 .config 命名格式）----
+
         cd openwrt
+
+        echo "===== Device Before Defconfig ====="
+        grep "_DEVICE_" .config || true
+
+        echo "===== Run Defconfig ====="
         make defconfig
-        grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1 \
-          | sed -E 's/^CONFIG_TARGET_.*_DEVICE_(.*)=y$/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        cat DEVICE_NAME
-        echo "TARGET=mediatek" >> $GITHUB_ENV
-        echo "SUBTARGET=filogic" >> $GITHUB_ENV
-        # ---- 用实际产物目录校正 ----
+
+        echo "===== Device After Defconfig ====="
+        grep "^CONFIG_TARGET" .config | grep "=y" || true
+
+        echo
+        echo "===== Custom Device Check ====="
+
+        grep -R "xiaomi_redmi-router-ax6000-mtkuboot" \
+          target/linux/mediatek/image/ \
+          target/linux/mediatek/dts/ \
+          || true
+
+        echo
+        echo "===== Enabled Device ====="
+
+        grep "_DEVICE_" .config | grep "=y" || true
+
+        CONFIG_LINE=$(grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1)
+
+        if [ -z "$CONFIG_LINE" ]; then
+          echo "ERROR: No DEVICE found in .config"
+          exit 1
+        fi
+
+        echo "CONFIG_LINE=$CONFIG_LINE"
+
+        DEVICE_NAME=$(echo "$CONFIG_LINE" \
+          | sed -E 's/^CONFIG_TARGET_.*_DEVICE_(.*)=y$/\1/')
+
+        echo
+
+        echo "===== Parsed Device ====="
+        echo "$DEVICE_NAME"
+
+        echo "DEVICE_NAME=$DEVICE_NAME" >> "$GITHUB_ENV"
+
+        echo "TARGET=mediatek" >> "$GITHUB_ENV"
+        echo "SUBTARGET=filogic" >> "$GITHUB_ENV"
+
+        echo "FILE_DATE=$(date +'%Y.%m.%d-%H%M')" >> "$GITHUB_ENV"
+
+        echo
+        echo "===== Final Variables ====="
         echo "DEVICE_NAME=$DEVICE_NAME"
         echo "TARGET=mediatek"
         echo "SUBTARGET=filogic"
-        echo "FILE_DATE=$(date +'%Y.%m.%d-%H%M')" >> "$GITHUB_ENV"
 
     - name: 下载安装包
       id: package
