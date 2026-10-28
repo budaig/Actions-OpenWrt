@@ -93,12 +93,7 @@ jobs:
     - name: 加载 feeds.conf.default
       working-directory: /builder
       run: |
-        echo "===== DEBUG ====="
-        echo "WORKSPACE=$GITHUB_WORKSPACE"
-        pwd
-        echo "===== FILE LIST ====="
-        find $GITHUB_WORKSPACE -type f | sort
-        [ -f "$FEEDS_CONF" ] && mv "$FEEDS_CONF" openwrt/feeds.conf.default
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
 
     - name: 加载 DIY_P1_SH
       working-directory: /builder
