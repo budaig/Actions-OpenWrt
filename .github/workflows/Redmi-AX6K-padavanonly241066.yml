@@ -204,22 +204,6 @@ jobs:
           ccache-${{ runner.os }}-${{ env.REPO_BRANCH }}-
           ccache-${{ runner.os }}-
 
-    - name: 加载 config
-      working-directory: /builder
-      run: |
-        [ -f "$GITHUB_WORKSPACE/$CONFIG_FILE" ] && cp "$GITHUB_WORKSPACE/$CONFIG_FILE" openwrt/.config
-                # ---- 提取设备信息（兼容两种 .config 命名格式）----
-        cd openwrt
-        grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1 \
-          | sed -E 's/.*_DEVICE_(.*)=y$/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | head -n1 \
-          | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' | tr '_' '/' > TARGET_NAME
-        [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
-        # ---- 用实际产物目录校正 ----
-        echo "TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
-        echo "FILE_DATE=$(date +'%Y.%m.%d-%H%M')" >> "$GITHUB_ENV"
-
     - name: 加载 DIY_P2_SH
       working-directory: /builder
       run: |
@@ -232,12 +216,28 @@ jobs:
         cd openwrt
         bash "$GITHUB_WORKSPACE/$DIY_P2_SH"
 
+    - name: 加载 config
+      working-directory: /builder
+      run: |
+        [ -f "$GITHUB_WORKSPACE/$CONFIG_FILE" ] && cp "$GITHUB_WORKSPACE/$CONFIG_FILE" openwrt/.config
+                # ---- 提取设备信息（兼容两种 .config 命名格式）----
+        cd openwrt
+        make defconfig
+        grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1 \
+          | sed -E 's/.*_DEVICE_(.*)=y$/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' .config | head -n1 \
+          | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' | tr '_' '/' > TARGET_NAME
+        [ -s TARGET_NAME ] && echo "TARGET_NAME=$(cat TARGET_NAME)" >> $GITHUB_ENV
+        # ---- 用实际产物目录校正 ----
+        echo "TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
+        echo "FILE_DATE=$(date +'%Y.%m.%d-%H%M')" >> "$GITHUB_ENV"
+
     - name: 下载安装包
       id: package
       working-directory: /builder
       run: |
         cd openwrt
-        make defconfig
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
@@ -270,7 +270,7 @@ jobs:
         set -euo pipefail
         export CCACHE_DIR="/builder/openwrt/.ccache"
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 V=s
+        make -j$(nproc) 2>&1 | tee build.log || { tail -n 200 build.log; exit 1; }
         ccache -s
         echo "status=success" >> $GITHUB_OUTPUT
         ls -l "bin/targets/$TARGET_NAME" || true
