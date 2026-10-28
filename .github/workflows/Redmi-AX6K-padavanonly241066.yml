@@ -130,6 +130,8 @@ jobs:
           DEVICE_VARIANT := (MTK U-Boot layout)
           DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-mtkuboot
           DEVICE_DTS_DIR := ../dts
+          SUPPORTED_DEVICES += xiaomi-redmi-router-ax6000-110m   # ← 连字符，设备 board_name
+          SUPPORTED_DEVICES += xiaomi-redmi-router-ax6000   # ← 连字符，原始设备名
           IMAGE_SIZE := 112640k
           KERNEL_IN_UBI := 1
           IMAGES := factory.bin sysupgrade.bin
@@ -149,7 +151,7 @@ jobs:
 
         / {
         	model = "Xiaomi Redmi Router AX6000 (MTK U-Boot layout)";
-        	compatible = "xiaomi,redmi-router-ax6000-mtkuboot", "mediatek,mt7986a";
+        	compatible = "xiaomi,redmi-router-ax6000-mtkuboot", "xiaomi,redmi-router-ax6000-110m", "mediatek,mt7986a";
         };
 
         &spi_nand_flash {
@@ -325,17 +327,8 @@ jobs:
             *.itb)
               TYPE="itb"
               ;;
-            *.manifest)
-              TYPE="manifest"
-              ;;
-            *.buildinfo)
-              TYPE="buildinfo"
-              ;;
-            *.packages)
-              TYPE="packages"
-              ;;
-            *.json)
-              TYPE="json"
+            *.kernel*.bin)
+              TYPE="kernel.bin"
               ;;
             *)
               continue
@@ -367,7 +360,7 @@ jobs:
         touch release.txt
         echo "由衷感谢所有为openwrt无私奉献的大佬们" >> release.txt
         echo "The default IP address is 192.168.XXX.1" >> release.txt
-        echo "## padavanonly-24.10 6.6 MTK Uboot layout" >> release.txt
+        echo "## hanwckf 110M / MTK U-Boot layout" >> release.txt
         echo "------" >> release.txt
         useVersionInfo=$(git show -s --date=short --format="date: %cd<br/>commit: %s<br/>commit hash: %H")
         echo "$useVersionInfo" >> release.txt
