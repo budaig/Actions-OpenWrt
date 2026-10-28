@@ -91,6 +91,7 @@ jobs:
         ln -sf /builder/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: 加载 feeds.conf.default
+      working-directory: /builder
       run: |
         echo "===== DEBUG ====="
         echo "WORKSPACE=$GITHUB_WORKSPACE"
@@ -100,6 +101,7 @@ jobs:
         [ -f "$FEEDS_CONF" ] && mv "$FEEDS_CONF" openwrt/feeds.conf.default
 
     - name: 加载 DIY_P1_SH
+      working-directory: /builder
       run: |
         if [ ! -f "$GITHUB_WORKSPACE/$DIY_P1_SH" ]; then
           echo "ERROR: File not found:"
@@ -185,6 +187,7 @@ jobs:
         echo "✅ AX6000 hanwckf 110M / MTK U-Boot layout 大分区适配代码补丁应用成功！"
 
     - name: 更新 & 安装 feeds
+      working-directory: /builder
       run: |
         cd openwrt
         ./scripts/feeds update -a
@@ -202,8 +205,9 @@ jobs:
           ccache-${{ runner.os }}-
 
     - name: 加载 config
+      working-directory: /builder
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        [ -f "$GITHUB_WORKSPACE/$CONFIG_FILE" ] && cp "$GITHUB_WORKSPACE/$CONFIG_FILE" openwrt/.config
                 # ---- 提取设备信息（兼容两种 .config 命名格式）----
         cd openwrt
         grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1 \
@@ -217,6 +221,7 @@ jobs:
         echo "FILE_DATE=$(date +'%Y.%m.%d-%H%M')" >> "$GITHUB_ENV"
 
     - name: 加载 DIY_P2_SH
+      working-directory: /builder
       run: |
         if [ ! -f "$GITHUB_WORKSPACE/$DIY_P2_SH" ]; then
           echo "ERROR: File not found:"
@@ -229,6 +234,7 @@ jobs:
 
     - name: 下载安装包
       id: package
+      working-directory: /builder
       run: |
         cd openwrt
         make defconfig
@@ -257,6 +263,7 @@ jobs:
 
     - name: 编译固件
       id: compile
+      working-directory: /builder
       run: |
         cd openwrt
         echo "TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
@@ -286,6 +293,7 @@ jobs:
     - name: 整理文件并重命名
       id: organize
       if: ${{ env.UPLOAD_FIRMWARE == 'true' && !cancelled() }}
+      working-directory: /builder
       run: |
         set -euo pipefail
         cd openwrt/bin/targets/*/*
