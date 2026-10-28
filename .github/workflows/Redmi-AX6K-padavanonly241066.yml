@@ -46,7 +46,7 @@ env:
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
-  # DTS_FILE: padavanonly2410_66/Redmi-AX6000/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
+  # DTS_FILE: padavanonly2410_66/Redmi-AX6000/mt7986a-xiaomi-redmi-router-ax6000-110m.dts
   ###############改名字##############
   OPENWRT_NAME: padavanonly241066
 
@@ -127,10 +127,10 @@ jobs:
         # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
         cat << 'EOF' >> target/linux/mediatek/image/filogic.mk
 
-        define Device/xiaomi_redmi-router-ax6000-mtkuboot
+        define Device/xiaomi_redmi-router-ax6000-110m
           $(Device/xiaomi_redmi-router-ax6000-stock)
           DEVICE_VARIANT := (MTK U-Boot layout)
-          DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-mtkuboot
+          DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-110m
           SUPPORTED_DEVICES := xiaomi-redmi-router-ax6000
           IMAGE_SIZE := 112640k
           KERNEL_IN_UBI := 1
@@ -138,12 +138,12 @@ jobs:
           IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
           IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
         endef
-        TARGET_DEVICES += xiaomi_redmi-router-ax6000-mtkuboot
+        TARGET_DEVICES += xiaomi_redmi-router-ax6000-110m
         EOF
 
         echo "filogic.mk done"
         # 2. 创建全新的 hanwckf 110M / MTK U-Boot layout 大分区 DTS 设备树文件
-        cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
+        cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-110m.dts
         // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 
         /dts-v1/;
@@ -181,8 +181,8 @@ jobs:
         EOF
         echo "dts done"
         # 写入校验：失败立刻报错，不再静默通过
-        grep -q 'xiaomi_redmi-router-ax6000-mtkuboot' target/linux/mediatek/image/filogic.mk
-        test -s target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
+        grep -q 'xiaomi_redmi-router-ax6000-110m' target/linux/mediatek/image/filogic.mk
+        test -s target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-110m.dts
         ls -l target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000.dtsi
 
         echo "✅ AX6000 hanwckf 110M / MTK U-Boot layout 大分区适配代码补丁应用成功！"
@@ -251,7 +251,7 @@ jobs:
         echo
         echo "===== Custom Device Check ====="
 
-        grep -R "xiaomi_redmi-router-ax6000-mtkuboot" \
+        grep -R "xiaomi_redmi-router-ax6000-110m" \
           target/linux/mediatek/image/ \
           target/linux/mediatek/dts/ \
           || true
