@@ -263,17 +263,12 @@ jobs:
 
         grep "_DEVICE_" .config | grep "=y" || true
 
-        CONFIG_LINE=$(grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1)
-
-        if [ -z "$CONFIG_LINE" ]; then
-          echo "ERROR: No DEVICE found in .config"
-          exit 1
-        fi
-
-        echo "CONFIG_LINE=$CONFIG_LINE"
-
-        DEVICE_NAME=$(echo "$CONFIG_LINE" \
-          | sed -E 's/^CONFIG_TARGET_.*_DEVICE_(.*)=y$/\1/')
+        DEV_LINE=$(grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1)
+        DEVICE_NAME=$(printf '%s\n' "$DEV_LINE" | sed -E 's/.*_DEVICE_(.*)=y$/\1/')
+        ARCH_NAME=$(printf '%s\n' "$DEV_LINE"   | sed -E 's/^CONFIG_TARGET_(DEVICE_)?([^_]+)_([^_]+)_DEVICE_.*/\2/')
+        TARGET_NAME=$(printf '%s\n' "$DEV_LINE" | sed -E 's/^CONFIG_TARGET_(DEVICE_)?([^_]+)_([^_]+)_DEVICE_.*/\3/')
+        [ -n "$DEVICE_NAME" ] || { echo "ERROR: DEVICE_NAME 提取失败" >&2; grep CONFIG_TARGET .config >&2; exit 1; }
+        [ -n "$TARGET_NAME" ] || { echo "ERROR: TARGET_NAME 提取失败" >&2; exit 1; }
 
         echo
 
