@@ -232,8 +232,9 @@ jobs:
         cd openwrt
         make defconfig
         grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1 \
-          | sed -E 's/.*_DEVICE_(.*)=y$/\1/' > DEVICE_NAME
+          | sed -E 's/^CONFIG_TARGET_.*_DEVICE_(.*)=y$/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        cat DEVICE_NAME
         echo "TARGET=mediatek" >> $GITHUB_ENV
         echo "SUBTARGET=filogic" >> $GITHUB_ENV
         # ---- 用实际产物目录校正 ----
