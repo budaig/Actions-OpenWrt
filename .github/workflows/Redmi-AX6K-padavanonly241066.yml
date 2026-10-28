@@ -129,9 +129,7 @@ jobs:
           DEVICE_MODEL := Redmi Router AX6000
           DEVICE_VARIANT := (MTK U-Boot layout)
           DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-mtkuboot
-          DEVICE_DTS_DIR := ../dts
-          SUPPORTED_DEVICES += xiaomi-redmi-router-ax6000-110m   # ← 连字符，设备 board_name
-          SUPPORTED_DEVICES += xiaomi-redmi-router-ax6000   # ← 连字符，原始设备名
+          SUPPORTED_DEVICES := xiaomi-redmi-router-ax6000
           IMAGE_SIZE := 112640k
           KERNEL_IN_UBI := 1
           IMAGES := factory.bin sysupgrade.bin
@@ -151,7 +149,7 @@ jobs:
 
         / {
         	model = "Xiaomi Redmi Router AX6000 (MTK U-Boot layout)";
-        	compatible = "xiaomi,redmi-router-ax6000-mtkuboot", "xiaomi,redmi-router-ax6000-110m", "mediatek,mt7986a";
+        	compatible = "xiaomi,redmi-router-ax6000", "mediatek,mt7986a";
         };
 
         &spi_nand_flash {
@@ -205,32 +203,20 @@ jobs:
           ccache-${{ runner.os }}-
 
     - name: 加载 config
-      working-directory: /builder/openwrt
+      working-directory: /builder
       run: |
-        if [ ! -f "$GITHUB_WORKSPACE/$CONFIG_FILE" ]; then
-          echo "ERROR: Config file not found:"
-          echo "$GITHUB_WORKSPACE/$CONFIG_FILE"
-          exit 1
-        fi
-        cp "$GITHUB_WORKSPACE/$CONFIG_FILE" .config
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
                 # ---- 提取设备信息（兼容两种 .config 命名格式）----
-        DEV_LINE=$(grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1)
-        DEVICE_NAME=$(printf '%s\n' "$DEV_LINE" | sed -E 's/.*_DEVICE_(.*)=y$/\1/')
-        ARCH_NAME=$(printf '%s\n' "$DEV_LINE"   | sed -E 's/^CONFIG_TARGET_(DEVICE_)?([^_]+)_([^_]+)_DEVICE_.*/\2/')
-        TARGET_NAME=$(printf '%s\n' "$DEV_LINE" | sed -E 's/^CONFIG_TARGET_(DEVICE_)?([^_]+)_([^_]+)_DEVICE_.*/\3/')
-        [ -n "$DEVICE_NAME" ] || { echo "ERROR: DEVICE_NAME 提取失败" >&2; grep CONFIG_TARGET .config >&2; exit 1; }
-        [ -n "$TARGET_NAME" ] || { echo "ERROR: TARGET_NAME 提取失败" >&2; exit 1; }
+        DEVICE_NAME=$(grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' openwrt/.config | head -n1 \
+          | sed -E 's/.*_DEVICE_(.*)=y$/\1/')
+        TARGET_NAME=$(grep '^CONFIG_TARGET_DEVICE.*DEVICE.*=y' openwrt/.config | head -n1 \
+          | sed -r 's/.*TARGET_.*_(.*)_DEVICE_.*=y/\1/' | tr '_' '/')
         # ---- 用实际产物目录校正 ----
-        if [ -d "bin/targets/$ARCH_NAME" ]; then
-          REAL_TARGET=$(ls "bin/targets/$ARCH_NAME" | grep -v '^packages$' | head -n1)
-          [ -n "$REAL_TARGET" ] && TARGET_NAME="$REAL_TARGET"
-        fi
         echo "DEVICE_NAME=$DEVICE_NAME" >> "$GITHUB_ENV"
         echo "TARGET_NAME=$TARGET_NAME" >> "$GITHUB_ENV"
-        echo "ARCH_NAME=$ARCH_NAME"     >> "$GITHUB_ENV"
         echo "FILE_DATE=$(date +'%Y.%m.%d-%H%M')" >> "$GITHUB_ENV"
-        echo "ARCH=$ARCH_NAME TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
-        ls -l "bin/targets/$ARCH_NAME/$TARGET_NAME" || true
+        echo "TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
+        ls -l "bin/targets/$TARGET_NAME" || true
 
     - name: 加载 DIY_P2_SH
       working-directory: /builder/openwrt
@@ -278,15 +264,14 @@ jobs:
       id: compile
       working-directory: /builder/openwrt
       run: |
-        echo "ARCH=$ARCH_NAME TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
+        echo "TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
         set -euo pipefail
         export CCACHE_DIR="/builder/openwrt/.ccache"
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
         ccache -s
         echo "status=success" >> $GITHUB_OUTPUT
-        echo "ARCH=$ARCH_NAME TARGET=$TARGET_NAME DEVICE=$DEVICE_NAME"
-        ls -l "bin/targets/$ARCH_NAME/$TARGET_NAME" || true
+        ls -l "bin/targets/$TARGET_NAME" || true
 
     - name: ccache 命中率报告
       if: ${{ always() }}
@@ -324,11 +309,14 @@ jobs:
             *factory*.ubi)
               TYPE="factory.ubi"
               ;;
+            *.manifest)
+              TYPE="manifest"
+              ;;
+            *kernel*.bin)
+              TYPE="kernel.bin"
+              ;;
             *.itb)
               TYPE="itb"
-              ;;
-            *.kernel*.bin)
-              TYPE="kernel.bin"
               ;;
             *)
               continue
