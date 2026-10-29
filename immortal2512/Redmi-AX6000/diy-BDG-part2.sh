@@ -309,6 +309,7 @@ rm -rf feeds/luci/applications/luci-app-daed
 # git clone https://github.com/sbwml/v2ray-geodata package/diy/v2ray-geodata
 
 # OpenWrt official 24.10/SnapShots
+git clone -b main https://github.com/kenzok8/openwrt-daede package/diy/dae
 # git clone -b kix https://github.com/QiuSimons/luci-app-dae package/diy/dae
 # git clone -b kix https://github.com/QiuSimons/luci-app-daed package/diy/daed
 # sed -i 's/    +kmod-veth +v2ray-geoip +v2ray-geosite/    +kmod-veth/g' package/diy/daed/daed/Makefile
@@ -597,7 +598,7 @@ curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc
 rm -rf ./feeds/luci/themes/luci-theme-argon
 git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 # replace theme bg
-rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
+# rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
 rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.webp
 cp ${GITHUB_WORKSPACE}/_modFiles/bg1.webp feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.webp
 # cp ${GITHUB_WORKSPACE}/_modFiles/bg1.jpg feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background/bg1.jpg
