@@ -129,7 +129,7 @@ jobs:
         cat << 'EOF' >> target/linux/mediatek/image/filogic.mk
 
         define Device/xiaomi_redmi-router-ax6000-110m
-          $(Device/xiaomi_redmi-router-ax6000)
+          $(Device/xiaomi_redmi-router-ax6000-stock)
           DEVICE_VARIANT := (MTK U-Boot layout)
           DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-110m
           SUPPORTED_DEVICES := xiaomi,redmi-router-ax6000 xiaomi,redmi-router-ax6000-mtkuboot xiaomi,redmi-router-ax6000-110m
