@@ -215,14 +215,15 @@ jobs:
         echo "===== Parsed Device ====="
         echo "$DEVICE_NAME"
         echo "DEVICE_NAME=$DEVICE_NAME" >> "$GITHUB_ENV"
-        echo "TARGET=mediatek" >> "$GITHUB_ENV"
+        echo "TARGET=$TARGET_NAME" >> "$GITHUB_ENV"
+        # echo "TARGET=mediatek" >> "$GITHUB_ENV"
         echo "SUBTARGET=filogic" >> "$GITHUB_ENV"
         echo "FILE_DATE=$(date +'%Y.%m.%d-%H%M')" >> "$GITHUB_ENV"
         echo
         echo "===== Final Variables ====="
         echo "DEVICE_NAME=$DEVICE_NAME"
-        echo "TARGET=mediatek"
-        echo "SUBTARGET=filogic"
+        echo "TARGET=$TARGET_NAME"
+        echo "SUBTARGETSUBTARGET=filogic"
 
     - name: 下载安装包
       id: package
