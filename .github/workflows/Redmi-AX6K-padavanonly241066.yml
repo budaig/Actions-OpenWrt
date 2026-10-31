@@ -428,15 +428,25 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
-        tag_name: ${{ steps.tag.outputs.release_tag }}
+        tag_name: ${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
+        overwrite: true
 
     - name: Remove old Releases
-      uses: ui86/delete-older-releases@v1
+      uses: actions/delete-package-versions@v5.0.0   #https://github.com/marketplace/actions/delete-package-versions
       if: ${{ env.UPLOAD_RELEASE == 'true' && !cancelled() }}
       with:
-        keep_latest: 8
-        delete_tags: true
+        min-versions-to-keep: 8
+        delete-only-pre-release-versions: "true"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Delete Releases   uses: sgpublic/delete-release-action@v1.2   https://github.com/marketplace/actions/delete-releases
+      # uses: ui86/delete-older-releases@v1  
+      # if: ${{ env.UPLOAD_RELEASE == 'true' && !cancelled() }}
+      # with:
+        # keep_latest: 8
+        # delete_tags: true
+      # env:
+        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

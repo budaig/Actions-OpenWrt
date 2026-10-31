@@ -304,12 +304,15 @@ rm -rf feeds/luci/applications/luci-app-dae
 rm -rf package/feeds/packages/daed
 rm -rf feeds/luci/applications/luci-app-daed
 
+# OpenWrt official 24.10+/SnapShots
+git clone -b main https://github.com/kenzok8/openwrt-daede package/diy/daede
+git clone https://github.com/sbwml/v2ray-geodata package/diy/v2ray-geodata
+
 # OpenWrt Official 23.05/SNAPSHOT
 # git clone -b main https://github.com/sbwml/luci-app-dae package/diy/dae
 # git clone https://github.com/sbwml/v2ray-geodata package/diy/v2ray-geodata
 
 # OpenWrt official 24.10/SnapShots
-git clone -b main https://github.com/kenzok8/openwrt-daede package/diy/dae
 # git clone -b kix https://github.com/QiuSimons/luci-app-dae package/diy/dae
 # git clone -b kix https://github.com/QiuSimons/luci-app-daed package/diy/daed
 # sed -i 's/    +kmod-veth +v2ray-geoip +v2ray-geosite/    +kmod-veth/g' package/diy/daed/daed/Makefile
