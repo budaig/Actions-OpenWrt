@@ -265,7 +265,7 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 # ## ---------------------------------------------------------
 
 # ## --------------- clashoo = sing-box + mihomo (clash meta) -----------------------------
-git clone -b main https://github.com/kenzok8/openwrt-clashoo package/diy/clashoo
+# git clone -b main https://github.com/kenzok8/openwrt-clashoo package/diy/clashoo
 
 
 # ## --------------- homeproxy + sing-box + chinadns-ng -----------------------------
@@ -305,7 +305,7 @@ git clone -b main https://github.com/kenzok8/openwrt-clashoo package/diy/clashoo
 # rm -rf feeds/luci/applications/luci-app-daed
 
 # OpenWrt official 24.10+/SnapShots
-# git clone -b main https://github.com/kenzok8/openwrt-daede package/diy/daede
+git clone -b main https://github.com/kenzok8/openwrt-daede package/diy/daede
 git clone https://github.com/sbwml/v2ray-geodata package/diy/v2ray-geodata
 
 # OpenWrt Official 23.05/SNAPSHOT
