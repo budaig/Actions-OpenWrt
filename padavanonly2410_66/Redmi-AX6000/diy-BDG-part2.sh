@@ -596,6 +596,7 @@ curl -sL -m 30 --retry 2 "$urlgfwlist" -o package/diy/luci-app-smartdns/root/etc
 
 # ## replace a theme
 rm -rf ./feeds/luci/themes/luci-theme-argon
+# rm -rf ./feeds/luci/themes/luci-theme-argon-config
 git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
 # replace theme bg
 # rm feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/img/bg1.jpg
