@@ -90,7 +90,7 @@ jobs:
         # 4 install dae #https://github.com/QiuSimons/luci-app-daed
         # sudo apt-get install -y clang llvm npm
         # npm install -g pnpm
-        sudo bash -c 'bash <(curl -s https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
+        sudo bash -c 'bash <(curl -sL https://build-scripts.immortalwrt.eu.org/init_build_environment.sh)'
         sudo DEBIAN_FRONTEND=noninteractive apt-get -qq autoremove --purge
         sudo DEBIAN_FRONTEND=noninteractive apt-get -qq clean
         sudo rm -rf /etc/apt/sources.list.d/* /usr/local/lib/android /opt/ghc /usr/share/dotnet /usr/local/graalvm /usr/local/.ghcup \
