@@ -217,45 +217,6 @@ jobs:
           exit 1
         fi
         cp "$GITHUB_WORKSPACE/$CONFIG_FILE" openwrt/.config
-        # cd openwrt
-        # echo "===== Device Before Defconfig ====="
-        # grep "_DEVICE_" .config || true
-        # echo "===== AX6000 in Original Config ====="
-        # grep "AX6000" .config || true
-        # echo
-        # echo "===== Device lines before defconfig ====="
-        # grep "_DEVICE_" .config || true
-        # echo "===== Run Defconfig ====="
-        # make defconfig
-        # echo "===== Device After Defconfig ====="
-        # grep "^CONFIG_TARGET" .config | grep "=y" || true
-        echo
-        echo "===== Custom Device Check ====="
-        grep -R "xiaomi_redmi-router-ax6000-110m" \
-          target/linux/mediatek/image/ \
-          target/linux/mediatek/dts/ \
-          || true
-        echo
-        echo "===== Enabled Device ====="
-        grep "_DEVICE_" .config | grep "=y" || true
-        DEV_LINE=$(grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1)
-        DEVICE_NAME=$(printf '%s\n' "$DEV_LINE" | sed -E 's/.*_DEVICE_(.*)=y$/\1/')
-        ARCH_NAME=$(printf '%s\n' "$DEV_LINE"   | sed -E 's/^CONFIG_TARGET_(DEVICE_)?([^_]+)_([^_]+)_DEVICE_.*/\2/')
-        TARGET_NAME=$(printf '%s\n' "$DEV_LINE" | sed -E 's/^CONFIG_TARGET_(DEVICE_)?([^_]+)_([^_]+)_DEVICE_.*/\3/')
-        [ -n "$DEVICE_NAME" ] || { echo "ERROR: DEVICE_NAME 提取失败" >&2; grep CONFIG_TARGET .config >&2; exit 1; }
-        [ -n "$TARGET_NAME" ] || { echo "ERROR: TARGET_NAME 提取失败" >&2; exit 1; }
-        echo
-        echo "===== Parsed Device ====="
-        echo "$DEVICE_NAME"
-        echo "DEVICE_NAME=$DEVICE_NAME" >> "$GITHUB_ENV"
-        echo "TARGET=mediatek" >> "$GITHUB_ENV"
-        echo "SUBTARGET=filogic" >> "$GITHUB_ENV"
-        echo "FILE_DATE=$(date +'%Y.%m.%d-%H%M')" >> "$GITHUB_ENV"
-        echo
-        echo "===== Final Variables ====="
-        echo "DEVICE_NAME=$DEVICE_NAME"
-        echo "TARGET=mediatek"
-        echo "SUBTARGET=filogic"
 
     - name: 加载 DIY_P2_SH
       working-directory: /builder
@@ -304,9 +265,44 @@ jobs:
       run: |
         set -euo pipefail
         cd openwrt
-        echo "TARGET=$TARGET"
-        echo "SUBTARGET=$SUBTARGET"
+        echo "===== Device Before Defconfig ====="
+        grep "_DEVICE_" .config || true
+        echo "===== AX6000 in Original Config ====="
+        grep "AX6000" .config || true
+        echo
+        echo "===== Device lines before defconfig ====="
+        grep "_DEVICE_" .config || true
+        echo "===== Run Defconfig ====="
+        make defconfig
+        echo "===== Device After Defconfig ====="
+        grep "^CONFIG_TARGET" .config | grep "=y" || true
+        echo
+        echo "===== Custom Device Check ====="
+        grep -R "xiaomi_redmi-router-ax6000-110m" \
+          target/linux/mediatek/image/ \
+          target/linux/mediatek/dts/ \
+          || true
+        echo
+        echo "===== Enabled Device ====="
+        grep "_DEVICE_" .config | grep "=y" || true
+        DEV_LINE=$(grep -E '^CONFIG_TARGET_(DEVICE_)?[^=]*_DEVICE_[^=]+=y$' .config | head -n1)
+        DEVICE_NAME=$(printf '%s\n' "$DEV_LINE" | sed -E 's/.*_DEVICE_(.*)=y$/\1/')
+        ARCH_NAME=$(printf '%s\n' "$DEV_LINE"   | sed -E 's/^CONFIG_TARGET_(DEVICE_)?([^_]+)_([^_]+)_DEVICE_.*/\2/')
+        TARGET_NAME=$(printf '%s\n' "$DEV_LINE" | sed -E 's/^CONFIG_TARGET_(DEVICE_)?([^_]+)_([^_]+)_DEVICE_.*/\3/')
+        [ -n "$DEVICE_NAME" ] || { echo "ERROR: DEVICE_NAME 提取失败" >&2; grep CONFIG_TARGET .config >&2; exit 1; }
+        [ -n "$TARGET_NAME" ] || { echo "ERROR: TARGET_NAME 提取失败" >&2; exit 1; }
+        echo
+        echo "===== Parsed Device ====="
+        echo "$DEVICE_NAME"
+        echo "DEVICE_NAME=$DEVICE_NAME" >> "$GITHUB_ENV"
+        echo "TARGET=mediatek" >> "$GITHUB_ENV"
+        echo "SUBTARGET=filogic" >> "$GITHUB_ENV"
+        echo "FILE_DATE=$(date +'%Y.%m.%d-%H%M')" >> "$GITHUB_ENV"
+        echo
+        echo "===== Final Variables ====="
         echo "DEVICE_NAME=$DEVICE_NAME"
+        echo "TARGET=mediatek"
+        echo "SUBTARGET=filogic"
         export CCACHE_DIR="/builder/openwrt/.ccache"
         ccache -s || true
         echo "===== Start Compile ====="
