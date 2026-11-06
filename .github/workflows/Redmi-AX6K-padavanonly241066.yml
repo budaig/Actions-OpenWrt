@@ -206,18 +206,6 @@ jobs:
           ccache-${{ runner.os }}-${{ env.REPO_BRANCH }}-
           ccache-${{ runner.os }}-
 
-    - name: 加载 DIY_P2_SH
-      working-directory: /builder
-      run: |
-        if [ ! -f "$GITHUB_WORKSPACE/$DIY_P2_SH" ]; then
-          echo "ERROR: File not found:"
-          echo "$GITHUB_WORKSPACE/$DIY_P2_SH"
-          exit 1
-        fi
-        chmod +x "$GITHUB_WORKSPACE/$DIY_P2_SH"
-        cd openwrt
-        bash "$GITHUB_WORKSPACE/$DIY_P2_SH"
-
     - name: 加载 config
       working-directory: /builder
       run: |
@@ -229,18 +217,18 @@ jobs:
           exit 1
         fi
         cp "$GITHUB_WORKSPACE/$CONFIG_FILE" openwrt/.config
-        cd openwrt
-        echo "===== Device Before Defconfig ====="
-        grep "_DEVICE_" .config || true
-        echo "===== AX6000 in Original Config ====="
-        grep "AX6000" .config || true
-        echo
-        echo "===== Device lines before defconfig ====="
-        grep "_DEVICE_" .config || true
-        echo "===== Run Defconfig ====="
-        make defconfig
-        echo "===== Device After Defconfig ====="
-        grep "^CONFIG_TARGET" .config | grep "=y" || true
+        # cd openwrt
+        # echo "===== Device Before Defconfig ====="
+        # grep "_DEVICE_" .config || true
+        # echo "===== AX6000 in Original Config ====="
+        # grep "AX6000" .config || true
+        # echo
+        # echo "===== Device lines before defconfig ====="
+        # grep "_DEVICE_" .config || true
+        # echo "===== Run Defconfig ====="
+        # make defconfig
+        # echo "===== Device After Defconfig ====="
+        # grep "^CONFIG_TARGET" .config | grep "=y" || true
         echo
         echo "===== Custom Device Check ====="
         grep -R "xiaomi_redmi-router-ax6000-110m" \
@@ -269,11 +257,24 @@ jobs:
         echo "TARGET=mediatek"
         echo "SUBTARGET=filogic"
 
+    - name: 加载 DIY_P2_SH
+      working-directory: /builder
+      run: |
+        if [ ! -f "$GITHUB_WORKSPACE/$DIY_P2_SH" ]; then
+          echo "ERROR: File not found:"
+          echo "$GITHUB_WORKSPACE/$DIY_P2_SH"
+          exit 1
+        fi
+        chmod +x "$GITHUB_WORKSPACE/$DIY_P2_SH"
+        cd openwrt
+        bash "$GITHUB_WORKSPACE/$DIY_P2_SH"
+
     - name: 下载安装包
       id: package
       working-directory: /builder
       run: |
         cd openwrt
+        make defconfig
         make download -j$(nproc)
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
@@ -351,6 +352,13 @@ jobs:
     - name: 查看磁盘使用情况
       if: ${{ !cancelled() }}
       run: df -hT
+
+    - name: 上传 bin 目录
+      uses: actions/upload-artifact@v7
+      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      with:
+        name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        path: openwrt/bin
 
     - name: 整理文件并重命名
       id: organize

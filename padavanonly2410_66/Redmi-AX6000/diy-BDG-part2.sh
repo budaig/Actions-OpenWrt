@@ -274,7 +274,7 @@ rm -rf feeds/luci/applications/luci-app-xray || echo "Failed to delete /luci-app
 # git clone -b master https://github.com/snowie2000/geoview.git package/diy/geoview
 
 # rm -rf feeds/packages/net/sing-box
-
+rm -rf feeds/luci/applications/luci-app-homeproxy
 # git clone https://github.com/immortalwrt/homeproxy -b main package/diy/homeproxy
 
 # git clone https://github.com/lxiaya/openwrt-homeproxy -b main package/diy/singbox #(250609 chinadns-ng PKG_VERSION:=2025.03.27 sing-box 1.11.6   immoralwrt23.05 chinadns-ng PKG_VERSION:=2024.10.14)
