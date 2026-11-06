@@ -433,8 +433,8 @@ jobs:
         files: ${{ env.FIRMWARE }}/*
         overwrite: true
 
-      - name: Delete Releases   
-      #uses: sgpublic/delete-release-action@v1.2   https://github.com/marketplace/actions/delete-releases
+    - name: Delete Releases   
+       #uses: sgpublic/delete-release-action@v1.2   https://github.com/marketplace/actions/delete-releases
       uses: ui86/delete-older-releases@v1  
       if: ${{ env.UPLOAD_RELEASE == 'true' && !cancelled() }}
       with:
