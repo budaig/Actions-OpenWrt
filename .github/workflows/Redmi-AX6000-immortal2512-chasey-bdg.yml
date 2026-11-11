@@ -361,41 +361,41 @@ jobs:
         set -euo pipefail
         cd openwrt/bin/targets/${TARGET}/${SUBTARGET}
         rm -rf packages
-        rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
-        # echo "=== Before Rename ==="
-        # ls -lh
-        # for file in *; do
-          # [ -f "$file" ] || continue
-          # case "$file" in
-            # *sysupgrade*.bin)
-              # TYPE="sysupgrade.bin"
-              # ;;
-            # *factory*.bin)
-              # TYPE="factory.bin"
-              # ;;
-            # *factory*.ubi)
-              # TYPE="factory.ubi"
-              # ;;
-            # *.manifest)
-              # TYPE="manifest"
-              # ;;
-            # *kernel*.bin)
-              # TYPE="kernel.bin"
-              # ;;
-            # *.itb)
-              # TYPE="itb"
-              # ;;
-            # *)
-              # continue
-              # ;;
-          # esac
-          # NEW_NAME="${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}_${TYPE}"
-          # echo "$file"
-          # echo " -> $NEW_NAME"
-          # mv "$file" "$NEW_NAME"
-        # done
-        # echo "=== After Rename ==="
-        # ls -lh
+        # rename 's/.*${{ env.TARGET_NAME }}/${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}/' *
+        echo "=== Before Rename ==="
+        ls -lh
+        for file in *; do
+          [ -f "$file" ] || continue
+          case "$file" in
+            *sysupgrade*.bin)
+              TYPE="sysupgrade.bin"
+              ;;
+            *factory*.bin)
+              TYPE="factory.bin"
+              ;;
+            *factory*.ubi)
+              TYPE="factory.ubi"
+              ;;
+            *.manifest)
+              TYPE="manifest"
+              ;;
+            *kernel*.bin)
+              TYPE="kernel.bin"
+              ;;
+            *.itb)
+              TYPE="itb"
+              ;;
+            *)
+              continue
+              ;;
+          esac
+          NEW_NAME="${{ env.FILE_DATE }}_${{ env.OPENWRT_NAME }}_${{ env.DEVICE_NAME }}_${TYPE}"
+          echo "$file"
+          echo " -> $NEW_NAME"
+          mv "$file" "$NEW_NAME"
+        done
+        echo "=== After Rename ==="
+        ls -lh
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
         echo $GITHUB_ENV
