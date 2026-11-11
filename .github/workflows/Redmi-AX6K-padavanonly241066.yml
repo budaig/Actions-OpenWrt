@@ -308,7 +308,7 @@ jobs:
         echo "status=success" >> "$GITHUB_OUTPUT"
         echo
         echo "===== Firmware Directory ====="
-        ls -lh "bin/targets/${TARGET}/${SUBTARGET}" || true
+        # ls -lh "bin/targets/${TARGET}/${SUBTARGET}" || true
 
     - name: ccache 命中率报告
       if: ${{ always() }}
