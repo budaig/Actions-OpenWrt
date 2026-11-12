@@ -17,7 +17,9 @@
 
 # ## Modify default IP
 # package/base-files/files/bin/config_generate
-sed -i 's/192.168.6.1/192.168.8.1/g' package/base-files/files/bin/config_generate
+# sed -i 's/192.168.6.1/192.168.8.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.8.1/g' package/base-files/files/bin/config_generate
+
 
 #  ## Modify hostname
 #sed -i 's/OpenWrt/budairt/g' package/base-files/files/bin/config_generate
@@ -307,7 +309,7 @@ rm -rf feeds/luci/applications/luci-app-daed
 # OpenWrt official 24.10+/SnapShots
 # https://github.com/Pacalini/luci-app-dae
 # git clone -b main https://github.com/189160/luci-app-dae package/diy/dae
-# git clone -b main https://github.com/kenzok8/openwrt-daede package/diy/daede
+# git clone -b main https://github.com/kenzok8/openwrt-daede package/diy/daede   #wget -O - https://raw.githubusercontent.com/kenzok8/openwrt-daede/refs/heads/main/scripts/install.sh | DAEDE_CORE=daed ash   wget -O - https://raw.githubusercontent.com/kenzok8/openwrt-daede/refs/heads/main/scripts/uninstall.sh | ash
 # git clone https://github.com/sbwml/v2ray-geodata package/diy/v2ray-geodata
 
 # git clone -b kix https://github.com/QiuSimons/luci-app-dae package/diy/dae
@@ -388,7 +390,7 @@ rm -rf feeds/packages/net/chinadns-ng   #(250809  openwrt21.02 PKG_VERSION:=2023
 rm -rf feeds/luci/applications/luci-app-chinadns-ng
 
 # git clone https://github.com/izilzty/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(250809 PKG_VERSION:=2023.06.05)
-git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(250809 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
+# git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chinadns-ng  #(250809 PKG_VERSION:=2023.10.28   未适配 2.0 的新功能   PKG_VERSION:=2024.10.14 https://github.com/zfl9/chinadns-ng/commit/39d4881f83fa139b52cff9d8e306c4313bf758ad)
 # # # chng_ver=2024.11.17
 # # # chng_SHA256=($(curl -sL https://github.com/zfl9/chinadns-ng/releases/download/$chng_ver/chinadns-ng+wolfssl_noasm@aarch64-linux-musl@generic+v8a@fast+lto | shasum -a 256))
 # chng_ver=2025.08.09
@@ -400,12 +402,12 @@ git clone https://github.com/pexcn/openwrt-chinadns-ng -b master package/diy/chi
 # git clone https://github.com/muink/openwrt-chinadns-ng -b master package/diy/chinadns-ng #(250809 PKG_VERSION:=2024.10.14)
 
 # op1 start: custom install chinadns-ng bin for chinadns-dn and xray bin for paswal
-cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/ver2Makefile package/diy/chinadns-ng/Makefile
-if [ $? -eq 0 ]; then
-    echo "chinadns-ng.Makefile copied"
-else
-    echo "chinadns-ng.Makefile copy failed"
-fi
+# cp -f ${GITHUB_WORKSPACE}/_modFiles/2chinadns-ng/ver2Makefile package/diy/chinadns-ng/Makefile
+# if [ $? -eq 0 ]; then
+    # echo "chinadns-ng.Makefile copied"
+# else
+    # echo "chinadns-ng.Makefile copy failed"
+# fi
 # op1 end
 
 # op2 start: custom install chinadns-ng bin for chinadns-dn and sing-box bin for paswal
