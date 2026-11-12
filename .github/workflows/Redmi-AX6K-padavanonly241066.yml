@@ -127,25 +127,21 @@ jobs:
         fi
         # 1. 在 filogic.mk 末尾追加 Device（红米AX6000 设备定义）
         cat << 'EOF' >> target/linux/mediatek/image/filogic.mk
-
         define Device/xiaomi_redmi-router-ax6000-mtkuboot
-          DEVICE_VENDOR := Xiaomi
-          DEVICE_MODEL := Redmi Router AX6000
+          $(Device/xiaomi_redmi-router-ax6000)
           DEVICE_VARIANT := (MTK U-Boot layout)
           DEVICE_DTS := mt7986a-xiaomi-redmi-router-ax6000-mtkuboot
-          DEVICE_DTS_DIR := ../dts
-          UBINIZE_OPTS := -E 5
+          SUPPORTED_DEVICES := xiaomi,redmi-router-ax6000
           BLOCKSIZE := 128k
           PAGESIZE := 2048
           IMAGE_SIZE := 112640k
           KERNEL_IN_UBI := 1
-          IMAGES += factory.bin
+          IMAGES := factory.bin sysupgrade.bin
           IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
           IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
         endef
         TARGET_DEVICES += xiaomi_redmi-router-ax6000-mtkuboot
         EOF
-
         echo "filogic.mk done"
         # 2. 创建全新的 hanwckf 110M / MTK U-Boot layout 大分区 DTS 设备树文件
         cat << 'EOF' > target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
