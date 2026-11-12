@@ -309,7 +309,10 @@ rm -rf feeds/luci/applications/luci-app-daed
 # OpenWrt official 24.10+/SnapShots
 # https://github.com/Pacalini/luci-app-dae
 # git clone -b main https://github.com/189160/luci-app-dae package/diy/dae
-# git clone -b main https://github.com/kenzok8/openwrt-daede package/diy/daede   #wget -O - https://raw.githubusercontent.com/kenzok8/openwrt-daede/refs/heads/main/scripts/install.sh | DAEDE_CORE=daed ash   wget -O - https://raw.githubusercontent.com/kenzok8/openwrt-daede/refs/heads/main/scripts/uninstall.sh | ash
+# git clone -b main https://github.com/kenzok8/openwrt-daede package/diy/daede   
+	#一键安装包 wget -O - https://raw.githubusercontent.com/kenzok8/openwrt-daede/refs/heads/main/scripts/install.sh | DAEDE_CORE=daed ash   
+	#一键安装包 wget -O - https://raw.githubusercontent.com/kenzok8/openwrt-daede/refs/heads/main/scripts/install.sh | DAEDE_CORE=dae ash   
+	# 卸载 wget -O - https://raw.githubusercontent.com/kenzok8/openwrt-daede/refs/heads/main/scripts/uninstall.sh | ash
 # git clone https://github.com/sbwml/v2ray-geodata package/diy/v2ray-geodata
 
 # git clone -b kix https://github.com/QiuSimons/luci-app-dae package/diy/dae
