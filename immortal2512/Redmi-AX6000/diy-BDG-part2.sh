@@ -102,13 +102,33 @@ git clone https://github.com/xiaoxiao29/luci-app-adguardhome -b master package/d
 # ## -------------- openlist ---------------------------
 rm -rf feeds/packages/net/openlist
 rm -rf feeds/luci/applications/luci-app-openlist
+
+# last lite frontend version
+# git clone -b v4.2.9 --single-branch https://github.com/sbwml/luci-app-openlist2 package/diy/openlist2
+
 # git clone https://github.com/OpenListTeam/OpenList-OpenWRT -b main package/diy/openlist
-git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
+# git clone https://github.com/sbwml/luci-app-openlist2 -b main package/diy/openlist2
 # 终端命令（TTYD）执行命令：
 # [ -f "/www/luci-static/resources/ui.js" ] && echo "Yes" || echo "No"
 # 返回 Yes 表示支持，返回 No 表示不支持。
 
-# git clone -b v4.1.8 --single-branch https://github.com/sbwml/luci-app-openlist2 package/diy/openlist2
+# custom Lite openlist & frontend ver
+
+# sleep 1
+# ol2ver=4.2.10
+# ol2sha256=($(curl -sL https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$ol2ver | shasum -a 256))
+# echo openlist2 v$ol2ver sha256=$ol2sha256
+# sed -i 's/PKG_VERSION:=.*/PKG_VERSION:='"$ol2ver"'/g;s/PKG_HASH:=.*/PKG_HASH:='"$ol2sha256"'/g' package/diy/openlist2/openlist2/Makefile
+
+# ol2frontendver=4.2.10
+# ol2frontendsha256=($(curl -sL https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$ol2frontendver/openlist-frontend-dist-lite-v$ol2frontendver.tar.gz | shasum -a 256)) 
+# or api : https://api.github.com/repos/OpenListTeam/OpenList-Frontend/releases/latest / https://api.github.com/repos/OpenListTeam/OpenList-Frontend/releases/tags/v
+# # ol2frontendsha256=$(echo -n `curl -sL "https://api.github.com/repos/OpenListTeam/OpenList-Frontend/releases/tags/v4.1.10" |
+# # jq -r '.assets[] | select(.name == "openlist-frontend-dist-lite-v4.1.10.tar.gz") | .digest | split(":")[1]'`)
+
+# echo openlist2frontend v$ol2frontendver sha256=$ol2frontendsha256
+# sed -i 's/PKG_WEB_VERSION:=.*/PKG_WEB_VERSION:='"$ol2frontendver"'/g;27 s/  HASH:=.*/  HASH:='"$ol2frontendsha256"'/g' package/diy/openlist2/openlist2/Makefile
+# sed -i 's/openlist-frontend-dist-v/openlist-frontend-dist-lite-v'/g' package/diy/openlist2/openlist2/Makefile
 
 # ## ---------------------------------------------------------
 
